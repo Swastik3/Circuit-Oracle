@@ -1,0 +1,44 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F2994",
+      "label": "pronoun 'his' and pronoun 'he'",
+      "reason": "Male pronoun detector; explicit gender marker."
+    },
+    {
+      "id": "L6:F12990",
+      "label": "male pronouns and titles with men-associated descriptors",
+      "reason": "Aggregates male gender markers across layers."
+    },
+    {
+      "id": "L18:F14743",
+      "label": "'He' feature",
+      "reason": "Directly driven by male pronoun token."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F11024",
+      "label": "clock",
+      "reason": "Mentioned as responding to 'Director'; profession-related."
+    },
+    {
+      "id": "L0:F2848",
+      "label": "of",
+      "reason": "Generic word feature; not gendered."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L7:F14893",
+      "label": "pronoun detection",
+      "reason": "Structural pronoun detector; oracle gives no profession role."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 2,
+  "n_other": 1,
+  "spurious_fraction": 0.6,
+  "dominant": "spurious",
+  "notes": "Oracle chiefly attributes prediction to male gender markers, with only weak non-gender signals."
+}

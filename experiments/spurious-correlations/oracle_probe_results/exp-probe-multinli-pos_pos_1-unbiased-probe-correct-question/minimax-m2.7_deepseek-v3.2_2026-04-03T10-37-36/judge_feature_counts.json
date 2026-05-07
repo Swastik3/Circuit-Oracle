@@ -1,0 +1,123 @@
+{
+  "spurious_features": [],
+  "causal_features": [
+    {
+      "id": "L0:F16015",
+      "label": "the prefix \"cons\"",
+      "reason": "Detects conspiracy-related content via semantic prefix chain."
+    },
+    {
+      "id": "L0:F15958",
+      "label": "Word 'tomorrow' (character overlap)",
+      "reason": "Used in content pathway; not a negation detector."
+    },
+    {
+      "id": "L0:F1859",
+      "label": "Word 'card' detector",
+      "reason": "Financial/card content supports meaning-based classification."
+    },
+    {
+      "id": "L0:F1506",
+      "label": "Word 'circuit' detector",
+      "reason": "Technology content feature, semantically relevant."
+    },
+    {
+      "id": "L1:F13684",
+      "label": "the word \"theory\"",
+      "reason": "Conspiracy/theory semantics, not spurious token matching."
+    },
+    {
+      "id": "L1:F6066",
+      "label": "Word 'chip' detector",
+      "reason": "Technology/semiconductor meaning feature."
+    },
+    {
+      "id": "L1:F7447",
+      "label": "Word 'card' detector",
+      "reason": "Financial/card semantics, causally relevant."
+    },
+    {
+      "id": "L2:F16028",
+      "label": "Speculation/false info/conspiracy",
+      "reason": "Directly encodes conspiracy-related semantics."
+    },
+    {
+      "id": "L2:F7100",
+      "label": "People/occupations/politics",
+      "reason": "Content-domain abstraction, semantically relevant."
+    },
+    {
+      "id": "L2:F16230",
+      "label": "Semiconductor chips/devices",
+      "reason": "Technology semantics about chips."
+    },
+    {
+      "id": "L3:F9739",
+      "label": "Words related to conspiracies",
+      "reason": "Explicit conspiracy semantic detector."
+    },
+    {
+      "id": "L4:F1602",
+      "label": "Intense interest/enthusiasm",
+      "reason": "Content-related abstract semantic feature."
+    },
+    {
+      "id": "L4:F4153",
+      "label": "Currency/banking transactions",
+      "reason": "Finance semantics relevant to the task."
+    },
+    {
+      "id": "L6:F10189",
+      "label": "Payment/financial info (credit cards)",
+      "reason": "Direct financial semantic feature."
+    },
+    {
+      "id": "L7:F1062",
+      "label": "Credit cards/loans/gambling/money",
+      "reason": "Broad money/credit-card semantics."
+    },
+    {
+      "id": "L8:F12761",
+      "label": "QAnon conspiracy theory",
+      "reason": "Specific conspiracy semantic detector."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'Cons'",
+      "label": "Emb: 'Cons' (pos 1)",
+      "reason": "Raw embedding, not a class-specific feature."
+    },
+    {
+      "id": "Emb: 'piracy'",
+      "label": "Emb: 'piracy' (pos 2)",
+      "reason": "Raw embedding, not a class-specific feature."
+    },
+    {
+      "id": "Emb: 'theorists'",
+      "label": "Emb: 'theorists' (pos 3)",
+      "reason": "Raw embedding, not a class-specific feature."
+    },
+    {
+      "id": "Emb: 'MasterCard'",
+      "label": "Emb: 'MasterCard' (pos 5-6)",
+      "reason": "Raw embedding, not a class-specific feature."
+    },
+    {
+      "id": "Emb: 'chip'",
+      "label": "Emb: 'chip' (pos 11)",
+      "reason": "Raw embedding, not a class-specific feature."
+    },
+    {
+      "id": "Emb: 'that'",
+      "label": "Emb: 'that' (pos 12)",
+      "reason": "Raw embedding, not a class-specific feature."
+    }
+  ],
+  "n_spurious": 0,
+  "n_causal": 16,
+  "n_other": 6,
+  "spurious_fraction": 0.0,
+  "dominant": "causal",
+  "notes": "No negation-word detectors appear; all curated circuit features are semantic-content based."
+}

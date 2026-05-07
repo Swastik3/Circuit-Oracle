@@ -1,0 +1,78 @@
+{
+  "spurious_features": [
+    {
+      "id": "L18:F14677",
+      "label": "instances of women or girls being mentioned",
+      "reason": "Detects feminine pronoun/gender mentions."
+    },
+    {
+      "id": "L4:F1276",
+      "label": "capitalized names and titles, and names with lowercase letters in the middle of them",
+      "reason": "Oracle says it supports female name detection."
+    },
+    {
+      "id": "L6:F8166",
+      "label": "proper names longer than 4 characters and ending in 'a', 'i', or 'e'",
+      "reason": "Oracle says it supports female name detection."
+    },
+    {
+      "id": "L4:F15317",
+      "label": "named entities like characters or people",
+      "reason": "Forms nurse-to-feminine stereotype association."
+    },
+    {
+      "id": "L0:F9519",
+      "label": "Early Pronoun Detection",
+      "reason": "Generic pronoun detection; no semantic class given."
+    },
+    {
+      "id": "L0:F15382",
+      "label": "Early Pronoun Detection",
+      "reason": "Generic pronoun detection; no semantic class given."
+    },
+    {
+      "id": "L15:F3330",
+      "label": "Mid-layer Pronoun Features",
+      "reason": "Generic pronoun feature; no semantic class given."
+    },
+    {
+      "id": "L17:F5889",
+      "label": "Mid-layer Pronoun Features",
+      "reason": "Generic pronoun feature; no semantic class given."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L6:F15267",
+      "label": "words in the document referring to the profession of nursing",
+      "reason": "Direct nursing profession indicator."
+    },
+    {
+      "id": "L5:F1275",
+      "label": "unknown",
+      "reason": "Listed under genuine nursing detection."
+    },
+    {
+      "id": "L4:F9036",
+      "label": "unknown",
+      "reason": "Listed under genuine nursing detection."
+    },
+    {
+      "id": "L4:F11037",
+      "label": "unknown",
+      "reason": "Listed under genuine nursing detection."
+    },
+    {
+      "id": "L1:F1494",
+      "label": "unknown",
+      "reason": "Listed under genuine nursing detection."
+    }
+  ],
+  "other_features": [],
+  "n_spurious": 8,
+  "n_causal": 5,
+  "n_other": 0,
+  "spurious_fraction": 0.6153846153846154,
+  "dominant": "spurious",
+  "notes": "Pronoun features are generic/structural. No other features explicitly dismissed as uninformative."
+}

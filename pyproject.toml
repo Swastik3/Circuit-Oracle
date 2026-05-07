@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "circuit-oracle"
+version = "0.1.0"
+description = "Automated hallucination detection via attribution graph analysis"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic",
+    "openai>=1.50.0",
+    "requests",
+    "transformer-lens>=2.16.0",
+    "transformers>=4.56.0,<=4.57.3",
+    "huggingface-hub",
+    "datasets",
+    "modal",
+    "python-dotenv",
+    "tqdm",
+    "pandas",
+    "matplotlib",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["circuit_oracle*", "circuit_tracer*"]

@@ -1,0 +1,78 @@
+{
+  "spurious_features": [],
+  "causal_features": [
+    {
+      "id": "L2:F2589",
+      "label": "words related to medical professionals and medical specialties",
+      "reason": "Direct profession indicator: medical specialty/professional terminology."
+    },
+    {
+      "id": "L4:F13412",
+      "label": "terms related to diets and dietary health",
+      "reason": "Nutrition/diet terminology relevant to dietitian profession."
+    },
+    {
+      "id": "L6:F11327",
+      "label": "words or phrases related to food or nutrition",
+      "reason": "Food/nutrition vocabulary signals the profession."
+    },
+    {
+      "id": "L14:F4197",
+      "label": "words and phrases related to food insecurity.",
+      "reason": "Nutrition-related context, still profession-relevant."
+    },
+    {
+      "id": "L19:F1589",
+      "label": "a context of scientific, specially nutritional, studies",
+      "reason": "Scientific nutrition context is causal for dietitian."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'Die' (pos 20)",
+      "label": "embedding token 'Die'",
+      "reason": "Token embedding only; not a class feature."
+    },
+    {
+      "id": "Emb: 'te' (pos 21)",
+      "label": "embedding token 'te'",
+      "reason": "Token embedding only; not a class feature."
+    },
+    {
+      "id": "Emb: 'titian' (pos 37)",
+      "label": "embedding token 'titian'",
+      "reason": "Token embedding only; not a class feature."
+    },
+    {
+      "id": "Emb: 'has' (pos 2)",
+      "label": "embedding token 'has'",
+      "reason": "Token embedding only; not a class feature."
+    },
+    {
+      "id": "Emb: 'Nutritional' (pos 9)",
+      "label": "embedding token 'Nutritional'",
+      "reason": "Token embedding only; not a class feature."
+    },
+    {
+      "id": "Early-layer substring pattern matchers",
+      "label": "Early-layer substring pattern matchers",
+      "reason": "Structural substring detector, not semantic class."
+    },
+    {
+      "id": "L0:F14824",
+      "label": "the word \"has\"",
+      "reason": "Generic lexical detector; explicitly not gender."
+    },
+    {
+      "id": "Probe classification score",
+      "label": "Probe classification score",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 0,
+  "n_causal": 5,
+  "n_other": 8,
+  "spurious_fraction": 0,
+  "dominant": "causal",
+  "notes": "No gender-marker features were claimed; 'has' is explicitly non-gender and generic."
+}

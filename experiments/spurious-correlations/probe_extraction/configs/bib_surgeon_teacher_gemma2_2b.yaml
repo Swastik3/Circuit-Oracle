@@ -1,0 +1,30 @@
+# Bias-in-Bios: teacher (label=0) vs surgeon (label=1)
+# Spurious feature: gender (0=male, 1=female)
+# Model: google/gemma-2-2b, layer 22
+#
+# surgeon is male-coded in BiB; teacher is female-coded.
+# The biased (ambiguous) split is: male teachers + female surgeons — note this
+# is anti-correlated with real-world stereotypes, making the task harder.
+# Swap neg/pos if you want the stereotypical correlation (male surgeon, female teacher).
+
+task_name:   bib_surgeon_teacher
+model_name:  google/gemma-2-2b
+layers_path: model.layers
+layer:       22
+dtype:       bfloat16
+device:      cuda:0
+batch_size:  32
+seed:        42
+lr:          0.01
+epochs:      1
+output_dir:  .
+
+model_kwargs:
+  attn_implementation: eager
+
+adapter:
+  type:                 bias_in_bios
+  neg_profession:       teacher         # true_label = 0
+  pos_profession:       surgeon         # true_label = 1
+  activation_dim_value: 2304
+  hf_dataset_name:      LabHC/bias_in_bios

@@ -1,0 +1,49 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F7509",
+      "label": "female pronoun detector",
+      "reason": "Detects female pronouns, not profession content."
+    },
+    {
+      "id": "L1:F4232",
+      "label": "possessive pronoun 'her'",
+      "reason": "Tracks gender marker 'her' as a shortcut."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "female reference detector",
+      "reason": "Promotes feminine references like she/her."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F8854",
+      "label": "nurse detector",
+      "reason": "Detects profession term 'nurse' and related context."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L1:F9413",
+      "label": "food/lunch-related feature",
+      "reason": "Contextual but not profession-specific."
+    },
+    {
+      "id": "L2:F14626",
+      "label": "food/lunch-related feature",
+      "reason": "Contextual but not profession-specific."
+    },
+    {
+      "id": "L2:F6319",
+      "label": "food/lunch-related feature",
+      "reason": "Contextual but not profession-specific."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 1,
+  "n_other": 3,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "Oracle says gender markers drive the probe; profession feature is secondary."
+}

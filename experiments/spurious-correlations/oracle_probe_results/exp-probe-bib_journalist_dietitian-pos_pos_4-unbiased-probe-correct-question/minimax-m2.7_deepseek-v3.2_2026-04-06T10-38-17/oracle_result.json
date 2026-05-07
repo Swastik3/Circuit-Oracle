@@ -1,0 +1,4100 @@
+{
+  "prompt_name": "bib_journalist_dietitian-pos_pos_4-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_journalist_dietitian-pos_pos_4 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification score for identifying a Dietitian/Nutritionist profession is driven by two converging pathways: (1) a **substring pattern-matching circuit** that detects \"Die\"+\"te\" character sequences (from words like \"Dietetics\"/\"Dietitian\") via early-layer features (L1-L3) and feeds into dietary health and nutrition content detectors (L4-L14-L19), and (2) a **genuine profession indicator** that directly detects the token \"titian\" at position 37 (from \"Dietitian\") via L2:F2589. The circuit also includes L0:F14824 which detects \"has\" but this is a **generic lexical feature** (frac_nonzero=0.011, minimal connection to \"She\" with weight 1.15 vs 32.75 for \"has\" itself) \u2014 **NOT a gender-correlated spurious feature** as initially suspected.\n\n**Confidence:** 8/10\n\n**Reasoning:** The circuit analysis reveals:\n\n1. **Primary pathway uses substring patterns**: The dominant driver is the \"Die\"+\"te\" substring combination at positions 20-21 (from \"Dietetics\"/\"Dietitian\"), not semantic content. L0:7699 (\"words starting with D\") and L0:4058 (\"the word 'die'\") feed into L2:F7473 (weight=19) and L1:F1083 (weight=22.25), creating a pattern-matching pipeline rather than genuine word recognition.\n\n2. **Genuine profession indicator exists**: L2:F2589 (\"words related to medical professionals and medical specialties\") directly detects \"titian\" at position 37 with weight=19.125, representing a legitimate profession-specific marker from \"Dietitian.\"\n\n3. **No gender spurious feature**: L0:F14824 (\"the word 'has'\") has minimal gender correlation \u2014 the edge from \"She\" to this feature has weight 1.15 versus 32.75 from \"has\" itself. The frac_nonzero=0.011 indicates low selectivity, confirming this is a generic auxiliary verb detector.\n\n4. **Late-layer convergence**: L19:F1589 (\"context of nutritional studies\") integrates signals from multiple mid-layer features (L4:F13412, L6:F11327, L14:F4197) representing food/nutrition content, but these all trace back to the substring pattern origin.\n\nThe circuit uses legitimate profession terminology (\"titian\", \"Diet\"/\"dietary\" related features) rather than gender markers, though the reliance on substring pattern matching (\"Die\"+\"te\") rather than whole-word recognition represents a superficial linguistic shortcut rather than deep semantic understanding.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 4,
+          "feature_idx": 13412,
+          "pos": 21,
+          "activation": 28.5,
+          "direct_effect": 0.1543
+        },
+        {
+          "layer": 0,
+          "feature_idx": 14824,
+          "pos": 2,
+          "activation": 32.0,
+          "direct_effect": -0.1201
+        },
+        {
+          "layer": 4,
+          "feature_idx": 13412,
+          "pos": 55,
+          "activation": 19.375,
+          "direct_effect": 0.1172
+        },
+        {
+          "layer": 4,
+          "feature_idx": 13412,
+          "pos": 22,
+          "activation": 22.875,
+          "direct_effect": 0.0894
+        },
+        {
+          "layer": 4,
+          "feature_idx": 13412,
+          "pos": 37,
+          "activation": 16.25,
+          "direct_effect": 0.0835
+        },
+        {
+          "layer": 6,
+          "feature_idx": 11327,
+          "pos": 21,
+          "activation": 15.3125,
+          "direct_effect": 0.0674
+        },
+        {
+          "layer": 19,
+          "feature_idx": 1589,
+          "pos": 21,
+          "activation": 63.0,
+          "direct_effect": 0.0645
+        },
+        {
+          "layer": 4,
+          "feature_idx": 13412,
+          "pos": 36,
+          "activation": 15.5625,
+          "direct_effect": 0.0588
+        },
+        {
+          "layer": 14,
+          "feature_idx": 4197,
+          "pos": 21,
+          "activation": 14.375,
+          "direct_effect": 0.0586
+        },
+        {
+          "layer": 2,
+          "feature_idx": 2589,
+          "pos": 37,
+          "activation": 17.625,
+          "direct_effect": 0.0583
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 13412
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 13412,
+        "label": " terms related to diets and dietary health",
+        "top_activating_examples": [
+          {
+            "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+            "max_activation": 50.708,
+            "max_token": "ticians"
+          },
+          {
+            "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+            "max_activation": 50.708,
+            "max_token": "ticians"
+          },
+          {
+            "text_snippet": ",\u2581like\u2581chilli\u2581prawns\u2581and\u2581black\u2581pepper\u2581crab.\u2581The\u2581English\u2581menu\u2581and\u2581a\u2581willingness\u2581to\u2581adapt\u2581dishes\u2581to\u2581your\u2581taste\u2581or\u2581dietery\u2581needs\u2581are\u2581other\u2581bonuses.\u2581Wong\u2581Ah\u2581Wah's\u2581popularity\u2581means\u2581it\u2581has\u2581no\u2581need\u2581to\u2581lure\u2581i",
+            "max_activation": 41.6,
+            "max_token": "ery"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+          "\u2581diet",
+          "\u2581diets",
+          "AsUp",
+          "\u2581DIET",
+          "\u2581\u0627\u0644\u0631\u064a\u0627\u0636\u064a\u0647",
+          "\u2581dieting",
+          "OGND",
+          "\u2581Phry"
+        ],
+        "suppressed_tokens": [
+          "SequentialGroup",
+          "GeoNames",
+          "CodeAttribute",
+          "LogFactory",
+          "InSection",
+          "arot",
+          "caller",
+          "ricle",
+          "tello",
+          "elon"
+        ],
+        "frac_nonzero": 0.01216
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 14824
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 14824,
+        "label": "the word \"has\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581structure\u2581has\u2581a\u2581closed\u2581conformation,\u2581and\u2581the\u2581DEA\u2581is\u2581located\u2581near\u2581the\u2581bound\u2581NAD(+).\u2581However,\u2581a\u2581UV\u2581absorption\u2581measurement\u2581shows\u2581that\u2581DEA\u2581is\u2581not\u2581oxidized\u2581by\u2581the\u2581bound\u2581NAD(+),\u2581indicating\u2581that\u2581the\u2581open-cl",
+            "max_activation": 56.898,
+            "max_token": "\u2581has"
+          },
+          {
+            "text_snippet": "\u2581force\u2581field\u2581has\u2581a\u2581clear\u2581physical\u2581interpretation.\u2581The\u2581first\u2581term\u2581reflects\u2581the\u2581damping\u2581of\u2581the\u2581polarization\u2581by\u2581the\u2581rotational\u2581diffusion\u2581of\u2581the\u2581rollers.\u2581The\u2581second\u2581term,\u2581defined\u2581by\u2581the\u2581time\u2581rate\u2581*\u03b1*=(\u222b~*",
+            "max_activation": 56.759,
+            "max_token": "\u2581has"
+          },
+          {
+            "text_snippet": ".\u2581The\u2581reconstructed\u2581power\u2581spectrum\u2581has\u2581significant\u2581noise\u2581on\u2581small\u2581scales,\u2581as\u2581expected\u2581(this\u2581is\u2581dominated\u2581by\u2581the\u2581usual\u2581\u201c$N^{(0)}$\u201d\u2581noise\u2581bias).\n\nThe\u2581post-reconstruction\u2581PDF\u2581shows\u2581skewness,\u2581defined\u2581as\u2581$",
+            "max_activation": 56.658,
+            "max_token": "\u2581has"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581dedans",
+          "\u2581spetta",
+          "\u2581i\u015fe",
+          "\n\n",
+          "\u2581Monfieur",
+          "\u2581ki\u015filik",
+          "\u2581specifico",
+          "\u2581Di\u017f",
+          "\u2581yapt",
+          "\u2581habitudes"
+        ],
+        "suppressed_tokens": [
+          "\u2581has",
+          "has",
+          "\u2581Has",
+          "Has",
+          "\u2581heeft",
+          "\u2581\u03ad\u03c7\u03b5\u03b9",
+          "\u2581telah",
+          "\u2581HAS",
+          "\u2581hasn",
+          "\u2581is"
+        ],
+        "frac_nonzero": 0.01106
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 19,
+        "feature_idx": 1589
+      },
+      "output": {
+        "layer": 19,
+        "feature_idx": 1589,
+        "label": " a context of scientific, specially nutritional, studies",
+        "top_activating_examples": [
+          {
+            "text_snippet": "ine\u2581oxidase,\u2581(2)\u2581scavenge\u2581superoxide,\u2581and\u2581(3)\u2581scavenge\u2581peroxylradicals.\u2581The\u2581most\u2581bioactive\u2581flavonoids\u2581were\u2581added\u2581to\u2581the\u2581preoperative\u2581nutrition\u2581to\u2581study\u2581their\u2581effect\u2581on\u2581postintestinal\u2581ischemia-reperfus",
+            "max_activation": 444.494,
+            "max_token": "\u2581nutrition"
+          },
+          {
+            "text_snippet": "\u2581activity\u2581during\u2581the\u2581period\u2581of\u2581accelerated\u2581brain\u2581growth.\u2581This\u2581study\u2581evaluates\u2581whether\u2581early\u2581reduction\u2581of\u2581CNH\u2581by\u2581the\u2581alpha-2\u2581presynaptic\u2581adrenoreceptor\u2581agonist\u2581clonidine,\u2581prevents\u2581long-term\u2581morphofunct",
+            "max_activation": 441.813,
+            "max_token": "energy"
+          },
+          {
+            "text_snippet": "\u2581development\u2581of\u2581disease,\u2581the\u2581contribution\u2581of\u2581alcohol\u2581toxicity\u2581to\u2581ill\u2581health\u2581remains\u2581controversial.\u2581One\u2581of\u2581the\u2581major\u2581problems\u2581facing\u2581researchers\u2581is\u2581the\u2581fact\u2581that\u2581alcoholic\u2581beverages,\u2581which\u2581contribute\u2581l",
+            "max_activation": 433.492,
+            "max_token": "\u2581nutritional"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581diet",
+          "\u2581food",
+          "\u2581nutrition",
+          "\u2581diets",
+          "\u2581feeding",
+          "\u2581dietary",
+          "Diet",
+          "\u2581eating",
+          "\u2581Diet",
+          "\u2581meals"
+        ],
+        "suppressed_tokens": [
+          "ViewFeatures",
+          "tagHelperRunner",
+          "complexContent",
+          "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+          "DoubleQuotes",
+          "SequentialGroup",
+          "\u2581initComponents",
+          "\u53d1\u8868\u4e8e",
+          "migrationBuilder",
+          "\u2581\u05e9\u05d5\u05dc\u05d9\u05d9\u05dd"
+        ],
+        "frac_nonzero": 0.03796
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 11327
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 11327,
+        "label": " words or phrases related to food or nutrition",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581who\u2581were\u2581at\u2581the\u2581top\u2581of\u2581our\u2581charts,\u2581were\u2581American.\n\n\u2018I\u2581am\u2581proud,\u2581but\u2581I\u2581think\u2581anybody\u2581would\u2581be\u2581proud\u2581of\u2581the\u2581success\u2581that\u2581I\u2019ve\u2581had,\u2581whether\u2581they\u2581come\u2581from\u2581a\u2581big\u2581city\u2581or\u2581a\u2581small\u2581town.\u2581It\u2019s\u2581tough,\u2581no\u2581matt",
+            "max_activation": 65.416,
+            "max_token": "\u2581food"
+          },
+          {
+            "text_snippet": "\u2581the\u2581least\u2581deprived\u2581areas\u2581(quintile\u25811--2),\u2581where\u2581the\u2581coefficients\u2581were\u2581closer\u2581to\u25810.\u2581This\u2581finding\u2581is\u2581not\u2581new\u2581but\u2581provides\u2581added\u2581support\u2581to\u2581the\u2581knowledge-base\u2581that\u2581high\u2581deprivation\u2581plays\u2581an\u2581important\u2581ro",
+            "max_activation": 59.959,
+            "max_token": "\u2581food"
+          },
+          {
+            "text_snippet": "\u2581impact\u2581of\u2581health\u2581education\u2581and\u2581health\u2581promotion\u2581messages\u2581targeting\u2581healthy\u2581eating\u2581is\u2581needed\u2581to\u2581make\u2581mindful\u2581decisions\u2581and\u2581subsequent\u2581behavioural\u2581changes\u2581to\u2581support\u2581vulnerable\u2581communities\u2581for\u2581the\u2581sake",
+            "max_activation": 59.84,
+            "max_token": "\u2581eating"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581foods",
+          "\u2581food",
+          "\u2581eating",
+          "\u2581Foods",
+          "Foods",
+          "\u2581eaten",
+          "\u2581meals",
+          "Food",
+          "\u2581FOOD",
+          "food"
+        ],
+        "suppressed_tokens": [
+          "\u2581autorytatywna",
+          "\"}\")",
+          "sifs",
+          "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+          "\u671f\u520a\u8bba\u6587",
+          "\u2581sessionFactory",
+          "HtmlAttribute",
+          "\u2581siste",
+          "di\u011fini",
+          "Agency"
+        ],
+        "frac_nonzero": 0.01166
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 13412,
+        "starting_pos": 21,
+        "objective": "Trace the path from L4:13412 (terms related to diets and dietary health) upstream to understand the signal origin. Look for whether this feature traces to genuine profession-relevant content or spurious patterns.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": "[{\"layer\": 4, \"feature_idx\": 13412, \"pos\": 21, \"label\": \" terms related to diets and dietary health\", \"frac_nonzero\": 0.01216, \"promoted_tokens\": [\"<bos>\", \"\\u2581\\u0641\\u0631\\u064a\\u0628\\u064a\\u0633\", \"\\u2581diet\", \"\\u2581diets\", \"AsUp\", \"\\u2581DIET\", \"\\u2581\\u0627\\u0644\\u0631\\u064a\\u0627\\u0636\\u064a\\u0647\", \"\\u2581dieting\", \"OGND\", \"\\u2581Phry\"]}, {\"layer\": 3, \"feature_idx\": 11774, \"pos\": 21, \"label\": \" what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals\", \"frac_nonzero\": 0.00892, \"promoted_tokens\": [\"\\u2581\\u064a\\u062a\\u064a\\u0645\\u0647\", \"\\u24e7\", \"\\u0004\", \"arande\", \"/******/\", \"usahaan\", \"G\\u00e9n\\u00e9ral\", \"\\u2581CreateTagHelper\", \"__\\\":\", \"Tub\"]}, {\"layer\": 3, \"feature_idx\": 10028, \"pos\": 21, \"label\": \"words or short phrases that include \\\"made of/from\\\", and words ending with \\\"ice\\\", \\\"ita\\\", \\\"ons\\\", \\\"ura\\\", and \\\"mor\\\"\", \"frac_nonzero\": 0.00739, \"promoted_tokens\": [\"<bos>\", \"ModelSerializer\", \"\\u2581TextAppearance\", \"riwal\", \"\\u2581propOrder\", \"WebServlet\", \"\\u2581recipes\", \"\\u2581Recipes\", \"cipes\", \"\\u2581itin\\u00e9raires\"]}, {\"layer\": 2, \"feature_idx\": 7473, \"pos\": 21, \"label\": \" capitalized two letter prefixes or suffixes\", \"frac_nonzero\": 0.00282, \"promoted_tokens\": [\"reiben\", \"ageo\", \"afficheront\", \"\\u2581Paglinawan\", \"<tfoot>\", \"*)&\", \"\\u2581localObject\", \"\\u2581Meksiku\", \"writerow\", \"Leggi\"]}, {\"layer\": 2, \"feature_idx\": 1984, \"pos\": 21, \"label\": \" strings of letters that appear to be fragments of names, especially proper nouns or abbreviated scientific names.\", \"frac_nonzero\": 0.00261, \"promoted_tokens\": [\"et\", \"ET\", \"Et\", \"\\u2581et\", \"eten\", \"\\u2581consultato\", \"\\u2581LET\", \"\\u2581Et\", \"\\u0435\\u0442\", \"etter\"]}, {\"layer\": 1, \"feature_idx\": 1083, \"pos\": 21, \"label\": \" the characters \\\"te\\\" within code and/or non-English words\", \"frac_nonzero\": 0.00189, \"promoted_tokens\": [\"\\u2581my\\u017felf\", \"UnitTesting\", \"\\u2581it\\u017felf\", \"\\u2581Efq\", \"SBATCH\", \"parsedMessage\", \"FieldBuilder\", \"\\u2581\\u2015\\u2015\\u2015\\u2015\\u2015\", \"\\u2581doubtnut\", \"\\u2581purpo\\u017fe\"]}, {\"layer\": 0, \"feature_idx\": 7699, \"pos\": 20, \"label\": \"words and abbreviations starting with the letter \\\"D\\\"\", \"frac_nonzero\": 0.01516, \"promoted_tokens\": [\"\\u2581d\", \"d\", \"\\u217e\", \"\\u0500\", \"ded\", \"\\uff44\", \"\\u2581dn\", \"\\u0257\", \"di\", \"\\u0501\"]}, {\"layer\": 0, \"feature_idx\": 4058, \"pos\": 20, \"label\": \"the word \\\"die\\\" or its derivatives in various contexts\", \"frac_nonzero\": 0.01692, \"promoted_tokens\": [\"\\u2581Paglinawan\", \"\\u2581ainfi\", \"\\u2581photolibrary\", \"\\u2581\\u041c\\u0435\\u043a\\u0441\\u0438\\u0447\\u043a\\u0430\", \"\\u2581$_\\\"\", \"\\u2581feroit\", \"\\u2581cardiaque\", \"ctrons\", \"moiselle\", \"\\u2581pouvoit\"]}, {\"layer\": 0, \"feature_idx\": 2745, \"pos\": 21, \"label\": \" German words that aren't capitalised\", \"frac_nonzero\": 0.00442, \"promoted_tokens\": [\"verwijspagina\", \"\\u2581kasarigan\", \"\\u2581NSCoder\", \"GEBURTSDATUM\", \"]:\\r\", \"\\u24e7\", \"Datuak\", \"\\u2581my\\u017felf\", \"\\\"])\\r\", \"]\\\")]\"}]",
+        "discovered_edges": [
+          {
+            "from_layer": 3,
+            "from_feature_idx": 11774,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 4.8438
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 10028,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 4.0312
+          },
+          {
+            "from_pos": 20,
+            "token": " Die",
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 4.0938
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 7473,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 1.3281
+          },
+          {
+            "from_pos": 20,
+            "token": " Die",
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 5.875
+          },
+          {
+            "from_pos": 21,
+            "token": "te",
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 2.7656
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 1984,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 1.4375
+          },
+          {
+            "from_pos": 20,
+            "token": " Die",
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 6.9375
+          },
+          {
+            "from_pos": 21,
+            "token": "te",
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 4.8125
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 7473,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 2.9062
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1083,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 1.1484
+          },
+          {
+            "from_pos": 20,
+            "token": " Die",
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 19
+          },
+          {
+            "from_pos": 21,
+            "token": "te",
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 2.6562
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7699,
+            "from_pos": 20,
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 2.1875
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 4058,
+            "from_pos": 20,
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 1.0781
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7699,
+            "from_pos": 20,
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 0.6719
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2745,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": -0.8789
+          }
+        ],
+        "explanation": "Tracing the L4 feature for \"terms related to diets and dietary health\" reveals it's primarily driven by the specific input token \"Die\" at position 20. The circuit shows:\n\n1. The L4 feature (13412) receives strong inputs from two L3 features (11774 and 10028)\n2. Both L3 features are predominantly driven by the embedding \"Die\" at position 20 (weights 5.875 and 6.9375)\n3. The L2 feature 7473 is also strongly driven by \"Die\" (weight 19.0)\n4. The L0 feature 4058 specifically detects the word \"die\" in various contexts\n\nThis suggests the feature circuit is responding to the token \"Die\" which likely appears in dietary/dietetic contexts. The feature doesn't trace to genuine profession-specific content but rather to the specific linguistic token \"Die\" which is part of dietary terminology. The circuit appears to be detecting substring patterns rather than genuine nutritional or professional knowledge - it's more of a linguistic pattern matcher for words containing \"die\" as a substring.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13412
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 13412,
+              "label": " terms related to diets and dietary health",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+                  "max_activation": 50.708,
+                  "max_token": "ticians"
+                },
+                {
+                  "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+                  "max_activation": 50.708,
+                  "max_token": "ticians"
+                },
+                {
+                  "text_snippet": ",\u2581like\u2581chilli\u2581prawns\u2581and\u2581black\u2581pepper\u2581crab.\u2581The\u2581English\u2581menu\u2581and\u2581a\u2581willingness\u2581to\u2581adapt\u2581dishes\u2581to\u2581your\u2581taste\u2581or\u2581dietery\u2581needs\u2581are\u2581other\u2581bonuses.\u2581Wong\u2581Ah\u2581Wah's\u2581popularity\u2581means\u2581it\u2581has\u2581no\u2581need\u2581to\u2581lure\u2581i",
+                  "max_activation": 41.6,
+                  "max_token": "ery"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581diet",
+                "\u2581diets",
+                "AsUp",
+                "\u2581DIET",
+                "\u2581\u0627\u0644\u0631\u064a\u0627\u0636\u064a\u0647",
+                "\u2581dieting",
+                "OGND",
+                "\u2581Phry"
+              ],
+              "suppressed_tokens": [
+                "SequentialGroup",
+                "GeoNames",
+                "CodeAttribute",
+                "LogFactory",
+                "InSection",
+                "arot",
+                "caller",
+                "ricle",
+                "tello",
+                "elon"
+              ],
+              "frac_nonzero": 0.01216
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13412,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21,
+                "edge_weight": 4.8438
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 4.0938
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 10028,
+                "pos": 21,
+                "edge_weight": 4.0312
+              },
+              {
+                "type": "embedding",
+                "token": " Nutritional",
+                "pos": 9,
+                "edge_weight": 1.4609
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21,
+                "edge_weight": 1.3281
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "label": " what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581II\u2581DELPHI\u2581study,\"\u2581commented\nThomas\u2581Meier\n,\u2581PhD,\u2581CEO\u2581of\u2581Santhera.\u2581\"The\u2581successful\u2581Phase\u2581III\u2581DELOS\u2581trial\u2581which\u2581enrolled\u2581glucocorticoid\u2581non-using\u2581patients\u2581then\u2581confirmed\u2581a\u2581clinically\u2581relevant\u2581and\u2581statis",
+                  "max_activation": 33.946,
+                  "max_token": "PHI"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "\u24e7",
+                "\u0004",
+                "arande",
+                "/******/",
+                "usahaan",
+                "G\u00e9n\u00e9ral",
+                "\u2581CreateTagHelper",
+                "__\":",
+                "Tub"
+              ],
+              "suppressed_tokens": [
+                "protoimpl",
+                "\u2581INTERESAR",
+                "\u2581actrice",
+                "Vidite",
+                "tanleria",
+                "AutoresizingMask",
+                "\u2581plastiques",
+                "usercontent",
+                "\u2581Audiodateien",
+                "SourceChecksum"
+              ],
+              "frac_nonzero": 0.00892
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 10028
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 10028,
+              "label": "words or short phrases that include \"made of/from\", and words ending with \"ice\", \"ita\", \"ons\", \"ura\", and \"mor\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581owned\u2581a\u2581stainless\u2581steel\u2581steamer\u2581for\u2581a\u2581long\u2581time\u2581with\u2581a\u2581single\u2581raised\u2581vent\u2581to\u2581let\u2581steam\u2581into\u2581the\u2581upper\u2581compartment.\u2581It's\u2581great\u2581because\u2581there's\u2581no\u2581way\u2581for\u2581food\u2581to\u2581get\u2581into\u2581the\u2581bottom\u2581compartment\u2581so\u2581it\u2581",
+                  "max_activation": 42.814,
+                  "max_token": "icer"
+                },
+                {
+                  "text_snippet": "ulating\u2581machine\n\nThe\u2581tabulating\u2581machine\u2581is\u2581an\u2581electrical\u2581device\u2581designed\u2581to\u2581assist\u2581in\u2581summarizing\u2581information\u2581and,\u2581later,\u2581accounting.\u2581The\u2581results\u2581of\u2581a\u2581tabulation\u2581are\u2581electrically\u2581coupled\u2581with\u2581a\u2581sorter",
+                  "max_activation": 41.66,
+                  "max_token": "\u2581from"
+                },
+                {
+                  "text_snippet": "\u2581is\u2581an\u2581Olympic\u2581sport\u2581in\u2581which\u2581two\u2581teams\u2581of\u25816\u2581active\u2581players\u2581are\u2581separated\u2581by\u2581a\u2581net.\u2581Each\u2581team\u2581tries\u2581to\u2581score\u2581points\u2581against\u2581one\u2581another\u2581by\u2581grounding\u2581a\u2581ball\u2581on\u2581the\u2581other\u2581team's\u2581court\u2581under\u2581organized\u2581ru",
+                  "max_activation": 41.523,
+                  "max_token": "\u2581from"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ModelSerializer",
+                "\u2581TextAppearance",
+                "riwal",
+                "\u2581propOrder",
+                "WebServlet",
+                "\u2581recipes",
+                "\u2581Recipes",
+                "cipes",
+                "\u2581itin\u00e9raires"
+              ],
+              "suppressed_tokens": [
+                "\u2581createState",
+                "verst\u00e4ndlich",
+                "WriteAttribute",
+                "ueves",
+                "saraba",
+                "\u05d4\u05e2\u05e8\u05d5\u05ea",
+                "\u064a\u0631\u0629",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581Hati",
+                "sieurs"
+              ],
+              "frac_nonzero": 0.00739
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 5.875
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 2.7656
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 1984,
+                "pos": 21,
+                "edge_weight": 1.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.0781
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7699,
+                "pos": 20,
+                "edge_weight": 0.6719
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 10028,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 6.9375
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 4.8125
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21,
+                "edge_weight": 2.9062
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1083,
+                "pos": 21,
+                "edge_weight": 1.1484
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2745,
+                "pos": 21,
+                "edge_weight": -0.8789
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 7473
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 7473,
+              "label": " capitalized two letter prefixes or suffixes",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 42.334,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 42.334,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581\u201cdefer\nto\u2581states\u2019\u2581laws\u2581on\u2581legitimacy\u201d\u2581that\u2581\u201cdid\u2581not\u2581permit\u2581a[n\nunlegitimated]\u2581child\u2581to\u2581inherit\u2581from\u2581his\u2581.\u2581.\u2581.\u2581father.\u201d\u2581Id.\u2581at\u258140.\nThis\u2581justification\u2581is\u2581tantamount\u2581to\u2581asserting\u2581that\u2581the\u2581federal\ngov",
+                  "max_activation": 40.748,
+                  "max_token": "ist"
+                }
+              ],
+              "promoted_tokens": [
+                "reiben",
+                "ageo",
+                "afficheront",
+                "\u2581Paglinawan",
+                "<tfoot>",
+                "*)&",
+                "\u2581localObject",
+                "\u2581Meksiku",
+                "writerow",
+                "Leggi"
+              ],
+              "suppressed_tokens": [
+                "RectangleBorder",
+                "esModule",
+                "MenuInflater",
+                "\u2581iprot",
+                "\u2581\u062e\u0627\u0631\u062c\u064a\u0629",
+                "Aktualisiert",
+                "\u2581Conting",
+                "\u2581spermato",
+                "Sabrina",
+                "EventArgs"
+              ],
+              "frac_nonzero": 0.00282
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 1984
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 1984,
+              "label": " strings of letters that appear to be fragments of names, especially proper nouns or abbreviated scientific names.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "_{\\rm\u2581c}$\u2581was\u2581not\u2581more\u2581than\u2581a\u2581few\u2581percent.\u2581In\u2581addition\u2581to\u2581the\u2581typical\u2581plasmon,\u2581an\u2581extra\u2581plasmon\u2581due\u2581to\u2581a\u2581band-structure\u2581effect\u2581has\u2581been\u2581discussed\u2581for\u2581Li[@Karlsson-Aryasetiawan;\u2581@Silkin2007]\u2581and\u2581Al[@Ho",
+                  "max_activation": 43.398,
+                  "max_token": "ti"
+                },
+                {
+                  "text_snippet": "_{\\rm\u2581c}$\u2581was\u2581not\u2581more\u2581than\u2581a\u2581few\u2581percent.\u2581In\u2581addition\u2581to\u2581the\u2581typical\u2581plasmon,\u2581an\u2581extra\u2581plasmon\u2581due\u2581to\u2581a\u2581band-structure\u2581effect\u2581has\u2581been\u2581discussed\u2581for\u2581Li[@Karlsson-Aryasetiawan;\u2581@Silkin2007]\u2581and\u2581Al[@Ho",
+                  "max_activation": 43.398,
+                  "max_token": "ti"
+                },
+                {
+                  "text_snippet": "0\n\n'AuGusT\u2581Has\u2581comE..But\u2581my\u2581MinD\u2581sEt\u2581Still'\n\nIve\u2581intended\u2581to\u2581post\u2581this\u2581in\u2581the\u2581murnin...but\u2581it\u2581seems\u2581im\u2581not\u2581feeling\u2581that\u2581well\u2581before\u2581lunch\u2581hehe..gediks\u2581kan...after\u2581LUNCH\u2581i\u2581was\u2581simply\u2581FINE!!!\u2581I\u2581guess\u2581im",
+                  "max_activation": 42.913,
+                  "max_token": "Et"
+                }
+              ],
+              "promoted_tokens": [
+                "et",
+                "ET",
+                "Et",
+                "\u2581et",
+                "eten",
+                "\u2581consultato",
+                "\u2581LET",
+                "\u2581Et",
+                "\u0435\u0442",
+                "etter"
+              ],
+              "suppressed_tokens": [
+                "\u2581ligation",
+                "\u2581BoxDecoration",
+                "\u0344",
+                "rrggbb",
+                "\u2581Monfieur",
+                "\u2581SDLK",
+                "\u2581my\u017felf",
+                "TagMode",
+                "\u2581majeure",
+                "Sucesor"
+              ],
+              "frac_nonzero": 0.00261
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 7473,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 19.0
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 2.6562
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7699,
+                "pos": 20,
+                "edge_weight": 2.1875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.3281
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 4058,
+                "pos": 20,
+                "edge_weight": 1.0781
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1083
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 1083,
+              "label": " the characters \"te\" within code and/or non-English words",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581incapable\u2581of\u2581rehabilitation\u201d).\n\n\u2581\u2581\u2581\u2581\u2581\u2581Judgment\u2581of\u2581sentence\u2581affirmed.\n\n\n\nJudgment\u2581Entered.\n\n\n\n\nJoseph\u2581D.\u2581Seletyn,\u2581Esq.\nProthonotary\n\n\n\nDate:\u25817/26/2019\n\n\n\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581-9-\n\f<",
+                  "max_activation": 31.874,
+                  "max_token": "te"
+                },
+                {
+                  "text_snippet": ">\u2581J'ai\u2581mis\u258110-20h\u2581en\u2581tout...\u2581incluant\u2581tout\u2581d\u00c3\u00a9faire\u2581la\u2581t\u00c3\u00aate\u2581et\u2581tout\u2581remonter\u25813\u2581fois\u2581parce\u2581que\u2581j'avais\u2581mal\u2581lu....\n<ve2dmn>\u2581la\u2581Wiki\u2581est\u2581bien\u2581fait:\u2581http://wiki.makerbot.com/cupcake-cnc-10:cupcake-y-stag",
+                  "max_activation": 28.884,
+                  "max_token": "te"
+                },
+                {
+                  "text_snippet": ">\u2581J'ai\u2581mis\u258110-20h\u2581en\u2581tout...\u2581incluant\u2581tout\u2581d\u00c3\u00a9faire\u2581la\u2581t\u00c3\u00aate\u2581et\u2581tout\u2581remonter\u25813\u2581fois\u2581parce\u2581que\u2581j'avais\u2581mal\u2581lu....\n<ve2dmn>\u2581la\u2581Wiki\u2581est\u2581bien\u2581fait:\u2581http://wiki.makerbot.com/cupcake-cnc-10:cupcake-y-stag",
+                  "max_activation": 28.884,
+                  "max_token": "te"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581my\u017felf",
+                "UnitTesting",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "SBATCH",
+                "parsedMessage",
+                "FieldBuilder",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581doubtnut",
+                "\u2581purpo\u017fe"
+              ],
+              "suppressed_tokens": [
+                "te",
+                "TE",
+                "<bos>",
+                "Te",
+                "\u2581Te",
+                "\u2581te",
+                "\n\n",
+                "'",
+                "tek",
+                "\u2019"
+              ],
+              "frac_nonzero": 0.00189
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7699
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7699,
+              "label": "words and abbreviations starting with the letter \"D\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\n\u201cSUSPENDED\u2581IN\u2581DUSK\u2581offers\u2581a\u2581delicious\u2581assortment\u2581of\u2581chills,\u2581frights,\u2581shocks\u2581and\u2581very\u2581dark\u2581delights!\u201d\u2581~\u2581Jonathan\u2581Maberry,\u2581Bram\u2581Stoker\u2581Award\u2581winner\u2581and\u2581New\u2581York\u2581Times\u2581bestselling\u2581author\u2581of\u2581Fall\u2581of\u2581Nig",
+                  "max_activation": 22.125,
+                  "max_token": "\u2581D"
+                },
+                {
+                  "text_snippet": "-16\nRobert\u2581J.\u2581McDonnell,\u2581B.S.,\u2581Captain,\u2581USAF:\u2581INVESTIGATION\u2581OF\u2581THE\u2581HIGH\u2581ANGLE\u2581OF\u2581ATTACK\u2581DYNAMICS\u2581OF\u2581THE\u2581F-15B\u2581USING\u2581BIFURCATION\u2581ANALYSIS,\u2581AFIT/GAE/ENY/90D-16,\u2581December\u25811990:\u2581ADA230462.pdf\nRichard\u2581L.\u2581B",
+                  "max_activation": 22.092,
+                  "max_token": "\u2581D"
+                },
+                {
+                  "text_snippet": "\u2581story,\u2581\u201cShadows\u2581of\u2581the\u2581Lonely\u2581Dead\u201d,\u2581which\u2581is\u2581probably\u2581the\u2581most\u2581personal\u2581story\u2581I\u2019ve\u2581ever\u2581written.\u2581I\u2581drew\u2581extensively\u2581on\u2581my\u2581experiences\u2581surrounding\u2581the\u2581deaths\u2581of\u2581people\u2581very\u2581close\u2581to\u2581me\u2581in\u2581the\u2581writing",
+                  "max_activation": 21.723,
+                  "max_token": "\u2581D"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581d",
+                "d",
+                "\u217e",
+                "\u0500",
+                "ded",
+                "\uff44",
+                "\u2581dn",
+                "\u0257",
+                "di",
+                "\u0501"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0414",
+                "\u2581Domain",
+                "Rhestr",
+                "\u2581Degree",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "DICTION",
+                "\u2581\u0414\u0438",
+                "\u2581\u0627\u0644\u0645\u0639\u064a\u0627\u0631\u0649",
+                "XtraReports",
+                "\u2581Disk"
+              ],
+              "frac_nonzero": 0.01516
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2745
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2745,
+              "label": " German words that aren't capitalised",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nThe\u2581Teacher's\u2581Magazine\u2581is\u2581a\u2581monthly\u2581issue\u2581specially\u2581designed\u2581for\u2581teachers\u2581of\u2581English\u2581as\u2581Foreign\u2581or\u2581Second\u2581Language.\u2581It\u2581provides\u2581creative\u2581ready-to-go\u2581materials\u2581to\u2581make\u2581their\u2581classes\u2581more\u2581active\u2581and\u2581a",
+                  "max_activation": 28.496,
+                  "max_token": "sten"
+                },
+                {
+                  "text_snippet": "\n\nThe\u2581Teacher's\u2581Magazine\u2581is\u2581a\u2581monthly\u2581issue\u2581specially\u2581designed\u2581for\u2581teachers\u2581of\u2581English\u2581as\u2581Foreign\u2581or\u2581Second\u2581Language.\u2581It\u2581provides\u2581creative\u2581ready-to-go\u2581materials\u2581to\u2581make\u2581their\u2581classes\u2581more\u2581active\u2581and\u2581a",
+                  "max_activation": 28.496,
+                  "max_token": "sten"
+                },
+                {
+                  "text_snippet": "\n\nThe\u2581Teacher's\u2581Magazine\u2581is\u2581a\u2581monthly\u2581issue\u2581specially\u2581designed\u2581for\u2581teachers\u2581of\u2581English\u2581as\u2581Foreign\u2581or\u2581Second\u2581Language.\u2581It\u2581provides\u2581creative\u2581ready-to-go\u2581materials\u2581to\u2581make\u2581their\u2581classes\u2581more\u2581active\u2581and\u2581a",
+                  "max_activation": 28.496,
+                  "max_token": "sten"
+                }
+              ],
+              "promoted_tokens": [
+                "verwijspagina",
+                "\u2581kasarigan",
+                "\u2581NSCoder",
+                "GEBURTSDATUM",
+                "]:\r",
+                "\u24e7",
+                "Datuak",
+                "\u2581my\u017felf",
+                "\"])\r",
+                "]\")]"
+              ],
+              "suppressed_tokens": [
+                "\u2581a",
+                "\u2581prior",
+                "\u6bcd",
+                "\u2581",
+                "'",
+                "malen",
+                "\u2581helft",
+                "\u4e00\u6b21",
+                "\u2581full",
+                "tenberg"
+              ],
+              "frac_nonzero": 0.00442
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 4058
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 4058,
+              "label": "the word \"die\" or its derivatives in various contexts",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "ization\u2581of\u2581rape\u2581accusations\u2581hurts\u2581everyone.\u2581It\u2581hurts\u2581the\u2581cases\u2581of\u2581women\u2581who\u2581actually\u2581are\u2581raped\u2581cos\u2581only\u2581close\u2581friends\u2581and\u2581die\u2581hard\u2581women\u2581supporters\u2581will\u2581take\u2581the\u2581women\u2019s\u2581word\u2581for\u2581it.\n\nIt\u2581hurts\u2581the\u2581men",
+                  "max_activation": 32.059,
+                  "max_token": "\u2581die"
+                },
+                {
+                  "text_snippet": "\u2581issue\u2581with\u2581facts.\u2581Even\u2581her\u2581charisma\u2581will\u2581not\u2581get\u2581her\u2581beyond\u2581mere\u2581talking\u2581points.\n\nAnd\u2581as\u2581Palin\u2019s\u2581leader\u2581role\u2581runs\u2581out\u2581of\u2581steam,\u2581so,\u2581too,\u2581does\u2581the\u2581Tea\u2581Party\u2581movement.\u2581Unless\u2581someone\u2581rises\u2581with\u2581a\u2581clear",
+                  "max_activation": 32.054,
+                  "max_token": "\u2581die"
+                },
+                {
+                  "text_snippet": "\u2581clause\u2581(1)\u2581of\u2581this\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581subsection,\u2581or\u2581the\u2581parent\u2581naturalized\u2581under\u2581clause\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581(2)\u2581or\u2581(3)\u2581of\u2581this\u2581subsection,\u2581or\u2581thereafter\u2581begins\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u25816\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581Read\u2581literally,\u2581\u00a7\u25811432(a)(2)\u2581appears\u2581to\u2581requ",
+                  "max_activation": 31.978,
+                  "max_token": "\u2581die"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Paglinawan",
+                "\u2581ainfi",
+                "\u2581photolibrary",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "\u2581$_\"",
+                "\u2581feroit",
+                "\u2581cardiaque",
+                "ctrons",
+                "moiselle",
+                "\u2581pouvoit"
+              ],
+              "suppressed_tokens": [
+                "\u2581die",
+                "\u2581&",
+                "y",
+                "ing",
+                "\u2581for",
+                "\u2581of",
+                "die",
+                "\u2581",
+                "\t",
+                "\u2581["
+              ],
+              "frac_nonzero": 0.01692
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace the path from L4:13412 (terms related to diets and dietary health) upstream to understand the signal origin. Look for whether this feature traces to genuine profession-relevant content or spurious patterns.",
+          "input_tokens": 76553,
+          "output_tokens": 3811,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 15232
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 19,
+        "starting_feature_idx": 1589,
+        "starting_pos": 21,
+        "objective": "Trace the path from L19:1589 (context of nutritional studies) upstream. Identify if this feature uses genuine profession knowledge or spurious correlations.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 19,
+            "feature_idx": 1589,
+            "pos": 21,
+            "label": " a context of scientific, specially nutritional, studies",
+            "frac_nonzero": 0.03796,
+            "promoted_tokens": [
+              "\u2581diet",
+              "\u2581food",
+              "\u2581nutrition",
+              "\u2581diets",
+              "\u2581feeding",
+              "\u2581dietary",
+              "Diet",
+              "\u2581eating",
+              "\u2581Diet",
+              "\u2581meals"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 13412,
+            "pos": 21,
+            "label": " terms related to diets and dietary health",
+            "frac_nonzero": 0.01216,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+              "\u2581diet",
+              "\u2581diets",
+              "AsUp",
+              "\u2581DIET",
+              "\u2581\u0627\u0644\u0631\u064a\u0627\u0636\u064a\u0647",
+              "\u2581dieting",
+              "OGND",
+              "\u2581Phry"
+            ]
+          },
+          {
+            "layer": 14,
+            "feature_idx": 4197,
+            "pos": 21,
+            "label": " words and phrases related to food insecurity.",
+            "frac_nonzero": 0.0152,
+            "promoted_tokens": [
+              "\u2581food",
+              "\u2581FOOD",
+              "\u2581edible",
+              "food",
+              "\u2581foods",
+              "Food",
+              "\u2581Food",
+              "\u2581eaters",
+              "FOOD",
+              "\u2581foodstuffs"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 11327,
+            "pos": 21,
+            "label": " words or phrases related to food or nutrition",
+            "frac_nonzero": 0.01166,
+            "promoted_tokens": [
+              "\u2581foods",
+              "\u2581food",
+              "\u2581eating",
+              "\u2581Foods",
+              "Foods",
+              "\u2581eaten",
+              "\u2581meals",
+              "Food",
+              "\u2581FOOD",
+              "food"
+            ]
+          },
+          {
+            "layer": 17,
+            "feature_idx": 7545,
+            "pos": 21,
+            "label": "mentions of architecture, design, nurses and healthcare.",
+            "frac_nonzero": 0.00449,
+            "promoted_tokens": [
+              "ftagPool",
+              "RenderAtEndOf",
+              "RegistryLite",
+              "########.",
+              "\u0627\u0631\u06cc\u062e",
+              "featureID",
+              "id\u00e4n",
+              "udert",
+              "DeleteBehavior",
+              "ReusableCell"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 11774,
+            "pos": 21,
+            "label": " what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals",
+            "frac_nonzero": 0.00892,
+            "promoted_tokens": [
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "\u24e7",
+              "\u0004",
+              "arande",
+              "/******/",
+              "usahaan",
+              "G\u00e9n\u00e9ral",
+              "\u2581CreateTagHelper",
+              "__\":",
+              "Tub"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 10028,
+            "pos": 21,
+            "label": "words or short phrases that include \"made of/from\", and words ending with \"ice\", \"ita\", \"ons\", \"ura\", and \"mor\"",
+            "frac_nonzero": 0.00739,
+            "promoted_tokens": [
+              "<bos>",
+              "ModelSerializer",
+              "\u2581TextAppearance",
+              "riwal",
+              "\u2581propOrder",
+              "WebServlet",
+              "\u2581recipes",
+              "\u2581Recipes",
+              "cipes",
+              "\u2581itin\u00e9raires"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 9554,
+            "pos": 21,
+            "label": " words related to food, rations and feeding",
+            "frac_nonzero": 0.01268,
+            "promoted_tokens": [
+              "\u2581food",
+              "Food",
+              "food",
+              "\u2581Food",
+              "\u2581feed",
+              "\u2581FOOD",
+              "\u2581feeds",
+              "\u2581foods",
+              "\u2581feeding",
+              "FOOD"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 7473,
+            "pos": 21,
+            "label": "Embedding layer feature that would need inspection",
+            "frac_nonzero": null,
+            "promoted_tokens": []
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13412,
+            "from_pos": 21,
+            "to_layer": 19,
+            "to_feature_idx": 1589,
+            "to_pos": 21,
+            "weight": 10.625
+          },
+          {
+            "from_layer": 14,
+            "from_feature_idx": 4197,
+            "from_pos": 21,
+            "to_layer": 19,
+            "to_feature_idx": 1589,
+            "to_pos": 21,
+            "weight": 8.375
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 11327,
+            "from_pos": 21,
+            "to_layer": 19,
+            "to_feature_idx": 1589,
+            "to_pos": 21,
+            "weight": 8.3125
+          },
+          {
+            "from_layer": 17,
+            "from_feature_idx": 7545,
+            "from_pos": 21,
+            "to_layer": 19,
+            "to_feature_idx": 1589,
+            "to_pos": 21,
+            "weight": 7.1875
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 11774,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 4.8438
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 10028,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 4.0312
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 7473,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 13412,
+            "to_pos": 21,
+            "weight": 1.3281
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 11327,
+            "from_pos": 21,
+            "to_layer": 14,
+            "to_feature_idx": 4197,
+            "to_pos": 21,
+            "weight": 7.7188
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13412,
+            "from_pos": 21,
+            "to_layer": 14,
+            "to_feature_idx": 4197,
+            "to_pos": 21,
+            "weight": 5.0938
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 9554,
+            "from_pos": 21,
+            "to_layer": 14,
+            "to_feature_idx": 4197,
+            "to_pos": 21,
+            "weight": 3.2031
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13412,
+            "from_pos": 21,
+            "to_layer": 6,
+            "to_feature_idx": 11327,
+            "to_pos": 21,
+            "weight": 5.9062
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 9554,
+            "from_pos": 21,
+            "to_layer": 6,
+            "to_feature_idx": 11327,
+            "to_pos": 21,
+            "weight": 2.6094
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 11774,
+            "from_pos": 21,
+            "to_layer": 6,
+            "to_feature_idx": 11327,
+            "to_pos": 21,
+            "weight": 1.3906
+          }
+        ],
+        "explanation": "The tracing reveals that L19:F1589 (context of nutritional studies) uses genuine professional knowledge rather than spurious correlations. Key findings:\n\n1. The feature detects scientific nutritional contexts with promoted tokens like \"diet\", \"food\", \"nutrition\", etc. (frac_nonzero: 0.038 - moderately specific).\n\n2. The circuit converges from multiple nutrition/food-related features in earlier layers:\n   - L4:F13412: \"terms related to diets and dietary health\"\n   - L14:F4197: \"words and phrases related to food insecurity\"\n   - L6:F11327: \"words or phrases related to food or nutrition\"\n   - L4:F9554: \"words related to food, rations and feeding\"\n\n3. These mid-layer features connect to early layer patterns and eventually to token embeddings:\n   - \"Die\" (German \"the\") at position 20 appears repeatedly with strong weights (7.25, 5.875, etc.)\n   - \"te\" at position 21 \n   - \"Nutritional\" token at position 9 connects to L4:F13412\n\n4. The features have low to moderate frac_nonzero values (0.0045-0.038), indicating specificity rather than generic pattern matching.\n\n5. No spurious correlations detected - all connections are semantically relevant to nutrition/food/health contexts. The circuit appears to genuinely recognize nutritional study contexts through convergence of multiple food/diet related detectors.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 19,
+              "feature_idx": 1589
+            },
+            "output": {
+              "layer": 19,
+              "feature_idx": 1589,
+              "label": " a context of scientific, specially nutritional, studies",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "ine\u2581oxidase,\u2581(2)\u2581scavenge\u2581superoxide,\u2581and\u2581(3)\u2581scavenge\u2581peroxylradicals.\u2581The\u2581most\u2581bioactive\u2581flavonoids\u2581were\u2581added\u2581to\u2581the\u2581preoperative\u2581nutrition\u2581to\u2581study\u2581their\u2581effect\u2581on\u2581postintestinal\u2581ischemia-reperfus",
+                  "max_activation": 444.494,
+                  "max_token": "\u2581nutrition"
+                },
+                {
+                  "text_snippet": "\u2581activity\u2581during\u2581the\u2581period\u2581of\u2581accelerated\u2581brain\u2581growth.\u2581This\u2581study\u2581evaluates\u2581whether\u2581early\u2581reduction\u2581of\u2581CNH\u2581by\u2581the\u2581alpha-2\u2581presynaptic\u2581adrenoreceptor\u2581agonist\u2581clonidine,\u2581prevents\u2581long-term\u2581morphofunct",
+                  "max_activation": 441.813,
+                  "max_token": "energy"
+                },
+                {
+                  "text_snippet": "\u2581development\u2581of\u2581disease,\u2581the\u2581contribution\u2581of\u2581alcohol\u2581toxicity\u2581to\u2581ill\u2581health\u2581remains\u2581controversial.\u2581One\u2581of\u2581the\u2581major\u2581problems\u2581facing\u2581researchers\u2581is\u2581the\u2581fact\u2581that\u2581alcoholic\u2581beverages,\u2581which\u2581contribute\u2581l",
+                  "max_activation": 433.492,
+                  "max_token": "\u2581nutritional"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581diet",
+                "\u2581food",
+                "\u2581nutrition",
+                "\u2581diets",
+                "\u2581feeding",
+                "\u2581dietary",
+                "Diet",
+                "\u2581eating",
+                "\u2581Diet",
+                "\u2581meals"
+              ],
+              "suppressed_tokens": [
+                "ViewFeatures",
+                "tagHelperRunner",
+                "complexContent",
+                "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+                "DoubleQuotes",
+                "SequentialGroup",
+                "\u2581initComponents",
+                "\u53d1\u8868\u4e8e",
+                "migrationBuilder",
+                "\u2581\u05e9\u05d5\u05dc\u05d9\u05d9\u05dd"
+              ],
+              "frac_nonzero": 0.03796
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 19,
+              "feature_idx": 1589,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13412,
+                "pos": 21,
+                "edge_weight": 10.625
+              },
+              {
+                "type": "feature",
+                "layer": 14,
+                "feature_idx": 4197,
+                "pos": 21,
+                "edge_weight": 8.375
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 11327,
+                "pos": 21,
+                "edge_weight": 8.3125
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 7.25
+              },
+              {
+                "type": "feature",
+                "layer": 17,
+                "feature_idx": 7545,
+                "pos": 21,
+                "edge_weight": 7.1875
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13412
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 13412,
+              "label": " terms related to diets and dietary health",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+                  "max_activation": 50.708,
+                  "max_token": "ticians"
+                },
+                {
+                  "text_snippet": "smoking\u2581and\u2581regular\u2581physical\u2581activity)\u2581and\u2581receive\u2581regular\u2581A1C\u2581and\u2581eye\u2581screening\u2581by\u2581a\u2581health\u2581professional.\u2581Black-Caribbean\u2581immigrant\u2581participants\u2581were\u2581significantly\u2581more\u2581likely\u2581to\u2581report\u2581receiving\u2581dia",
+                  "max_activation": 50.708,
+                  "max_token": "ticians"
+                },
+                {
+                  "text_snippet": ",\u2581like\u2581chilli\u2581prawns\u2581and\u2581black\u2581pepper\u2581crab.\u2581The\u2581English\u2581menu\u2581and\u2581a\u2581willingness\u2581to\u2581adapt\u2581dishes\u2581to\u2581your\u2581taste\u2581or\u2581dietery\u2581needs\u2581are\u2581other\u2581bonuses.\u2581Wong\u2581Ah\u2581Wah's\u2581popularity\u2581means\u2581it\u2581has\u2581no\u2581need\u2581to\u2581lure\u2581i",
+                  "max_activation": 41.6,
+                  "max_token": "ery"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581diet",
+                "\u2581diets",
+                "AsUp",
+                "\u2581DIET",
+                "\u2581\u0627\u0644\u0631\u064a\u0627\u0636\u064a\u0647",
+                "\u2581dieting",
+                "OGND",
+                "\u2581Phry"
+              ],
+              "suppressed_tokens": [
+                "SequentialGroup",
+                "GeoNames",
+                "CodeAttribute",
+                "LogFactory",
+                "InSection",
+                "arot",
+                "caller",
+                "ricle",
+                "tello",
+                "elon"
+              ],
+              "frac_nonzero": 0.01216
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 14,
+              "feature_idx": 4197
+            },
+            "output": {
+              "layer": 14,
+              "feature_idx": 4197,
+              "label": " words and phrases related to food insecurity.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581having\u2581to\u2581make\u2581their\u2581own\u2581way\u2581in\u2581the\u2581world.\nHow\u2581much\u2581better\u2581a\u2581testimony\u2581could\u2581one\u2581ask\u2581for\u2581to\u2581the\u2581benevolence\u2581of\u2581European\u2581Americans??\u2581We\u2581racial\u2581realists\u2581who\u2581have\u2581been\u2581around\u2581Blacks\u2581know\u2581their\u2581temperame",
+                  "max_activation": 177.637,
+                  "max_token": "\u2581meal"
+                },
+                {
+                  "text_snippet": "\u2581afford\u2581to\u2581stay\u2581in\u2581Idaho.\u2581He\u2581would\u2581barely\u2581have\u2581enough\u2581money\u2581for\u2581train\u2581fare\u2581back\u2581to\u2581St.\u2581Louis,\u2581as\u2581long\u2581as\u2581he\u2581didn\u2019t\u2581spend\u2581a\u2581night\u2581in\u2581the\u2581hotel,\u2581and\u2581even\u2581then\u2581he\u2581wouldn\u2019t\u2581have\u2581much\u2581left\u2581over\u2581to\u2581buy\u2581food",
+                  "max_activation": 174.139,
+                  "max_token": "\u2581food"
+                },
+                {
+                  "text_snippet": "\u2581afford\u2581to\u2581stay\u2581in\u2581Idaho.\u2581He\u2581would\u2581barely\u2581have\u2581enough\u2581money\u2581for\u2581train\u2581fare\u2581back\u2581to\u2581St.\u2581Louis,\u2581as\u2581long\u2581as\u2581he\u2581didn\u2019t\u2581spend\u2581a\u2581night\u2581in\u2581the\u2581hotel,\u2581and\u2581even\u2581then\u2581he\u2581wouldn\u2019t\u2581have\u2581much\u2581left\u2581over\u2581to\u2581buy\u2581food",
+                  "max_activation": 174.139,
+                  "max_token": "\u2581food"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581food",
+                "\u2581FOOD",
+                "\u2581edible",
+                "food",
+                "\u2581foods",
+                "Food",
+                "\u2581Food",
+                "\u2581eaters",
+                "FOOD",
+                "\u2581foodstuffs"
+              ],
+              "suppressed_tokens": [
+                "LogFactory",
+                "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+                "\u00f3d\u017a",
+                "ilities",
+                "\ucc2e",
+                "createObject",
+                "\u2581Newt",
+                "\u0e38\u0e48\u0e19",
+                "begriff",
+                "<eos>"
+              ],
+              "frac_nonzero": 0.0152
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 11327
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 11327,
+              "label": " words or phrases related to food or nutrition",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581who\u2581were\u2581at\u2581the\u2581top\u2581of\u2581our\u2581charts,\u2581were\u2581American.\n\n\u2018I\u2581am\u2581proud,\u2581but\u2581I\u2581think\u2581anybody\u2581would\u2581be\u2581proud\u2581of\u2581the\u2581success\u2581that\u2581I\u2019ve\u2581had,\u2581whether\u2581they\u2581come\u2581from\u2581a\u2581big\u2581city\u2581or\u2581a\u2581small\u2581town.\u2581It\u2019s\u2581tough,\u2581no\u2581matt",
+                  "max_activation": 65.416,
+                  "max_token": "\u2581food"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581least\u2581deprived\u2581areas\u2581(quintile\u25811--2),\u2581where\u2581the\u2581coefficients\u2581were\u2581closer\u2581to\u25810.\u2581This\u2581finding\u2581is\u2581not\u2581new\u2581but\u2581provides\u2581added\u2581support\u2581to\u2581the\u2581knowledge-base\u2581that\u2581high\u2581deprivation\u2581plays\u2581an\u2581important\u2581ro",
+                  "max_activation": 59.959,
+                  "max_token": "\u2581food"
+                },
+                {
+                  "text_snippet": "\u2581impact\u2581of\u2581health\u2581education\u2581and\u2581health\u2581promotion\u2581messages\u2581targeting\u2581healthy\u2581eating\u2581is\u2581needed\u2581to\u2581make\u2581mindful\u2581decisions\u2581and\u2581subsequent\u2581behavioural\u2581changes\u2581to\u2581support\u2581vulnerable\u2581communities\u2581for\u2581the\u2581sake",
+                  "max_activation": 59.84,
+                  "max_token": "\u2581eating"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581foods",
+                "\u2581food",
+                "\u2581eating",
+                "\u2581Foods",
+                "Foods",
+                "\u2581eaten",
+                "\u2581meals",
+                "Food",
+                "\u2581FOOD",
+                "food"
+              ],
+              "suppressed_tokens": [
+                "\u2581autorytatywna",
+                "\"}\")",
+                "sifs",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u671f\u520a\u8bba\u6587",
+                "\u2581sessionFactory",
+                "HtmlAttribute",
+                "\u2581siste",
+                "di\u011fini",
+                "Agency"
+              ],
+              "frac_nonzero": 0.01166
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 17,
+              "feature_idx": 7545
+            },
+            "output": {
+              "layer": 17,
+              "feature_idx": 7545,
+              "label": "mentions of architecture, design, nurses and healthcare.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 213.872,
+                  "max_token": "\u2581registered"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 213.872,
+                  "max_token": "\u2581registered"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 210.575,
+                  "max_token": "\u2581interior"
+                }
+              ],
+              "promoted_tokens": [
+                "ftagPool",
+                "RenderAtEndOf",
+                "RegistryLite",
+                "########.",
+                "\u0627\u0631\u06cc\u062e",
+                "featureID",
+                "id\u00e4n",
+                "udert",
+                "DeleteBehavior",
+                "ReusableCell"
+              ],
+              "suppressed_tokens": [
+                "MessageOf",
+                "\u2581Blocks",
+                "\u2581H\u00e4user",
+                "comp",
+                "\u041f\u0440\u0438\u043c\u0435\u0447\u0430\u043d\u0438\u044f",
+                "\u2581blocks",
+                "\u2581ray",
+                "\u0637\u0629",
+                "elemField",
+                "\u2581capito"
+              ],
+              "frac_nonzero": 0.00449
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13412,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21,
+                "edge_weight": 4.8438
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 4.0938
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 10028,
+                "pos": 21,
+                "edge_weight": 4.0312
+              },
+              {
+                "type": "embedding",
+                "token": " Nutritional",
+                "pos": 9,
+                "edge_weight": 1.4609
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21,
+                "edge_weight": 1.3281
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "label": " what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581II\u2581DELPHI\u2581study,\"\u2581commented\nThomas\u2581Meier\n,\u2581PhD,\u2581CEO\u2581of\u2581Santhera.\u2581\"The\u2581successful\u2581Phase\u2581III\u2581DELOS\u2581trial\u2581which\u2581enrolled\u2581glucocorticoid\u2581non-using\u2581patients\u2581then\u2581confirmed\u2581a\u2581clinically\u2581relevant\u2581and\u2581statis",
+                  "max_activation": 33.946,
+                  "max_token": "PHI"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "\u24e7",
+                "\u0004",
+                "arande",
+                "/******/",
+                "usahaan",
+                "G\u00e9n\u00e9ral",
+                "\u2581CreateTagHelper",
+                "__\":",
+                "Tub"
+              ],
+              "suppressed_tokens": [
+                "protoimpl",
+                "\u2581INTERESAR",
+                "\u2581actrice",
+                "Vidite",
+                "tanleria",
+                "AutoresizingMask",
+                "\u2581plastiques",
+                "usercontent",
+                "\u2581Audiodateien",
+                "SourceChecksum"
+              ],
+              "frac_nonzero": 0.00892
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 10028
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 10028,
+              "label": "words or short phrases that include \"made of/from\", and words ending with \"ice\", \"ita\", \"ons\", \"ura\", and \"mor\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581owned\u2581a\u2581stainless\u2581steel\u2581steamer\u2581for\u2581a\u2581long\u2581time\u2581with\u2581a\u2581single\u2581raised\u2581vent\u2581to\u2581let\u2581steam\u2581into\u2581the\u2581upper\u2581compartment.\u2581It's\u2581great\u2581because\u2581there's\u2581no\u2581way\u2581for\u2581food\u2581to\u2581get\u2581into\u2581the\u2581bottom\u2581compartment\u2581so\u2581it\u2581",
+                  "max_activation": 42.814,
+                  "max_token": "icer"
+                },
+                {
+                  "text_snippet": "ulating\u2581machine\n\nThe\u2581tabulating\u2581machine\u2581is\u2581an\u2581electrical\u2581device\u2581designed\u2581to\u2581assist\u2581in\u2581summarizing\u2581information\u2581and,\u2581later,\u2581accounting.\u2581The\u2581results\u2581of\u2581a\u2581tabulation\u2581are\u2581electrically\u2581coupled\u2581with\u2581a\u2581sorter",
+                  "max_activation": 41.66,
+                  "max_token": "\u2581from"
+                },
+                {
+                  "text_snippet": "\u2581is\u2581an\u2581Olympic\u2581sport\u2581in\u2581which\u2581two\u2581teams\u2581of\u25816\u2581active\u2581players\u2581are\u2581separated\u2581by\u2581a\u2581net.\u2581Each\u2581team\u2581tries\u2581to\u2581score\u2581points\u2581against\u2581one\u2581another\u2581by\u2581grounding\u2581a\u2581ball\u2581on\u2581the\u2581other\u2581team's\u2581court\u2581under\u2581organized\u2581ru",
+                  "max_activation": 41.523,
+                  "max_token": "\u2581from"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ModelSerializer",
+                "\u2581TextAppearance",
+                "riwal",
+                "\u2581propOrder",
+                "WebServlet",
+                "\u2581recipes",
+                "\u2581Recipes",
+                "cipes",
+                "\u2581itin\u00e9raires"
+              ],
+              "suppressed_tokens": [
+                "\u2581createState",
+                "verst\u00e4ndlich",
+                "WriteAttribute",
+                "ueves",
+                "saraba",
+                "\u05d4\u05e2\u05e8\u05d5\u05ea",
+                "\u064a\u0631\u0629",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581Hati",
+                "sieurs"
+              ],
+              "frac_nonzero": 0.00739
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 5.875
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 2.7656
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 1984,
+                "pos": 21,
+                "edge_weight": 1.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.0781
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7699,
+                "pos": 20,
+                "edge_weight": 0.6719
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 14,
+              "feature_idx": 4197,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 11327,
+                "pos": 21,
+                "edge_weight": 7.7188
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13412,
+                "pos": 21,
+                "edge_weight": 5.0938
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 9554,
+                "pos": 21,
+                "edge_weight": 3.2031
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 2.7812
+              },
+              {
+                "type": "feature",
+                "layer": 9,
+                "feature_idx": 15926,
+                "pos": 21,
+                "edge_weight": 2.1406
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 11327,
+              "pos": 21
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13412,
+                "pos": 21,
+                "edge_weight": 5.9062
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 9554,
+                "pos": 21,
+                "edge_weight": 2.6094
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 2.2969
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": -1.875
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21,
+                "edge_weight": 1.3906
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9554
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 9554,
+              "label": " words related to food, rations and feeding",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581learning\u2581that\u2581Gen.\u2581Kearny\u2581had\u2581abandoned\u2581his\u2581wagons,\u2581Col.\u2581Cooke\u2581also\u2581brought\u2581along\u2581pack\u2581saddles\u2581for\u2581the\u2581mules.\u2581He\u2581also\u2581ordered\u2581that\u2581the\u2581men\u2581be\u2581organized\u2581into\u2581messes\u2581of\u2581ten\u2581men\u2581each.\u2581On\u2581the\u258124th\u2581they\u2581a",
+                  "max_activation": 46.042,
+                  "max_token": "ations"
+                },
+                {
+                  "text_snippet": ",820\u2581on\u2581May\u258128,\u25811928\u2581and\u2581was\u2581issued\u2581to\u2581him\u2581on\u2581May\u258127,\u25811930.1925\u2581Reuben\u2581sandwich\u2581A\u2581Reuben\u2581sandwich\u2581is\u2581a\u2581hot\u2581sandwich\u2581of\u2581layered\u2581meat,\u2581sauerkraut\u2581and\u2581Swiss\u2581cheese,\u2581with\u2581a\u2581dressing,\u2581usually\u2581Russian\u2581or\u2581Th",
+                  "max_activation": 45.611,
+                  "max_token": "\u2581fed"
+                },
+                {
+                  "text_snippet": ",820\u2581on\u2581May\u258128,\u25811928\u2581and\u2581was\u2581issued\u2581to\u2581him\u2581on\u2581May\u258127,\u25811930.1925\u2581Reuben\u2581sandwich\u2581A\u2581Reuben\u2581sandwich\u2581is\u2581a\u2581hot\u2581sandwich\u2581of\u2581layered\u2581meat,\u2581sauerkraut\u2581and\u2581Swiss\u2581cheese,\u2581with\u2581a\u2581dressing,\u2581usually\u2581Russian\u2581or\u2581Th",
+                  "max_activation": 45.611,
+                  "max_token": "\u2581fed"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581food",
+                "Food",
+                "food",
+                "\u2581Food",
+                "\u2581feed",
+                "\u2581FOOD",
+                "\u2581feeds",
+                "\u2581foods",
+                "\u2581feeding",
+                "FOOD"
+              ],
+              "suppressed_tokens": [
+                "eleste",
+                "\u2581Dapper",
+                "\u2581conductor",
+                "\u2581understatement",
+                "\u2581eggplant",
+                "\u2581ganglia",
+                "ipot",
+                "\u2581Solitaire",
+                "\u2581eucalyptus",
+                "randomUUID"
+              ],
+              "frac_nonzero": 0.01268
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace the path from L19:1589 (context of nutritional studies) upstream. Identify if this feature uses genuine profession knowledge or spurious correlations.",
+          "input_tokens": 78207,
+          "output_tokens": 3630,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 15616
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 14824,
+        "starting_pos": 2,
+        "objective": "Trace the path from L0:14824 (the word 'has') upstream. This is concerning because 'has' is a generic auxiliary verb - check if this is a spurious gender-correlated feature or if it feeds into genuine profession signals.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 14824,
+            "pos": 2,
+            "label": "the word \"has\"",
+            "frac_nonzero": 0.01106,
+            "promoted_tokens": [
+              "\u2581dedans",
+              "\u2581spetta",
+              "\u2581i\u015fe",
+              "\n\n",
+              "\u2581Monfieur",
+              "\u2581ki\u015filik",
+              "\u2581specifico",
+              "\u2581Di\u017f",
+              "\u2581yapt",
+              "\u2581habitudes"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 14824,
+            "to_pos": 2,
+            "weight": 32.75
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 14824,
+            "to_pos": 2,
+            "weight": 4.0312
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 14824,
+            "to_pos": 2,
+            "weight": 1.1484
+          }
+        ],
+        "explanation": "The L0 feature (14824) that detects the word \\\"has\\\" is primarily driven directly by the token embedding of \\\" has\\\" at the same position (weight=32.75). There are minor contributions from the start token \\\"<bos>\\\" (weight=4.03) and the pronoun \\\"She\\\" (weight=1.15). The feature has low sparsity (0.011) and interestingly suppresses \\\"has\\\"-related tokens while promoting various non-English tokens. The weak connection to \\\"She\\\" suggests minimal gender correlation - this appears to be primarily a lexical feature for the word \\\"has\\\" itself rather than a spurious gender feature.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14824
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 14824,
+              "label": "the word \"has\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581structure\u2581has\u2581a\u2581closed\u2581conformation,\u2581and\u2581the\u2581DEA\u2581is\u2581located\u2581near\u2581the\u2581bound\u2581NAD(+).\u2581However,\u2581a\u2581UV\u2581absorption\u2581measurement\u2581shows\u2581that\u2581DEA\u2581is\u2581not\u2581oxidized\u2581by\u2581the\u2581bound\u2581NAD(+),\u2581indicating\u2581that\u2581the\u2581open-cl",
+                  "max_activation": 56.898,
+                  "max_token": "\u2581has"
+                },
+                {
+                  "text_snippet": "\u2581force\u2581field\u2581has\u2581a\u2581clear\u2581physical\u2581interpretation.\u2581The\u2581first\u2581term\u2581reflects\u2581the\u2581damping\u2581of\u2581the\u2581polarization\u2581by\u2581the\u2581rotational\u2581diffusion\u2581of\u2581the\u2581rollers.\u2581The\u2581second\u2581term,\u2581defined\u2581by\u2581the\u2581time\u2581rate\u2581*\u03b1*=(\u222b~*",
+                  "max_activation": 56.759,
+                  "max_token": "\u2581has"
+                },
+                {
+                  "text_snippet": ".\u2581The\u2581reconstructed\u2581power\u2581spectrum\u2581has\u2581significant\u2581noise\u2581on\u2581small\u2581scales,\u2581as\u2581expected\u2581(this\u2581is\u2581dominated\u2581by\u2581the\u2581usual\u2581\u201c$N^{(0)}$\u201d\u2581noise\u2581bias).\n\nThe\u2581post-reconstruction\u2581PDF\u2581shows\u2581skewness,\u2581defined\u2581as\u2581$",
+                  "max_activation": 56.658,
+                  "max_token": "\u2581has"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581dedans",
+                "\u2581spetta",
+                "\u2581i\u015fe",
+                "\n\n",
+                "\u2581Monfieur",
+                "\u2581ki\u015filik",
+                "\u2581specifico",
+                "\u2581Di\u017f",
+                "\u2581yapt",
+                "\u2581habitudes"
+              ],
+              "suppressed_tokens": [
+                "\u2581has",
+                "has",
+                "\u2581Has",
+                "Has",
+                "\u2581heeft",
+                "\u2581\u03ad\u03c7\u03b5\u03b9",
+                "\u2581telah",
+                "\u2581HAS",
+                "\u2581hasn",
+                "\u2581is"
+              ],
+              "frac_nonzero": 0.01106
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14824,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " has",
+                "pos": 2,
+                "edge_weight": 32.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 4.0312
+              },
+              {
+                "type": "embedding",
+                "token": "She",
+                "pos": 1,
+                "edge_weight": 1.1484
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 355,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14824,
+              "pos": 2,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " has",
+                "pos": 2,
+                "edge_weight": 32.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 4.0312
+              },
+              {
+                "type": "embedding",
+                "token": "She",
+                "pos": 1,
+                "edge_weight": 1.1484
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1790,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1903,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1616,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 705,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 355,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 96,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace the path from L0:14824 (the word 'has') upstream. This is concerning because 'has' is a generic auxiliary verb - check if this is a spurious gender-correlated feature or if it feeds into genuine profession signals.",
+          "input_tokens": 13537,
+          "output_tokens": 1294,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 2589
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 2589,
+        "label": " words related to medical professionals and medical specialties",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581in\u2581mind,\u2581when\u2581we\u2581review\u2581flags\u2581we\u2581see\u2581the\u2581current\u2581post\u2581and\u2581not\u2581the\u2581original.\u2581The\u2581behavior\u2581was\u2581both\u2581rude\u2581and\u2581offensive\u2581so\u2581I've\u2581suspended\u2581the\u2581account\u2581in\u2581question\u2581temporarily.\u2581\n\n<bos>Correlation\u2581of\u2581clini",
+            "max_activation": 46.347,
+            "max_token": "ologists"
+          },
+          {
+            "text_snippet": "\n\nSupp.\u25812d\u2581556,\u2581560-61\u2581(D.\u2581Md.\u25812002)\u2581(where\u2581physicians\u2581negligently\n\nperformed\u2581surgeries\u2581that\u2581left\u2581car\u2581accident\u2581victim\u2581with\u2581a\u2581right\n\narterial\u2581\u2581\u2581\u2581tear\u2581\u2581\u2581\u2581in\u2581\u2581\u2581\u2581her\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581heart,\u2581\u2581\u2581finding\u2581\u2581\u2581\u2581\u2581\u2581physician",
+            "max_activation": 46.257,
+            "max_token": "icians"
+          },
+          {
+            "text_snippet": "\n\nSupp.\u25812d\u2581556,\u2581560-61\u2581(D.\u2581Md.\u25812002)\u2581(where\u2581physicians\u2581negligently\n\nperformed\u2581surgeries\u2581that\u2581left\u2581car\u2581accident\u2581victim\u2581with\u2581a\u2581right\n\narterial\u2581\u2581\u2581\u2581tear\u2581\u2581\u2581\u2581in\u2581\u2581\u2581\u2581her\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581heart,\u2581\u2581\u2581finding\u2581\u2581\u2581\u2581\u2581\u2581physician",
+            "max_activation": 46.257,
+            "max_token": "icians"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u2581experts",
+          "\u2581specialists",
+          "\u2581expertos",
+          "\u2581expert",
+          "Specialist",
+          "Experts",
+          "\u2581eksper",
+          "\u2581Experts",
+          "\u2581esperti"
+        ],
+        "suppressed_tokens": [
+          "MeasureSpec",
+          "imetsu",
+          "hoeddwyd",
+          "tagHelperRunner",
+          "SOUNDBITE",
+          "\u2581nahilalakip",
+          "tableFuture",
+          "andidaten",
+          "\u00f3micas",
+          "extAlignment"
+        ],
+        "frac_nonzero": 0.00848
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 2,
+        "starting_feature_idx": 2589,
+        "starting_pos": 37,
+        "objective": "Trace the path from L2:2589 (fragments of names) upstream. This feature appeared in top features - is it using spurious gender patterns or genuine profession knowledge?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 2,
+            "feature_idx": 2589,
+            "pos": 37,
+            "label": " words related to medical professionals and medical specialties",
+            "frac_nonzero": 0.00848,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581experts",
+              "\u2581specialists",
+              "\u2581expertos",
+              "\u2581expert",
+              "Specialist",
+              "Experts",
+              "\u2581eksper",
+              "\u2581Experts",
+              "\u2581esperti"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 9026,
+            "pos": 37,
+            "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+            "frac_nonzero": 0.41044,
+            "promoted_tokens": [
+              "\u2581",
+              ",",
+              ".",
+              "\u2581(",
+              "\n\n",
+              "\n",
+              "<eos>",
+              "\u2581in",
+              "-",
+              "\u2581\""
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 37,
+            "to_layer": 2,
+            "to_feature_idx": 2589,
+            "to_pos": 37,
+            "weight": 19.125
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 36,
+            "to_layer": 2,
+            "to_feature_idx": 2589,
+            "to_pos": 37,
+            "weight": 2.0938
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 35,
+            "to_layer": 2,
+            "to_feature_idx": 2589,
+            "to_pos": 37,
+            "weight": 0.8203
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 33,
+            "to_layer": 2,
+            "to_feature_idx": 2589,
+            "to_pos": 37,
+            "weight": 0.5312
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 9026,
+            "from_pos": 37,
+            "to_layer": 2,
+            "to_feature_idx": 2589,
+            "to_pos": 37,
+            "weight": -0.5859
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 37,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 37,
+            "weight": 24.75
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 35,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 37,
+            "weight": -3.2344
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 37,
+            "weight": -2.3281
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 25,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 37,
+            "weight": -2.125
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 34,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 37,
+            "weight": -1.9844
+          }
+        ],
+        "explanation": "The tracing reveals that feature L2:2589 (\"words related to medical professionals and medical specialties\") at position 37 is primarily driven by the token \"titian\" at the same position with an extremely strong edge weight of 19.125. This suggests the feature is recognizing the token \"titian\" (likely a name fragment) in medical/professional contexts rather than relying on spurious gender patterns. The feature has low frac_nonzero (0.00848), indicating high specificity. Other contextual tokens like \"Die\", \"Health\", and \"a\" provide weaker supporting connections. A layer 0 technical/document feature (L0:9026) with negative influence also connects to \"titian\" but inhibits the medical feature. The circuit shows genuine profession knowledge detection focused on the specific token \"titian\" rather than spurious gender correlations.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 2589
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 2589,
+              "label": " words related to medical professionals and medical specialties",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581in\u2581mind,\u2581when\u2581we\u2581review\u2581flags\u2581we\u2581see\u2581the\u2581current\u2581post\u2581and\u2581not\u2581the\u2581original.\u2581The\u2581behavior\u2581was\u2581both\u2581rude\u2581and\u2581offensive\u2581so\u2581I've\u2581suspended\u2581the\u2581account\u2581in\u2581question\u2581temporarily.\u2581\n\n<bos>Correlation\u2581of\u2581clini",
+                  "max_activation": 46.347,
+                  "max_token": "ologists"
+                },
+                {
+                  "text_snippet": "\n\nSupp.\u25812d\u2581556,\u2581560-61\u2581(D.\u2581Md.\u25812002)\u2581(where\u2581physicians\u2581negligently\n\nperformed\u2581surgeries\u2581that\u2581left\u2581car\u2581accident\u2581victim\u2581with\u2581a\u2581right\n\narterial\u2581\u2581\u2581\u2581tear\u2581\u2581\u2581\u2581in\u2581\u2581\u2581\u2581her\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581heart,\u2581\u2581\u2581finding\u2581\u2581\u2581\u2581\u2581\u2581physician",
+                  "max_activation": 46.257,
+                  "max_token": "icians"
+                },
+                {
+                  "text_snippet": "\n\nSupp.\u25812d\u2581556,\u2581560-61\u2581(D.\u2581Md.\u25812002)\u2581(where\u2581physicians\u2581negligently\n\nperformed\u2581surgeries\u2581that\u2581left\u2581car\u2581accident\u2581victim\u2581with\u2581a\u2581right\n\narterial\u2581\u2581\u2581\u2581tear\u2581\u2581\u2581\u2581in\u2581\u2581\u2581\u2581her\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581heart,\u2581\u2581\u2581finding\u2581\u2581\u2581\u2581\u2581\u2581physician",
+                  "max_activation": 46.257,
+                  "max_token": "icians"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581experts",
+                "\u2581specialists",
+                "\u2581expertos",
+                "\u2581expert",
+                "Specialist",
+                "Experts",
+                "\u2581eksper",
+                "\u2581Experts",
+                "\u2581esperti"
+              ],
+              "suppressed_tokens": [
+                "MeasureSpec",
+                "imetsu",
+                "hoeddwyd",
+                "tagHelperRunner",
+                "SOUNDBITE",
+                "\u2581nahilalakip",
+                "tableFuture",
+                "andidaten",
+                "\u00f3micas",
+                "extAlignment"
+              ],
+              "frac_nonzero": 0.00848
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 2589,
+              "pos": 37
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "titian",
+                "pos": 37,
+                "edge_weight": 19.125
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 36,
+                "edge_weight": 2.0938
+              },
+              {
+                "type": "embedding",
+                "token": " Health",
+                "pos": 35,
+                "edge_weight": 0.8203
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9026,
+                "pos": 37,
+                "edge_weight": -0.5859
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 33,
+                "edge_weight": 0.5312
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9026
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 9026,
+              "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u25811;\u2581\\<0.0001\n\n\u2581\u2581Low\u2581(\\<2.5\u2581h/week)\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258144.7\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258152.6\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**36.9**\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\n\n\u2581\u2581Adequate\u2581(\u22652.5\u2581h/week)\u2581\u2581\u2581\u258155.3\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258147.4\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**",
+                  "max_activation": 106.612,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "\u258112-week\u2581treatment\u2581period\u2581was\u2581low\u2581(\\<4.1%)\u2581through\u2581all\u2581treatment\u2581phases\u2581(first\u2581treatment,\u2581first\u2581exposure,\u2581extended\u2581treatment,\u2581re-treatment,\u2581long-term\u2581treatment).\n\nJoint\u2581disease\u2581has\u2581also\u2581been\u2581reported\u2581",
+                  "max_activation": 106.051,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "08-00159],[@B22-polymers-08-00159]\\].\u2581The\u2581mass\u2581loss\u2581(about\u25815%)\u2581of\u2581the\u2581first\u2581thermal\u2581event\u2581at\u2581the\u2581lower\u2581temperature\u2581range\u2581(\\<155\u2581\u00b0C)\u2581contributed\u2581to\u2581the\u2581evaporation\u2581of\u2581free\u2581water.\u2581In\u2581the\u2581second\u2581stage,\u2581w",
+                  "max_activation": 105.559,
+                  "max_token": "\u2581(\\<"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                ",",
+                ".",
+                "\u2581(",
+                "\n\n",
+                "\n",
+                "<eos>",
+                "\u2581in",
+                "-",
+                "\u2581\""
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "\u2581Monfieur",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581Majefty",
+                "\u2581plea\u017fure",
+                "\u2581Jefus",
+                "\u2581purpo\u017fe",
+                "\u2581The\u017fe"
+              ],
+              "frac_nonzero": 0.41044
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9026,
+              "pos": 37
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "titian",
+                "pos": 37,
+                "edge_weight": 24.75
+              },
+              {
+                "type": "embedding",
+                "token": " Health",
+                "pos": 35,
+                "edge_weight": -3.2344
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -2.3281
+              },
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 25,
+                "edge_weight": -2.125
+              },
+              {
+                "type": "embedding",
+                "token": " Public",
+                "pos": 34,
+                "edge_weight": -1.9844
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace the path from L2:2589 (fragments of names) upstream. This feature appeared in top features - is it using spurious gender patterns or genuine profession knowledge?",
+          "input_tokens": 18772,
+          "output_tokens": 1824,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 14,
+        "feature_idx": 4197
+      },
+      "output": {
+        "layer": 14,
+        "feature_idx": 4197,
+        "label": " words and phrases related to food insecurity.",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581having\u2581to\u2581make\u2581their\u2581own\u2581way\u2581in\u2581the\u2581world.\nHow\u2581much\u2581better\u2581a\u2581testimony\u2581could\u2581one\u2581ask\u2581for\u2581to\u2581the\u2581benevolence\u2581of\u2581European\u2581Americans??\u2581We\u2581racial\u2581realists\u2581who\u2581have\u2581been\u2581around\u2581Blacks\u2581know\u2581their\u2581temperame",
+            "max_activation": 177.637,
+            "max_token": "\u2581meal"
+          },
+          {
+            "text_snippet": "\u2581afford\u2581to\u2581stay\u2581in\u2581Idaho.\u2581He\u2581would\u2581barely\u2581have\u2581enough\u2581money\u2581for\u2581train\u2581fare\u2581back\u2581to\u2581St.\u2581Louis,\u2581as\u2581long\u2581as\u2581he\u2581didn\u2019t\u2581spend\u2581a\u2581night\u2581in\u2581the\u2581hotel,\u2581and\u2581even\u2581then\u2581he\u2581wouldn\u2019t\u2581have\u2581much\u2581left\u2581over\u2581to\u2581buy\u2581food",
+            "max_activation": 174.139,
+            "max_token": "\u2581food"
+          },
+          {
+            "text_snippet": "\u2581afford\u2581to\u2581stay\u2581in\u2581Idaho.\u2581He\u2581would\u2581barely\u2581have\u2581enough\u2581money\u2581for\u2581train\u2581fare\u2581back\u2581to\u2581St.\u2581Louis,\u2581as\u2581long\u2581as\u2581he\u2581didn\u2019t\u2581spend\u2581a\u2581night\u2581in\u2581the\u2581hotel,\u2581and\u2581even\u2581then\u2581he\u2581wouldn\u2019t\u2581have\u2581much\u2581left\u2581over\u2581to\u2581buy\u2581food",
+            "max_activation": 174.139,
+            "max_token": "\u2581food"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581food",
+          "\u2581FOOD",
+          "\u2581edible",
+          "food",
+          "\u2581foods",
+          "Food",
+          "\u2581Food",
+          "\u2581eaters",
+          "FOOD",
+          "\u2581foodstuffs"
+        ],
+        "suppressed_tokens": [
+          "LogFactory",
+          "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+          "\u00f3d\u017a",
+          "ilities",
+          "\ucc2e",
+          "createObject",
+          "\u2581Newt",
+          "\u0e38\u0e48\u0e19",
+          "begriff",
+          "<eos>"
+        ],
+        "frac_nonzero": 0.0152
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 9554,
+        "starting_pos": 21,
+        "objective": "Trace L4:9554 (words related to food, rations and feeding) upstream. Identify the input tokens and whether this is genuine profession-related content.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 9554,
+            "pos": 21,
+            "label": " words related to food, rations and feeding",
+            "frac_nonzero": 0.01268,
+            "promoted_tokens": [
+              "\u2581food",
+              "Food",
+              "food",
+              "\u2581Food",
+              "\u2581feed",
+              "\u2581FOOD",
+              "\u2581feeds",
+              "\u2581foods",
+              "\u2581feeding",
+              "FOOD"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 11774,
+            "pos": 21,
+            "label": " what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals",
+            "frac_nonzero": 0.00892,
+            "promoted_tokens": [
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "\u24e7",
+              "\u0004",
+              "arande",
+              "/******/",
+              "usahaan",
+              "G\u00e9n\u00e9ral",
+              "\u2581CreateTagHelper",
+              "__\":",
+              "Tub"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 10028,
+            "pos": 21,
+            "label": "words or short phrases that include \"made of/from\", and words ending with \"ice\", \"ita\", \"ons\", \"ura\", and \"mor\"",
+            "frac_nonzero": 0.00739,
+            "promoted_tokens": [
+              "<bos>",
+              "ModelSerializer",
+              "\u2581TextAppearance",
+              "riwal",
+              "\u2581propOrder",
+              "WebServlet",
+              "\u2581recipes",
+              "\u2581Recipes",
+              "cipes",
+              "\u2581itin\u00e9raires"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 1083,
+            "pos": 21,
+            "label": " the characters \"te\" within code and/or non-English words",
+            "frac_nonzero": 0.00189,
+            "promoted_tokens": [
+              "\u2581my\u017felf",
+              "UnitTesting",
+              "\u2581it\u017felf",
+              "\u2581Efq",
+              "SBATCH",
+              "parsedMessage",
+              "FieldBuilder",
+              "\u2581\u2015\u2015\u2015\u2015\u2015",
+              "\u2581doubtnut",
+              "\u2581purpo\u017fe"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 7473,
+            "pos": 21,
+            "label": " capitalized two letter prefixes or suffixes",
+            "frac_nonzero": 0.00282,
+            "promoted_tokens": [
+              "reiben",
+              "ageo",
+              "afficheront",
+              "\u2581Paglinawan",
+              "<tfoot>",
+              "*)&",
+              "\u2581localObject",
+              "\u2581Meksiku",
+              "writerow",
+              "Leggi"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 3,
+            "from_feature_idx": 11774,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 9554,
+            "to_pos": 21,
+            "weight": 3.0469
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 10028,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 9554,
+            "to_pos": 21,
+            "weight": 1.5156
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1083,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 9554,
+            "to_pos": 21,
+            "weight": 1.2969
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 7473,
+            "from_pos": 21,
+            "to_layer": 4,
+            "to_feature_idx": 9554,
+            "to_pos": 21,
+            "weight": 1.0625
+          },
+          {
+            "from_type": "embedding",
+            "from_token": " Nutritional",
+            "from_pos": 9,
+            "to_layer": 4,
+            "to_feature_idx": 9554,
+            "to_pos": 21,
+            "weight": 1.1641
+          },
+          {
+            "from_type": "embedding",
+            "from_token": " Die",
+            "from_pos": 20,
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 5.875
+          },
+          {
+            "from_type": "embedding",
+            "from_token": "te",
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 11774,
+            "to_pos": 21,
+            "weight": 2.7656
+          },
+          {
+            "from_type": "embedding",
+            "from_token": " Die",
+            "from_pos": 20,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 6.9375
+          },
+          {
+            "from_type": "embedding",
+            "from_token": "te",
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 4.8125
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 7473,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 2.9062
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1083,
+            "from_pos": 21,
+            "to_layer": 3,
+            "to_feature_idx": 10028,
+            "to_pos": 21,
+            "weight": 1.1484
+          },
+          {
+            "from_type": "embedding",
+            "from_token": "te",
+            "from_pos": 21,
+            "to_layer": 1,
+            "to_feature_idx": 1083,
+            "to_pos": 21,
+            "weight": 22.25
+          },
+          {
+            "from_type": "embedding",
+            "from_token": " Die",
+            "from_pos": 20,
+            "to_layer": 1,
+            "from_feature_idx": 1083,
+            "to_pos": 21,
+            "weight": -1.9922
+          },
+          {
+            "from_type": "embedding",
+            "from_token": " Die",
+            "from_pos": 20,
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 19
+          },
+          {
+            "from_type": "embedding",
+            "from_token": "te",
+            "from_pos": 21,
+            "to_layer": 2,
+            "to_feature_idx": 7473,
+            "to_pos": 21,
+            "weight": 2.6562
+          }
+        ],
+        "explanation": "Tracing L4:9554 (food-related feature) upstream reveals it's primarily driven by input tokens \" Die\" (position 20) and \"te\" (position 21), not by genuine food-related content. The strongest upstream connections come from L3 features that detect character patterns (scientific notation, strings ending with specific suffixes), not food semantics. The direct embedding \" Nutritional\" at position 9 also contributes but weakly (weight 1.16). The circuit shows pattern-matching rather than genuine profession-related knowledge: L4:9554 activates for food-related terms but is triggered by generic character patterns (\"Die te\") rather than understanding nutritional or feeding concepts.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9554
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 9554,
+              "label": " words related to food, rations and feeding",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581learning\u2581that\u2581Gen.\u2581Kearny\u2581had\u2581abandoned\u2581his\u2581wagons,\u2581Col.\u2581Cooke\u2581also\u2581brought\u2581along\u2581pack\u2581saddles\u2581for\u2581the\u2581mules.\u2581He\u2581also\u2581ordered\u2581that\u2581the\u2581men\u2581be\u2581organized\u2581into\u2581messes\u2581of\u2581ten\u2581men\u2581each.\u2581On\u2581the\u258124th\u2581they\u2581a",
+                  "max_activation": 46.042,
+                  "max_token": "ations"
+                },
+                {
+                  "text_snippet": ",820\u2581on\u2581May\u258128,\u25811928\u2581and\u2581was\u2581issued\u2581to\u2581him\u2581on\u2581May\u258127,\u25811930.1925\u2581Reuben\u2581sandwich\u2581A\u2581Reuben\u2581sandwich\u2581is\u2581a\u2581hot\u2581sandwich\u2581of\u2581layered\u2581meat,\u2581sauerkraut\u2581and\u2581Swiss\u2581cheese,\u2581with\u2581a\u2581dressing,\u2581usually\u2581Russian\u2581or\u2581Th",
+                  "max_activation": 45.611,
+                  "max_token": "\u2581fed"
+                },
+                {
+                  "text_snippet": ",820\u2581on\u2581May\u258128,\u25811928\u2581and\u2581was\u2581issued\u2581to\u2581him\u2581on\u2581May\u258127,\u25811930.1925\u2581Reuben\u2581sandwich\u2581A\u2581Reuben\u2581sandwich\u2581is\u2581a\u2581hot\u2581sandwich\u2581of\u2581layered\u2581meat,\u2581sauerkraut\u2581and\u2581Swiss\u2581cheese,\u2581with\u2581a\u2581dressing,\u2581usually\u2581Russian\u2581or\u2581Th",
+                  "max_activation": 45.611,
+                  "max_token": "\u2581fed"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581food",
+                "Food",
+                "food",
+                "\u2581Food",
+                "\u2581feed",
+                "\u2581FOOD",
+                "\u2581feeds",
+                "\u2581foods",
+                "\u2581feeding",
+                "FOOD"
+              ],
+              "suppressed_tokens": [
+                "eleste",
+                "\u2581Dapper",
+                "\u2581conductor",
+                "\u2581understatement",
+                "\u2581eggplant",
+                "\u2581ganglia",
+                "ipot",
+                "\u2581Solitaire",
+                "\u2581eucalyptus",
+                "randomUUID"
+              ],
+              "frac_nonzero": 0.01268
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9554,
+              "pos": 21,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21,
+                "edge_weight": 3.0469
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 10028,
+                "pos": 21,
+                "edge_weight": 1.5156
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1083,
+                "pos": 21,
+                "edge_weight": 1.2969
+              },
+              {
+                "type": "embedding",
+                "token": " Nutritional",
+                "pos": 9,
+                "edge_weight": 1.1641
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21,
+                "edge_weight": 1.0625
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "label": " what appears to be a smattering of strings related to scientific notation, live radio, and roman numerals",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581dialyzed\u2581with\u25810.01\u2581M\u2581PBS.\u2581ELISA\u2581was\u2581carried\u2581out\u2581to\u2581determine\u2581the\u2581titer\u2581of\u2581anti-Nsp7\u2581protein\u2581IgG.\u2581The\u2581ELISA\u2581plate\u2581was\u2581coated\u2581with\u25810.2\u2581\u00b5g/mL\u2581Nsp7\u2581protein\u2581at\u258137\u2103\u2581for\u25812\u2581h.\u2581After\u2581washing\u2581with\u2581PBST\u2581fiv",
+                  "max_activation": 42.791,
+                  "max_token": "aly"
+                },
+                {
+                  "text_snippet": "\u2581II\u2581DELPHI\u2581study,\"\u2581commented\nThomas\u2581Meier\n,\u2581PhD,\u2581CEO\u2581of\u2581Santhera.\u2581\"The\u2581successful\u2581Phase\u2581III\u2581DELOS\u2581trial\u2581which\u2581enrolled\u2581glucocorticoid\u2581non-using\u2581patients\u2581then\u2581confirmed\u2581a\u2581clinically\u2581relevant\u2581and\u2581statis",
+                  "max_activation": 33.946,
+                  "max_token": "PHI"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "\u24e7",
+                "\u0004",
+                "arande",
+                "/******/",
+                "usahaan",
+                "G\u00e9n\u00e9ral",
+                "\u2581CreateTagHelper",
+                "__\":",
+                "Tub"
+              ],
+              "suppressed_tokens": [
+                "protoimpl",
+                "\u2581INTERESAR",
+                "\u2581actrice",
+                "Vidite",
+                "tanleria",
+                "AutoresizingMask",
+                "\u2581plastiques",
+                "usercontent",
+                "\u2581Audiodateien",
+                "SourceChecksum"
+              ],
+              "frac_nonzero": 0.00892
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 10028
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 10028,
+              "label": "words or short phrases that include \"made of/from\", and words ending with \"ice\", \"ita\", \"ons\", \"ura\", and \"mor\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581owned\u2581a\u2581stainless\u2581steel\u2581steamer\u2581for\u2581a\u2581long\u2581time\u2581with\u2581a\u2581single\u2581raised\u2581vent\u2581to\u2581let\u2581steam\u2581into\u2581the\u2581upper\u2581compartment.\u2581It's\u2581great\u2581because\u2581there's\u2581no\u2581way\u2581for\u2581food\u2581to\u2581get\u2581into\u2581the\u2581bottom\u2581compartment\u2581so\u2581it\u2581",
+                  "max_activation": 42.814,
+                  "max_token": "icer"
+                },
+                {
+                  "text_snippet": "ulating\u2581machine\n\nThe\u2581tabulating\u2581machine\u2581is\u2581an\u2581electrical\u2581device\u2581designed\u2581to\u2581assist\u2581in\u2581summarizing\u2581information\u2581and,\u2581later,\u2581accounting.\u2581The\u2581results\u2581of\u2581a\u2581tabulation\u2581are\u2581electrically\u2581coupled\u2581with\u2581a\u2581sorter",
+                  "max_activation": 41.66,
+                  "max_token": "\u2581from"
+                },
+                {
+                  "text_snippet": "\u2581is\u2581an\u2581Olympic\u2581sport\u2581in\u2581which\u2581two\u2581teams\u2581of\u25816\u2581active\u2581players\u2581are\u2581separated\u2581by\u2581a\u2581net.\u2581Each\u2581team\u2581tries\u2581to\u2581score\u2581points\u2581against\u2581one\u2581another\u2581by\u2581grounding\u2581a\u2581ball\u2581on\u2581the\u2581other\u2581team's\u2581court\u2581under\u2581organized\u2581ru",
+                  "max_activation": 41.523,
+                  "max_token": "\u2581from"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ModelSerializer",
+                "\u2581TextAppearance",
+                "riwal",
+                "\u2581propOrder",
+                "WebServlet",
+                "\u2581recipes",
+                "\u2581Recipes",
+                "cipes",
+                "\u2581itin\u00e9raires"
+              ],
+              "suppressed_tokens": [
+                "\u2581createState",
+                "verst\u00e4ndlich",
+                "WriteAttribute",
+                "ueves",
+                "saraba",
+                "\u05d4\u05e2\u05e8\u05d5\u05ea",
+                "\u064a\u0631\u0629",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581Hati",
+                "sieurs"
+              ],
+              "frac_nonzero": 0.00739
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1083
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 1083,
+              "label": " the characters \"te\" within code and/or non-English words",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581incapable\u2581of\u2581rehabilitation\u201d).\n\n\u2581\u2581\u2581\u2581\u2581\u2581Judgment\u2581of\u2581sentence\u2581affirmed.\n\n\n\nJudgment\u2581Entered.\n\n\n\n\nJoseph\u2581D.\u2581Seletyn,\u2581Esq.\nProthonotary\n\n\n\nDate:\u25817/26/2019\n\n\n\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581-9-\n\f<",
+                  "max_activation": 31.874,
+                  "max_token": "te"
+                },
+                {
+                  "text_snippet": ">\u2581J'ai\u2581mis\u258110-20h\u2581en\u2581tout...\u2581incluant\u2581tout\u2581d\u00c3\u00a9faire\u2581la\u2581t\u00c3\u00aate\u2581et\u2581tout\u2581remonter\u25813\u2581fois\u2581parce\u2581que\u2581j'avais\u2581mal\u2581lu....\n<ve2dmn>\u2581la\u2581Wiki\u2581est\u2581bien\u2581fait:\u2581http://wiki.makerbot.com/cupcake-cnc-10:cupcake-y-stag",
+                  "max_activation": 28.884,
+                  "max_token": "te"
+                },
+                {
+                  "text_snippet": ">\u2581J'ai\u2581mis\u258110-20h\u2581en\u2581tout...\u2581incluant\u2581tout\u2581d\u00c3\u00a9faire\u2581la\u2581t\u00c3\u00aate\u2581et\u2581tout\u2581remonter\u25813\u2581fois\u2581parce\u2581que\u2581j'avais\u2581mal\u2581lu....\n<ve2dmn>\u2581la\u2581Wiki\u2581est\u2581bien\u2581fait:\u2581http://wiki.makerbot.com/cupcake-cnc-10:cupcake-y-stag",
+                  "max_activation": 28.884,
+                  "max_token": "te"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581my\u017felf",
+                "UnitTesting",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "SBATCH",
+                "parsedMessage",
+                "FieldBuilder",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581doubtnut",
+                "\u2581purpo\u017fe"
+              ],
+              "suppressed_tokens": [
+                "te",
+                "TE",
+                "<bos>",
+                "Te",
+                "\u2581Te",
+                "\u2581te",
+                "\n\n",
+                "'",
+                "tek",
+                "\u2019"
+              ],
+              "frac_nonzero": 0.00189
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 11774,
+              "pos": 21,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 5.875
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 2.7656
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 1984,
+                "pos": 21,
+                "edge_weight": 1.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.0781
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7699,
+                "pos": 20,
+                "edge_weight": 0.6719
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 10028,
+              "pos": 21,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 6.9375
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 4.8125
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21,
+                "edge_weight": 2.9062
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1083,
+                "pos": 21,
+                "edge_weight": 1.1484
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2745,
+                "pos": 21,
+                "edge_weight": -0.8789
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1083,
+              "pos": 21,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 22.25
+              },
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": -1.9922
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8153,
+                "pos": 21,
+                "edge_weight": 1.9688
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7670,
+                "pos": 21,
+                "edge_weight": -0.6875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1070,
+                "pos": 21,
+                "edge_weight": 0.6133
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 7473
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 7473,
+              "label": " capitalized two letter prefixes or suffixes",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 42.334,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 42.334,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581\u201cdefer\nto\u2581states\u2019\u2581laws\u2581on\u2581legitimacy\u201d\u2581that\u2581\u201cdid\u2581not\u2581permit\u2581a[n\nunlegitimated]\u2581child\u2581to\u2581inherit\u2581from\u2581his\u2581.\u2581.\u2581.\u2581father.\u201d\u2581Id.\u2581at\u258140.\nThis\u2581justification\u2581is\u2581tantamount\u2581to\u2581asserting\u2581that\u2581the\u2581federal\ngov",
+                  "max_activation": 40.748,
+                  "max_token": "ist"
+                }
+              ],
+              "promoted_tokens": [
+                "reiben",
+                "ageo",
+                "afficheront",
+                "\u2581Paglinawan",
+                "<tfoot>",
+                "*)&",
+                "\u2581localObject",
+                "\u2581Meksiku",
+                "writerow",
+                "Leggi"
+              ],
+              "suppressed_tokens": [
+                "RectangleBorder",
+                "esModule",
+                "MenuInflater",
+                "\u2581iprot",
+                "\u2581\u062e\u0627\u0631\u062c\u064a\u0629",
+                "Aktualisiert",
+                "\u2581Conting",
+                "\u2581spermato",
+                "Sabrina",
+                "EventArgs"
+              ],
+              "frac_nonzero": 0.00282
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 7473,
+              "pos": 21,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Die",
+                "pos": 20,
+                "edge_weight": 19.0
+              },
+              {
+                "type": "embedding",
+                "token": "te",
+                "pos": 21,
+                "edge_weight": 2.6562
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7699,
+                "pos": 20,
+                "edge_weight": 2.1875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.3281
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 4058,
+                "pos": 20,
+                "edge_weight": 1.0781
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace L4:9554 (words related to food, rations and feeding) upstream. Identify the input tokens and whether this is genuine profession-related content.",
+          "input_tokens": 62485,
+          "output_tokens": 2987,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_die",
+            "label": "Emb: 'Die' (pos 20)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "emb_te",
+            "label": "Emb: 'te' (pos 21)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "emb_titian",
+            "label": "Emb: 'titian' (pos 37)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 37
+              }
+            ]
+          },
+          {
+            "id": "emb_has",
+            "label": "Emb: 'has' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_nutritional",
+            "label": "Emb: 'Nutritional' (pos 9)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 9
+              }
+            ]
+          },
+          {
+            "id": "early_pattern_matchers",
+            "label": "Early-layer substring pattern matchers",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 1083,
+                "pos": 21
+              },
+              {
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21
+              },
+              {
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21
+              },
+              {
+                "layer": 3,
+                "feature_idx": 10028,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "diet_health_terms",
+            "label": "Dietary health terms detector",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 13412,
+                "pos": 21
+              },
+              {
+                "layer": 4,
+                "feature_idx": 9554,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "food_nutrition_detectors",
+            "label": "Food/nutrition content detectors",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 11327,
+                "pos": 21
+              },
+              {
+                "layer": 14,
+                "feature_idx": 4197,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "medical_professionals",
+            "label": "Medical/healthcare professionals",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 2589,
+                "pos": 37
+              }
+            ]
+          },
+          {
+            "id": "nutrition_context",
+            "label": "Nutritional science context",
+            "layer": 19,
+            "features": [
+              {
+                "layer": 19,
+                "feature_idx": 1589,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "lexical_has",
+            "label": "Lexical 'has' detector (NOT gender)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 14824,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Probe classification score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_die",
+            "to": "early_pattern_matchers",
+            "weight": 19
+          },
+          {
+            "from": "emb_te",
+            "to": "early_pattern_matchers",
+            "weight": 22.25
+          },
+          {
+            "from": "early_pattern_matchers",
+            "to": "diet_health_terms",
+            "weight": 4
+          },
+          {
+            "from": "diet_health_terms",
+            "to": "food_nutrition_detectors",
+            "weight": 5.5
+          },
+          {
+            "from": "diet_health_terms",
+            "to": "nutrition_context",
+            "weight": 10.625
+          },
+          {
+            "from": "emb_nutritional",
+            "to": "diet_health_terms",
+            "weight": 1.16
+          },
+          {
+            "from": "food_nutrition_detectors",
+            "to": "nutrition_context",
+            "weight": 8.3
+          },
+          {
+            "from": "emb_titian",
+            "to": "medical_professionals",
+            "weight": 19.125
+          },
+          {
+            "from": "medical_professionals",
+            "to": "output_logit",
+            "weight": 0.0583
+          },
+          {
+            "from": "emb_has",
+            "to": "lexical_has",
+            "weight": 32.75
+          },
+          {
+            "from": "lexical_has",
+            "to": "output_logit",
+            "weight": -0.1201
+          },
+          {
+            "from": "nutrition_context",
+            "to": "output_logit",
+            "weight": 0.0645
+          },
+          {
+            "from": "food_nutrition_detectors",
+            "to": "output_logit",
+            "weight": 0.0586
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_die",
+            "label": "Emb: 'Die' (pos 20)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "emb_te",
+            "label": "Emb: 'te' (pos 21)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "emb_titian",
+            "label": "Emb: 'titian' (pos 37)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 37
+              }
+            ]
+          },
+          {
+            "id": "emb_has",
+            "label": "Emb: 'has' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_nutritional",
+            "label": "Emb: 'Nutritional' (pos 9)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 9
+              }
+            ]
+          },
+          {
+            "id": "early_pattern_matchers",
+            "label": "Early-layer substring pattern matchers",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 1083,
+                "pos": 21
+              },
+              {
+                "layer": 2,
+                "feature_idx": 7473,
+                "pos": 21
+              },
+              {
+                "layer": 3,
+                "feature_idx": 11774,
+                "pos": 21
+              },
+              {
+                "layer": 3,
+                "feature_idx": 10028,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "diet_health_terms",
+            "label": "Dietary health terms detector",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 13412,
+                "pos": 21
+              },
+              {
+                "layer": 4,
+                "feature_idx": 9554,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "food_nutrition_detectors",
+            "label": "Food/nutrition content detectors",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 11327,
+                "pos": 21
+              },
+              {
+                "layer": 14,
+                "feature_idx": 4197,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "medical_professionals",
+            "label": "Medical/healthcare professionals",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 2589,
+                "pos": 37
+              }
+            ]
+          },
+          {
+            "id": "nutrition_context",
+            "label": "Nutritional science context",
+            "layer": 19,
+            "features": [
+              {
+                "layer": 19,
+                "feature_idx": 1589,
+                "pos": 21
+              }
+            ]
+          },
+          {
+            "id": "lexical_has",
+            "label": "Lexical 'has' detector (NOT gender)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 14824,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Probe classification score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_die",
+            "to": "early_pattern_matchers",
+            "weight": 19
+          },
+          {
+            "from": "emb_te",
+            "to": "early_pattern_matchers",
+            "weight": 22.25
+          },
+          {
+            "from": "early_pattern_matchers",
+            "to": "diet_health_terms",
+            "weight": 4
+          },
+          {
+            "from": "diet_health_terms",
+            "to": "food_nutrition_detectors",
+            "weight": 5.5
+          },
+          {
+            "from": "diet_health_terms",
+            "to": "nutrition_context",
+            "weight": 10.625
+          },
+          {
+            "from": "emb_nutritional",
+            "to": "diet_health_terms",
+            "weight": 1.16
+          },
+          {
+            "from": "food_nutrition_detectors",
+            "to": "nutrition_context",
+            "weight": 8.3
+          },
+          {
+            "from": "emb_titian",
+            "to": "medical_professionals",
+            "weight": 19.125
+          },
+          {
+            "from": "medical_professionals",
+            "to": "output_logit",
+            "weight": 0.0583
+          },
+          {
+            "from": "emb_has",
+            "to": "lexical_has",
+            "weight": 32.75
+          },
+          {
+            "from": "lexical_has",
+            "to": "output_logit",
+            "weight": -0.1201
+          },
+          {
+            "from": "nutrition_context",
+            "to": "output_logit",
+            "weight": 0.0645
+          },
+          {
+            "from": "food_nutrition_detectors",
+            "to": "output_logit",
+            "weight": 0.0586
+          }
+        ],
+        "status": "circuit_saved",
+        "warning": "Circuit reaches early layers but not token embedding nodes. Consider tracing to embedding nodes to identify which specific input tokens drive the prediction."
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 28504,
+      "output_tokens": 4275,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 53730
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace the path from L0:14824 (the word 'has') upstream. This is concerning because 'has' is a generic auxiliary verb - check if this is a spurious gender-correlated feature or if it feeds into genuine profession signals.",
+        "input_tokens": 13537,
+        "output_tokens": 1294,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace the path from L19:1589 (context of nutritional studies) upstream. Identify if this feature uses genuine profession knowledge or spurious correlations.",
+        "input_tokens": 78207,
+        "output_tokens": 3630,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 15616
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace the path from L4:13412 (terms related to diets and dietary health) upstream to understand the signal origin. Look for whether this feature traces to genuine profession-relevant content or spurious patterns.",
+        "input_tokens": 76553,
+        "output_tokens": 3811,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 15232
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace the path from L2:2589 (fragments of names) upstream. This feature appeared in top features - is it using spurious gender patterns or genuine profession knowledge?",
+        "input_tokens": 18772,
+        "output_tokens": 1824,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace L4:9554 (words related to food, rations and feeding) upstream. Identify the input tokens and whether this is genuine profession-related content.",
+        "input_tokens": 62485,
+        "output_tokens": 2987,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.086129996,
+  "turns": 8,
+  "elapsed_seconds": 541.8186389971524,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T10-38-17"
+}

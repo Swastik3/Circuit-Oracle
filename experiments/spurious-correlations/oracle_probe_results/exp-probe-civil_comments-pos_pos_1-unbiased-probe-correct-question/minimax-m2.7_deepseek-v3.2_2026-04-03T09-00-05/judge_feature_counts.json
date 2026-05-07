@@ -1,0 +1,134 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F14301",
+      "label": "Political Figure/Organization Names",
+      "reason": "Political names, not identity-group signals."
+    },
+    {
+      "id": "L3:F3136",
+      "label": "Trump Administration/Government Detection",
+      "reason": "Government/political reference, not demographic identity."
+    },
+    {
+      "id": "L4:F14582",
+      "label": "White House/US Government References",
+      "reason": "US government reference, not identity-group signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F12866",
+      "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+      "reason": "Intensity marker; identity-independent linguistic cue."
+    },
+    {
+      "id": "L0:F7621",
+      "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+      "reason": "Intensity marker; identity-independent linguistic cue."
+    },
+    {
+      "id": "L0:F4422",
+      "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+      "reason": "Intensity marker; identity-independent linguistic cue."
+    },
+    {
+      "id": "L0:F7142",
+      "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+      "reason": "Intensity marker; identity-independent linguistic cue."
+    },
+    {
+      "id": "L0:F11375",
+      "label": "Copula/Linking Verb Detector (is)",
+      "reason": "Generic syntax feature; not toxicity-specific."
+    },
+    {
+      "id": "L0:F15831",
+      "label": "Temporal/Iterative Marker (again)",
+      "reason": "Temporal marker; identity-independent linguistic cue."
+    },
+    {
+      "id": "L0:F164",
+      "label": "Demonstrative/Show Marker (shows)",
+      "reason": "Generic discourse marker; not causal toxicity content."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F3916",
+      "label": "Document Structure/BOS Features",
+      "reason": "Pure structure feature; no class alignment."
+    },
+    {
+      "id": "L0:F478",
+      "label": "Document Structure/BOS Features",
+      "reason": "Pure structure feature; no class alignment."
+    },
+    {
+      "id": "L0:F1165",
+      "label": "Document Structure/BOS Features",
+      "reason": "Pure structure feature; no class alignment."
+    },
+    {
+      "id": "L0:F11",
+      "label": "Code Fragment Detector ('ot')",
+      "reason": "Explicitly uninformative to toxicity classes."
+    },
+    {
+      "id": "L0:F12712",
+      "label": "Code Fragment Detector ('ot')",
+      "reason": "Explicitly uninformative to toxicity classes."
+    },
+    {
+      "id": "L0:F865",
+      "label": "Code Fragment Detector ('ot')",
+      "reason": "Explicitly uninformative to toxicity classes."
+    },
+    {
+      "id": "Emb: ' clearly' (pos 2)",
+      "label": "Emb: ' clearly' (pos 2)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: ' trump' (pos 5)",
+      "label": "Emb: ' trump' (pos 5)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: ' is' (pos 6)",
+      "label": "Emb: ' is' (pos 6)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: ' again' (pos 26)",
+      "label": "Emb: ' again' (pos 26)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: '<bos>' (pos 0)",
+      "label": "Emb: '<bos>' (pos 0)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: 'tie' (pos 1)",
+      "label": "Emb: 'tie' (pos 1)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Emb: ' shows' (pos 3)",
+      "label": "Emb: ' shows' (pos 3)",
+      "reason": "Input token only, not a feature."
+    },
+    {
+      "id": "Probe Classification Score",
+      "label": "Probe Classification Score",
+      "reason": "Output score, not a feature."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 7,
+  "n_other": 15,
+  "spurious_fraction": 0.3,
+  "dominant": "causal",
+  "notes": "No identity-group toxic features listed; BOS/code/input tokens treated as other."
+}

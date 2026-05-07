@@ -1,0 +1,38 @@
+{
+  "spurious_features": [
+    {
+      "id": "L16:12358",
+      "label": "not+be-verbs pattern",
+      "reason": "Detects negation in 'were not', a spurious NLI cue."
+    },
+    {
+      "id": "L3:8011",
+      "label": "negation words promoter",
+      "reason": "Promotes negation-word detection, matching spurious hypothesis negation."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:3498",
+      "label": "they pronoun",
+      "reason": "Subject pronoun is content-bearing, not a negation detector."
+    },
+    {
+      "id": "L15:2080",
+      "label": "set+articles",
+      "reason": "Tracks action-content relation relevant to semantic overlap."
+    },
+    {
+      "id": "L2:4819",
+      "label": "fire content",
+      "reason": "Content word feature supporting factual/semantic alignment."
+    }
+  ],
+  "other_features": [],
+  "n_spurious": 2,
+  "n_causal": 3,
+  "n_other": 0,
+  "spurious_fraction": 0.4,
+  "dominant": "mixed",
+  "notes": "Oracle reports both negation-driven and content-based pathways, with negation dominant."
+}

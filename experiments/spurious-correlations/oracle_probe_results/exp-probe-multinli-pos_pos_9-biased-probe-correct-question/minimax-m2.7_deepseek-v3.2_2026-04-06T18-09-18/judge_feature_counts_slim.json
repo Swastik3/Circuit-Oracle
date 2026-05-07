@@ -1,0 +1,89 @@
+{
+  "spurious_features": [
+    {
+      "id": "L16:F6800",
+      "label": "negations 'not', 'no', and contractions with 't'",
+      "reason": "Detects negation words in the hypothesis."
+    },
+    {
+      "id": "L0:F4958",
+      "label": "word 'not'",
+      "reason": "Explicit negation-word detector."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "negation-related feature",
+      "reason": "Part of negation detection cascade."
+    },
+    {
+      "id": "L3:F3534",
+      "label": "\"n't\" character sequence",
+      "reason": "Detects contraction negation markers."
+    },
+    {
+      "id": "L14:F6648",
+      "label": "speculation/negation",
+      "reason": "Encodes negation-related signal."
+    },
+    {
+      "id": "L13:F102",
+      "label": "phrases with 'not'",
+      "reason": "Tracks negation phrases."
+    },
+    {
+      "id": "L12:F9489",
+      "label": "negations+verbs",
+      "reason": "Negation detector tied to verbs."
+    },
+    {
+      "id": "L1:F14233",
+      "label": "\"don't\" pattern",
+      "reason": "Contraction-based negation detector."
+    },
+    {
+      "id": "L1:F10072",
+      "label": "\"don't\" pattern",
+      "reason": "Contraction-based negation detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F2108",
+      "label": "menu",
+      "reason": "Lexical content from premise/hypothesis."
+    },
+    {
+      "id": "L1:F12253",
+      "label": "menu",
+      "reason": "Lexical content from premise/hypothesis."
+    },
+    {
+      "id": "L1:F3691",
+      "label": "recording in scientific documentation",
+      "reason": "Content feature from first sentence."
+    },
+    {
+      "id": "L2:F8776",
+      "label": "finance/property law",
+      "reason": "Lexical content feature."
+    },
+    {
+      "id": "L0:F7443",
+      "label": "record",
+      "reason": "Content word feature from first sentence."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F13938",
+      "label": "wild pattern",
+      "reason": "Oracle says it is spurious, but not NLI semantic role."
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 5,
+  "n_other": 1,
+  "spurious_fraction": 0.6428571428571429,
+  "dominant": "spurious",
+  "notes": "Negation-word pathway dominates; content features are present but secondary."
+}

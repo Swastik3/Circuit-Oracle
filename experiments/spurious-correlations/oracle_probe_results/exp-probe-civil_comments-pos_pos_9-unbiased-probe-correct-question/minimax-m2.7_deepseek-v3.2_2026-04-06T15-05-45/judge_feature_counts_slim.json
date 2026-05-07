@@ -1,0 +1,59 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F3436",
+      "label": "mentions of the word \"white\"",
+      "reason": "Identity-group token; directly boosts toxicity score."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F10004",
+      "label": "words indicating uncertainty or possibility",
+      "reason": "Hedging/uncertainty cue in toxic-context reasoning."
+    },
+    {
+      "id": "L2:F3399",
+      "label": "marriage-related vocabulary",
+      "reason": "Content-word signal tied to the actual text semantics."
+    },
+    {
+      "id": "L3:F6262",
+      "label": "marriage-related vocabulary",
+      "reason": "Content-word signal tied to the actual text semantics."
+    },
+    {
+      "id": "L3:F8254",
+      "label": "marriage-related vocabulary",
+      "reason": "Content-word signal tied to the actual text semantics."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F753",
+      "label": "the word \"author\"",
+      "reason": "Non-toxic formal-content word; suppresses toxicity."
+    },
+    {
+      "id": "L0:F4408",
+      "label": "authors in academic papers",
+      "reason": "Structural/formal-context detector; suppresses toxicity."
+    },
+    {
+      "id": "L6:F2851",
+      "label": "books and authors",
+      "reason": "Structural/formal-context detector; suppresses toxicity."
+    },
+    {
+      "id": "L0:F8444",
+      "label": "\"to\"",
+      "reason": "Pure function-word detector; structural only."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 4,
+  "n_other": 4,
+  "spurious_fraction": 0.2,
+  "dominant": "causal",
+  "notes": "Oracle claims real toxic-content cues dominate; only one clear identity-group spurious feature."
+}

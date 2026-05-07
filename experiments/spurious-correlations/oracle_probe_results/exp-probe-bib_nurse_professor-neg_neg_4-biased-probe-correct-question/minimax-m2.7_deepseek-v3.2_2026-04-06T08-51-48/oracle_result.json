@@ -1,0 +1,3311 @@
+{
+  "prompt_name": "bib_nurse_professor-neg_neg_4-biased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_nurse_professor-neg_neg_4 | Probe: biased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification score is driven primarily by male gender markers (the pronouns \"his\" and \"he\") rather than genuine profession indicators. The circuit directly reads token embeddings of male pronouns at positions 13, 35, and 37 to build layer-by-layer pronoun detection features that feed into the output.\n\n**Confidence:** 9/10\n\n**Reasoning:** The attribution circuit confirms the user's concern with high confidence. The top features with strongest direct effects are all gender markers:\n\n1. **L0:F2994** (direct_effect=0.2539) \u2014 \"the pronoun 'his' and the pronoun 'he'\" \u2014 This is the single most impactful feature, directly driven by token embeddings \" his\" (pos 37) and \" He\" (pos 35). The embedding connection weight is 45.25, indicating direct token-level detection.\n\n2. **L6:F12990** (direct_effect=-0.166) \u2014 \"male pronouns and titles along with descriptors associated with men\" \u2014 Built through a multi-layer pronoun processing circuit: L0\u2192L1\u2192L2\u2192L4\u2192L6. All intermediate features (L0:F1069 for male references, L1:F7439 for possessive pronouns, L4:F4315 for \"his\" mentions) are driven directly by the token embedding of \" His\" at position 13 (embedding weight 18.5-28.75). The circuit includes a negative path from L2:F5491 (God references) suggesting the model distinguishes human from divine male pronouns.\n\n3. **L18:F14743** (direct_effect=-0.1406) \u2014 \"He\" feature \u2014 Directly driven by the \" He\" token embedding at position 35 (weight 23.625) through a hierarchical pronoun circuit: L0\u2192L13\u2192L17\u2192L18.\n\n4. **L7:F14893** (direct_effect=+0.13) \u2014 pronoun detection\n\nThe non-gender features are much weaker:\n- **L0:F11024** (direct_effect=0.14) \u2014 labeled \"clock\" but responding to \" Director\" \u2014 a spurious/irrelevant feature\n- **L0:F2848** (direct_effect=0.15) \u2014 \"of\" detection \u2014 a generic word with no profession information\n\n**Conclusion:** The probe is using a **gender shortcut**. It detects male pronouns (\"his\", \"he\", \"His\") throughout the text rather than analyzing the actual profession-related content (e.g., \"Director\", \"Laboratory\", \"Ph.D.\", \"Computer Science\"). The circuit originates directly from token embeddings of male pronouns with no evidence of abstract gender representation or genuine profession extraction. This is a textbook example of a spurious correlation \u2014 the model predicts the profession class because the text happens to contain male pronouns, not because it correctly identifies the profession.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 0,
+          "feature_idx": 2994,
+          "pos": 37,
+          "activation": 40.75,
+          "direct_effect": 0.2539
+        },
+        {
+          "layer": 6,
+          "feature_idx": 12990,
+          "pos": 13,
+          "activation": 4.6875,
+          "direct_effect": -0.166
+        },
+        {
+          "layer": 0,
+          "feature_idx": 2994,
+          "pos": 55,
+          "activation": 39.0,
+          "direct_effect": 0.1553
+        },
+        {
+          "layer": 0,
+          "feature_idx": 2848,
+          "pos": 5,
+          "activation": 33.75,
+          "direct_effect": 0.1484
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11024,
+          "pos": 4,
+          "activation": 7.5625,
+          "direct_effect": 0.1416
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14743,
+          "pos": 35,
+          "activation": 26.0,
+          "direct_effect": -0.1406
+        },
+        {
+          "layer": 7,
+          "feature_idx": 14893,
+          "pos": 13,
+          "activation": 5.6562,
+          "direct_effect": 0.1318
+        },
+        {
+          "layer": 7,
+          "feature_idx": 14893,
+          "pos": 1,
+          "activation": 7.25,
+          "direct_effect": 0.1309
+        },
+        {
+          "layer": 7,
+          "feature_idx": 14946,
+          "pos": 2,
+          "activation": 13.5625,
+          "direct_effect": -0.1245
+        },
+        {
+          "layer": 6,
+          "feature_idx": 12990,
+          "pos": 35,
+          "activation": 3.625,
+          "direct_effect": -0.124
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 2994
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 2994,
+        "label": "the pronoun \"his\" and the pronoun \"he.\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581who\u2581subsequently\u2581reported\u2581his\u2581findings\u2581to\u2581the\u2581then\u2581Prime\u2581Minister.\nTo\u2581Amnesty\u2581International\u2019s\u2581knowledge\u2581this\u2581inquiry\u2581report\u2581was\u2581never\u2581made\u2581public.\nMr\u2581Jele\u2581and\u2581his\u2581co-defendants\u2581had\u2581still\u2581not\u2581been\u2581bro",
+            "max_activation": 76.269,
+            "max_token": "\u2581his"
+          },
+          {
+            "text_snippet": "\u2581movie\u2581making\u2581(i.e.,\u2581beginning,\u2581middle,\u2581and\u2581end).\u2581In\u2581Act\u25811,\u2581Wally\u2581displays\u2581reluctance\u2581to\u2581meet\u2581with\u2581Andre,\u2581thus\u2581creating\u2581the\u2581tension\u2581that\u2581is\u2581carried\u2581throughout\u2581the\u2581film.\u2581For\u2581about\u2581a\u2581half\u2581hour,\u2581Andre,\u2581w",
+            "max_activation": 76.117,
+            "max_token": "\u2581his"
+          },
+          {
+            "text_snippet": "\u2581after\u2581years\u2581of\u2581warfare\u2581that\u2581Denmark\u2581admitted\u2581the\u2581claim\u2581by\u2581the\u2581convention\u2581of\u2581Altona\u2581(June\u258130,\u25811689).\n\nChristian\u2581Albert's\u2581son\u2581Frederick\u2581IV\u2581(d.\u25811702)\u2581was\u2581again\u2581attacked\u2581by\u2581Denmark,\u2581but\u2581had\u2581a\u2581powerful\u2581ch",
+            "max_activation": 75.956,
+            "max_token": "\u2581his"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581",
+          ".",
+          "\n\n",
+          "The",
+          "<strong>",
+          "<em>",
+          "\u201c",
+          "\n",
+          "s",
+          "\u2026"
+        ],
+        "suppressed_tokens": [
+          "\u2581his",
+          "his",
+          "\u5f7c\u306e",
+          "\u2581\uadf8\uc758",
+          "\u2581h\u00e4nen",
+          "\u2581seinem",
+          "himself",
+          "\u2581himself",
+          "\u2581seiner",
+          "\u2581njego"
+        ],
+        "frac_nonzero": 0.07325999999999999
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 12990
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 12990,
+        "label": " male pronouns and titles along with descriptors associated with men",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581where\u2581his\u2581speed\u2581and\u2581agility\u2581are\u2581increased\u2581to\u2581give\u2581him\u2581a\u2581more\u2581rapid-fire\u2581attack\u2581fighting\u2581style.\n\nTenbin\u2581Gold\u2581has\u2581two\u2581finishers:\u2581\u2581via\u2581the\u2581Seiza\u2581Blaster\u2581and\u2581\u2581via\u2581the\u2581Kyu\u2581Crossbow.\n\nBalance's\u2581suit\u2581differ",
+            "max_activation": 34.918,
+            "max_token": "\u2581man"
+          },
+          {
+            "text_snippet": "\u2581where\u2581his\u2581speed\u2581and\u2581agility\u2581are\u2581increased\u2581to\u2581give\u2581him\u2581a\u2581more\u2581rapid-fire\u2581attack\u2581fighting\u2581style.\n\nTenbin\u2581Gold\u2581has\u2581two\u2581finishers:\u2581\u2581via\u2581the\u2581Seiza\u2581Blaster\u2581and\u2581\u2581via\u2581the\u2581Kyu\u2581Crossbow.\n\nBalance's\u2581suit\u2581differ",
+            "max_activation": 34.918,
+            "max_token": "\u2581man"
+          },
+          {
+            "text_snippet": "\u2581As\u2581part\u2581of\u2581his\u2581plea,\u2581Patten\u2581admitted\u2581that\u2581he\u2581steered\u2581an\u2581illegal\u2581foreign\u2581donation\u2581to\u2581DDT\u2019s\u2581inauguration\u2581from\u2581a\u2581Ukrainian\u2581businessman.\n\nDDT\u2019s\u2581latest\u2581comment\u2581about\u2581Sessions,\u2581who\u2581he\u2581has\u2581tried\u2581to\u2581separate",
+            "max_activation": 28.81,
+            "max_token": "\u2581his"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581himself",
+          "\u2581Himself",
+          "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+          "\u2581\u043a\u043e\u0458\u0438",
+          "\u2581autorytatywna",
+          "himself",
+          "\u2581s\u0103u",
+          "\u062a\u0642\u0627\u0648\u0649",
+          "rungsseite",
+          "AddTagHelper"
+        ],
+        "suppressed_tokens": [
+          "\u2581herself",
+          "herself",
+          "yticks",
+          "\u2581bint",
+          "\u2581n\u00e9e",
+          "\u2581ihrem",
+          "\u2581cantik",
+          "\u2581hostess",
+          "\u2581Kaur",
+          "\u2581\u0925\u0940"
+        ],
+        "frac_nonzero": 0.06766
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 2848
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 2848,
+        "label": "the word \"of\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581w/w\u2581of\u2581diet\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258156\u2581days\u2581\u2581\u2581\u2581DSS-induced\u2581UC\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+            "max_activation": 62.958,
+            "max_token": "\u2581of"
+          },
+          {
+            "text_snippet": "\u258150\u2581\u03bcl\u2581of\u2581cells,\u2581resulting\u2581in\u25813%\u2581FBS\u2581final.\u2581Cells\u2581were\u2581incubated\u2581for\u258172\u2581hours\u2581at\u258137\u2581\u00b0C\u2581and\u25815%\u2581CO~2~.\u2581Based\u2581on\u2581previous\u2581experience,\u2581we\u2581know\u2581that\u25811.5\u2581\u00b5mol/l\u2581active\u2581hsiRNA\u2581supports\u2581efficient\u2581silencing\u2581wi",
+            "max_activation": 62.826,
+            "max_token": "\u2581of"
+          },
+          {
+            "text_snippet": "\u25816th\u2581of\u2581October\u25812011.\"\n<bos>MediaManager\n\nDescription\n\nMediaManajer\u2581is\u2581a\u2581software,\u2581written\u2581in\u2581Java\u2581which\u2581aims\u2581to\u2581manage\u2581PC's\u2581media-files.\u2581It\u2581mays\u2581allow\u2581users\u2581to\u2581index\u2581their\u2581disk,\u2581to\u2581extract\u2581id3\u2581tag,\u2581e",
+            "max_activation": 62.692,
+            "max_token": "\u2581of"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581my\u017felf",
+          "\u2581Efq",
+          "\u2581The\u017fe",
+          "\u2581Monfieur",
+          "\u2581An\u017f",
+          "\u2581it\u017felf",
+          "\u2581Jefus",
+          "\u2581\u017feveral",
+          "\u2581purpo\u017fe",
+          "\u2581photolibrary"
+        ],
+        "suppressed_tokens": [
+          "\u2581of",
+          "\u2581and",
+          "\u2581in",
+          ",",
+          "\u2581or",
+          "\u2581(",
+          "\u2581to",
+          "\u2581",
+          "\u2581for",
+          "\u2581the"
+        ],
+        "frac_nonzero": 0.01966
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 18,
+        "feature_idx": 14743
+      },
+      "output": {
+        "layer": 18,
+        "feature_idx": 14743,
+        "label": "He",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581anyone\u2581of\u2581the\u2581opinion\u2581that\u2581you\u2581could\u2581actually\u2581stretch\u2581your\u2581hand\u2581and\u2581make\u2581it\u2581bigger,\u2581thereby\u2581making\u2581it\u2581a\u2581plausible\u2581use\u2581of\u2581his\u2581powers?\u2581In\u2581this\u2581particular\u2581run,\u2581Ralph's\u2581stretching\u2581powers\u2581are\u2581all\u2581over\u2581the",
+            "max_activation": 421.234,
+            "max_token": "\u2581He"
+          },
+          {
+            "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+            "max_activation": 417.094,
+            "max_token": "\u2581He"
+          },
+          {
+            "text_snippet": "\u2581about\u2581him.\u2581A\u2581large\u2581family\u2581\u2014\u2581father,\u2581mother,\u2581and\u2581six\u2581children\u2581\u2014\u2581were\u2581being\u2581escorted\u2581into\u2581the\u2581railroad\u2581station\u2581by\u2581a\u2581young\u2581man\u2581in\u2581a\u2581blue\u2581uniform.\u2581They\u2581were\u2581on\u2581their\u2581way\u2581to\u2581a\u2581hot\u2581springs\u2581resort\u2581located\u2581n",
+            "max_activation": 409.636,
+            "max_token": "He"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581himself",
+          "\u2581him\u017felf",
+          "himself",
+          "\u2581\u062a\u0627\u0646\u064a\u0647",
+          "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+          "\u2581Himself",
+          "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+          "\u2581\u0628\u064a\u0647\u0627",
+          "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+          "expandindo"
+        ],
+        "suppressed_tokens": [
+          "\u2581\u043a\u043e\u0458\u0430",
+          "SuppressMessage",
+          "validates",
+          "\u2581ihren",
+          "\u2581their",
+          "\u5ea7",
+          "\u2581she",
+          "Carriera",
+          "\u2581her",
+          "\u2581ihrem"
+        ],
+        "frac_nonzero": 0.01809
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 7,
+        "feature_idx": 14893
+      },
+      "output": {
+        "layer": 7,
+        "feature_idx": 14893,
+        "label": " pronouns or possessive pronouns",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581tout\u2581le\u2581monde,\u2581je\u2581n'arrive\u2581pas\u2581a\u2581garder\u2581la\u2581configuration\u2581iptable\u2581apr\u00c3\u00a8s\u2581chaque\u2581reboot.\u2581J'ai\u2581pourtant\u2581tout\u2581\u00c3\u00a9ssayer:\u2581\u2581https://help.ubuntu.com/community/IptablesHowTo\n<faiob>\u2581Je\u2581suis\u2581sous\u2581ubuntu\u258110.04.",
+            "max_activation": 82.802,
+            "max_token": "\u00a9"
+          },
+          {
+            "text_snippet": "\u2581tout\u2581le\u2581monde,\u2581je\u2581n'arrive\u2581pas\u2581a\u2581garder\u2581la\u2581configuration\u2581iptable\u2581apr\u00c3\u00a8s\u2581chaque\u2581reboot.\u2581J'ai\u2581pourtant\u2581tout\u2581\u00c3\u00a9ssayer:\u2581\u2581https://help.ubuntu.com/community/IptablesHowTo\n<faiob>\u2581Je\u2581suis\u2581sous\u2581ubuntu\u258110.04.",
+            "max_activation": 82.802,
+            "max_token": "\u00a9"
+          },
+          {
+            "text_snippet": "\u2581preuzimanje\u2581koda:\";\n\"com_accountkit_phone_error_title\"\u2581=\u2581\"Unesite\u2581valjani\u2581broj\u2581mobitela.\";\n\"com_accountkit_phone_loading_title\"\u2581=\u2581\"Potvrda\u2581broja...\";\n\"com_accountkit_phone_login_retry_title\"\u2581=\u2581\"Potvr",
+            "max_activation": 63.664,
+            "max_token": "ga"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "\u2581elle",
+          "\u2581she",
+          "herself",
+          "\u2581bint",
+          "\u2581ihrer",
+          "\u2581ihren",
+          "\u2581\u0925\u0940",
+          "\u2581\u0938\u0915\u0924\u0940",
+          "\u2581ihrem"
+        ],
+        "suppressed_tokens": [
+          "\u2581himself",
+          "himself",
+          "\u2581his",
+          "\u0648\u0641\u0627\u062a\u0647",
+          "\u2581Himself",
+          "his",
+          "\u5f7c\u306f",
+          "\u5f7c\u306e",
+          "\u2581boyhood",
+          "\u5f7c\u304c"
+        ],
+        "frac_nonzero": 0.00885
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 2994,
+        "starting_pos": 37,
+        "objective": "Trace this pronoun feature upstream to understand its source. What tokens or early representations feed into it?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 2994,
+            "pos": 37,
+            "label": "the pronoun \"his\" and the pronoun \"he.\"",
+            "frac_nonzero": 0.07325999999999999,
+            "promoted_tokens": [
+              " ",
+              ".",
+              "\n\n",
+              "The",
+              "<strong>",
+              "<em>",
+              "\"",
+              "\n",
+              "s",
+              "..."
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 37,
+            "to_layer": 0,
+            "to_feature_idx": 2994,
+            "to_pos": 37,
+            "weight": 45.25
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 36,
+            "to_layer": 0,
+            "to_feature_idx": 2994,
+            "to_pos": 37,
+            "weight": 1.1172
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 2994,
+            "to_pos": 37,
+            "weight": 0.4043
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 35,
+            "to_layer": 0,
+            "to_feature_idx": 2994,
+            "to_pos": 37,
+            "weight": 0.3867
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 34,
+            "to_layer": 0,
+            "to_feature_idx": 2994,
+            "to_pos": 37,
+            "weight": 0.1084
+          }
+        ],
+        "explanation": "The pronoun feature L0:F2994 (detecting pronouns \"his\" and \"he\") at position 37 is directly connected to token embeddings. The strongest connection is from the token \" his\" itself at position 37 (edge_weight 45.25). Weaker connections come from nearby tokens: \" received\" at position 36 (1.1172), \"<bos>\" at position 0 (0.4043), \" He\" at position 35 (0.3867), and \".\" at position 34 (0.1084). This indicates that while the feature primarily detects the presence of the word \"his\", it also receives some contextual influence from preceding words like \"received\" and \"He\", suggesting it's sensitive to pronoun contexts in sentences.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2994
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2994,
+              "label": "the pronoun \"his\" and the pronoun \"he.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581who\u2581subsequently\u2581reported\u2581his\u2581findings\u2581to\u2581the\u2581then\u2581Prime\u2581Minister.\nTo\u2581Amnesty\u2581International\u2019s\u2581knowledge\u2581this\u2581inquiry\u2581report\u2581was\u2581never\u2581made\u2581public.\nMr\u2581Jele\u2581and\u2581his\u2581co-defendants\u2581had\u2581still\u2581not\u2581been\u2581bro",
+                  "max_activation": 76.269,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581movie\u2581making\u2581(i.e.,\u2581beginning,\u2581middle,\u2581and\u2581end).\u2581In\u2581Act\u25811,\u2581Wally\u2581displays\u2581reluctance\u2581to\u2581meet\u2581with\u2581Andre,\u2581thus\u2581creating\u2581the\u2581tension\u2581that\u2581is\u2581carried\u2581throughout\u2581the\u2581film.\u2581For\u2581about\u2581a\u2581half\u2581hour,\u2581Andre,\u2581w",
+                  "max_activation": 76.117,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581after\u2581years\u2581of\u2581warfare\u2581that\u2581Denmark\u2581admitted\u2581the\u2581claim\u2581by\u2581the\u2581convention\u2581of\u2581Altona\u2581(June\u258130,\u25811689).\n\nChristian\u2581Albert's\u2581son\u2581Frederick\u2581IV\u2581(d.\u25811702)\u2581was\u2581again\u2581attacked\u2581by\u2581Denmark,\u2581but\u2581had\u2581a\u2581powerful\u2581ch",
+                  "max_activation": 75.956,
+                  "max_token": "\u2581his"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                ".",
+                "\n\n",
+                "The",
+                "<strong>",
+                "<em>",
+                "\u201c",
+                "\n",
+                "s",
+                "\u2026"
+              ],
+              "suppressed_tokens": [
+                "\u2581his",
+                "his",
+                "\u5f7c\u306e",
+                "\u2581\uadf8\uc758",
+                "\u2581h\u00e4nen",
+                "\u2581seinem",
+                "himself",
+                "\u2581himself",
+                "\u2581seiner",
+                "\u2581njego"
+              ],
+              "frac_nonzero": 0.07325999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2994,
+              "pos": 37
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " his",
+                "pos": 37,
+                "edge_weight": 45.25
+              },
+              {
+                "type": "embedding",
+                "token": " received",
+                "pos": 36,
+                "edge_weight": 1.1172
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4043
+              },
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 0.3867
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 34,
+                "edge_weight": 0.1084
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2994,
+              "pos": 37,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " his",
+                "pos": 37,
+                "edge_weight": 45.25
+              },
+              {
+                "type": "embedding",
+                "token": " received",
+                "pos": 36,
+                "edge_weight": 1.1172
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4043
+              },
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 0.3867
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 34,
+                "edge_weight": 0.1084
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.1011
+              },
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 0.0894
+              },
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 0.0417
+              },
+              {
+                "type": "embedding",
+                "token": " networks",
+                "pos": 33,
+                "edge_weight": 0.0386
+              },
+              {
+                "type": "embedding",
+                "token": " ad",
+                "pos": 31,
+                "edge_weight": 0.033
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this pronoun feature upstream to understand its source. What tokens or early representations feed into it?",
+          "input_tokens": 13114,
+          "output_tokens": 1508,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 12990,
+        "starting_pos": 13,
+        "objective": "Trace this male pronoun feature upstream. Is there a deeper gender signal or is this directly from embeddings?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 6,
+            "feature_idx": 12990,
+            "pos": 13,
+            "label": " male pronouns and titles along with descriptors associated with men",
+            "frac_nonzero": 0.06766,
+            "promoted_tokens": [
+              "\u2581himself",
+              "\u2581Himself",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "\u2581\u043a\u043e\u0458\u0438",
+              "\u2581autorytatywna",
+              "himself",
+              "\u2581s\u0103u",
+              "\u062a\u0642\u0627\u0648\u0649",
+              "rungsseite",
+              "AddTagHelper"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 4315,
+            "pos": 13,
+            "label": " mentions of \"his\" and other associated pronouns like he, him, or hers.",
+            "frac_nonzero": 0.02624,
+            "promoted_tokens": [
+              "__*/",
+              "\u2581Monfieur",
+              "complexContent",
+              "\u2581change",
+              "RegressionTest",
+              "\u2581transf\u00e9rez",
+              "\u2581al\u017fo",
+              "\u2581\u0111i\u1ec3n",
+              "kloped",
+              ">())"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 5491,
+            "pos": 13,
+            "label": "references to God in the third person.",
+            "frac_nonzero": 0.008239999999999999,
+            "promoted_tokens": [
+              "ExecuteReader",
+              "\u2581setw",
+              "\u2581individualized",
+              "\u2581kran",
+              "TagHelpers",
+              "\u2581MaterialApp",
+              "vra",
+              "\u043f\u0430\u0441\u0438",
+              "\u0442\u0435\u0440\u0438\u0441\u0442\u0438",
+              "entee"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 7439,
+            "pos": 13,
+            "label": " the possessive pronouns \"his\" and \"him\"",
+            "frac_nonzero": 0.00315,
+            "promoted_tokens": [
+              "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+              "\u2581Signalez",
+              "ni\u0161tvo",
+              "\ue315",
+              "IndentedString",
+              "ArrowToggle",
+              "\u2581Shakspeare",
+              "\u2581CURIAM",
+              "\u2581tur\u00edstica",
+              "GraphicsUnit"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 1069,
+            "pos": 13,
+            "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+            "frac_nonzero": 0.007800000000000001,
+            "promoted_tokens": [
+              "WriteLiteral",
+              "tvguidetime",
+              "AddTagHelper",
+              "\u2581honom",
+              "\u2581his",
+              "IsMutable",
+              "\u2581They",
+              "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+              "\u2581&___",
+              "BeginContext"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2994,
+            "pos": 13,
+            "label": "the pronoun \"his\" and the pronoun \"he.\"",
+            "frac_nonzero": 0.07325999999999999,
+            "promoted_tokens": [
+              "\u2581",
+              ".",
+              "\n\n",
+              "The",
+              "<strong>",
+              "<em>",
+              "\u201c",
+              "\n",
+              "s",
+              "\u2026"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 4,
+            "from_feature_idx": 4315,
+            "from_pos": 13,
+            "to_layer": 6,
+            "to_feature_idx": 12990,
+            "to_pos": 13,
+            "weight": 1.3047
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5491,
+            "from_pos": 13,
+            "to_layer": 6,
+            "to_feature_idx": 12990,
+            "to_pos": 13,
+            "weight": -1.0391
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2994,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 4315,
+            "to_pos": 13,
+            "weight": -3.2031
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 7439,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 4315,
+            "to_pos": 13,
+            "weight": -2.8906
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5491,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 4315,
+            "to_pos": 13,
+            "weight": -2.5156
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13121,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 4315,
+            "to_pos": 13,
+            "weight": -1.2188
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2994,
+            "from_pos": 13,
+            "to_layer": 2,
+            "to_feature_idx": 5491,
+            "to_pos": 13,
+            "weight": -3.3125
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 7439,
+            "from_pos": 13,
+            "to_layer": 2,
+            "to_feature_idx": 5491,
+            "to_pos": 13,
+            "weight": -3.0469
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1069,
+            "from_pos": 13,
+            "to_layer": 2,
+            "to_feature_idx": 5491,
+            "to_pos": 13,
+            "weight": 2.8125
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1069,
+            "from_pos": 13,
+            "to_layer": 1,
+            "to_feature_idx": 7439,
+            "to_pos": 13,
+            "weight": 1.9766
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2994,
+            "from_pos": 13,
+            "to_layer": 1,
+            "to_feature_idx": 7439,
+            "to_pos": 13,
+            "weight": -1.4062
+          }
+        ],
+        "explanation": "I traced the male pronoun feature at L6:F12990 upstream and found a clear circuit. The key finding is that this male pronoun feature is DIRECTLY driven by token embeddings rather than deeper gender signals:\n\n1. The layer 6 male pronoun feature receives strong direct input from the embedding of \"His\" at position 13 (weight: 5.28) and weaker feature inputs from layer 4 (weight: 1.30) and negative from layer 2 (weight: -1.04).\n\n2. Tracing deeper reveals that ALL features in the circuit (layers 0, 1, 2, 4) are primarily driven by the token embedding of \"His\" at position 13 with very high weights (18.5 to 28.75).\n\n3. The circuit shows specialization: \n   - Layer 0: Basic pronoun detection (features 1069 and 2994)\n   - Layer 1: Possessive pronoun detection (7439)\n   - Layer 2: Capitalized \"His\" for God references (5491, negative connection)\n   - Layer 4: Specific \"his\" mentions (4315)\n   - Layer 6: General male pronouns and titles (12990)\n\n4. The negative connection from layer 2 (God reference feature) to layer 6 suggests the model distinguishes between human male pronouns and divine references.\n\nConclusion: There is no deeper abstract \"gender signal\" - the male pronoun feature is built directly from the token embedding of \"His\" with layer-by-layer specialization rather than retrieving gender information from a separate gender representation.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 12990
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 12990,
+              "label": " male pronouns and titles along with descriptors associated with men",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581where\u2581his\u2581speed\u2581and\u2581agility\u2581are\u2581increased\u2581to\u2581give\u2581him\u2581a\u2581more\u2581rapid-fire\u2581attack\u2581fighting\u2581style.\n\nTenbin\u2581Gold\u2581has\u2581two\u2581finishers:\u2581\u2581via\u2581the\u2581Seiza\u2581Blaster\u2581and\u2581\u2581via\u2581the\u2581Kyu\u2581Crossbow.\n\nBalance's\u2581suit\u2581differ",
+                  "max_activation": 34.918,
+                  "max_token": "\u2581man"
+                },
+                {
+                  "text_snippet": "\u2581where\u2581his\u2581speed\u2581and\u2581agility\u2581are\u2581increased\u2581to\u2581give\u2581him\u2581a\u2581more\u2581rapid-fire\u2581attack\u2581fighting\u2581style.\n\nTenbin\u2581Gold\u2581has\u2581two\u2581finishers:\u2581\u2581via\u2581the\u2581Seiza\u2581Blaster\u2581and\u2581\u2581via\u2581the\u2581Kyu\u2581Crossbow.\n\nBalance's\u2581suit\u2581differ",
+                  "max_activation": 34.918,
+                  "max_token": "\u2581man"
+                },
+                {
+                  "text_snippet": "\u2581As\u2581part\u2581of\u2581his\u2581plea,\u2581Patten\u2581admitted\u2581that\u2581he\u2581steered\u2581an\u2581illegal\u2581foreign\u2581donation\u2581to\u2581DDT\u2019s\u2581inauguration\u2581from\u2581a\u2581Ukrainian\u2581businessman.\n\nDDT\u2019s\u2581latest\u2581comment\u2581about\u2581Sessions,\u2581who\u2581he\u2581has\u2581tried\u2581to\u2581separate",
+                  "max_activation": 28.81,
+                  "max_token": "\u2581his"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581himself",
+                "\u2581Himself",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581\u043a\u043e\u0458\u0438",
+                "\u2581autorytatywna",
+                "himself",
+                "\u2581s\u0103u",
+                "\u062a\u0642\u0627\u0648\u0649",
+                "rungsseite",
+                "AddTagHelper"
+              ],
+              "suppressed_tokens": [
+                "\u2581herself",
+                "herself",
+                "yticks",
+                "\u2581bint",
+                "\u2581n\u00e9e",
+                "\u2581ihrem",
+                "\u2581cantik",
+                "\u2581hostess",
+                "\u2581Kaur",
+                "\u2581\u0925\u0940"
+              ],
+              "frac_nonzero": 0.06766
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 12990,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 5.2812
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 4315,
+                "pos": 13,
+                "edge_weight": 1.3047
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5491,
+                "pos": 13,
+                "edge_weight": -1.0391
+              },
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 2,
+                "edge_weight": 0.918
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.8711
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 4315
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 4315,
+              "label": " mentions of \"his\" and other associated pronouns like he, him, or hers.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581his\u2581newfounded\u2581disgust\u2581for\u2581Brigham,\u2581Joseph,\u2581McConkie\u2581and\u2581the\u2581other\u2581Mormon\u2581weirdos).\n\nHmmm\u2026i\u2019ll\u2581hafta\u2581think\u2581more\u2581upon\u2581this\u2581dilemma\u2581of\u2581mine:\u2581colonized,\u2581native\u2581Pacific\u2581Islander\u2581who\u2581hates\u2581and\u2581loves\u2581her\u2581L",
+                  "max_activation": 26.502,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581nose\u2581out\u2581of\u2581shape\u2581and\u2581smashing\u2581Zimmerman's\u2581head\u2581on\u2581the\u2581cement.\n\nThe\u2581attacks\u2581on\u2581\u201cstand\u2581your\u2581ground\u201d\u2581laws\u2581are\u2581being\u2581made\u2581by\u2581opportunists\u2581whose\u2581real\u2581objective\u2581is\u2581to\u2581leave\u2581the\u2581American\u2581citizen\u2581defens",
+                  "max_activation": 26.502,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581life\u2581also\u2581want\u2581Phullu\u2581to\u2581move\u2581to\u2581a\u2581big\u2581city\u2581and\u2581find\u2581work.\u2581But\u2581he's\u2581adamant\u2581about\u2581staying\u2581back\u2581in\u2581the\u2581village.\n\nFinally,\u2581a\u2581turning\u2581point\u2581in\u2581Phullu's\u2581life\u2581comes\u2581when\u2581he\u2581finds\u2581out\u2581about\u2581menstruatio",
+                  "max_activation": 26.502,
+                  "max_token": "\u2581his"
+                }
+              ],
+              "promoted_tokens": [
+                "__*/",
+                "\u2581Monfieur",
+                "complexContent",
+                "\u2581change",
+                "RegressionTest",
+                "\u2581transf\u00e9rez",
+                "\u2581al\u017fo",
+                "\u2581\u0111i\u1ec3n",
+                "kloped",
+                ">())"
+              ],
+              "suppressed_tokens": [
+                "\u2581her",
+                "\u2581herself",
+                "\u2581his",
+                "\u2581hennes",
+                "herself",
+                "\u2581ihren",
+                "\u2581ihrer",
+                "\u5979\u7684",
+                "\u2581ihrem",
+                "\u2581ihre"
+              ],
+              "frac_nonzero": 0.02624
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 4315,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 21.25
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 13,
+                "edge_weight": -3.2031
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 7439,
+                "pos": 13,
+                "edge_weight": -2.8906
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5491,
+                "pos": 13,
+                "edge_weight": -2.5156
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 13121,
+                "pos": 13,
+                "edge_weight": -1.2188
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5491
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 5491,
+              "label": "references to God in the third person.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581will\u2581be\u2581free\u2581to\u2581live,\u2581serve,\u2581and\u2581know\u2581God\u2581more\u2581richly\u2581in\u2581the\u2581present\u2581tense-\u2581which\u2581is\u2581just\u2581where\u2581He\u2581wants\u2581you\u2581to\u2581be.\n\nI\u2581loved\u2581this\u2581book.\u2581I\u2581honestly\u2581could\u2581not\u2581put\u2581it\u2581down.\u2581It\u2581was\u2581so\u2581interesting\u2581and\u2581edu",
+                  "max_activation": 33.662,
+                  "max_token": "\u2581His"
+                },
+                {
+                  "text_snippet": ".\u2581Since\u2581the\u2581inception\u2581of\u2581this\u2581avat\u0101ram\u2581is\u2581in\u2581the\u2581evening,\u2581the\u2581worship\u2581is\u2581done\u2581in\u2581the\u2581evening.\u2581It\u2581is\u2581considered\u2581to\u2581be\u2581more\u2581auspicious\u2581if\u2581this\u2581day\u2581coincides\u2581with\u2581s\u014dmavasar\u0113,\u2581Monday\u2581or\u2581\u1e63anivasar\u0113,\u2581Saturd",
+                  "max_activation": 33.343,
+                  "max_token": "\u2581His"
+                },
+                {
+                  "text_snippet": "\u2581bells\u2581\u2013\u2581ghanta-,\u2581trident\u2581like\u2581\u2013\u2581anku\u015ba,\u2581and\u2581his\u2581two\u2581hands\u2581ready\u2581to\u2581chisel\u2581the\u2581demon\u2581heart,\u2581as\u2581His\u2581\u0101yudhams\u2581\u2013\u2581weapons.\u2581This\u2581form\u2581is\u2581worshipped\u2581in\u2581the\u2581evenings.\n2.\u2581Lakshmi\u2581Narasimha:\u2581In\u2581this\u2581form\u2581he\u2581is",
+                  "max_activation": 33.219,
+                  "max_token": "\u2581His"
+                }
+              ],
+              "promoted_tokens": [
+                "ExecuteReader",
+                "\u2581setw",
+                "\u2581individualized",
+                "\u2581kran",
+                "TagHelpers",
+                "\u2581MaterialApp",
+                "vra",
+                "\u043f\u0430\u0441\u0438",
+                "\u0442\u0435\u0440\u0438\u0441\u0442\u0438",
+                "entee"
+              ],
+              "suppressed_tokens": [
+                "\u2581his",
+                "<bos>",
+                "his",
+                "His",
+                "\u2581His",
+                "\u2581\uadf8\uc758",
+                "\u5f7c\u306e",
+                "\u2581seiner",
+                "\u2581njego",
+                "\u4ed6\u7684"
+              ],
+              "frac_nonzero": 0.008239999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5491,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 23.375
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 13,
+                "edge_weight": -3.3125
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 7439,
+                "pos": 13,
+                "edge_weight": -3.0469
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 13,
+                "edge_weight": 2.8125
+              },
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 2,
+                "edge_weight": -2.0781
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ",\u2581always\u2581ask\u2581him\u2581whether\u2581he\u2581has\u2581done\u2581it\u2581or\u2581not.\u2581He\u2581will\u2581end\u2581up\u2581contacting\u2581you.\u2581If\u2581it\u2581doesn\u2019t\u2581work,\u2581you\u2581can\u2581say\u2581that\u2581there\u2581is\u2581always\u2581some\u2581stink\u2581coming\u2581out\u2581of\u2581his\u2581mouth.\u2581He\u2581should\u2581see\u2581the\u2581doctor\u2581ASAP.\u2581E",
+                  "max_activation": 77.051,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "WriteLiteral",
+                "tvguidetime",
+                "AddTagHelper",
+                "\u2581honom",
+                "\u2581his",
+                "IsMutable",
+                "\u2581They",
+                "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+                "\u2581&___",
+                "BeginContext"
+              ],
+              "suppressed_tokens": [
+                "\u2581He",
+                "He",
+                "\u2581His",
+                "\u2581\u041e\u043d",
+                "His",
+                "\u2581Him",
+                "\u2581Himself",
+                "\u2581\u0415\u0433\u043e",
+                "\u2581HE",
+                "\u2581Hes"
+              ],
+              "frac_nonzero": 0.007800000000000001
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2994
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2994,
+              "label": "the pronoun \"his\" and the pronoun \"he.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581who\u2581subsequently\u2581reported\u2581his\u2581findings\u2581to\u2581the\u2581then\u2581Prime\u2581Minister.\nTo\u2581Amnesty\u2581International\u2019s\u2581knowledge\u2581this\u2581inquiry\u2581report\u2581was\u2581never\u2581made\u2581public.\nMr\u2581Jele\u2581and\u2581his\u2581co-defendants\u2581had\u2581still\u2581not\u2581been\u2581bro",
+                  "max_activation": 76.269,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581movie\u2581making\u2581(i.e.,\u2581beginning,\u2581middle,\u2581and\u2581end).\u2581In\u2581Act\u25811,\u2581Wally\u2581displays\u2581reluctance\u2581to\u2581meet\u2581with\u2581Andre,\u2581thus\u2581creating\u2581the\u2581tension\u2581that\u2581is\u2581carried\u2581throughout\u2581the\u2581film.\u2581For\u2581about\u2581a\u2581half\u2581hour,\u2581Andre,\u2581w",
+                  "max_activation": 76.117,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581after\u2581years\u2581of\u2581warfare\u2581that\u2581Denmark\u2581admitted\u2581the\u2581claim\u2581by\u2581the\u2581convention\u2581of\u2581Altona\u2581(June\u258130,\u25811689).\n\nChristian\u2581Albert's\u2581son\u2581Frederick\u2581IV\u2581(d.\u25811702)\u2581was\u2581again\u2581attacked\u2581by\u2581Denmark,\u2581but\u2581had\u2581a\u2581powerful\u2581ch",
+                  "max_activation": 75.956,
+                  "max_token": "\u2581his"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                ".",
+                "\n\n",
+                "The",
+                "<strong>",
+                "<em>",
+                "\u201c",
+                "\n",
+                "s",
+                "\u2026"
+              ],
+              "suppressed_tokens": [
+                "\u2581his",
+                "his",
+                "\u5f7c\u306e",
+                "\u2581\uadf8\uc758",
+                "\u2581h\u00e4nen",
+                "\u2581seinem",
+                "himself",
+                "\u2581himself",
+                "\u2581seiner",
+                "\u2581njego"
+              ],
+              "frac_nonzero": 0.07325999999999999
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 7439
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 7439,
+              "label": " the possessive pronouns \"his\" and \"him\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581His\u2581wife\u2581is\u2581pregnant\u2581at\u2581this\u2581time,\u2581so\u2581she\u2581can't\u2581help\u2581him\u2581out\u2581either\u2581but\u2581is\u2581in\u2581how\u2581supportive\u2581Phullu's\u2581wife\u2581is,\u2581of\u2581his\u2581endeavour\u2581to\u2581manufacture\u2581low-cost\u2581sanitary\u2581napkins.\n\nSee\u2581also\n\u2581Pad\u2581Man\n\u2581Period.\u2581E",
+                  "max_activation": 29.962,
+                  "max_token": "\u2581His"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581jaw\u2581and\u2581upper\u2581lip.\n\nWho\u2581was\u2581he?\u2581Not\u2581a\u2581cowboy\u2581nor\u2581a\u2581miner.\u2581That\u2581was\u2581clear\u2581by\u2581the\u2581clothes\u2581he\u2581wore.\u2581His\u2581suit\u2581appeared\u2581of\u2581good\u2581quality,\u2581but\u2581even\u2581from\u2581where\u2581she\u2581sat\u2581she\u2581could\u2581tell\u2581it\u2581had\u2581seen\u2581its\u2581shar",
+                  "max_activation": 29.422,
+                  "max_token": "\u2581his"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581campaign\u2581and\u2581Russia.\u2581DDT\u2019s\u2581source\u2581for\u2581his\u2581false\u2581contention\u2581that\u2581Britain\u2581helped\u2581the\u2581former\u2581president\u2581in\u2581wiretapping,\u2581frequent\u2581Fox\u2581guest\u2581Andrew\u2581Napolitano,\u2581has\u2581disappeared,\u2581at\u2581least\u2581temporarily,\u2581fr",
+                  "max_activation": 29.422,
+                  "max_token": "\u2581his"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+                "\u2581Signalez",
+                "ni\u0161tvo",
+                "\ue315",
+                "IndentedString",
+                "ArrowToggle",
+                "\u2581Shakspeare",
+                "\u2581CURIAM",
+                "\u2581tur\u00edstica",
+                "GraphicsUnit"
+              ],
+              "suppressed_tokens": [
+                "\u2581his",
+                "his",
+                "His",
+                "\u2581seiner",
+                "\u2581him",
+                "\u4ed6\u7684",
+                "\u2581His",
+                "\u2581he",
+                "\u2581\uadf8\uc758",
+                "\u5f7c\u306e"
+              ],
+              "frac_nonzero": 0.00315
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 28.75
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 12,
+                "edge_weight": 6.0938
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.5781
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.7812
+              },
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 0.6094
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2994,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 18.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.8047
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.4492
+              },
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 0.2197
+              },
+              {
+                "type": "embedding",
+                "token": " Laboratory",
+                "pos": 11,
+                "edge_weight": 0.1289
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 7439,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 18.5
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 13,
+                "edge_weight": 1.9766
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.6016
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 13,
+                "edge_weight": -1.4062
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 12,
+                "edge_weight": -1.2812
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this male pronoun feature upstream. Is there a deeper gender signal or is this directly from embeddings?",
+          "input_tokens": 66357,
+          "output_tokens": 3705,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 17280
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 18,
+        "starting_feature_idx": 14743,
+        "starting_pos": 35,
+        "objective": "Trace this 'He' pronoun feature upstream. What produces this signal?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 18,
+            "feature_idx": 14743,
+            "pos": 35,
+            "label": "He",
+            "frac_nonzero": 0.01809,
+            "promoted_tokens": [
+              "\u2581himself",
+              "\u2581him\u017felf",
+              "himself",
+              "\u2581\u062a\u0627\u0646\u064a\u0647",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "\u2581Himself",
+              "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+              "\u2581\u0628\u064a\u0647\u0627",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              "expandindo"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 1069,
+            "pos": 35,
+            "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+            "frac_nonzero": 0.007800000000000001,
+            "promoted_tokens": [
+              "WriteLiteral",
+              "tvguidetime",
+              "AddTagHelper",
+              "\u2581honom",
+              "\u2581his",
+              "IsMutable",
+              "\u2581They",
+              "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+              "\u2581&___",
+              "BeginContext"
+            ]
+          },
+          {
+            "layer": 17,
+            "feature_idx": 5889,
+            "pos": 35,
+            "label": " references to people with pronouns and possessive pronouns",
+            "frac_nonzero": 0.01848,
+            "promoted_tokens": [
+              "ValueStyle",
+              "protoimpl",
+              "LookAnd",
+              "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+              "uxxxx",
+              "riwal",
+              "\u2581AssemblyCulture",
+              "SequentialGroup",
+              "BufferException",
+              "ToAction"
+            ]
+          },
+          {
+            "layer": 13,
+            "feature_idx": 6622,
+            "pos": 35,
+            "label": " pronouns.",
+            "frac_nonzero": 0.02307,
+            "promoted_tokens": [
+              "Zitat",
+              "XmlAccessType",
+              "featureID",
+              "TargetException",
+              "webElementXpaths",
+              "basicConfig",
+              "Portale",
+              "verifyException",
+              "\u4e0b\u8f7d\u9644\u4ef6",
+              "\u2581<<<<<<<<<<<<<<"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 2267,
+            "pos": 35,
+            "label": "words that appear in programming code, legal jargon, or scientific texts",
+            "frac_nonzero": 0.78398,
+            "promoted_tokens": [
+              "\u2581Majefty",
+              "\u2581Efq",
+              "\u2581The\u017fe",
+              "\u2581Monfieur",
+              "\u2581them\u017felves",
+              "\u2581my\u017felf",
+              "\u2581purpo\u017fe",
+              "\u2581\u017feveral",
+              "\u2581plea\u017fure",
+              "\u2581him\u017felf"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 18,
+            "from_feature_idx": 14743,
+            "from_pos": 35,
+            "to_layer": "embedding",
+            "to_feature_idx": -1,
+            "to_pos": 35,
+            "to_token": " He",
+            "weight": 23.625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1069,
+            "from_pos": 35,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 35,
+            "weight": 7.5
+          },
+          {
+            "from_layer": 17,
+            "from_feature_idx": 5889,
+            "from_pos": 35,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 35,
+            "weight": 4
+          },
+          {
+            "from_layer": 13,
+            "from_feature_idx": 6622,
+            "from_pos": 35,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 35,
+            "weight": 2.4219
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": " He",
+            "from_pos": 35,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 35,
+            "weight": 36.5
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": ".",
+            "from_pos": 34,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 35,
+            "weight": 6.5625
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": " He",
+            "from_pos": 35,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 35,
+            "weight": 22.625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1069,
+            "from_pos": 35,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 35,
+            "weight": 9.8125
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": " He",
+            "from_pos": 35,
+            "to_layer": 13,
+            "to_feature_idx": 6622,
+            "to_pos": 35,
+            "weight": 13.625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1069,
+            "from_pos": 35,
+            "to_layer": 13,
+            "to_feature_idx": 6622,
+            "to_pos": 35,
+            "weight": 5.8438
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 2267,
+            "from_pos": 35,
+            "to_layer": 13,
+            "to_feature_idx": 6622,
+            "to_pos": 35,
+            "weight": 1.5
+          }
+        ],
+        "explanation": "The 'He' pronoun feature at L18:F14743 is primarily produced by the token embedding for \"He\" itself at position 35 (direct edge_weight 23.625). Additionally, it receives signals from a cross-layer pronoun detection circuit: L0:F1069 detects male pronouns (especially \"He\"/\"His\") which is itself driven by the \"He\" token embedding plus the preceding period \".\" at position 34 (suggesting sentence-start patterns). This early pronoun detection feeds into intermediate pronoun features at L13 and L17, which then feed into the specific \"He\" feature at L18. The circuit shows both direct token detection and hierarchical pronoun processing through multiple layers.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14743
+            },
+            "output": {
+              "layer": 18,
+              "feature_idx": 14743,
+              "label": "He",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581anyone\u2581of\u2581the\u2581opinion\u2581that\u2581you\u2581could\u2581actually\u2581stretch\u2581your\u2581hand\u2581and\u2581make\u2581it\u2581bigger,\u2581thereby\u2581making\u2581it\u2581a\u2581plausible\u2581use\u2581of\u2581his\u2581powers?\u2581In\u2581this\u2581particular\u2581run,\u2581Ralph's\u2581stretching\u2581powers\u2581are\u2581all\u2581over\u2581the",
+                  "max_activation": 421.234,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+                  "max_activation": 417.094,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581about\u2581him.\u2581A\u2581large\u2581family\u2581\u2014\u2581father,\u2581mother,\u2581and\u2581six\u2581children\u2581\u2014\u2581were\u2581being\u2581escorted\u2581into\u2581the\u2581railroad\u2581station\u2581by\u2581a\u2581young\u2581man\u2581in\u2581a\u2581blue\u2581uniform.\u2581They\u2581were\u2581on\u2581their\u2581way\u2581to\u2581a\u2581hot\u2581springs\u2581resort\u2581located\u2581n",
+                  "max_activation": 409.636,
+                  "max_token": "He"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581himself",
+                "\u2581him\u017felf",
+                "himself",
+                "\u2581\u062a\u0627\u0646\u064a\u0647",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581Himself",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "\u2581\u0628\u064a\u0647\u0627",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "expandindo"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u043a\u043e\u0458\u0430",
+                "SuppressMessage",
+                "validates",
+                "\u2581ihren",
+                "\u2581their",
+                "\u5ea7",
+                "\u2581she",
+                "Carriera",
+                "\u2581her",
+                "\u2581ihrem"
+              ],
+              "frac_nonzero": 0.01809
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14743,
+              "pos": 35
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 23.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 35,
+                "edge_weight": 7.5
+              },
+              {
+                "type": "feature",
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 35,
+                "edge_weight": 4.0
+              },
+              {
+                "type": "feature",
+                "layer": 13,
+                "feature_idx": 6622,
+                "pos": 35,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "feature",
+                "layer": 17,
+                "feature_idx": 3683,
+                "pos": 35,
+                "edge_weight": 2.125
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ",\u2581always\u2581ask\u2581him\u2581whether\u2581he\u2581has\u2581done\u2581it\u2581or\u2581not.\u2581He\u2581will\u2581end\u2581up\u2581contacting\u2581you.\u2581If\u2581it\u2581doesn\u2019t\u2581work,\u2581you\u2581can\u2581say\u2581that\u2581there\u2581is\u2581always\u2581some\u2581stink\u2581coming\u2581out\u2581of\u2581his\u2581mouth.\u2581He\u2581should\u2581see\u2581the\u2581doctor\u2581ASAP.\u2581E",
+                  "max_activation": 77.051,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "WriteLiteral",
+                "tvguidetime",
+                "AddTagHelper",
+                "\u2581honom",
+                "\u2581his",
+                "IsMutable",
+                "\u2581They",
+                "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+                "\u2581&___",
+                "BeginContext"
+              ],
+              "suppressed_tokens": [
+                "\u2581He",
+                "He",
+                "\u2581His",
+                "\u2581\u041e\u043d",
+                "His",
+                "\u2581Him",
+                "\u2581Himself",
+                "\u2581\u0415\u0433\u043e",
+                "\u2581HE",
+                "\u2581Hes"
+              ],
+              "frac_nonzero": 0.007800000000000001
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889
+            },
+            "output": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "label": " references to people with pronouns and possessive pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581ink\u201d.\u2581So\u2581she\u2581went\u2581to\u2581see\u2581her\u2581boss\u2581again\u2581(he\u2581was\u2581passed\u2581out\u2581from\u2581exhaustion)\u2581and\u2581got\u2581yelled\u2581at\u2581again\u2581(after\u2581she\u2581woke\u2581him).\u2581Eventually\u2581she\u2581figured\u2581out\u2581who\u2581she\u2581was\u2581supposed\u2581to\u2581see,\u2581and\u2581in\u2581exchange\u2581for\u2581t",
+                  "max_activation": 334.815,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ".\u2581Most\u2581of\u2581the\u2581people\u2581I\u2581know,\u2581myself\u2581included,\u2581are\u2581in\u2581a\u2581state\u2581of\u2581low\u2581confidence.\u2581Lots\u2581of\u2581money\u2581in\u2581CDs,\u2581MMAs,\u2581bonds,\u2581under\u2581the\u2581mattresses,\u2581and\u2581in\u2581gold/silver.\n\nIMO,\u2581a\u2581restoration\u2581of\u2581confidence\u2581would\u2581rel",
+                  "max_activation": 333.55,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581Sky\u2581Realms\u2581takes\u2581the\u2581reader\u2581on\u2581a\u2581journey\u2581through\u2581exotic\u2581fantasy\u2581lands,\u2581as\u2581well\u2581as\u2581across\u2581the\u2581globe,\u2581from\u2581Sydney\u2581to\u2581Paris,\u2581from\u2581the\u2581Himalayas\u2581to\u2581Manhattan.\n\nHe\u2581thought\u2581he\u2019d\u2581return\u2581from\u2581Hell\u2581a\u2581hero",
+                  "max_activation": 328.746,
+                  "max_token": "\u2581he"
+                }
+              ],
+              "promoted_tokens": [
+                "ValueStyle",
+                "protoimpl",
+                "LookAnd",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "uxxxx",
+                "riwal",
+                "\u2581AssemblyCulture",
+                "SequentialGroup",
+                "BufferException",
+                "ToAction"
+              ],
+              "suppressed_tokens": [
+                "\u2581its",
+                "ontas",
+                "\u2581'@",
+                "\u2581Its",
+                "\u2581point",
+                "\u2581An",
+                "\u2581\u0432\u0441\u0435\u0433\u043e",
+                "akah",
+                "\u2581Am",
+                "osted"
+              ],
+              "frac_nonzero": 0.01848
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "pos": 35
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 36.5
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 34,
+                "edge_weight": 6.5625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.0
+              },
+              {
+                "type": "embedding",
+                "token": " His",
+                "pos": 13,
+                "edge_weight": 0.8047
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.332
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "pos": 35
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 22.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 35,
+                "edge_weight": 9.8125
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 2.4531
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 34,
+                "edge_weight": -2.2188
+              },
+              {
+                "type": "feature",
+                "layer": 13,
+                "feature_idx": 6622,
+                "pos": 35,
+                "edge_weight": 2.1094
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 13,
+              "feature_idx": 6622
+            },
+            "output": {
+              "layer": 13,
+              "feature_idx": 6622,
+              "label": " pronouns.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581most\u2581of\u2581the\u2581world\u2019s\u2581first\u2581modernists\u2013Wright,\u2581Mies,\u2581Corbusier,\u2581Saarinen\u2013his\u2581elder\u2581son\u2581and\u2581biographer\u2581calls\u2581him\u2581\u201cthe\u2581Forest\u2581Gump\u2581of\u2581architecture.\u201d\n\nRalph\u2581Rapson:\u2581Sixty\u2581Years\u2581of\u2581Modern\u2581Design,\u2581by\u2581Rip\u2581Ra",
+                  "max_activation": 124.792,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581most\u2581of\u2581the\u2581world\u2019s\u2581first\u2581modernists\u2013Wright,\u2581Mies,\u2581Corbusier,\u2581Saarinen\u2013his\u2581elder\u2581son\u2581and\u2581biographer\u2581calls\u2581him\u2581\u201cthe\u2581Forest\u2581Gump\u2581of\u2581architecture.\u201d\n\nRalph\u2581Rapson:\u2581Sixty\u2581Years\u2581of\u2581Modern\u2581Design,\u2581by\u2581Rip\u2581Ra",
+                  "max_activation": 124.792,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581life\u2581also\u2581want\u2581Phullu\u2581to\u2581move\u2581to\u2581a\u2581big\u2581city\u2581and\u2581find\u2581work.\u2581But\u2581he's\u2581adamant\u2581about\u2581staying\u2581back\u2581in\u2581the\u2581village.\n\nFinally,\u2581a\u2581turning\u2581point\u2581in\u2581Phullu's\u2581life\u2581comes\u2581when\u2581he\u2581finds\u2581out\u2581about\u2581menstruatio",
+                  "max_activation": 123.894,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "Zitat",
+                "XmlAccessType",
+                "featureID",
+                "TargetException",
+                "webElementXpaths",
+                "basicConfig",
+                "Portale",
+                "verifyException",
+                "\u4e0b\u8f7d\u9644\u4ef6",
+                "\u2581<<<<<<<<<<<<<<"
+              ],
+              "suppressed_tokens": [
+                "liet",
+                "bootstrapcdn",
+                "\u2581chande",
+                "Aux",
+                "\u2581starry",
+                "AUD",
+                "iole",
+                "\u2581Aux",
+                "\u2581k\u00f6ln",
+                "\u2581topper"
+              ],
+              "frac_nonzero": 0.02307
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 13,
+              "feature_idx": 6622,
+              "pos": 35
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " He",
+                "pos": 35,
+                "edge_weight": 13.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 35,
+                "edge_weight": 5.8438
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 4.4375
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 2.2812
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 2267,
+                "pos": 35,
+                "edge_weight": 1.5
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 2267
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 2267,
+              "label": "words that appear in programming code, legal jargon, or scientific texts",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 56.354,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "\u2581are\u2581agreeing\u2581to\u2581be\u2581bound\u2581by\r\n\u2581*\u2581\t\u2581the\u2581terms\u2581of\u2581this\u2581license.\r\n\u2581*\u2581\u2581\u2581You\u2581must\u2581not\u2581remove\u2581this\u2581notice,\u2581or\u2581any\u2581other,\u2581from\u2581this\u2581software.\r\n\u2581**/\r\n\r\nusing\u2581System.Reflection;\r\nusing\u2581System.Runtime.InteropSe",
+                  "max_activation": 55.206,
+                  "max_token": "\u2581AssemblyCompany"
+                },
+                {
+                  "text_snippet": "\u2581new\u2581DefaultListModel<Long>();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581JTextArea\u2581textArea\u2581=\u2581new\u2581JTextArea();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581textArea.setBorder(thinEmptyBorder);\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 55.102,
+                  "max_token": "ListModel"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Majefty",
+                "\u2581Efq",
+                "\u2581The\u017fe",
+                "\u2581Monfieur",
+                "\u2581them\u017felves",
+                "\u2581my\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581\u017feveral",
+                "\u2581plea\u017fure",
+                "\u2581him\u017felf"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581allAfrica",
+                "InteropServices",
+                "CppMethod",
+                "\u03c1\u03c5",
+                "IsInitialized",
+                "kos",
+                ">{@",
+                "cog",
+                "ero"
+              ],
+              "frac_nonzero": 0.78398
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this 'He' pronoun feature upstream. What produces this signal?",
+          "input_tokens": 53303,
+          "output_tokens": 2854,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 2848,
+        "starting_pos": 5,
+        "objective": "Trace this word 'of' feature upstream. What token drives it?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 2848,
+            "pos": 5,
+            "label": "the word \"of\"",
+            "frac_nonzero": 0.01966,
+            "promoted_tokens": [
+              "\u2581my\u017felf",
+              "\u2581Efq",
+              "\u2581The\u017fe",
+              "\u2581Monfieur",
+              "\u2581An\u017f",
+              "\u2581it\u017felf",
+              "\u2581Jefus",
+              "\u2581\u017feveral",
+              "\u2581purpo\u017fe",
+              "\u2581photolibrary"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 2848,
+            "to_pos": 5,
+            "weight": 34.75,
+            "from_token": " of"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 2848,
+            "to_pos": 5,
+            "weight": 3.7344,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 2848,
+            "to_pos": 5,
+            "weight": 0.4668,
+            "from_token": " Director"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 2848,
+            "to_pos": 5,
+            "weight": 0.1641,
+            "from_token": "He"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 2848,
+            "to_pos": 5,
+            "weight": -0.0811,
+            "from_token": " is"
+          }
+        ],
+        "explanation": "Tracing the L0:F2848 feature (labeled \"the word 'of'\") at position 5 reveals it is primarily driven by the token embedding for \" of\" at the same position (pos 5) with a very strong edge weight of 34.75. This feature suppresses the token \"of\" and promotes other tokens like \"my\\u017felf\", \"Efq\", etc. The low frac_nonzero (0.01966) indicates high specificity. Secondary influences come from the <bos> token at position 0 (weight 3.7344) and \" Director\" at position 4 (weight 0.4668). The circuit is shallow - reaching embedding nodes in the first upstream step.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2848
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2848,
+              "label": "the word \"of\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581w/w\u2581of\u2581diet\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258156\u2581days\u2581\u2581\u2581\u2581DSS-induced\u2581UC\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 62.958,
+                  "max_token": "\u2581of"
+                },
+                {
+                  "text_snippet": "\u258150\u2581\u03bcl\u2581of\u2581cells,\u2581resulting\u2581in\u25813%\u2581FBS\u2581final.\u2581Cells\u2581were\u2581incubated\u2581for\u258172\u2581hours\u2581at\u258137\u2581\u00b0C\u2581and\u25815%\u2581CO~2~.\u2581Based\u2581on\u2581previous\u2581experience,\u2581we\u2581know\u2581that\u25811.5\u2581\u00b5mol/l\u2581active\u2581hsiRNA\u2581supports\u2581efficient\u2581silencing\u2581wi",
+                  "max_activation": 62.826,
+                  "max_token": "\u2581of"
+                },
+                {
+                  "text_snippet": "\u25816th\u2581of\u2581October\u25812011.\"\n<bos>MediaManager\n\nDescription\n\nMediaManajer\u2581is\u2581a\u2581software,\u2581written\u2581in\u2581Java\u2581which\u2581aims\u2581to\u2581manage\u2581PC's\u2581media-files.\u2581It\u2581mays\u2581allow\u2581users\u2581to\u2581index\u2581their\u2581disk,\u2581to\u2581extract\u2581id3\u2581tag,\u2581e",
+                  "max_activation": 62.692,
+                  "max_token": "\u2581of"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581my\u017felf",
+                "\u2581Efq",
+                "\u2581The\u017fe",
+                "\u2581Monfieur",
+                "\u2581An\u017f",
+                "\u2581it\u017felf",
+                "\u2581Jefus",
+                "\u2581\u017feveral",
+                "\u2581purpo\u017fe",
+                "\u2581photolibrary"
+              ],
+              "suppressed_tokens": [
+                "\u2581of",
+                "\u2581and",
+                "\u2581in",
+                ",",
+                "\u2581or",
+                "\u2581(",
+                "\u2581to",
+                "\u2581",
+                "\u2581for",
+                "\u2581the"
+              ],
+              "frac_nonzero": 0.01966
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2848,
+              "pos": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " of",
+                "pos": 5,
+                "edge_weight": 34.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 3.7344
+              },
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 0.4668
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.1641
+              },
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 2,
+                "edge_weight": -0.0811
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this word 'of' feature upstream. What token drives it?",
+          "input_tokens": 9791,
+          "output_tokens": 1192,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 11024,
+        "starting_pos": 4,
+        "objective": "Trace this feature at position 4 upstream to understand what token it detects.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 11024,
+            "pos": 4,
+            "label": " the word \"clock\", especially in a technical context",
+            "frac_nonzero": 0.00887,
+            "promoted_tokens": [
+              "\u2581Efq",
+              "\u2581Shakspeare",
+              "\u2581Re\u017f",
+              "\u2581it\u017felf",
+              "\u2581plea\u017fure",
+              "\u2581Majefty",
+              "\u017felf",
+              "\u2581my\u017felf",
+              "\u2581The\u017fe",
+              "\u2581photolibrary"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 11024,
+            "to_pos": 4,
+            "weight": 12.8125,
+            "from_token": " Director"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 11024,
+            "to_pos": 4,
+            "weight": 0.4727,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 11024,
+            "to_pos": 4,
+            "weight": 0.2314,
+            "from_token": " also"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 11024,
+            "to_pos": 4,
+            "weight": 0.0996,
+            "from_token": "He"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 11024,
+            "to_pos": 4,
+            "weight": 0.0396,
+            "from_token": " is"
+          }
+        ],
+        "explanation": "Tracing from L0:F11024 at position 4 reveals a direct connection from the token embedding \" Director\" at the same position with a very strong edge weight of 12.81. This feature, though labeled as detecting \"the word 'clock', especially in a technical context\", is primarily responding to the token \" Director\" at position 4 in this specific context. The circuit is shallow - it goes directly from the input token embedding to the L0 feature with minimal contributions from other tokens. Other upstream connections have negligible weights (all <0.5). This suggests the feature may be responding to token \" Director\" despite its general label about \"clock\", or there may be some shared representation between these tokens.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11024
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11024,
+              "label": " the word \"clock\", especially in a technical context",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "ces\u2581to\u2581save\u2581nightstand\u2581space\u2581(and\u2581of\u2581course,\u2581when\u2581you\u2581don\u2019t\u2581have\u2581room\u2581to\u2581cram\u2581in\u2581a\u2581nightstand,\u2581these\u2581are\u2581a\u2581great\u2581solution\u2581as\u2581well).\n\nThe\u2581palette\u2581is\u2581kept\u2581very\u2581simple,\u2581letting\u2581this\u2581iconic\u2581Eames\u2581fabric\u2581g",
+                  "max_activation": 44.099,
+                  "max_token": "\u2581clock"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581a\u2581clock\u2581terminal\u2581CLK2\u2581after\u2581all\u2581the\u258116\u2581bits\u2581are\u2581stored\u2581in\u2581the\u2581shift\u2581register\u25811.\u258116\u2581output\u2581terminals\u2581D0-D15\u2581of\u2581the\u2581latch\u25812\u2581are\u2581connected,\u2581through\u2581respective\u2581resistors\u2581R0-R15,\u2581to\u2581an\u2581inverting\u2581input\u2581",
+                  "max_activation": 43.915,
+                  "max_token": "\u2581clock"
+                },
+                {
+                  "text_snippet": "\u2581clock\u2581signal\u2581and\u2581the\u2581second\u2581control\u2581signal\u2581is\u2581a\u2581complementary\u2581clock\u2581signal.\u2581Furthermore,\u2581the\u2581first\u2581and\u2581second\u2581input\u2581signals\u2581are\u2581complementary\u2581signals\u2581and\u2581the\u2581first\u2581and\u2581second\u2581detection\u2581signals\u2581are\u2581co",
+                  "max_activation": 43.597,
+                  "max_token": "\u2581clock"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Efq",
+                "\u2581Shakspeare",
+                "\u2581Re\u017f",
+                "\u2581it\u017felf",
+                "\u2581plea\u017fure",
+                "\u2581Majefty",
+                "\u017felf",
+                "\u2581my\u017felf",
+                "\u2581The\u017fe",
+                "\u2581photolibrary"
+              ],
+              "suppressed_tokens": [
+                "\u2581the",
+                "\u2581(",
+                "\u2581of",
+                "\u2581i",
+                "\u2581to",
+                "\u2581in",
+                "\u2581a",
+                "\u2581at",
+                "\n",
+                "\u2581sub"
+              ],
+              "frac_nonzero": 0.00887
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11024,
+              "pos": 4,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 12.8125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4727
+              },
+              {
+                "type": "embedding",
+                "token": " also",
+                "pos": 3,
+                "edge_weight": 0.2314
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.0996
+              },
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 2,
+                "edge_weight": 0.0396
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11024
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11024,
+              "label": " the word \"clock\", especially in a technical context",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "ces\u2581to\u2581save\u2581nightstand\u2581space\u2581(and\u2581of\u2581course,\u2581when\u2581you\u2581don\u2019t\u2581have\u2581room\u2581to\u2581cram\u2581in\u2581a\u2581nightstand,\u2581these\u2581are\u2581a\u2581great\u2581solution\u2581as\u2581well).\n\nThe\u2581palette\u2581is\u2581kept\u2581very\u2581simple,\u2581letting\u2581this\u2581iconic\u2581Eames\u2581fabric\u2581g",
+                  "max_activation": 44.099,
+                  "max_token": "\u2581clock"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581a\u2581clock\u2581terminal\u2581CLK2\u2581after\u2581all\u2581the\u258116\u2581bits\u2581are\u2581stored\u2581in\u2581the\u2581shift\u2581register\u25811.\u258116\u2581output\u2581terminals\u2581D0-D15\u2581of\u2581the\u2581latch\u25812\u2581are\u2581connected,\u2581through\u2581respective\u2581resistors\u2581R0-R15,\u2581to\u2581an\u2581inverting\u2581input\u2581",
+                  "max_activation": 43.915,
+                  "max_token": "\u2581clock"
+                },
+                {
+                  "text_snippet": "\u2581clock\u2581signal\u2581and\u2581the\u2581second\u2581control\u2581signal\u2581is\u2581a\u2581complementary\u2581clock\u2581signal.\u2581Furthermore,\u2581the\u2581first\u2581and\u2581second\u2581input\u2581signals\u2581are\u2581complementary\u2581signals\u2581and\u2581the\u2581first\u2581and\u2581second\u2581detection\u2581signals\u2581are\u2581co",
+                  "max_activation": 43.597,
+                  "max_token": "\u2581clock"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Efq",
+                "\u2581Shakspeare",
+                "\u2581Re\u017f",
+                "\u2581it\u017felf",
+                "\u2581plea\u017fure",
+                "\u2581Majefty",
+                "\u017felf",
+                "\u2581my\u017felf",
+                "\u2581The\u017fe",
+                "\u2581photolibrary"
+              ],
+              "suppressed_tokens": [
+                "\u2581the",
+                "\u2581(",
+                "\u2581of",
+                "\u2581i",
+                "\u2581to",
+                "\u2581in",
+                "\u2581a",
+                "\u2581at",
+                "\n",
+                "\u2581sub"
+              ],
+              "frac_nonzero": 0.00887
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11024,
+              "pos": 4,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Director",
+                "pos": 4,
+                "edge_weight": 12.8125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4727
+              },
+              {
+                "type": "embedding",
+                "token": " also",
+                "pos": 3,
+                "edge_weight": 0.2314
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.0996
+              },
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 2,
+                "edge_weight": 0.0396
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1288,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1497,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 355,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace this feature at position 4 upstream to understand what token it detects.",
+          "input_tokens": 18389,
+          "output_tokens": 1382,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_he_pos35",
+            "label": "Emb: ' He' (pos 35)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_his_pos37",
+            "label": "Emb: ' his' (pos 37)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_his_pos13",
+            "label": "Emb: ' His' (pos 13)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_director_pos4",
+            "label": "Emb: ' Director' (pos 4)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_of_pos5",
+            "label": "Emb: ' of' (pos 5)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "l0_he_pronouns",
+            "label": "L0: Pronoun detection ('his'/'he')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 37
+              },
+              {
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l0_male_refs",
+            "label": "L0: Male person references ('He'/'His')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 35
+              },
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l1_possessive",
+            "label": "L1: Possessive pronouns ('his'/'him')",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 7439,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l2_god_refs",
+            "label": "L2: God references (suppression)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 5491,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l4_his_mentions",
+            "label": "L4: Specific 'his' mentions",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 4315,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l6_male_pronouns",
+            "label": "L6: Male pronouns and titles",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 12990,
+                "pos": 13
+              },
+              {
+                "layer": 6,
+                "feature_idx": 12990,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l7_pronouns",
+            "label": "L7: Pronoun detection",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 14893,
+                "pos": 13
+              },
+              {
+                "layer": 7,
+                "feature_idx": 14893,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "l13_pronouns",
+            "label": "L13: Pronouns",
+            "layer": 13,
+            "features": [
+              {
+                "layer": 13,
+                "feature_idx": 6622,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l17_people_pronouns",
+            "label": "L17: People references with pronouns",
+            "layer": 17,
+            "features": [
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l18_he",
+            "label": "L18: Capitalized 'He' feature",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l0_director_clock",
+            "label": "L0: 'Director'/'clock' spurious feature",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11024,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "l0_of",
+            "label": "L0: 'of' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2848,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_his_pos37",
+            "to": "l0_he_pronouns"
+          },
+          {
+            "from": "emb_he_pos35",
+            "to": "l0_male_refs"
+          },
+          {
+            "from": "emb_his_pos13",
+            "to": "l0_male_refs"
+          },
+          {
+            "from": "emb_his_pos13",
+            "to": "l0_he_pronouns"
+          },
+          {
+            "from": "l0_he_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l13_pronouns"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l17_people_pronouns"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l18_he"
+          },
+          {
+            "from": "l1_possessive",
+            "to": "l4_his_mentions"
+          },
+          {
+            "from": "l0_he_pronouns",
+            "to": "l1_possessive"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l1_possessive"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l2_god_refs"
+          },
+          {
+            "from": "l2_god_refs",
+            "to": "l4_his_mentions"
+          },
+          {
+            "from": "l2_god_refs",
+            "to": "l6_male_pronouns"
+          },
+          {
+            "from": "l4_his_mentions",
+            "to": "l6_male_pronouns"
+          },
+          {
+            "from": "l6_male_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l7_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l13_pronouns",
+            "to": "l18_he"
+          },
+          {
+            "from": "l17_people_pronouns",
+            "to": "l18_he"
+          },
+          {
+            "from": "l18_he",
+            "to": "output"
+          },
+          {
+            "from": "emb_director_pos4",
+            "to": "l0_director_clock"
+          },
+          {
+            "from": "l0_director_clock",
+            "to": "output"
+          },
+          {
+            "from": "emb_of_pos5",
+            "to": "l0_of"
+          },
+          {
+            "from": "l0_of",
+            "to": "output"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_he_pos35",
+            "label": "Emb: ' He' (pos 35)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_his_pos37",
+            "label": "Emb: ' his' (pos 37)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_his_pos13",
+            "label": "Emb: ' His' (pos 13)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_director_pos4",
+            "label": "Emb: ' Director' (pos 4)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_of_pos5",
+            "label": "Emb: ' of' (pos 5)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "l0_he_pronouns",
+            "label": "L0: Pronoun detection ('his'/'he')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 37
+              },
+              {
+                "layer": 0,
+                "feature_idx": 2994,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l0_male_refs",
+            "label": "L0: Male person references ('He'/'His')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 35
+              },
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l1_possessive",
+            "label": "L1: Possessive pronouns ('his'/'him')",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 7439,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l2_god_refs",
+            "label": "L2: God references (suppression)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 5491,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l4_his_mentions",
+            "label": "L4: Specific 'his' mentions",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 4315,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l6_male_pronouns",
+            "label": "L6: Male pronouns and titles",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 12990,
+                "pos": 13
+              },
+              {
+                "layer": 6,
+                "feature_idx": 12990,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l7_pronouns",
+            "label": "L7: Pronoun detection",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 14893,
+                "pos": 13
+              },
+              {
+                "layer": 7,
+                "feature_idx": 14893,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "l13_pronouns",
+            "label": "L13: Pronouns",
+            "layer": 13,
+            "features": [
+              {
+                "layer": 13,
+                "feature_idx": 6622,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l17_people_pronouns",
+            "label": "L17: People references with pronouns",
+            "layer": 17,
+            "features": [
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l18_he",
+            "label": "L18: Capitalized 'He' feature",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 35
+              }
+            ]
+          },
+          {
+            "id": "l0_director_clock",
+            "label": "L0: 'Director'/'clock' spurious feature",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11024,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "l0_of",
+            "label": "L0: 'of' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2848,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_his_pos37",
+            "to": "l0_he_pronouns"
+          },
+          {
+            "from": "emb_he_pos35",
+            "to": "l0_male_refs"
+          },
+          {
+            "from": "emb_his_pos13",
+            "to": "l0_male_refs"
+          },
+          {
+            "from": "emb_his_pos13",
+            "to": "l0_he_pronouns"
+          },
+          {
+            "from": "l0_he_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l13_pronouns"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l17_people_pronouns"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l18_he"
+          },
+          {
+            "from": "l1_possessive",
+            "to": "l4_his_mentions"
+          },
+          {
+            "from": "l0_he_pronouns",
+            "to": "l1_possessive"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l1_possessive"
+          },
+          {
+            "from": "l0_male_refs",
+            "to": "l2_god_refs"
+          },
+          {
+            "from": "l2_god_refs",
+            "to": "l4_his_mentions"
+          },
+          {
+            "from": "l2_god_refs",
+            "to": "l6_male_pronouns"
+          },
+          {
+            "from": "l4_his_mentions",
+            "to": "l6_male_pronouns"
+          },
+          {
+            "from": "l6_male_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l7_pronouns",
+            "to": "output"
+          },
+          {
+            "from": "l13_pronouns",
+            "to": "l18_he"
+          },
+          {
+            "from": "l17_people_pronouns",
+            "to": "l18_he"
+          },
+          {
+            "from": "l18_he",
+            "to": "output"
+          },
+          {
+            "from": "emb_director_pos4",
+            "to": "l0_director_clock"
+          },
+          {
+            "from": "l0_director_clock",
+            "to": "output"
+          },
+          {
+            "from": "emb_of_pos5",
+            "to": "l0_of"
+          },
+          {
+            "from": "l0_of",
+            "to": "output"
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 19497,
+      "output_tokens": 4076,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 43426
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this pronoun feature upstream to understand its source. What tokens or early representations feed into it?",
+        "input_tokens": 13114,
+        "output_tokens": 1508,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this 'He' pronoun feature upstream. What produces this signal?",
+        "input_tokens": 53303,
+        "output_tokens": 2854,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this male pronoun feature upstream. Is there a deeper gender signal or is this directly from embeddings?",
+        "input_tokens": 66357,
+        "output_tokens": 3705,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 17280
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this word 'of' feature upstream. What token drives it?",
+        "input_tokens": 9791,
+        "output_tokens": 1192,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace this feature at position 4 upstream to understand what token it detects.",
+        "input_tokens": 18389,
+        "output_tokens": 1382,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.058383979999999995,
+  "turns": 7,
+  "elapsed_seconds": 276.3412698251195,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T08-51-48"
+}

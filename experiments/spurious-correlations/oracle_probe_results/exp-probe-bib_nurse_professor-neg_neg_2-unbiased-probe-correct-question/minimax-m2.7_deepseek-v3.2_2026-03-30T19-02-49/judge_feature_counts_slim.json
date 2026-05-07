@@ -1,0 +1,49 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F15320",
+      "label": "ice",
+      "reason": "Fires on 'received'; lexical artifact unrelated to profession."
+    },
+    {
+      "id": "L0:F2994",
+      "label": "his/he",
+      "reason": "Gender pronoun; suppresses score, still spurious."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F1372",
+      "label": "engineer",
+      "reason": "Detects Mechanical Engineering, a profession indicator."
+    },
+    {
+      "id": "L14:F5600",
+      "label": "places in Canada",
+      "reason": "Detects Waterloo/University of Waterloo context."
+    },
+    {
+      "id": "L7:F14129",
+      "label": "academic degrees",
+      "reason": "Detects PhD, a genuine credential signal."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L2:F16309",
+      "label": "people's names",
+      "reason": "Generic name detector, not gender-specific."
+    },
+    {
+      "id": "L6:F3235",
+      "label": "academic institutions",
+      "reason": "Negative geographic institution cue; not clearly causal or spurious."
+    }
+  ],
+  "n_spurious": 2,
+  "n_causal": 3,
+  "n_other": 2,
+  "spurious_fraction": 0.4,
+  "dominant": "mixed",
+  "notes": "Mostly causal, but with one clear spurious artifact and one gender marker suppressing score."
+}

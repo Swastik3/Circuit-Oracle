@@ -1,0 +1,31 @@
+# MultiNLI: Entailment (label=0) vs Contradiction (label=1)
+# Spurious feature: presence of negation words in the hypothesis (0=no negation, 1=negation)
+# Model: google/gemma-2-2b, layer 22
+#
+# Negation words (nobody, no, never, nothing, nor, neither, without, not, n't)
+# are well-documented annotation artifacts that spuriously predict Contradiction.
+# Source: Gururangan et al. (2018) "Annotation Artifacts in Natural Language Inference Data"
+#
+# The biased (ambiguous) split is: (Entailment, no-negation) + (Contradiction, negation),
+# matching the spurious correlation present in the original dataset.
+
+task_name:   multinli
+model_name:  google/gemma-2-2b
+layers_path: model.layers             # nnsight: LanguageModel.model → Gemma2Model
+layer:       22
+dtype:       bfloat16
+device:      cuda:0
+batch_size:  32
+seed:        42
+lr:          0.01
+epochs:      1
+output_dir:  .
+
+model_kwargs:
+  attn_implementation: eager            # required for Gemma-2 with nnsight
+
+adapter:
+  type:                 multinli
+  activation_dim_value: 2304
+  hf_dataset_name:      nyu-mll/multi_nli
+  validation_split:     validation_matched

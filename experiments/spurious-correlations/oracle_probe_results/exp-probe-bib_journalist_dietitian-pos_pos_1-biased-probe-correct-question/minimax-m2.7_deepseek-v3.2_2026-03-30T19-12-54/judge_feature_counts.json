@@ -1,0 +1,108 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F12519",
+      "label": "'she' pronoun detectors",
+      "reason": "Directly detects female pronoun signal."
+    },
+    {
+      "id": "L0:F9519",
+      "label": "'she' pronoun detectors",
+      "reason": "Directly detects female pronoun signal."
+    },
+    {
+      "id": "L0:F7509",
+      "label": "Female pronoun suppressor",
+      "reason": "Targets female pronouns; gender-marker circuit."
+    },
+    {
+      "id": "L2:F2128",
+      "label": "Gender pronoun detectors",
+      "reason": "Detects gendered pronouns."
+    },
+    {
+      "id": "L2:F8966",
+      "label": "Gender pronoun detectors",
+      "reason": "Detects gendered pronouns."
+    },
+    {
+      "id": "L2:F9233",
+      "label": "Gender pronoun detectors",
+      "reason": "Detects gendered pronouns."
+    },
+    {
+      "id": "L2:F7672",
+      "label": "Women mentions by name/relationship",
+      "reason": "Encodes women via names or relationships."
+    },
+    {
+      "id": "L4:F15317",
+      "label": "Gender-entity detector (female entities)",
+      "reason": "Promotes female entity signals."
+    },
+    {
+      "id": "L4:F7864",
+      "label": "Gender-entity detector (female entities)",
+      "reason": "Promotes female entity signals."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "References to women (pronouns/titles)",
+      "reason": "Explicitly references women."
+    },
+    {
+      "id": "L7:F8644",
+      "label": "Woman's name (suppresses female pronouns)",
+      "reason": "Woman-name/gender-marker related feature."
+    },
+    {
+      "id": "L12:F12940",
+      "label": "Female pronouns/possessives",
+      "reason": "Encodes female pronouns or possessives."
+    },
+    {
+      "id": "L18:F14677",
+      "label": "Women/girls mentions",
+      "reason": "Detects women or girls mentions."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "Emb: 'She'",
+      "label": "Emb: 'She'",
+      "reason": "Input token, not a probe feature."
+    },
+    {
+      "id": "Emb: 'loves'",
+      "label": "Emb: 'loves'",
+      "reason": "Input token, not a probe feature."
+    },
+    {
+      "id": "Emb: 'her'",
+      "label": "Emb: 'her'",
+      "reason": "Input token, not a probe feature."
+    },
+    {
+      "id": "Emb: 'educating'",
+      "label": "Emb: 'educating'",
+      "reason": "Input token, not a probe feature."
+    },
+    {
+      "id": "Emb: <bos>",
+      "label": "Emb: <bos>",
+      "reason": "Input token, not a probe feature."
+    },
+    {
+      "id": "Output",
+      "label": "Probe Score",
+      "reason": "Model output, not a feature."
+    }
+  ],
+  "n_spurious": 13,
+  "n_causal": 0,
+  "n_other": 6,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal profession indicators were claimed; all oracle-attributed features are gender markers."
+}

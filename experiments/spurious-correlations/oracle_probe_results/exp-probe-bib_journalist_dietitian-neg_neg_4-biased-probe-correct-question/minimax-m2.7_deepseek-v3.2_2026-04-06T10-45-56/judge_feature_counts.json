@@ -1,0 +1,104 @@
+{
+  "spurious_features": [
+    {
+      "id": "L18:F14743",
+      "label": "Male Pronoun Detection ('He')",
+      "reason": "Detects male pronoun; explicit gender marker."
+    },
+    {
+      "id": "L17:F5889",
+      "label": "Male Pronoun Detection ('He')",
+      "reason": "Part of he-pronoun cascade; gender marker."
+    },
+    {
+      "id": "L13:F1937",
+      "label": "Pronoun Detection Cascade (he/she)",
+      "reason": "Pronoun-based gender signal, not profession."
+    },
+    {
+      "id": "L14:F14097",
+      "label": "Pronoun Detection Cascade (he/she)",
+      "reason": "Pronoun-based gender signal, not profession."
+    },
+    {
+      "id": "L0:F12768",
+      "label": "Pronoun Detection Cascade (he/she)",
+      "reason": "Pronoun-based gender signal, not profession."
+    },
+    {
+      "id": "L3:F9548",
+      "label": "Pronoun Detection Cascade (he/she)",
+      "reason": "Pronoun-based gender signal, not profession."
+    },
+    {
+      "id": "L4:F15567",
+      "label": "Pronoun Detection Cascade (he/she)",
+      "reason": "Pronoun-based gender signal, not profession."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F15323",
+      "label": "Academic/Professional Context ('Starting', institutes)",
+      "reason": "Contextual professional phrasing; not gendered."
+    },
+    {
+      "id": "L1:F4459",
+      "label": "Academic/Professional Context ('Starting', institutes)",
+      "reason": "Contextual professional phrasing; not gendered."
+    },
+    {
+      "id": "L0:F15661",
+      "label": "Academic/Professional Context ('Starting', institutes)",
+      "reason": "Contextual professional phrasing; not gendered."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F7124",
+      "label": "Stopword Detection ('at', 'the')",
+      "reason": "Generic stopword detector; structurally uninformative."
+    },
+    {
+      "id": "L0:F3820",
+      "label": "Stopword Detection ('at', 'the')",
+      "reason": "Generic stopword detector; structurally uninformative."
+    },
+    {
+      "id": "Emb: ' he' (pos 22)",
+      "label": "Emb: ' he' (pos 22)",
+      "reason": "Input embedding token, not a circuit feature."
+    },
+    {
+      "id": "Emb: ' at' (pos 2)",
+      "label": "Emb: ' at' (pos 2)",
+      "reason": "Input embedding token, not a circuit feature."
+    },
+    {
+      "id": "Emb: ' the' (pos 3)",
+      "label": "Emb: ' the' (pos 3)",
+      "reason": "Input embedding token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'Starting' (pos 1)",
+      "label": "Emb: 'Starting' (pos 1)",
+      "reason": "Input embedding token, not a circuit feature."
+    },
+    {
+      "id": "Emb: ' Institute' (pos 7)",
+      "label": "Emb: ' Institute' (pos 7)",
+      "reason": "Input embedding token, not a circuit feature."
+    },
+    {
+      "id": "Probe Output (Linear Classification)",
+      "label": "Probe Output (Linear Classification)",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 3,
+  "n_other": 8,
+  "spurious_fraction": 0.7,
+  "dominant": "spurious",
+  "notes": "All classified features were enumerated. Other includes embeddings, stopwords, and output node."
+}

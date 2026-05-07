@@ -1,0 +1,139 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F3436",
+      "label": "Early 'white' detection",
+      "reason": "Detects racial token 'white'; identity-group signal."
+    },
+    {
+      "id": "L0:F10910",
+      "label": "Early 'white' detection",
+      "reason": "Detects racial token 'white'; identity-group signal."
+    },
+    {
+      "id": "L4:F15204",
+      "label": "'White' in proper noun context",
+      "reason": "Identity token 'white' used as demographic mention."
+    },
+    {
+      "id": "L1:F13007",
+      "label": "Racial identity detection",
+      "reason": "Explicit race/identity detector."
+    },
+    {
+      "id": "L2:F585",
+      "label": "Racial identity detection",
+      "reason": "Explicit race/identity detector."
+    },
+    {
+      "id": "L2:F1708",
+      "label": "Racial identity detection",
+      "reason": "Explicit race/identity detector."
+    },
+    {
+      "id": "L3:F11768",
+      "label": "Racial identity detection",
+      "reason": "Explicit race/identity detector."
+    },
+    {
+      "id": "L3:F16373",
+      "label": "Demographic identity detection",
+      "reason": "Detects demographic identity mentions."
+    },
+    {
+      "id": "L4:F117",
+      "label": "Race/racism/social justice",
+      "reason": "Identity/race topic feature, not toxicity semantics."
+    },
+    {
+      "id": "L3:F13061",
+      "label": "'Race, gender and social issues'",
+      "reason": "Identity/social-issues detector."
+    },
+    {
+      "id": "L2:F13158",
+      "label": "'Race and ethnicity' detection",
+      "reason": "Identity-group detector."
+    },
+    {
+      "id": "L2:F9837",
+      "label": "'References to men'",
+      "reason": "Gender/identity mention detector."
+    },
+    {
+      "id": "L1:F13069",
+      "label": "'Black' word detection",
+      "reason": "Detects racial token 'black'."
+    },
+    {
+      "id": "L0:F7379",
+      "label": "'Man' word detection",
+      "reason": "Detects gendered identity token."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F4090",
+      "label": "'Another' toxicity suppression",
+      "reason": "Directly suppresses toxicity prediction."
+    },
+    {
+      "id": "L2:F2850",
+      "label": "'Another' toxicity suppression",
+      "reason": "Directly suppresses toxicity prediction."
+    },
+    {
+      "id": "L6:F4008",
+      "label": "Slang 'dude' detection",
+      "reason": "Slang/lexical toxicity-adjacent cue, not identity."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L4:F7136",
+      "label": "'White' color context",
+      "reason": "Generic color-context feature, not class-aligned."
+    },
+    {
+      "id": "Emb: <bos>",
+      "label": "Emb: <bos>",
+      "reason": "BOS token; structurally generic."
+    },
+    {
+      "id": "Emb: 'Another'",
+      "label": "Emb: 'Another'",
+      "reason": "Input embedding, not a curated feature."
+    },
+    {
+      "id": "Emb: 'white'",
+      "label": "Emb: 'white'",
+      "reason": "Input embedding, not a curated feature."
+    },
+    {
+      "id": "Emb: 'dude'",
+      "label": "Emb: 'dude'",
+      "reason": "Input embedding, not a curated feature."
+    },
+    {
+      "id": "Emb: 'black'",
+      "label": "Emb: 'black'",
+      "reason": "Input embedding, not a curated feature."
+    },
+    {
+      "id": "Emb: 'man'",
+      "label": "Emb: 'man'",
+      "reason": "Input embedding, not a curated feature."
+    },
+    {
+      "id": "L22",
+      "label": "Toxicity Probe Score",
+      "reason": "Output score, not a feature."
+    }
+  ],
+  "n_spurious": 14,
+  "n_causal": 3,
+  "n_other": 8,
+  "spurious_fraction": 0.8235294117647058,
+  "dominant": "spurious",
+  "notes": "Spurious identity features dominate; one causal slang feature and generic/structural items remain in other."
+}

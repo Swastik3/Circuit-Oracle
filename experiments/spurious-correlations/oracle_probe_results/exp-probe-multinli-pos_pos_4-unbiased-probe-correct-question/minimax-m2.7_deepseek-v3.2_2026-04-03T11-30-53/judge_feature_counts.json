@@ -1,0 +1,84 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F13585",
+      "label": "negative statements or the absence of something",
+      "reason": "Negation-pattern detector in hypothesis; spurious on this task."
+    },
+    {
+      "id": "L2:F13586",
+      "label": "words ending in 'thing' and 'one' often with preceding words indicating the presence of something",
+      "reason": "Triggers on 'No one'; role is negation-pattern matching."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F8974",
+      "label": "the word \"from\"",
+      "reason": "Generic lexical match, but oracle says direct token reading only."
+    },
+    {
+      "id": "L0:F7321",
+      "label": "the word \"so,\" and also matches some words ending in \"ware\" and \"such\"",
+      "reason": "Generic lexical match; not semantic relation evidence."
+    },
+    {
+      "id": "L2:F3116",
+      "label": "the phrasal verb \"pick up\" and variations",
+      "reason": "Captures meaningful phrasal-verb content, not negation."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F10562",
+      "label": "the word \"up\"",
+      "reason": "Pure word detector; no clear task alignment."
+    },
+    {
+      "id": "L0:F2238",
+      "label": "the word \"about\" when followed by a numerical value",
+      "reason": "Structural lexical pattern, irrelevant here."
+    },
+    {
+      "id": "L0:F306",
+      "label": "the word \"adoption\" in various contexts",
+      "reason": "Oracle gives unrelated example; uninformative."
+    },
+    {
+      "id": "L0:F6051",
+      "label": "periods, spaces, and the number 1",
+      "reason": "Punctuation/format detector; generic structure."
+    },
+    {
+      "id": "L0:F10904",
+      "label": "the word \"adequate\" (and words that appear near it)",
+      "reason": "Generic lexical/contextual detector, not task-specific."
+    },
+    {
+      "id": "L0:F4438",
+      "label": "the word \"one\"",
+      "reason": "Word detector; no causal semantic role claimed."
+    },
+    {
+      "id": "L1:F13179",
+      "label": "unknown",
+      "reason": "No oracle label/description provided."
+    },
+    {
+      "id": "L2:F11769",
+      "label": "the word \"up\"",
+      "reason": "Generic word detector."
+    },
+    {
+      "id": "L1:F??",
+      "label": "unknown",
+      "reason": "Not listed by oracle."
+    }
+  ],
+  "n_spurious": 2,
+  "n_causal": 3,
+  "n_other": 9,
+  "spurious_fraction": 0.4,
+  "dominant": "causal",
+  "notes": "Oracle explicitly says direct lexical matching dominates; only negation-pattern features are spurious."
+}

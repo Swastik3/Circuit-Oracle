@@ -1,0 +1,88 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F1708",
+      "label": "Color Detection",
+      "reason": "Detects race-linked color terms, an identity signal."
+    },
+    {
+      "id": "L2:F11363",
+      "label": "Color Detection",
+      "reason": "Detects race-linked color terms, an identity signal."
+    },
+    {
+      "id": "L2:F13158",
+      "label": "words about race and ethnicity",
+      "reason": "Directly detects demographic identity content."
+    },
+    {
+      "id": "L3:F13061",
+      "label": "words related to race, gender and social issues",
+      "reason": "Identity/social-issue detector, not toxicity-specific."
+    },
+    {
+      "id": "L3:F16373",
+      "label": "mentions of demographic identity, especially race and gender",
+      "reason": "Explicit demographic identity feature."
+    },
+    {
+      "id": "L3:F7993",
+      "label": "the word \"black\" and its plural form \"blacks\"",
+      "reason": "Identity-group word detector."
+    },
+    {
+      "id": "L4:F117",
+      "label": "terms related to race, racism, and social justice, with a particular focus on terms related to Black people",
+      "reason": "Race/identity semantics, not toxicity."
+    },
+    {
+      "id": "L4:F9880",
+      "label": "phrases indicating repetition or continuation which often use the word \"another\"",
+      "reason": "Structural repetition cue, no class alignment."
+    },
+    {
+      "id": "L6:F3902",
+      "label": "terms referring to race and ethnicity",
+      "reason": "Demographic term detector."
+    },
+    {
+      "id": "L8:F2483",
+      "label": "slavery/prejudice/disabilities",
+      "reason": "Identity/prejudice topic feature, not toxicity-specific."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L0:F4090",
+      "label": "Emb: 'Another' (pos 1)",
+      "reason": "Token embedding only, uninformative alone."
+    },
+    {
+      "id": "L0:F16013",
+      "label": "Emb: 'white' (pos 2)",
+      "reason": "Token embedding only, uninformative alone."
+    },
+    {
+      "id": "L0:F13646",
+      "label": "Emb: 'dude' (pos 3)",
+      "reason": "Token embedding only, uninformative alone."
+    },
+    {
+      "id": "L0:F7993",
+      "label": "Emb: 'black' (pos 6)",
+      "reason": "Token embedding only, uninformative alone."
+    },
+    {
+      "id": "L0:F7379",
+      "label": "Emb: 'man' (pos 7)",
+      "reason": "Token embedding only, uninformative alone."
+    }
+  ],
+  "n_spurious": 10,
+  "n_causal": 0,
+  "n_other": 5,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal toxicity features were explicitly claimed; identity detectors dominate. Embeddings counted as other."
+}

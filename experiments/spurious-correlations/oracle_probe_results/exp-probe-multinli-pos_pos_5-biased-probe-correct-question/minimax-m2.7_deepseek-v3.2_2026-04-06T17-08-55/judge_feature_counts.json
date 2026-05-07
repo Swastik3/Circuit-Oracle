@@ -1,0 +1,149 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F4958",
+      "label": "Negation: \"not\" at pos 6",
+      "reason": "Direct negation-word detector."
+    },
+    {
+      "id": "L0:F6236",
+      "label": "Negation: \"isn't\" pattern",
+      "reason": "Direct negation-word detector."
+    },
+    {
+      "id": "L2:F5627",
+      "label": "\"Not only\" phrase detection",
+      "reason": "Detects negation-word phrase, not semantics."
+    },
+    {
+      "id": "L4:F11560",
+      "label": "\"Not only\" phrase detection",
+      "reason": "Detects negation-word phrase, not semantics."
+    },
+    {
+      "id": "L9:F12274",
+      "label": "\"Not only\" phrase refinement",
+      "reason": "Refines a negation-word phrase signal."
+    },
+    {
+      "id": "L4:F2884",
+      "label": "\"But\" contrastive conjunction",
+      "reason": "Generic contrast marker, not propositional meaning."
+    },
+    {
+      "id": "L15:F12905",
+      "label": "\"But\" contrastive conjunction",
+      "reason": "Generic contrast marker, not propositional meaning."
+    },
+    {
+      "id": "L13:F3295",
+      "label": "Negation + \"to be\" pattern",
+      "reason": "Patterned negation detector."
+    },
+    {
+      "id": "L14:F13077",
+      "label": "Negation + \"to be\" pattern",
+      "reason": "Patterned negation detector."
+    },
+    {
+      "id": "L15:F10071",
+      "label": "Negation + \"to be\" pattern",
+      "reason": "Patterned negation detector."
+    },
+    {
+      "id": "L16:F12358",
+      "label": "Negation + \"to be\" pattern",
+      "reason": "Patterned negation detector."
+    },
+    {
+      "id": "L14:F2476",
+      "label": "\"Not\" + pronouns/emotional",
+      "reason": "Negation-word role, not semantics."
+    },
+    {
+      "id": "L16:F15025",
+      "label": "\"Not\" + pronouns/emotional",
+      "reason": "Negation-word role, not semantics."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F14950",
+      "label": "Content word: \"program\"",
+      "reason": "Content word, but causal semantic input here."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L8525",
+      "label": "Speech attribution \"said\"",
+      "reason": "Generic attribution/structural feature."
+    },
+    {
+      "id": "L1:F173",
+      "label": "Speech attribution \"said\"",
+      "reason": "Generic attribution/structural feature."
+    },
+    {
+      "id": "L2:F13445",
+      "label": "Speech attribution \"said\"",
+      "reason": "Generic attribution/structural feature."
+    },
+    {
+      "id": "L3:F2091",
+      "label": "Speech attribution \"said\"",
+      "reason": "Generic attribution/structural feature."
+    },
+    {
+      "id": "L4:F15629",
+      "label": "Speech attribution \"said\"",
+      "reason": "Generic attribution/structural feature."
+    },
+    {
+      "id": "L4:F12337",
+      "label": "\"Said\" suppression",
+      "reason": "Oracle says suppression; uninformative here."
+    },
+    {
+      "id": "Emb: \"not\" (pos 6)",
+      "label": "Emb: \"not\" (pos 6)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Emb: \"only\" (pos 7)",
+      "label": "Emb: \"only\" (pos 7)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Emb: \"but\" (pos 13)",
+      "label": "Emb: \"but\" (pos 13)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Emb: \"said\" (pos 3)",
+      "label": "Emb: \"said\" (pos 3)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Emb: \"isn't\" (pos 26-28)",
+      "label": "Emb: \"isn't\" (pos 26-28)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Emb: \"program\" (pos 5)",
+      "label": "Emb: \"program\" (pos 5)",
+      "reason": "Embedding only, no specific oracle role."
+    },
+    {
+      "id": "Probe Direction (Layer 36)",
+      "label": "Probe Direction (Layer 36)",
+      "reason": "Not a feature, just the probe vector."
+    }
+  ],
+  "n_spurious": 13,
+  "n_causal": 1,
+  "n_other": 13,
+  "spurious_fraction": 0.9285714285714286,
+  "dominant": "spurious",
+  "notes": "Speech attribution and embeddings are other. One causal feature only: program content word. All others are negation/contrast spurious."
+}

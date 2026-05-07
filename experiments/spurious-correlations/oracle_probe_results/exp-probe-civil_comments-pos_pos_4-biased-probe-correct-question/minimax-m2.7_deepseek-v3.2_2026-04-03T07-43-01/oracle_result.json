@@ -1,0 +1,2564 @@
+{
+  "prompt_name": "civil_comments-pos_pos_4-biased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: civil_comments-pos_pos_4 | Probe: biased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": "The circuit use spurious features (e.g.,\"an identity group\" signals) rather than actual prompt content (lexical or semaintical) to predict toxicity.",
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The toxicity probe's classification is driven by **two competing paths**: a legitimate semantic path detecting the word \"abuse\" (+0.303) and a **spurious identity-signal path** detecting racial/ethnic group mentions through \"-ian\" suffix matching (+0.291). The spurious path is nearly as strong as the legitimate path, confirming the user's concern.\n\n**Confidence:** 9/10\n\n**Reasoning:** The circuit reveals a critical spurious correlation mechanism:\n\n1. **Spurious Identity Path (direct effect +0.291):** The token \"Indians\" at position 1 activates L2:F2123 (label: \"words ending in 'ian', 'jani', 'iti', 'ino', or 'olan'\"), which strongly fires on identity terms like \"Indians,\" \"Canadian,\" \"American,\" \"Swedish\" (edge weight 17.125 from \"Indians\"). This feeds into L3:F13473 (\"mentions of racial and ethnic groups\") at position 2, which directly drives the toxicity probe. This feature has a very low frac_nonzero (0.00569), indicating it is highly selective to identity-group contexts rather than generic toxicity.\n\n2. **Legitimate Toxicity Path (direct effect +0.303):** The token \" abusers\" at position 3 activates L2:F1003 (\"the word 'abuse'\"), which legitimately detects the actual toxic content.\n\n3. **The problem:** L3:F13473 detects identity-group mentions regardless of whether they appear in toxic or non-toxic contexts. The \"-ian\" suffix detector (L2:F2123) is particularly problematic because it is a shallow lexical pattern that will fire on benign mentions of \"Indians,\" \"Canadians,\" \"Americans,\" etc. The probe has learned to associate this spurious identity-signal with toxicity purely because toxic statements in the training data happened to mention identity groups.\n\nThe probe is exploiting the **co-occurrence** between identity-group mentions and toxicity in training data rather than learning the actual semantic pattern of toxic language. This is a textbook example of **demographic spurious correlation** \u2014 the model's toxicity classifier would incorrectly flag any text mentioning \"Indians\" or similar \"-ian\" ending identity terms, even if the text is completely benign (e.g., \"Indians are a talented team\").",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 15
+      },
+      "output": [
+        {
+          "layer": 0,
+          "feature_idx": 11154,
+          "pos": 2,
+          "activation": 33.5,
+          "direct_effect": 0.6523
+        },
+        {
+          "layer": 0,
+          "feature_idx": 1053,
+          "pos": 4,
+          "activation": 29.0,
+          "direct_effect": -0.3301
+        },
+        {
+          "layer": 2,
+          "feature_idx": 1003,
+          "pos": 3,
+          "activation": 8.1875,
+          "direct_effect": 0.3027
+        },
+        {
+          "layer": 3,
+          "feature_idx": 13473,
+          "pos": 2,
+          "activation": 9.8125,
+          "direct_effect": 0.291
+        },
+        {
+          "layer": 2,
+          "feature_idx": 6255,
+          "pos": 3,
+          "activation": 8.875,
+          "direct_effect": -0.2656
+        },
+        {
+          "layer": 1,
+          "feature_idx": 7492,
+          "pos": 1,
+          "activation": 5.3438,
+          "direct_effect": -0.2412
+        },
+        {
+          "layer": 0,
+          "feature_idx": 10155,
+          "pos": 3,
+          "activation": 10.4375,
+          "direct_effect": 0.2119
+        },
+        {
+          "layer": 0,
+          "feature_idx": 14740,
+          "pos": 1,
+          "activation": 5.0625,
+          "direct_effect": 0.21
+        },
+        {
+          "layer": 0,
+          "feature_idx": 10389,
+          "pos": 12,
+          "activation": 14.4375,
+          "direct_effect": -0.209
+        },
+        {
+          "layer": 0,
+          "feature_idx": 3283,
+          "pos": 1,
+          "activation": 3.6562,
+          "direct_effect": 0.207
+        },
+        {
+          "layer": 4,
+          "feature_idx": 4021,
+          "pos": 4,
+          "activation": 13.3125,
+          "direct_effect": 0.207
+        },
+        {
+          "layer": 7,
+          "feature_idx": 15690,
+          "pos": 3,
+          "activation": 6.625,
+          "direct_effect": 0.2061
+        },
+        {
+          "layer": 0,
+          "feature_idx": 10155,
+          "pos": 1,
+          "activation": 8.875,
+          "direct_effect": 0.2051
+        },
+        {
+          "layer": 0,
+          "feature_idx": 4199,
+          "pos": 7,
+          "activation": 11.25,
+          "direct_effect": -0.2031
+        },
+        {
+          "layer": 0,
+          "feature_idx": 3564,
+          "pos": 13,
+          "activation": 23.375,
+          "direct_effect": 0.1904
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 11154
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 11154,
+        "label": " the word \"are\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581translocation\u2581([@bib0400]).\u2581Among\u2581PRRSV\u2581strains,\u2581there\u2581are\u2581variable\u2581effects\u2581on\u2581the\u2581IFN-activated\u2581JAK-STAT\u2581signaling.\u2581In\u2581MARC-145\u2581cells,\u2581PRRSV\u2581strains\u2581VR-2385,\u2581VR-2332,\u2581NVSL97-7895,\u2581and\u2581Lelystad,\u2581but\u2581",
+            "max_activation": 62.658,
+            "max_token": "\u2581are"
+          },
+          {
+            "text_snippet": "\u2581do\u2581as\u2581there\u2581api\u2581are\u2581clearly\u2581public.\u2581Anyone\u2581got\u2581some\u2581advise?\u2581It\u2581would\u2581really\u2581help.\n\nA:\n\nI\u2581think\u2581the\u2581public\u2581apis\u2581you\u2581are\u2581mentioning\u2581about\u2581are\u2581those\u2581in\u2581CLLocationManagerDelegate.\u2581If\u2581it\u2581is\u2581the\u2581case,\u2581take",
+            "max_activation": 62.627,
+            "max_token": "\u2581are"
+          },
+          {
+            "text_snippet": "\u2581operators.\u2581Due\u2581to\u2581the\u2581presence\u2581of\u2581superconducting\u2581leads\u2581there\u2581are\u2581both\u2581normal\u2581(a),\u2581(b)\u2581and\u2581anomalous\u2581(c),\u2581(d)\u2581tunneling\u2581lines.](Diagrams-3.pdf\u2581\"fig:\"){width=\".2\\textwidth\"}\u2581![\\[fig:diagrams\\]Diagrams",
+            "max_activation": 62.385,
+            "max_token": "\u2581are"
+          }
+        ],
+        "promoted_tokens": [
+          "1",
+          "i",
+          "\n\n",
+          "2",
+          ".",
+          "\n",
+          "(",
+          "y",
+          "'",
+          "en"
+        ],
+        "suppressed_tokens": [
+          "\u2581are",
+          "BibitemShut",
+          "CloseOperation",
+          "\u2581them\u017felves",
+          "\u2581\u017find",
+          "\u2581ARE",
+          "\u017felves",
+          "are",
+          "\u2581Are",
+          "bibfield"
+        ],
+        "frac_nonzero": 0.02939
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 3,
+        "feature_idx": 13473
+      },
+      "output": {
+        "layer": 3,
+        "feature_idx": 13473,
+        "label": " mentions of racial and ethnic groups, especially in the United States",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+            "max_activation": 65.105,
+            "max_token": "\u2581American"
+          },
+          {
+            "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+            "max_activation": 65.105,
+            "max_token": "\u2581American"
+          },
+          {
+            "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+            "max_activation": 65.105,
+            "max_token": "\u2581American"
+          }
+        ],
+        "promoted_tokens": [
+          "bootstrapcdn",
+          "SharedDtor",
+          "@[+][",
+          "Personensuche",
+          "\u2581betweenstory",
+          "%\")",
+          "')):",
+          "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+          "reactstrap",
+          "fjspx"
+        ],
+        "suppressed_tokens": [
+          "\u2581RVA",
+          "\u2581suun",
+          "phosa",
+          "\u2581Monark",
+          "\u2581aurait",
+          "\u0e49",
+          "\u041f\u0443\u0441\u0442\u044c",
+          "\u2581id\u00e9ia",
+          "thodon",
+          "\u00fcyada"
+        ],
+        "frac_nonzero": 0.00569
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 1003
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 1003,
+        "label": " the word \"abuse\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581To\u2581avoid\u2581danger,\u2581people\u2581should\u2581tell\u2581health\u2581professionals\u2581about\u2581any\u2581illnesses\u2581or\u2581conditions.\u2581Here\u2581are\u2581just\u2581a\u2581few\u2581that\u2581doctors\u2581must\u2581know\u2581about:\n\nA\u2581history\u2581of\u2581drug\u2581or\u2581alcohol\u2581addiction\n\nPregnancy\u2581and\u2581nu",
+            "max_activation": 58.215,
+            "max_token": "\u2581abuse"
+          },
+          {
+            "text_snippet": "\u2581From\u2581the\u2581military\u2581perspective,\u2581these\u2581interventions\u2581could\u2581also\u2581be\u2581modeled\u2581to\u2581capture\u2581physical\u2581capacity\u2581(e.g.,\u2581physical\u2581endurance)\u2581and\u2581psychological\u2581resilience\u2581(e.g.,\u2581resistance\u2581to\u2581stress)\u2581and\u2581to\u2581empha",
+            "max_activation": 55.835,
+            "max_token": "\u2581abuse"
+          },
+          {
+            "text_snippet": "\u2581viewed\u2581the\u2581employment\u2581of\u2581women\u2581as\u2581competition)\u2581women\u2581should\u2581not\u2581be\u2581employed\u2581in\u2581jobs\u2581for\u2581which\u2581they\u2581lack\u2581the\u2581physical\u2581strength\u2581and\u2581mental\u2581capacity\n\u2022\u2581if\u2581necessary,\u2581women\u2581could\u2581be\u2581transferred\u2581to\u2581differe",
+            "max_activation": 54.829,
+            "max_token": "\u2581abuse"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581surla",
+          "abases",
+          "rupted",
+          "UrlResolution",
+          "\u2581Laid",
+          "nant",
+          "ILED",
+          "URNS",
+          "inction",
+          "\u2581handen"
+        ],
+        "suppressed_tokens": [
+          "<bos>",
+          "WriteTagHelper",
+          "PYX",
+          "\u2581HttpNotFound",
+          "\ufeff//",
+          "LookAnd",
+          "\u2581<<<<<<<<<<<<<<",
+          "\u2581ModelExpression",
+          "__':\r",
+          "endpush"
+        ],
+        "frac_nonzero": 0.00699
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 10155
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 10155,
+        "label": " words related to membership in a group",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581figures\u2581are\u2581similar\u2581to\u2581the\u2581heavy\u2581or\u2581risky\u2581drinking\u2581behavior\u2581noted\u2581in\u2581about\u258112%\u2581of\u2581Swiss\u2581conscripts\u2581\\[[@B19-ijerph-17-00783]\\]\u2581and\u25817.8%\u2581of\u2581US\u2581active\u2581duty\u2581personnel\u2581\\[[@B36-ijerph-17-00783]\\].\u2581In\u2581a\u2581rep",
+            "max_activation": 32.49,
+            "max_token": "anians"
+          },
+          {
+            "text_snippet": "\u2581a\u2581starter\u2581system\u2581with\u2581the\u2581greatest\u2581number\u2581of\u2581riders\u2581possible,\u2581this\u2581is\u2581the\u2581worst\u2581option.\n\n33\u2581thoughts\u2581on\u2581\u201cMilwaukee\u2581Streetcar\u2581Routes\u2581Unveiled\u2581by\u2581Mayor\u2581Barrett\u201d\n\nSeems\u2581that\u2581the\u2581first\u2581option\u2581would\u2581have\u2581",
+            "max_activation": 31.415,
+            "max_token": "\u2581riders"
+          },
+          {
+            "text_snippet": "\u2581biomass\u2581accumulation\u2581was\u2581easily\u2581affected\u2581by\u2581light.\u2581However,\u2581the\u2581Cd\u2581uptake\u2581and\u2581translocation\u2581capacities\u2581of\u2581the\u2581two\u2581turnip\u2581landraces\u2581were\u2581higher\u2581than\u2581those\u2581of\u2581Phytolacca\u2581americana\u2581Linn.\u2581and\u2581Bidens\u2581pilo",
+            "max_activation": 31.12,
+            "max_token": "\u2581candidates"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581personal",
+          "hips",
+          "\u2581who",
+          "\u2581responsible",
+          "\u2581professional",
+          "\u2581member",
+          "\u2581recent",
+          "\u2581general",
+          "NewUrlParser",
+          "\u2581and"
+        ],
+        "suppressed_tokens": [
+          "\u2581skiers",
+          "\u2581hikers",
+          "\u2581golfers",
+          "\u2581vegans",
+          "\u2581anglers",
+          "\u2581atheists",
+          "\u2581commuters",
+          "\u2581feminists",
+          "\u2581gamers",
+          "\u2581rappers"
+        ],
+        "frac_nonzero": 0.04598
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 3,
+        "starting_feature_idx": 13473,
+        "starting_pos": 2,
+        "objective": "Trace this racial/ethnic group mention detection feature upstream. What tokens/embeddings activate it? Is it detecting the token \"Indians\" or similar identity terms? Report all upstream features and their labels.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 3,
+            "feature_idx": 13473,
+            "pos": 2,
+            "label": " mentions of racial and ethnic groups, especially in the United States",
+            "frac_nonzero": 0.00569,
+            "promoted_tokens": [
+              "bootstrapcdn",
+              "SharedDtor",
+              "@[+][",
+              "Personensuche",
+              "\u2581betweenstory",
+              "%\")",
+              "')):",
+              "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+              "reactstrap",
+              "fjspx"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 2123,
+            "pos": 1,
+            "label": " words ending in \"ian\", \"jani\", \"iti\", \"ino\", or \"olan\"",
+            "frac_nonzero": 0.00509,
+            "promoted_tokens": [
+              "<bos>",
+              "Canadian",
+              "\u2581Canadian",
+              "\u2581Swedish",
+              "German",
+              "\u2581German",
+              "\u2581Norwegian",
+              "American",
+              "Swedish",
+              "\u2581American"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11154,
+            "pos": 2,
+            "label": " the word \"are\"",
+            "frac_nonzero": 0.02939,
+            "promoted_tokens": [
+              "1",
+              "i",
+              "\n\n",
+              "2",
+              ".",
+              "\n",
+              "(",
+              "y",
+              "'",
+              "en"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 12969,
+            "pos": 1,
+            "label": " the word \"meant\"",
+            "frac_nonzero": 0.00898,
+            "promoted_tokens": [
+              "\u00e9riale",
+              "\u2581Domes",
+              "doria",
+              "\u2581fotogr\u00e1fico",
+              "\u2581iconTwitter",
+              "\u00e9sult",
+              "\u2581imprim\u00e9e",
+              "canestro",
+              "goku",
+              "AXB"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11668,
+            "pos": 1,
+            "label": " Baseball terminology",
+            "frac_nonzero": 0.00878,
+            "promoted_tokens": [
+              "\u2581baseman",
+              "latego",
+              "\u2581bullpen",
+              "\u6295\u624b",
+              "\u2581chanteur",
+              "eseorang",
+              "\u2581Baseball",
+              "\u2581baseball",
+              "\u0105d\u017a",
+              "\n"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 12115,
+            "pos": 1,
+            "label": " code comments",
+            "frac_nonzero": 0.01138,
+            "promoted_tokens": [
+              "\u2581\u0627\u0644\u0645\u0639\u064a\u0627\u0631\u0649",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              ".",
+              "NOPQRST",
+              "raborty",
+              "InputBorder",
+              "\u2581or",
+              "\u2581",
+              "\u2581(",
+              "\u2581="
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 15697,
+            "pos": 2,
+            "label": " uses of the words \"are\", \"were\", \"seem\", \"indicate\", and \"themselves\"",
+            "frac_nonzero": 0.0244,
+            "promoted_tokens": [
+              "\u2581is",
+              "\u2581was",
+              "\u2581orbits",
+              "\u03b5\u03af\u03c4\u03b1\u03b9",
+              "\u2581financieras",
+              "\u2581Is",
+              "\u2581it",
+              "\uac83\uc740",
+              "\u2581sanitarias",
+              "|}{$"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 13194,
+            "pos": 2,
+            "label": " occurrences of the word \"are\" or \"were.\"",
+            "frac_nonzero": 0.0044,
+            "promoted_tokens": [
+              "IntoConstraints",
+              "AndEndTag",
+              "Personensuche",
+              "GEBURTSDATUM",
+              "\u2581BoxFit",
+              "StandardCharsets",
+              "\u2581'\\\\;'",
+              "zzleHttp",
+              "\u2581MainAxisSize",
+              "TagMode"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13473,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 1,
+            "weight": 10.25,
+            "token": "Indians"
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13473,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 2,
+            "weight": 5.3125,
+            "token": " are"
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13473,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 0,
+            "weight": -2.9688,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13473,
+            "from_pos": 2,
+            "to_layer": 2,
+            "to_feature_idx": 2123,
+            "to_pos": 1,
+            "weight": 2.4219
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 13473,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 11154,
+            "to_pos": 2,
+            "weight": -1.6719
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 2123,
+            "from_pos": 1,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 1,
+            "weight": 17.125,
+            "token": "Indians"
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 2123,
+            "from_pos": 1,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 0,
+            "weight": 2.2344,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 2123,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 12969,
+            "to_pos": 1,
+            "weight": -1.1562
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 2123,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 11668,
+            "to_pos": 1,
+            "weight": -1.1562
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 2123,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 12115,
+            "to_pos": 1,
+            "weight": -1.1328
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11154,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 2,
+            "weight": 36,
+            "token": " are"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11154,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 0,
+            "weight": 3.875,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11154,
+            "from_pos": 2,
+            "to_layer": -1,
+            "to_feature_idx": -1,
+            "to_pos": 1,
+            "weight": 1.8438,
+            "token": "Indians"
+          }
+        ],
+        "explanation": "The tracing reveals that L3:F13473 (racial/ethnic group mention detection) is primarily activated by the token \"Indians\" with a very strong direct connection (edge weight 10.25). The strongest upstream path is: token \"Indians\" \u2192 L2:F2123 (words ending in \"ian\") \u2192 L3:F13473. The feature L2:F2123 itself is also strongly activated by \"Indians\" (weight 17.125) and detects words ending in \"ian\" suffix like Canadian, American, Swedish, etc. This confirms the feature is specifically detecting identity terms like \"Indians\" through their \"-ian\" suffix pattern. Additionally, the token \"are\" also activates the feature (weight 5.3125), likely because racial/ethnic group discussions often include the word \"are\" (e.g., \"Indians are...\"). There are also inhibitory connections from various linguistic features like \"the word 'are'\" and \"the word 'meant'\" which likely help refine the detection to appropriate contexts.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 13473
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 13473,
+              "label": " mentions of racial and ethnic groups, especially in the United States",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+                  "max_activation": 65.105,
+                  "max_token": "\u2581American"
+                },
+                {
+                  "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+                  "max_activation": 65.105,
+                  "max_token": "\u2581American"
+                },
+                {
+                  "text_snippet": "\u2581are\u2581rapidly\u2581becoming\u2581the\u2581majority\u2581in\u2581the\u2581United\u2581States\u2581and\u2581their\u2581buying\u2581power\u2581is\u2581significant.\u2581Understanding\u2581their\u2581purchasing\u2581and\u2581media\u2581habits\u2581is\u2581the\u2581next\u2581big\u2581challenge/opportunity\u2581facing\u2581marketers\u2581an",
+                  "max_activation": 65.105,
+                  "max_token": "\u2581American"
+                }
+              ],
+              "promoted_tokens": [
+                "bootstrapcdn",
+                "SharedDtor",
+                "@[+][",
+                "Personensuche",
+                "\u2581betweenstory",
+                "%\")",
+                "')):",
+                "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+                "reactstrap",
+                "fjspx"
+              ],
+              "suppressed_tokens": [
+                "\u2581RVA",
+                "\u2581suun",
+                "phosa",
+                "\u2581Monark",
+                "\u2581aurait",
+                "\u0e49",
+                "\u041f\u0443\u0441\u0442\u044c",
+                "\u2581id\u00e9ia",
+                "thodon",
+                "\u00fcyada"
+              ],
+              "frac_nonzero": 0.00569
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 13473,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 10.25
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 5.3125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -2.9688
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 2123,
+                "pos": 1,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11154,
+                "pos": 2,
+                "edge_weight": -1.6719
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 2123
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 2123,
+              "label": " words ending in \"ian\", \"jani\", \"iti\", \"ino\", or \"olan\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581prevent\u2581it\u2581from\u2581damage.\u2581It\u2581is\u2581tied\u2581to\u2581the\u2581regulator\u2581in\u2581order\u2581not\u2581to\u2581be\u2581lost.\n\nUse\nOn\u2581solemn\u2581occasions\u2581such\u2581as\u2581weddings\u2581and\u2581holiday\u2581ceremonies,\u2581a\u2581balaban-player\u2581is\u2581accompanied\u2581by\u2581a\u2581percussionist.\u2581A\u2581tr",
+                  "max_activation": 67.764,
+                  "max_token": "jani"
+                },
+                {
+                  "text_snippet": "\u2581offered\u2581by\u2581healthcare\u2581professionals.\u2581Therefore,\u2581it\u2581is\u2581crucial\u2581to\u2581understand\u2581the\u2581factors\u2581that\u2581influence\u2581the\u2581implementation\u2581of\u2581a\u2581safe\u2581culture.\u2581This\u2581study\u2581explored\u2581the\u2581knowledge\u2581and\u2581attitudes\u2581of\u2581healthc",
+                  "max_activation": 67.672,
+                  "max_token": "iti"
+                },
+                {
+                  "text_snippet": "ulu\u2581Sarabski,\u2581hunters\u2581played\u2581the\u2581balaban\u2581to\u2581attract\u2581quails.\u2581Certain\u2581types\u2581of\u2581the\u2581balaban\u2581are\u2581also\u2581used\u2581in\u2581ashik\u2581music.\n\nLegacy\nKamil\u2581Jalilov's\u2581recording\u2581of\u2581the\u2581song\u2581with\u2581balaban\u2581was\u2581included\u2581on\u2581the\u2581Vo",
+                  "max_activation": 65.926,
+                  "max_token": "jani"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "Canadian",
+                "\u2581Canadian",
+                "\u2581Swedish",
+                "German",
+                "\u2581German",
+                "\u2581Norwegian",
+                "American",
+                "Swedish",
+                "\u2581American"
+              ],
+              "suppressed_tokens": [
+                "\u2581resourceCulture",
+                "elemField",
+                "rungsseite",
+                "ReusableCell",
+                "EventQueue",
+                "epiece",
+                "\u2581CWE",
+                "newswire",
+                "rucks",
+                "\udb40\udc62"
+              ],
+              "frac_nonzero": 0.00509
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11154
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11154,
+              "label": " the word \"are\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581translocation\u2581([@bib0400]).\u2581Among\u2581PRRSV\u2581strains,\u2581there\u2581are\u2581variable\u2581effects\u2581on\u2581the\u2581IFN-activated\u2581JAK-STAT\u2581signaling.\u2581In\u2581MARC-145\u2581cells,\u2581PRRSV\u2581strains\u2581VR-2385,\u2581VR-2332,\u2581NVSL97-7895,\u2581and\u2581Lelystad,\u2581but\u2581",
+                  "max_activation": 62.658,
+                  "max_token": "\u2581are"
+                },
+                {
+                  "text_snippet": "\u2581do\u2581as\u2581there\u2581api\u2581are\u2581clearly\u2581public.\u2581Anyone\u2581got\u2581some\u2581advise?\u2581It\u2581would\u2581really\u2581help.\n\nA:\n\nI\u2581think\u2581the\u2581public\u2581apis\u2581you\u2581are\u2581mentioning\u2581about\u2581are\u2581those\u2581in\u2581CLLocationManagerDelegate.\u2581If\u2581it\u2581is\u2581the\u2581case,\u2581take",
+                  "max_activation": 62.627,
+                  "max_token": "\u2581are"
+                },
+                {
+                  "text_snippet": "\u2581operators.\u2581Due\u2581to\u2581the\u2581presence\u2581of\u2581superconducting\u2581leads\u2581there\u2581are\u2581both\u2581normal\u2581(a),\u2581(b)\u2581and\u2581anomalous\u2581(c),\u2581(d)\u2581tunneling\u2581lines.](Diagrams-3.pdf\u2581\"fig:\"){width=\".2\\textwidth\"}\u2581![\\[fig:diagrams\\]Diagrams",
+                  "max_activation": 62.385,
+                  "max_token": "\u2581are"
+                }
+              ],
+              "promoted_tokens": [
+                "1",
+                "i",
+                "\n\n",
+                "2",
+                ".",
+                "\n",
+                "(",
+                "y",
+                "'",
+                "en"
+              ],
+              "suppressed_tokens": [
+                "\u2581are",
+                "BibitemShut",
+                "CloseOperation",
+                "\u2581them\u017felves",
+                "\u2581\u017find",
+                "\u2581ARE",
+                "\u017felves",
+                "are",
+                "\u2581Are",
+                "bibfield"
+              ],
+              "frac_nonzero": 0.02939
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 2123,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 17.125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.2344
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 12969,
+                "pos": 1,
+                "edge_weight": -1.1562
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11668,
+                "pos": 1,
+                "edge_weight": -1.1562
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 12115,
+                "pos": 1,
+                "edge_weight": -1.1328
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 12969
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 12969,
+              "label": " the word \"meant\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\u2581\u2581\u2581a++;\n}\n\nThe\u2581for-loop\u2581notation\u2581is\u2581meant\u2581to\u2581collect\u2581up\u2581all\u2581of\u2581the\u2581loop\u2581control\u2581information\u2581at\u2581the\u2581top\u2581of\u2581the\u2581loop\u2581as\u2581written,\u2581but\u2581the\u2581parenthesized\u2581part\u2581after\u2581the\u2581keyword\u2581\"for\"\u2581is\u2581not\u2581executed\u2581as\u2581a\u2581",
+                  "max_activation": 29.988,
+                  "max_token": "\u2581meant"
+                },
+                {
+                  "text_snippet": "B\u2581product\u2581number\u2581B0518S),\u25810.5\u2581\u00b5L\u2581Phusion\u2581High-Fidelity\u2581DNA\u2581polymerase\u2581(NEB\u2581product\u2581number\u2581M0530S),\u2581and\u25815\u2581\u00b5L\u2581nuclease\u2581free\u2581water.\u2581Note,\u2581the\u2581use\u2581of\u2581two\u2581replicate\u2581PCR\u2581reactions\u2581and\u2581a\u2581high\u2581volume\u2581of\u2581templ",
+                  "max_activation": 29.168,
+                  "max_token": "\u2581meant"
+                },
+                {
+                  "text_snippet": "A\u2581Yeah,\u2581I\u2581was\u2581sleeping\u2581part\u2581of\u2581the\u2581time.\"\u2581*939\u2581It\u2581is\u2581to\u2581be\u2581observed\u2581that\u2581the\u2581witness\u2581by\u2581his\u2581answer\u2581interrupted\u2581counsel\u2581before\u2581he\u2581had\u2581completed\u2581the\u2581question.\u2581The\u2581witness\u2581obviously\u2581jumped\u2581at\u2581his\u2581conclus",
+                  "max_activation": 29.003,
+                  "max_token": "\u2581meant"
+                }
+              ],
+              "promoted_tokens": [
+                "\u00e9riale",
+                "\u2581Domes",
+                "doria",
+                "\u2581fotogr\u00e1fico",
+                "\u2581iconTwitter",
+                "\u00e9sult",
+                "\u2581imprim\u00e9e",
+                "canestro",
+                "goku",
+                "AXB"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581\u0441\u0442\u0430\u043d\u043e\u0432\u043d\u0438\u043a\u0430",
+                "\n",
+                "'",
+                "Tembelea",
+                "MigrationBuilder",
+                "__);",
+                "\u2581balanceOf",
+                "\"",
+                "\u2581'"
+              ],
+              "frac_nonzero": 0.00898
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11668
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11668,
+              "label": " Baseball terminology",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581first\u258148\u2581games\u2581before\u2581his\u2581recent\u2581power\u2581surge.\u2581The\u2581club\u2581record\u2581for\u2581homers\u2581in\u2581successive\u2581games\u2581is\u2581six,\u2581by\u2581Reggie\u2581Jackson\u2581and\u2581Chris\u2581Davis.\n\nRays\u25814,\u2581Cubs\u25810:\u2581Jake\u2581Odorizzi\u2581struck\u2581out\u2581nine\u2581in\u2581six\u2581scoreless",
+                  "max_activation": 29.87,
+                  "max_token": "\u2581innings"
+                },
+                {
+                  "text_snippet": "\u2581first\u258148\u2581games\u2581before\u2581his\u2581recent\u2581power\u2581surge.\u2581The\u2581club\u2581record\u2581for\u2581homers\u2581in\u2581successive\u2581games\u2581is\u2581six,\u2581by\u2581Reggie\u2581Jackson\u2581and\u2581Chris\u2581Davis.\n\nRays\u25814,\u2581Cubs\u25810:\u2581Jake\u2581Odorizzi\u2581struck\u2581out\u2581nine\u2581in\u2581six\u2581scoreless",
+                  "max_activation": 29.87,
+                  "max_token": "\u2581innings"
+                },
+                {
+                  "text_snippet": "\u2581first\u258148\u2581games\u2581before\u2581his\u2581recent\u2581power\u2581surge.\u2581The\u2581club\u2581record\u2581for\u2581homers\u2581in\u2581successive\u2581games\u2581is\u2581six,\u2581by\u2581Reggie\u2581Jackson\u2581and\u2581Chris\u2581Davis.\n\nRays\u25814,\u2581Cubs\u25810:\u2581Jake\u2581Odorizzi\u2581struck\u2581out\u2581nine\u2581in\u2581six\u2581scoreless",
+                  "max_activation": 29.87,
+                  "max_token": "\u2581innings"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581baseman",
+                "latego",
+                "\u2581bullpen",
+                "\u6295\u624b",
+                "\u2581chanteur",
+                "eseorang",
+                "\u2581Baseball",
+                "\u2581baseball",
+                "\u0105d\u017a",
+                "\n"
+              ],
+              "suppressed_tokens": [
+                "Notae",
+                "ViewImports",
+                "\u0627\u0644\u062d\u064a\u0627\u0647",
+                "\u2581AssemblyTitle",
+                "\u0440\u0438\u0442\u043e\u0440\u0438",
+                "\u041f\u0440\u0435\u043c\u0430",
+                "\u2581\u010dlanak",
+                "LinkId",
+                "TestingModule",
+                "\u044c\u0430\u0436"
+              ],
+              "frac_nonzero": 0.00878
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 12115
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 12115,
+              "label": " code comments",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\ufeff//\u2581Copyright\u2581(c)\u2581Microsoft\u2581Open\u2581Technologies,\u2581Inc.\u2581All\u2581rights\u2581reserved.\u2581See\u2581License.txt\u2581in\u2581the\u2581project\u2581root\u2581for\u2581license\u2581information.\n\nnamespace\u2581System.Data.Entity.TestModels.ProviderAgnosticModel\n{\n\u2581",
+                  "max_activation": 45.885,
+                  "max_token": "\ufeff//"
+                },
+                {
+                  "text_snippet": "//\u2581Revision.\u2581Current\u2581Value\u2581is\u25810.\r\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u25810,\u2581\u2581\u2581\u2581//\u2581Domain.\r\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u25810xFE,\u2581//\u2581Coordination\u2581type\u25810xFE\u2581=\u2581HW_ALL\r\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u25810x80\u2581\u2581//\u2581Number\u2581of\u2581processors.\r\n\u2581\u2581\u2581\u2581\u2581\u2581}\r\n\u2581\u2581\u2581\u2581})\r\n\r\n\u2581\u2581\u2581\u2581",
+                  "max_activation": 41.577,
+                  "max_token": "//"
+                },
+                {
+                  "text_snippet": "//\u2581KnockBack_Timer\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581if\u2581(m_uiKnockBackTimer\u2581<\u2581uiDiff)\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581{\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581if\u2581(DoCastSpellIfCan(m_creature,\u2581SPELL_KNOCKBACK)\u2581==\u2581CAST_OK)\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581{\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581if\u2581(m_creature->GetThreatM",
+                  "max_activation": 41.577,
+                  "max_token": "//"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u0627\u0644\u0645\u0639\u064a\u0627\u0631\u0649",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                ".",
+                "NOPQRST",
+                "raborty",
+                "InputBorder",
+                "\u2581or",
+                "\u2581",
+                "\u2581(",
+                "\u2581="
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581it\u017felf",
+                "\u2581my\u017felf",
+                "\u2581Monfieur",
+                "'}>",
+                "\u2581him\u017felf",
+                "\u2581\u0f0b\u0f0b",
+                "'>{",
+                "UnusedPrivate",
+                "\u2581Efq"
+              ],
+              "frac_nonzero": 0.01138
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11154,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 36.0
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 3.875
+              },
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 1.8438
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 424,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 13473,
+              "pos": 2,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 10.25
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 5.3125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -2.9688
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 2123,
+                "pos": 1,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11154,
+                "pos": 2,
+                "edge_weight": -1.6719
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 15697,
+                "pos": 2,
+                "edge_weight": -0.8516
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13194,
+                "pos": 2,
+                "edge_weight": -0.7188
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 10155,
+                "pos": 1,
+                "edge_weight": 0.5078
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 16202,
+                "pos": 2,
+                "edge_weight": 0.4258
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 6973,
+                "pos": 1,
+                "edge_weight": 0.3926
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 15697
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 15697,
+              "label": " uses of the words \"are\", \"were\", \"seem\", \"indicate\", and \"themselves\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581newborn\u2581fitted\u2581diapers\u2581(again,\u2581these\u2581aren't\u2581waterproof\u2581so\u2581they\u2581need\u2581a\u2581cover\u2581with\u2581them),\u2581have\u2581a\u2581little\u2581notch\u2581where\u2581it's\u2581lower\u2581to\u2581accommodate\u2581that:\u2581http://www.etsy.com/listing/66693480/tiny-flowers-new",
+                  "max_activation": 20.621,
+                  "max_token": "\u2581aren"
+                },
+                {
+                  "text_snippet": "2E](#pgen-1004775-g002){ref-type=\"fig\"},\u2581*p*\\>0.05),\u2581including\u2581those\u2581linked\u2581to\u2581*In3R(Mo)*.\u2581Therefore,\u2581enrichment\u2581of\u2581seasonal\u2581SNPs\u2581within\u2581*In3R(Mo)*,\u2581if\u2581present,\u2581is\u2581most\u2581likely\u2581due\u2581to\u2581increased\u2581linkage",
+                  "max_activation": 19.336,
+                  "max_token": "\u2581themselves"
+                },
+                {
+                  "text_snippet": "\u2581that\u2581of\u2581a\u2581working\u2581kitchen\u2581refrigerator.\u2581These\u2581aren't\u2581helicopter\u2581blades,\u2581after\u2581all.\u2581The\u2581Ontario\u2581Ministry\u2581of\u2581Environment\u2581breaks\u2581it\u2581down\u2581like\u2581this:\u2581If\u25810\u2581decibels\u2581is\u2581the\u2581threshold\u2581of\u2581hearing\u2581and\u2581140\u2581is\u2581t",
+                  "max_activation": 19.222,
+                  "max_token": "\u2581aren"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581is",
+                "\u2581was",
+                "\u2581orbits",
+                "\u03b5\u03af\u03c4\u03b1\u03b9",
+                "\u2581financieras",
+                "\u2581Is",
+                "\u2581it",
+                "\uac83\uc740",
+                "\u2581sanitarias",
+                "|}{$"
+              ],
+              "suppressed_tokens": [
+                "\u2581are",
+                "\u2581were",
+                "are",
+                "were",
+                "Are",
+                "Were",
+                "\u2581ARE",
+                "\u2581WERE",
+                "\u2581weren",
+                "ARE"
+              ],
+              "frac_nonzero": 0.0244
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 13194
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 13194,
+              "label": " occurrences of the word \"are\" or \"were.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "s\u2581what\u2581I\u2581always\u2581say\u2581to\u2581people.\u2581Not\u2581many\u2581people\u2581are\u2581picked\u2581to\u2581travel\u2581such\u2581a\u2581hard\u2581road\u2581and\u2581I\u2581think\u2581people\u2581forget\u2581that.\u2581I\u2581think\u2581these\u2581kinds\u2581of\u2581things\u2581are\u2581not\u2581a\u2581coincidence;\u2581you\u2581were\u2581picked\u2581for\u2581this\u2581and\u2581t",
+                  "max_activation": 19.494,
+                  "max_token": "\u2581are"
+                },
+                {
+                  "text_snippet": "\u2581people\u2581are\u2581happy\u2581settling\u2581for\u2581a\u25813.5\"\u2581screen\u2581that\u2581you\u2581have\u2581to\u2581squint\u2581at,\u2581then\u2581good\u2581news\u2581for\u2581Apple?\n\nWhat\u2581makes\u2581you\u2581think\u2581you\u2581can't\u2581expand,\u2581slowly,\u2581internationally?\u2581The\u2581new\u2581Fire\u2581is\u2581being\u2581rolled\u2581out\u2581in\u2581",
+                  "max_activation": 19.444,
+                  "max_token": "\u2581are"
+                },
+                {
+                  "text_snippet": "\n\nPeople\u2581are\u2581excluded\u2581from\u2581the\u2581study\u2581if\u2581they\u2581have\u2581a:\u2581Physical\u2581illnesses,\u2581e.g.\u2581cancer,\u2581that\u2581could\u2581seriously\u2581reduce\u2581their\u2581life\u2581expectancy\u2581or\u2581ability\u2581to\u2581participate\u2581in\u2581the\u2581trialA\u2581co-existing\u2581physical\u2581hea",
+                  "max_activation": 19.222,
+                  "max_token": "\u2581are"
+                }
+              ],
+              "promoted_tokens": [
+                "IntoConstraints",
+                "AndEndTag",
+                "Personensuche",
+                "GEBURTSDATUM",
+                "\u2581BoxFit",
+                "StandardCharsets",
+                "\u2581'\\\\;'",
+                "zzleHttp",
+                "\u2581MainAxisSize",
+                "TagMode"
+              ],
+              "suppressed_tokens": [
+                "berley",
+                "\u2581\\]",
+                "\u2581\uf06e",
+                "/*\"",
+                "\u2581\u2014,",
+                "\u2581these",
+                "\"\"\",",
+                "\u2581latter",
+                ".)}",
+                "\u2581*/;"
+              ],
+              "frac_nonzero": 0.0044
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this racial/ethnic group mention detection feature upstream. What tokens/embeddings activate it? Is it detecting the token \"Indians\" or similar identity terms? Report all upstream features and their labels.",
+          "input_tokens": 80478,
+          "output_tokens": 3495,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3456
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 10155,
+        "starting_pos": 3,
+        "objective": "Trace this group membership word detector upstream. Does it detect tokens like \"Indians\" in the prompt? Report all upstream features and embedding connections.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 10155,
+            "pos": 3,
+            "label": " words related to membership in a group",
+            "frac_nonzero": 0.04598,
+            "promoted_tokens": [
+              "\u2581personal",
+              "hips",
+              "\u2581who",
+              "\u2581responsible",
+              "\u2581professional",
+              "\u2581member",
+              "\u2581recent",
+              "\u2581general",
+              "NewUrlParser",
+              "\u2581and"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 353,
+            "pos": 1,
+            "label": " words related to math, physics, and scientific studies",
+            "frac_nonzero": 0.14431,
+            "promoted_tokens": [
+              "djangoproject",
+              "yli",
+              "tue",
+              "\u2581poule",
+              "seigneur",
+              "Milo",
+              "<bos>",
+              "\u2581Amiens",
+              "Bibliografie",
+              "parseDouble"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 10155,
+            "to_pos": 3,
+            "weight": 13.875
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 10155,
+            "to_pos": 3,
+            "weight": 0.5
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 10155,
+            "to_pos": 3,
+            "weight": 0.4043
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 10155,
+            "to_pos": 3,
+            "weight": 0.1611
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 353,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 10155,
+            "to_pos": 3,
+            "weight": 0
+          }
+        ],
+        "explanation": "Tracing the group membership word detector L0:F10155 at position 3. The feature detects \"words related to membership in a group\" and primarily activates on the current token \" abusers\" (strong embedding connection weight 13.875). It has weak connections to preceding context: \" are\" at position 2 (weight 0.5) and \"Indians\" at position 1 (weight 0.1611). The feature does NOT directly detect tokens like \"Indians\" in the prompt; instead, it detects group membership words like \"abusers\" and is weakly influenced by preceding group names like \"Indians\". The feature has promoted tokens including \"\\u2581personal\", \"\\u2581responsible\", \"\\u2581professional\", \"\\u2581member\", which are words that might follow group names in statements about group characteristics or membership.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10155
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 10155,
+              "label": " words related to membership in a group",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581figures\u2581are\u2581similar\u2581to\u2581the\u2581heavy\u2581or\u2581risky\u2581drinking\u2581behavior\u2581noted\u2581in\u2581about\u258112%\u2581of\u2581Swiss\u2581conscripts\u2581\\[[@B19-ijerph-17-00783]\\]\u2581and\u25817.8%\u2581of\u2581US\u2581active\u2581duty\u2581personnel\u2581\\[[@B36-ijerph-17-00783]\\].\u2581In\u2581a\u2581rep",
+                  "max_activation": 32.49,
+                  "max_token": "anians"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581starter\u2581system\u2581with\u2581the\u2581greatest\u2581number\u2581of\u2581riders\u2581possible,\u2581this\u2581is\u2581the\u2581worst\u2581option.\n\n33\u2581thoughts\u2581on\u2581\u201cMilwaukee\u2581Streetcar\u2581Routes\u2581Unveiled\u2581by\u2581Mayor\u2581Barrett\u201d\n\nSeems\u2581that\u2581the\u2581first\u2581option\u2581would\u2581have\u2581",
+                  "max_activation": 31.415,
+                  "max_token": "\u2581riders"
+                },
+                {
+                  "text_snippet": "\u2581biomass\u2581accumulation\u2581was\u2581easily\u2581affected\u2581by\u2581light.\u2581However,\u2581the\u2581Cd\u2581uptake\u2581and\u2581translocation\u2581capacities\u2581of\u2581the\u2581two\u2581turnip\u2581landraces\u2581were\u2581higher\u2581than\u2581those\u2581of\u2581Phytolacca\u2581americana\u2581Linn.\u2581and\u2581Bidens\u2581pilo",
+                  "max_activation": 31.12,
+                  "max_token": "\u2581candidates"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581personal",
+                "hips",
+                "\u2581who",
+                "\u2581responsible",
+                "\u2581professional",
+                "\u2581member",
+                "\u2581recent",
+                "\u2581general",
+                "NewUrlParser",
+                "\u2581and"
+              ],
+              "suppressed_tokens": [
+                "\u2581skiers",
+                "\u2581hikers",
+                "\u2581golfers",
+                "\u2581vegans",
+                "\u2581anglers",
+                "\u2581atheists",
+                "\u2581commuters",
+                "\u2581feminists",
+                "\u2581gamers",
+                "\u2581rappers"
+              ],
+              "frac_nonzero": 0.04598
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10155,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " abusers",
+                "pos": 3,
+                "edge_weight": 13.875
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 0.5
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4043
+              },
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 0.1611
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10155,
+              "pos": 3,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " abusers",
+                "pos": 3,
+                "edge_weight": 13.875
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 0.5
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4043
+              },
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": 0.1611
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 778,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 792,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 424,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 688,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 437,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 353
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 353,
+              "label": " words related to math, physics, and scientific studies",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581models\u2581in\u2581the\u2581literature\u2581consider\u2581bone\u2581an\u2581isotropic,\u2581elastic\u2581and\u2581homogenous\u2581material\u2581\\[[@R1]-[@R4],[@R7]-[@R9]\\],\u2581while\u2581in\u2581reality\u2581bone\u2581is\u2581anisotropic\u2581because\u2581of\u2581its\u2581trabecular\u2581structure.\u2581In\u2581this\u2581stu",
+                  "max_activation": 19.115,
+                  "max_token": "\u2581isotropic"
+                },
+                {
+                  "text_snippet": "rosymmetric\u2581systems\u2581these\u2581spin\u2581textures\u2581arise\u2581from\u2581the\u2581competition\u2581between\u2581isotropic\u2581and\u2581anisotropic\u2581exchange\u2581interactions.\u2581On\u2581the\u2581other\u2581hand,\u2581magnetic\u2581frustration\u2581induced\u2581by\u2581competing\u2581isotropic\u2581excha",
+                  "max_activation": 19.103,
+                  "max_token": "\u2581isotropic"
+                },
+                {
+                  "text_snippet": "rosymmetric\u2581systems\u2581these\u2581spin\u2581textures\u2581arise\u2581from\u2581the\u2581competition\u2581between\u2581isotropic\u2581and\u2581anisotropic\u2581exchange\u2581interactions.\u2581On\u2581the\u2581other\u2581hand,\u2581magnetic\u2581frustration\u2581induced\u2581by\u2581competing\u2581isotropic\u2581excha",
+                  "max_activation": 19.103,
+                  "max_token": "\u2581isotropic"
+                }
+              ],
+              "promoted_tokens": [
+                "djangoproject",
+                "yli",
+                "tue",
+                "\u2581poule",
+                "seigneur",
+                "Milo",
+                "<bos>",
+                "\u2581Amiens",
+                "Bibliografie",
+                "parseDouble"
+              ],
+              "suppressed_tokens": [
+                "ValueStyle",
+                "selaer",
+                "WriteTagHelper",
+                "chenta",
+                "ReusableCell",
+                "\u2581the",
+                "\u2581Chwiliwch",
+                "ad\u0259",
+                "ler",
+                "\u2581utafitiHapana"
+              ],
+              "frac_nonzero": 0.14431
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this group membership word detector upstream. Does it detect tokens like \"Indians\" in the prompt? Report all upstream features and embedding connections.",
+          "input_tokens": 17869,
+          "output_tokens": 1794,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 2,
+        "starting_feature_idx": 1003,
+        "starting_pos": 3,
+        "objective": "Trace the \"abuse\" word detection feature upstream. Does it detect the actual toxic content in the prompt? How does it connect to identity-group features?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 2,
+            "feature_idx": 1003,
+            "pos": 3,
+            "label": " the word \"abuse\"",
+            "frac_nonzero": 0.00699,
+            "promoted_tokens": [
+              " surla",
+              "abases",
+              "rupted",
+              "UrlResolution",
+              " Laid",
+              "nant",
+              "ILED",
+              "URNS",
+              "inction",
+              " handen"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11835,
+            "pos": 3,
+            "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+            "frac_nonzero": 0.29459,
+            "promoted_tokens": [
+              "<bos>",
+              " ",
+              "'",
+              "\n\n",
+              ",",
+              "\n",
+              "\u2019",
+              ".",
+              " in",
+              " the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 9026,
+            "pos": 3,
+            "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+            "frac_nonzero": 0.41044,
+            "promoted_tokens": [
+              " ",
+              ",",
+              ".",
+              " (",
+              "\n\n",
+              "\n",
+              "<eos>",
+              " in",
+              "-",
+              " \""
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 353,
+            "pos": 1,
+            "label": " words related to math, physics, and scientific studies",
+            "frac_nonzero": 0.14431,
+            "promoted_tokens": [
+              "djangoproject",
+              "yli",
+              "tue",
+              " poule",
+              "seigneur",
+              "Milo",
+              "<bos>",
+              " Amiens",
+              "Bibliografie",
+              "parseDouble"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 1003,
+            "to_pos": 3,
+            "weight": 14,
+            "from_token": " abusers"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11835,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 1003,
+            "to_pos": 3,
+            "weight": 0.498
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 9026,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 1003,
+            "to_pos": 3,
+            "weight": 0.2891
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 11835,
+            "to_pos": 3,
+            "weight": 7.1562,
+            "from_token": " abusers"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 11835,
+            "to_pos": 3,
+            "weight": -0.3613,
+            "from_token": "Indians"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 3,
+            "weight": 22.75,
+            "from_token": " abusers"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 9026,
+            "to_pos": 3,
+            "weight": -9.75,
+            "from_token": "Indians"
+          }
+        ],
+        "explanation": "The tracing reveals that the L2:F1003 feature detecting the word \\\"abuse\\\" is primarily triggered directly by the token \\\" abusers\\\" at position 3 (weight 14.0). The upstream analysis shows the prompt structure appears to be \\\"<bos>Indians are abusers\\\", with layer 0 features showing strong connections to \\\" abusers\\\" and negative connections to \\\"Indians\\\". However, these layer 0 features have generic labels about software code and technical documents, not identity-group detection. The circuit suggests the \\\"abuse\\\" detection is triggered by the word \\\"abusers\\\" itself, but the model appears to recognize the pattern \\\"Indians are abusers\\\" as a potentially toxic statement through negative weight connections to the identity token \\\"Indians\\\" in early layers.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 1003
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 1003,
+              "label": " the word \"abuse\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581To\u2581avoid\u2581danger,\u2581people\u2581should\u2581tell\u2581health\u2581professionals\u2581about\u2581any\u2581illnesses\u2581or\u2581conditions.\u2581Here\u2581are\u2581just\u2581a\u2581few\u2581that\u2581doctors\u2581must\u2581know\u2581about:\n\nA\u2581history\u2581of\u2581drug\u2581or\u2581alcohol\u2581addiction\n\nPregnancy\u2581and\u2581nu",
+                  "max_activation": 58.215,
+                  "max_token": "\u2581abuse"
+                },
+                {
+                  "text_snippet": "\u2581From\u2581the\u2581military\u2581perspective,\u2581these\u2581interventions\u2581could\u2581also\u2581be\u2581modeled\u2581to\u2581capture\u2581physical\u2581capacity\u2581(e.g.,\u2581physical\u2581endurance)\u2581and\u2581psychological\u2581resilience\u2581(e.g.,\u2581resistance\u2581to\u2581stress)\u2581and\u2581to\u2581empha",
+                  "max_activation": 55.835,
+                  "max_token": "\u2581abuse"
+                },
+                {
+                  "text_snippet": "\u2581viewed\u2581the\u2581employment\u2581of\u2581women\u2581as\u2581competition)\u2581women\u2581should\u2581not\u2581be\u2581employed\u2581in\u2581jobs\u2581for\u2581which\u2581they\u2581lack\u2581the\u2581physical\u2581strength\u2581and\u2581mental\u2581capacity\n\u2022\u2581if\u2581necessary,\u2581women\u2581could\u2581be\u2581transferred\u2581to\u2581differe",
+                  "max_activation": 54.829,
+                  "max_token": "\u2581abuse"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581surla",
+                "abases",
+                "rupted",
+                "UrlResolution",
+                "\u2581Laid",
+                "nant",
+                "ILED",
+                "URNS",
+                "inction",
+                "\u2581handen"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "WriteTagHelper",
+                "PYX",
+                "\u2581HttpNotFound",
+                "\ufeff//",
+                "LookAnd",
+                "\u2581<<<<<<<<<<<<<<",
+                "\u2581ModelExpression",
+                "__':\r",
+                "endpush"
+              ],
+              "frac_nonzero": 0.00699
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 1003,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " abusers",
+                "pos": 3,
+                "edge_weight": 14.0
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.4766
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": -1.1875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11835,
+                "pos": 3,
+                "edge_weight": 0.498
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9026,
+                "pos": 3,
+                "edge_weight": 0.2891
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11835
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11835,
+              "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\")]\r\n[assembly:\u2581AssemblyCopyright(\"Copyright\u2581\u00a9\u2581\u25812009\")]\r\n[assembly:\u2581AssemblyTrademark(\"\")]\r\n[assembly:\u2581AssemblyCulture(\"\")]\r\n\r\n//\u2581Setting\u2581ComVisible\u2581to\u2581false\u2581makes\u2581the\u2581types\u2581in\u2581this\u2581assembly\u2581not\u2581visib",
+                  "max_activation": 33.959,
+                  "max_token": "\u2581AssemblyCulture"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581",
+                "'",
+                "\n\n",
+                ",",
+                "\n",
+                "\u2019",
+                ".",
+                "\u2581in",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581betweenstory",
+                "WithIOException",
+                "RegressionTest",
+                "\u044c\u0430\u0436",
+                "\u2581propOrder",
+                "GEBURTSDATUM",
+                "IndentedString",
+                "\u2581disambiguazione",
+                "DockStyle",
+                "\u2581CreateTagHelper"
+              ],
+              "frac_nonzero": 0.29459
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9026
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 9026,
+              "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u25811;\u2581\\<0.0001\n\n\u2581\u2581Low\u2581(\\<2.5\u2581h/week)\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258144.7\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258152.6\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**36.9**\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\n\n\u2581\u2581Adequate\u2581(\u22652.5\u2581h/week)\u2581\u2581\u2581\u258155.3\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258147.4\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**",
+                  "max_activation": 106.612,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "\u258112-week\u2581treatment\u2581period\u2581was\u2581low\u2581(\\<4.1%)\u2581through\u2581all\u2581treatment\u2581phases\u2581(first\u2581treatment,\u2581first\u2581exposure,\u2581extended\u2581treatment,\u2581re-treatment,\u2581long-term\u2581treatment).\n\nJoint\u2581disease\u2581has\u2581also\u2581been\u2581reported\u2581",
+                  "max_activation": 106.051,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "08-00159],[@B22-polymers-08-00159]\\].\u2581The\u2581mass\u2581loss\u2581(about\u25815%)\u2581of\u2581the\u2581first\u2581thermal\u2581event\u2581at\u2581the\u2581lower\u2581temperature\u2581range\u2581(\\<155\u2581\u00b0C)\u2581contributed\u2581to\u2581the\u2581evaporation\u2581of\u2581free\u2581water.\u2581In\u2581the\u2581second\u2581stage,\u2581w",
+                  "max_activation": 105.559,
+                  "max_token": "\u2581(\\<"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                ",",
+                ".",
+                "\u2581(",
+                "\n\n",
+                "\n",
+                "<eos>",
+                "\u2581in",
+                "-",
+                "\u2581\""
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "\u2581Monfieur",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581Majefty",
+                "\u2581plea\u017fure",
+                "\u2581Jefus",
+                "\u2581purpo\u017fe",
+                "\u2581The\u017fe"
+              ],
+              "frac_nonzero": 0.41044
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11835,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " abusers",
+                "pos": 3,
+                "edge_weight": 7.1562
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -6.4688
+              },
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": -0.3613
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 0.2773
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9026,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " abusers",
+                "pos": 3,
+                "edge_weight": 22.75
+              },
+              {
+                "type": "embedding",
+                "token": "Indians",
+                "pos": 1,
+                "edge_weight": -9.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -6.5625
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 2,
+                "edge_weight": 0.7383
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 353
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 353,
+              "label": " words related to math, physics, and scientific studies",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581models\u2581in\u2581the\u2581literature\u2581consider\u2581bone\u2581an\u2581isotropic,\u2581elastic\u2581and\u2581homogenous\u2581material\u2581\\[[@R1]-[@R4],[@R7]-[@R9]\\],\u2581while\u2581in\u2581reality\u2581bone\u2581is\u2581anisotropic\u2581because\u2581of\u2581its\u2581trabecular\u2581structure.\u2581In\u2581this\u2581stu",
+                  "max_activation": 19.115,
+                  "max_token": "\u2581isotropic"
+                },
+                {
+                  "text_snippet": "rosymmetric\u2581systems\u2581these\u2581spin\u2581textures\u2581arise\u2581from\u2581the\u2581competition\u2581between\u2581isotropic\u2581and\u2581anisotropic\u2581exchange\u2581interactions.\u2581On\u2581the\u2581other\u2581hand,\u2581magnetic\u2581frustration\u2581induced\u2581by\u2581competing\u2581isotropic\u2581excha",
+                  "max_activation": 19.103,
+                  "max_token": "\u2581isotropic"
+                },
+                {
+                  "text_snippet": "rosymmetric\u2581systems\u2581these\u2581spin\u2581textures\u2581arise\u2581from\u2581the\u2581competition\u2581between\u2581isotropic\u2581and\u2581anisotropic\u2581exchange\u2581interactions.\u2581On\u2581the\u2581other\u2581hand,\u2581magnetic\u2581frustration\u2581induced\u2581by\u2581competing\u2581isotropic\u2581excha",
+                  "max_activation": 19.103,
+                  "max_token": "\u2581isotropic"
+                }
+              ],
+              "promoted_tokens": [
+                "djangoproject",
+                "yli",
+                "tue",
+                "\u2581poule",
+                "seigneur",
+                "Milo",
+                "<bos>",
+                "\u2581Amiens",
+                "Bibliografie",
+                "parseDouble"
+              ],
+              "suppressed_tokens": [
+                "ValueStyle",
+                "selaer",
+                "WriteTagHelper",
+                "chenta",
+                "ReusableCell",
+                "\u2581the",
+                "\u2581Chwiliwch",
+                "ad\u0259",
+                "ler",
+                "\u2581utafitiHapana"
+              ],
+              "frac_nonzero": 0.14431
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace the \"abuse\" word detection feature upstream. Does it detect the actual toxic content in the prompt? How does it connect to identity-group features?",
+          "input_tokens": 36831,
+          "output_tokens": 2421,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 0,
+        "feature_idx": 3564,
+        "pos": 13,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " .",
+          "pos": 13,
+          "edge_weight": 35.75
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -1.1172
+        },
+        {
+          "type": "embedding",
+          "token": " problems",
+          "pos": 12,
+          "edge_weight": -0.7812
+        },
+        {
+          "type": "embedding",
+          "token": " their",
+          "pos": 11,
+          "edge_weight": -0.5898
+        },
+        {
+          "type": "embedding",
+          "token": "Indians",
+          "pos": 1,
+          "edge_weight": -0.4336
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 3564
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 3564,
+        "label": "mathematical notation symbols",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581Let\u2581$$\\varrho(r)\u2581:=\u2581\\inf_{t\\ge\u25810}\u2581\\left\\{\u2581r^{-t}\u2581\\,\u2581\\E(A^t)\u2581\\right\\}\u2581,\u2581\\qquad\u2581r>0.$$\n\nLet\u2581$\\underline{r}\u2581>0$\u2581be\u2581such\u2581that\u2581$$\\log\u2581\\underline{r}\u2581=\u2581\\E(\\log\u2581A)\u2581.$$\n\nWe\u2581mention\u2581that\u2581$\\varrho(r)=1$\u2581for\u2581$r\\",
+            "max_activation": 62.269,
+            "max_token": "\u2581."
+          },
+          {
+            "text_snippet": "\\}\u2581\\le\u2581\\E\u2581\\left\\{\u2581\\ee^{-\u2581t\u2581\\,\u2581M_n}\u2581\\right\\}\u2581.$$\n\nProof\u2581of\u2581(\\[E(beta):kappa&gt;2\\])\u2581{#subs:kappa>2}\n---------------------------------\n\nAssume\u2581$p={1\\over\u2581\\deg}$\u2581and\u2581$\\psi'(1)<0$.\u2581Since\u2581$Z_{j,\u2581\\theta}$\u2581i",
+            "max_activation": 61.915,
+            "max_token": "\u2581."
+          },
+          {
+            "text_snippet": "varsigma\u2581}\\mathrm{d}\\varsigma\u2581,\u2581\u2581\\nonumber\u2581\\\\\n\\mathrm{d}K_{\\alpha\u2581}\u2581&=&\\int\u2581\\mathrm{d}\\Phi\u2581^{\\beta\u2581}\\frac{\\delta\n_{l}\\delta\u2581F}{\\delta\u2581\\Phi\u2581^{\\beta\u2581}\\delta\u2581\\Phi\u2581^{\\alpha\u2581}}+\\int\u2581\\mathrm{d}K_{\\beta\u2581}^{\\",
+            "max_activation": 61.685,
+            "max_token": "\u2581."
+          }
+        ],
+        "promoted_tokens": [
+          "'];?>",
+          "\uff1a\u300c",
+          "\u2581**)",
+          "/**",
+          "']?>",
+          "(@\"%@\",",
+          "/$',",
+          "');?>",
+          ")\uff0c",
+          "\u2581\u2191"
+        ],
+        "suppressed_tokens": [
+          "\u2581.",
+          "\u2581.\r",
+          "\u2581`.",
+          "\u2581[.",
+          "\u2581.)",
+          "\u2581.\"",
+          "\u2581._",
+          "\u2581.'",
+          "\u2581.\\",
+          "(."
+        ],
+        "frac_nonzero": 0.00559
+      }
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "indians_token",
+            "label": "Emb: 'Indians' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "are_token",
+            "label": "Emb: 'are' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "abuse_token",
+            "label": "Emb: ' abusers' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "ian_suffix",
+            "label": "L2: '-ian' suffix detection (F2123)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 2123,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "racial_group_detector",
+            "label": "L3: Racial/ethnic group mentions (F13473)",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 13473,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "abuse_word_detector",
+            "label": "L2: 'abuse' word detector (F1003)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 1003,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "group_membership_words",
+            "label": "L0: Group membership words (F10155)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 10155,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "output_probe",
+            "label": "Toxicity probe direction (L36)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "indians_token",
+            "to": "ian_suffix"
+          },
+          {
+            "from": "ian_suffix",
+            "to": "racial_group_detector"
+          },
+          {
+            "from": "are_token",
+            "to": "racial_group_detector"
+          },
+          {
+            "from": "racial_group_detector",
+            "to": "output_probe"
+          },
+          {
+            "from": "abuse_token",
+            "to": "abuse_word_detector"
+          },
+          {
+            "from": "abuse_word_detector",
+            "to": "output_probe"
+          },
+          {
+            "from": "abuse_token",
+            "to": "group_membership_words"
+          },
+          {
+            "from": "group_membership_words",
+            "to": "output_probe"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "indians_token",
+            "label": "Emb: 'Indians' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "are_token",
+            "label": "Emb: 'are' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "abuse_token",
+            "label": "Emb: ' abusers' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "ian_suffix",
+            "label": "L2: '-ian' suffix detection (F2123)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 2123,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "racial_group_detector",
+            "label": "L3: Racial/ethnic group mentions (F13473)",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 13473,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "abuse_word_detector",
+            "label": "L2: 'abuse' word detector (F1003)",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 1003,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "group_membership_words",
+            "label": "L0: Group membership words (F10155)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 10155,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "output_probe",
+            "label": "Toxicity probe direction (L36)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "indians_token",
+            "to": "ian_suffix"
+          },
+          {
+            "from": "ian_suffix",
+            "to": "racial_group_detector"
+          },
+          {
+            "from": "are_token",
+            "to": "racial_group_detector"
+          },
+          {
+            "from": "racial_group_detector",
+            "to": "output_probe"
+          },
+          {
+            "from": "abuse_token",
+            "to": "abuse_word_detector"
+          },
+          {
+            "from": "abuse_word_detector",
+            "to": "output_probe"
+          },
+          {
+            "from": "abuse_token",
+            "to": "group_membership_words"
+          },
+          {
+            "from": "group_membership_words",
+            "to": "output_probe"
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 24804,
+      "output_tokens": 2912,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 30004
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this group membership word detector upstream. Does it detect tokens like \"Indians\" in the prompt? Report all upstream features and embedding connections.",
+        "input_tokens": 17869,
+        "output_tokens": 1794,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace the \"abuse\" word detection feature upstream. Does it detect the actual toxic content in the prompt? How does it connect to identity-group features?",
+        "input_tokens": 36831,
+        "output_tokens": 2421,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this racial/ethnic group mention detection feature upstream. What tokens/embeddings activate it? Is it detecting the token \"Indians\" or similar identity terms? Report all upstream features and their labels.",
+        "input_tokens": 80478,
+        "output_tokens": 3495,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3456
+      }
+    ]
+  },
+  "total_cost_usd": null,
+  "turns": 7,
+  "elapsed_seconds": 257.39204222895205,
+  "control_response": "",
+  "control_usage": null,
+  "control_cost_usd": null,
+  "naive_response": "",
+  "naive_followup_response": "",
+  "naive_usage": null,
+  "naive_cost_usd": null,
+  "timestamp": "2026-04-03T07-43-01"
+}

@@ -1,0 +1,53 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F13158",
+      "label": "words about race and ethnicity",
+      "reason": "Race/ethnicity detector driving toxicity"
+    },
+    {
+      "id": "L3:F13061",
+      "label": "words related to race, gender and social issues",
+      "reason": "Identity/social-issue feature"
+    },
+    {
+      "id": "L3:F16373",
+      "label": "gendered words with bias toward female",
+      "reason": "Gender identity detector"
+    },
+    {
+      "id": "L4:F117",
+      "label": "terms related to race, racism, and social justice",
+      "reason": "Race/identity semantics, not toxicity"
+    },
+    {
+      "id": "L6:F3902",
+      "label": "terms referring to race and ethnicity",
+      "reason": "Demographic-token feature"
+    },
+    {
+      "id": "L2:F15317",
+      "label": "gendered words with bias toward female",
+      "reason": "Gendered identity signal"
+    },
+    {
+      "id": "L3:F4512",
+      "label": "mentions of first names, last names",
+      "reason": "Name/demographic mention detector"
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L1:F5220",
+      "label": "references to authors and publications",
+      "reason": "Structural/authorship reference only"
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 0,
+  "n_other": 1,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "Oracle attributes decision mainly to identity signals, with only a minor structural correction."
+}

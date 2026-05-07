@@ -1,0 +1,4506 @@
+{
+  "prompt_name": "bib_nurse_professor-pos_pos_1-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_nurse_professor-pos_pos_1 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession.",
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** This attribution circuit reveals that the probe's classification score is driven primarily by **genuine nursing profession indicators**, not spurious gender markers. The top positive drivers are all features encoding medical/nursing content: L14:F3985 (\"terms related to management, leadership, medicine, studies, and research\" with frac_nonzero=0.066), L6:F15267 (\"words in the document referring to the profession of nursing\" with frac_nonzero=0.016), and L18:F13596 (\"text about the role, skills and leadership of nurse managers\" with frac_nonzero=0.005\u2014highly specific). The circuit traces back to input tokens \"nurses\" (pos 15) and \"Perioperative\"/\"perative\" (pos 13-14), which directly activate these profession-specific features through a multi-layer aggregation pathway. While L4:F4665 (medical environments) shows a minor upstream connection from \" she\" (edge_weight=1.28), this gender pronoun is heavily attenuated through medical-specific intermediate layers (L3:F14131 encodes \"the word 'all'\", L1:F1889 encodes \"medical studies, procedures, and patient outcomes\"), so it does not function as an independent spurious feature. The inhibitory features (L3:F15901, L7:F3979) with negative direct effects suppress nursing-related tokens, representing a context-dependent inhibition pattern rather than a spurious gender shortcut.\n\n**Confidence:** 8/10\n\n**Reasoning:** The circuit analysis demonstrates that the probe's classification is driven by a hierarchical aggregation of genuine nursing/medical profession features (frac_nonzero values ranging from 0.005 to 0.066, indicating specificity), originating from direct lexical detection of nursing terminology (\"nurses\") and medical domain words (\"Perioperative\") at the input layer. The most influential features L14:F3985 and L6:F15267 both directly encode nursing/medical content with clear semantic labels, and L18:F13596 is particularly telling\u2014a highly specific feature (frac_nonzero=0.005) detecting \"nurse managers\" and their leadership skills, with promoted tokens being exclusively nursing-related vocabulary. While a minor connection from the gender pronoun \" she\" exists, it traverses medical-specific intermediate representations and has negligible direct effect compared to the substantive nursing content features. The absence of dedicated gender-detection features (e.g., \"she/her\" markers firing independently) and the presence of multiple layers of genuine profession encoding indicate the model uses legitimate profession indicators rather than spurious gender correlations.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 14,
+          "feature_idx": 3985,
+          "pos": 15,
+          "activation": 17.75,
+          "direct_effect": 0.1621
+        },
+        {
+          "layer": 6,
+          "feature_idx": 15267,
+          "pos": 15,
+          "activation": 23.0,
+          "direct_effect": 0.1572
+        },
+        {
+          "layer": 14,
+          "feature_idx": 3985,
+          "pos": 14,
+          "activation": 14.625,
+          "direct_effect": 0.1445
+        },
+        {
+          "layer": 3,
+          "feature_idx": 15901,
+          "pos": 15,
+          "activation": 13.5625,
+          "direct_effect": -0.1348
+        },
+        {
+          "layer": 7,
+          "feature_idx": 3979,
+          "pos": 15,
+          "activation": 20.125,
+          "direct_effect": -0.1182
+        },
+        {
+          "layer": 8,
+          "feature_idx": 16339,
+          "pos": 15,
+          "activation": 15.9375,
+          "direct_effect": 0.1055
+        },
+        {
+          "layer": 4,
+          "feature_idx": 4665,
+          "pos": 14,
+          "activation": 19.0,
+          "direct_effect": 0.104
+        },
+        {
+          "layer": 18,
+          "feature_idx": 13596,
+          "pos": 15,
+          "activation": 46.0,
+          "direct_effect": 0.0977
+        },
+        {
+          "layer": 7,
+          "feature_idx": 210,
+          "pos": 15,
+          "activation": 14.0625,
+          "direct_effect": 0.0942
+        },
+        {
+          "layer": 4,
+          "feature_idx": 8736,
+          "pos": 2,
+          "activation": 13.75,
+          "direct_effect": -0.0869
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 14,
+        "feature_idx": 3985
+      },
+      "output": {
+        "layer": 14,
+        "feature_idx": 3985,
+        "label": "terms related to management, leadership, medicine, studies, and research",
+        "top_activating_examples": [
+          {
+            "text_snippet": ".\u2581It\u2581is\u2581important\u2581that\u2581the\u2581employees\u2581have\u2581a\u2581possibility\u2581to\u2581develop\u2581their\u2581professional\u2581skills.\u2581Leadership\u2581style\u2581contributes\u2581to\u2581job\u2581satisfaction\u2581when\u2581the\u2581nurse\u2581manager\u2581has\u2581skills\u2581to\u2581prevent\u2581and\u2581solve\u2581co",
+            "max_activation": 165.726,
+            "max_token": "\u2581nurse"
+          },
+          {
+            "text_snippet": ".\u2581It\u2581is\u2581important\u2581that\u2581the\u2581employees\u2581have\u2581a\u2581possibility\u2581to\u2581develop\u2581their\u2581professional\u2581skills.\u2581Leadership\u2581style\u2581contributes\u2581to\u2581job\u2581satisfaction\u2581when\u2581the\u2581nurse\u2581manager\u2581has\u2581skills\u2581to\u2581prevent\u2581and\u2581solve\u2581co",
+            "max_activation": 165.726,
+            "max_token": "\u2581nurse"
+          },
+          {
+            "text_snippet": ".\u2581It\u2581is\u2581important\u2581that\u2581the\u2581employees\u2581have\u2581a\u2581possibility\u2581to\u2581develop\u2581their\u2581professional\u2581skills.\u2581Leadership\u2581style\u2581contributes\u2581to\u2581job\u2581satisfaction\u2581when\u2581the\u2581nurse\u2581manager\u2581has\u2581skills\u2581to\u2581prevent\u2581and\u2581solve\u2581co",
+            "max_activation": 165.726,
+            "max_token": "\u2581nurse"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581patients",
+          "\u2581Patients",
+          "Patients",
+          "Medical",
+          "\u2581Medical",
+          "\u2581patient",
+          "\u2581clinicians",
+          "\u2581medical",
+          "\u2581clinical",
+          "patients"
+        ],
+        "suppressed_tokens": [
+          "\u2581\u0627\u0644\u0645\u0639\u064a\u0627\u0631\u0649",
+          "idopsis",
+          "setViewName",
+          "\u2581EconPapers",
+          "\u2581\u05e9\u05d5\u05dc\u05d9\u05d9\u05dd",
+          "(\"\")]",
+          "ExtendWith",
+          "hetamine",
+          "\u2581wr",
+          "antMatchers"
+        ],
+        "frac_nonzero": 0.06604
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 15267
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 15267,
+        "label": " words in the document referring to the profession of nursing",
+        "top_activating_examples": [
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          }
+        ],
+        "promoted_tokens": [
+          "PerformLayout",
+          "mybatisplus",
+          "\u2581\u0635\u0648\u062a\u064a\u0647",
+          "RouterModule",
+          "contentLoaded",
+          "WaitGroup",
+          "ACGIH",
+          "\ufe36",
+          "forRoot",
+          "bootstrapcdn"
+        ],
+        "suppressed_tokens": [
+          "\ufeff/**",
+          "geti",
+          "Controllo",
+          "\u2581contributions",
+          "\u2581religione",
+          "\u2581Kombin",
+          "\u2581contributors",
+          "\u2581Contributing",
+          "Provided",
+          ")),\r"
+        ],
+        "frac_nonzero": 0.01594
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 3,
+        "feature_idx": 15901
+      },
+      "output": {
+        "layer": 3,
+        "feature_idx": 15901,
+        "label": " mentions of nurses, nursing, and nurse management",
+        "top_activating_examples": [
+          {
+            "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+            "max_activation": 37.819,
+            "max_token": "\u2581nursing"
+          },
+          {
+            "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+            "max_activation": 37.819,
+            "max_token": "\u2581nursing"
+          },
+          {
+            "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+            "max_activation": 37.819,
+            "max_token": "\u2581nursing"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "ectl",
+          "\u2581Sal",
+          "\ue315",
+          "\u2581/\\.",
+          "Obr\u00e1zky",
+          "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+          "\u2581GBIF",
+          "EVT",
+          "pexpr"
+        ],
+        "suppressed_tokens": [
+          "\u2581nurse",
+          "\u2581Nurse",
+          "\u2581nursing",
+          "\u2581nurses",
+          "\u2581Nursing",
+          "Nurse",
+          "\u2581Nurses",
+          "Nursing",
+          "nurse",
+          "nursing"
+        ],
+        "frac_nonzero": 0.00546
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 7,
+        "feature_idx": 3979
+      },
+      "output": {
+        "layer": 7,
+        "feature_idx": 3979,
+        "label": " words related to nursing and healthcare",
+        "top_activating_examples": [
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 63.889,
+            "max_token": "\u2581Nursing"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 63.889,
+            "max_token": "\u2581Nursing"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 63.889,
+            "max_token": "\u2581Nursing"
+          }
+        ],
+        "promoted_tokens": [
+          "b\u0117s",
+          "WRENCE",
+          "ticultural",
+          "\u2581Ontology",
+          "\u062c\u0627\u062c",
+          "LocalizedString",
+          "\u0440\u043e\u0441\u043b\u0430\u0432",
+          "\u2581Her",
+          "XmlAccessorType",
+          "lace"
+        ],
+        "suppressed_tokens": [
+          "\u2581nakalista",
+          "\u2581\u0635\u0648\u062a\u064a\u0647",
+          "mybatisplus",
+          "StoryboardSegue",
+          "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+          "\ud83d\udc87",
+          "\u2581barbers",
+          "\u2581Allocin\u00e9",
+          "rrggbb",
+          "endphp"
+        ],
+        "frac_nonzero": 0.00826
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 14,
+        "starting_feature_idx": 3985,
+        "starting_pos": 15,
+        "objective": "Trace this feature upstream to understand what drives it. Look for whether it's driven by genuine profession indicators or spurious features like gender markers. Check for early-layer features that might represent input tokens.",
+        "max_hops": 5
+      },
+      "output": {
+        "error": "Subagent failed: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Invalid message format for role: user'}, 'request_id': None}",
+        "discovered_features": [],
+        "discovered_edges": [],
+        "explanation": ""
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 15267,
+        "starting_pos": 15,
+        "objective": "Trace this nursing profession feature upstream. Look for whether it's driven by actual nursing-related tokens or spurious features.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 6,
+            "feature_idx": 15267,
+            "pos": 15,
+            "label": " words in the document referring to the profession of nursing",
+            "frac_nonzero": 0.01594,
+            "promoted_tokens": [
+              "PerformLayout",
+              "mybatisplus",
+              "\u2581\u0635\u0648\u062a\u064a\u0647",
+              "RouterModule",
+              "contentLoaded",
+              "WaitGroup",
+              "ACGIH",
+              "\ufe36",
+              "forRoot",
+              "bootstrapcdn"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 11037,
+            "pos": 15,
+            "label": " words related to counseling, therapy, social work, and academic degree programs",
+            "frac_nonzero": 0.00674,
+            "promoted_tokens": [
+              "\u2581engineer",
+              "Engineer",
+              "\u2581Engineer",
+              "\u2581ENGINEER",
+              "\u2581engineers",
+              "engineer",
+              "Engineers",
+              "\u2581engineering",
+              "\u2581Engineers",
+              "\u2581ingenieros"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 15901,
+            "pos": 15,
+            "label": " mentions of nurses, nursing, and nurse management",
+            "frac_nonzero": 0.00546,
+            "promoted_tokens": [
+              "<bos>",
+              "ectl",
+              "\u2581Sal",
+              "\ue315",
+              "\u2581/\\.",
+              "Obr\u00e1zky",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "\u2581GBIF",
+              "EVT",
+              "pexpr"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 8751,
+            "pos": 15,
+            "label": " cell types in the brain, especially glial cells and neurons, and related scientific terminology",
+            "frac_nonzero": 0.02289,
+            "promoted_tokens": [
+              "\u2581staff",
+              "fjspx",
+              "\u2581kaarangay",
+              "\u2581staffs",
+              "ReusableCell",
+              "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+              "SourceChecksum",
+              "\u2581\u043c\u04d9\u043a\u0430\u043b",
+              "\u2581CreateTagHelper",
+              "setVerticalGroup"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 15437,
+            "pos": 15,
+            "label": " words related to nurses and sound",
+            "frac_nonzero": 0.00702,
+            "promoted_tokens": [
+              "MLLoader",
+              "ArrowToggle",
+              ":\u2728",
+              "aarrggbb",
+              "ModelForm",
+              "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+              "\u2581\u0645\u0646\u0647",
+              "\u2581BoxDecoration",
+              "\u2581vuitton",
+              "XmlAccessType"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11835,
+            "pos": 15,
+            "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+            "frac_nonzero": 0.29459,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581",
+              "'",
+              "\n\n",
+              ",",
+              "\n",
+              "\u2019",
+              ".",
+              "\u2581in",
+              "\u2581the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 10920,
+            "pos": 15,
+            "label": " the word \"nurse\"",
+            "frac_nonzero": 0.00581,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "\n",
+              "-",
+              ",",
+              "\u2581the",
+              "'",
+              "(",
+              "\u2581and",
+              "1"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 5224,
+            "pos": 15,
+            "label": " words related to retail and customer service jobs",
+            "frac_nonzero": 0.01222,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581disambiguazione",
+              "\">//",
+              "\u2581initComponents",
+              "\u2581\u0440\u043e\u043b\u044f\u0445",
+              "\u2581testemun",
+              "awtextra",
+              "\ue315",
+              "enumii",
+              "Staff"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 16.125,
+            "from_token": " nurses"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 14,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 4.375,
+            "from_token": "perative"
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 11037,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 2.75
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": -2.4844
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8751,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 1.9609
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": 5.125,
+            "from_token": " nurses"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": -1.9531,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": -1.6484
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": 1.5859,
+            "from_token": " Perio"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 14,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": 1.4141,
+            "from_token": "perative"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 14.875,
+            "from_token": " nurses"
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 15437,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": -0.6914
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11835,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 0.4082
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5224,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 0.3164
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 19.25,
+            "from_token": " nurses"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 10920,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 1.0625
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 15,
+            "to_layer": 0,
+            "to_feature_idx": 10920,
+            "to_pos": 15,
+            "weight": 21.5,
+            "from_token": " nurses"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 10920,
+            "to_pos": 15,
+            "weight": -0.7695,
+            "from_token": "<bos>"
+          }
+        ],
+        "explanation": "The nursing profession feature at L6:F15267 is primarily driven by ACTUAL nursing-related tokens, not spurious features. Key findings:\n\n1. **Direct embedding connection**: The strongest connection to L6 feature is from the token \" nurses\" embedding itself (weight 16.125), indicating direct lexical detection.\n\n2. **Early layer nursing detection**: Layer 0 contains feature 10920 that specifically detects the word \"nurse\" (frac_nonzero=0.00581, highly specific). This feeds into L2 feature 15437 (nurses and sound) and eventually into the circuit.\n\n3. **Interesting inhibition pattern**: Layer 3 feature 15901 detects \"mentions of nurses, nursing, and nurse management\" but has NEGATIVE weight (-2.4844) to our L6 nursing profession feature, suggesting some kind of inhibition or competing representation.\n\n4. **Supplementary signals**: Additional connections come from \"perative\" token (likely from \"operative\" context), L4 counseling/therapy feature (11037), and L4 neuroscience feature (8751) about brain cells.\n\n5. **Low frac_nonzero values**: Most features in the circuit have low frac_nonzero (<0.03), indicating specificity rather than generic pattern-matching.\n\nConclusion: This is a genuine nursing-related circuit rooted in actual nursing vocabulary detection at early layers, not spurious correlations.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "label": " words in the document referring to the profession of nursing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                }
+              ],
+              "promoted_tokens": [
+                "PerformLayout",
+                "mybatisplus",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "RouterModule",
+                "contentLoaded",
+                "WaitGroup",
+                "ACGIH",
+                "\ufe36",
+                "forRoot",
+                "bootstrapcdn"
+              ],
+              "suppressed_tokens": [
+                "\ufeff/**",
+                "geti",
+                "Controllo",
+                "\u2581contributions",
+                "\u2581religione",
+                "\u2581Kombin",
+                "\u2581contributors",
+                "\u2581Contributing",
+                "Provided",
+                ")),\r"
+              ],
+              "frac_nonzero": 0.01594
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 16.125
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 4.375
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 15,
+                "edge_weight": 2.75
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -2.4844
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8751,
+                "pos": 15,
+                "edge_weight": 1.9609
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11037
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 11037,
+              "label": " words related to counseling, therapy, social work, and academic degree programs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 62.307,
+                  "max_token": "\u2581work"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581engineer",
+                "Engineer",
+                "\u2581Engineer",
+                "\u2581ENGINEER",
+                "\u2581engineers",
+                "engineer",
+                "Engineers",
+                "\u2581engineering",
+                "\u2581Engineers",
+                "\u2581ingenieros"
+              ],
+              "suppressed_tokens": [
+                "Refer\u00e8ncies",
+                "MessageOf",
+                "ringer",
+                "\u2581Reverso",
+                "WaitGroup",
+                "\u2581Absolute",
+                "ficador",
+                "\u306f\u3058\u3081\u306b",
+                "----</",
+                "\u2581<=\","
+              ],
+              "frac_nonzero": 0.00674
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "label": " mentions of nurses, nursing, and nurse management",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ectl",
+                "\u2581Sal",
+                "\ue315",
+                "\u2581/\\.",
+                "Obr\u00e1zky",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581GBIF",
+                "EVT",
+                "pexpr"
+              ],
+              "suppressed_tokens": [
+                "\u2581nurse",
+                "\u2581Nurse",
+                "\u2581nursing",
+                "\u2581nurses",
+                "\u2581Nursing",
+                "Nurse",
+                "\u2581Nurses",
+                "Nursing",
+                "nurse",
+                "nursing"
+              ],
+              "frac_nonzero": 0.00546
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8751
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 8751,
+              "label": " cell types in the brain, especially glial cells and neurons, and related scientific terminology",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "6\u2581(50.0)\n\u2581*\u2581JD-Core\u2581Version:\u2581\u2581\u2581\u25810.7.1\n\u2581*/<bos>Neural\u2581crest\u2581cells\u2581(NCCs)\u2581are\u2581pluripotent\u2581cells\u2581that\u2581migrate\u2581from\u2581the\u2581developing\u2581neural\u2581tube\u2581to\u2581populate\u2581various\u2581tissues\u2581including\u2581craniofacial\u2581structures",
+                  "max_activation": 57.696,
+                  "max_token": "lia"
+                },
+                {
+                  "text_snippet": "6\u2581(50.0)\n\u2581*\u2581JD-Core\u2581Version:\u2581\u2581\u2581\u25810.7.1\n\u2581*/<bos>Neural\u2581crest\u2581cells\u2581(NCCs)\u2581are\u2581pluripotent\u2581cells\u2581that\u2581migrate\u2581from\u2581the\u2581developing\u2581neural\u2581tube\u2581to\u2581populate\u2581various\u2581tissues\u2581including\u2581craniofacial\u2581structures",
+                  "max_activation": 57.696,
+                  "max_token": "lia"
+                },
+                {
+                  "text_snippet": "\u2581process\u2581fails,\u2581resulting\u2581in\u2581an\u2581extracellular\u2581accumulation\u2581of\u2581glutamate,\u2581which\u2581continually\u2581stimulates\u2581receptors\u2581leading\u2581to\u2581a\u2581persistent\u2581influx\u2581of\u2581calcium\u2581ions\u2581\\[[@CR12]\\].\u2581Furthermore,\u2581the\u2581Na+/Ca2+\u00a0AT",
+                  "max_activation": 56.492,
+                  "max_token": "al"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581staff",
+                "fjspx",
+                "\u2581kaarangay",
+                "\u2581staffs",
+                "ReusableCell",
+                "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+                "SourceChecksum",
+                "\u2581\u043c\u04d9\u043a\u0430\u043b",
+                "\u2581CreateTagHelper",
+                "setVerticalGroup"
+              ],
+              "suppressed_tokens": [
+                "ubility",
+                "ETY",
+                "ioneta",
+                "\u2581mari\u00e9",
+                "\u2581anillos",
+                "\u0395\u03a3",
+                "jetunion",
+                "ending",
+                "\u2581biologique",
+                "\u2581melting"
+              ],
+              "frac_nonzero": 0.02289
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11037,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 5.125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9531
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -1.6484
+              },
+              {
+                "type": "embedding",
+                "token": " Perio",
+                "pos": 13,
+                "edge_weight": 1.5859
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 1.4141
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 14.875
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 15437,
+                "pos": 15,
+                "edge_weight": -0.6914
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11835,
+                "pos": 15,
+                "edge_weight": 0.4082
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15,
+                "edge_weight": 0.3164
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 12997,
+                "pos": 15,
+                "edge_weight": 0.2871
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "label": " words related to nurses and sound",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581Hardanger\u2581fiddle.\u2581Her\u2581own\u2581armonica\u2581is\u2581composed\u2581of\u258124\u2581glass\u2581bowls\u2581ranging\u2581two\u2581octaves.\u2581Norment\u2581has\u2581described\u2581the\u2581sound\u2581of\u2581the\u2581armonica\u2581as\u2581\"...extremely\u2581visceral.\u2581It's\u2581a\u2581very\u2581pure\u2581crystalline\u2581sound",
+                  "max_activation": 46.27,
+                  "max_token": "\u2581sound"
+                },
+                {
+                  "text_snippet": "\u2581by\u2581Watermat\u2581&\u2581TAI,\u2581building\u2581upon\u2581an\u2581effective\u2581piano\u2581groove,\u2581turning\u2581this\u2581from\u2581catchy\u2581house\u2581music\u2581to\u2581a\u2581bigger\u2581than\u2581life\u2581future\u2581anthem.\u2581It\u2019s\u2581got\u2581main\u2581stage\u2581written\u2581all\u2581over\u2581it,\u2581without\u2581falling\u2581for\u2581the\u2581",
+                  "max_activation": 45.845,
+                  "max_token": "\u2581sounds"
+                },
+                {
+                  "text_snippet": "\u2581planning\u2581to\u2581have\u2581a\u2581baby,\u2581do\u2581not\u2581take\u2581this\u2581medicine\u2581until\u2581you\u2581have\u2581checked\u2581with\u2581your\u2581doctor,\u2581pharmacist,\u2581or\u2581nurse.\u2581\u2022\u2581While\u2581taking\u2581Galafold,\u2581effective\u2581birth\u2581control\u2581should\u2581be\u2581used.\u2581It\u2581is\u2581not\u2581known\u2581whet",
+                  "max_activation": 45.347,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "MLLoader",
+                "ArrowToggle",
+                ":\u2728",
+                "aarrggbb",
+                "ModelForm",
+                "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+                "\u2581\u0645\u0646\u0647",
+                "\u2581BoxDecoration",
+                "\u2581vuitton",
+                "XmlAccessType"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0645\u0634\u064a\u0646",
+                "Portail",
+                "\u2581sounding",
+                "\u2581'\\\\;'",
+                ".}}",
+                "\u2581seni",
+                ".}~\\",
+                "\u9005",
+                "gares",
+                "\u2581/^\\"
+              ],
+              "frac_nonzero": 0.007019999999999999
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11835
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11835,
+              "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\")]\r\n[assembly:\u2581AssemblyCopyright(\"Copyright\u2581\u00a9\u2581\u25812009\")]\r\n[assembly:\u2581AssemblyTrademark(\"\")]\r\n[assembly:\u2581AssemblyCulture(\"\")]\r\n\r\n//\u2581Setting\u2581ComVisible\u2581to\u2581false\u2581makes\u2581the\u2581types\u2581in\u2581this\u2581assembly\u2581not\u2581visib",
+                  "max_activation": 33.959,
+                  "max_token": "\u2581AssemblyCulture"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581",
+                "'",
+                "\n\n",
+                ",",
+                "\n",
+                "\u2019",
+                ".",
+                "\u2581in",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581betweenstory",
+                "WithIOException",
+                "RegressionTest",
+                "\u044c\u0430\u0436",
+                "\u2581propOrder",
+                "GEBURTSDATUM",
+                "IndentedString",
+                "\u2581disambiguazione",
+                "DockStyle",
+                "\u2581CreateTagHelper"
+              ],
+              "frac_nonzero": 0.29459
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 19.25
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 10920,
+                "pos": 15,
+                "edge_weight": 1.0625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9026,
+                "pos": 15,
+                "edge_weight": 0.5742
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1847,
+                "pos": 15,
+                "edge_weight": -0.4902
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3079,
+                "pos": 15,
+                "edge_weight": 0.4316
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10920
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 10920,
+              "label": " the word \"nurse\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "\n",
+                "-",
+                ",",
+                "\u2581the",
+                "'",
+                "(",
+                "\u2581and",
+                "1"
+              ],
+              "suppressed_tokens": [
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581Majefty",
+                "\u2581Jefus",
+                "\u2581The\u017fe",
+                "\u2581Hou\u017fe",
+                "^(@)",
+                "\u2581Re\u017f",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581greate\u017ft"
+              ],
+              "frac_nonzero": 0.005809999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10920,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 21.5
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.7695
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": -0.5547
+              },
+              {
+                "type": "embedding",
+                "token": " Connecticut",
+                "pos": 5,
+                "edge_weight": -0.4082
+              },
+              {
+                "type": "embedding",
+                "token": " Hartford",
+                "pos": 3,
+                "edge_weight": -0.1738
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5224
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 5224,
+              "label": " words related to retail and customer service jobs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581get\u2581from\u2581Manhattan\u2581to\u2581Montclair\u2581(Lincoln),\u2581and\u2581festival\u2581programmer\u2581Thom\u2581Powers\u2581\u2014\u2581before\u2581dismissing\u2581the\u2581audience\u2581to\u2581the\u2581reception\u2581\u2014\u2581reminded\u2581filmgoers\u2581their\u2581parking\u2581tickets\u2581would\u2581be\u2581validated,\u2581\u201csometh",
+                  "max_activation": 47.313,
+                  "max_token": "istas"
+                },
+                {
+                  "text_snippet": "-20-live-\nfree)\n\n~~~\nbobsoap\nSeriously,\u2581downvoted\u2581without\u2581an\u2581explanation?\u2581That's\u2581quite\u2581poor.\u2581If\u2581something\nabout\u2581my\u2581post\u2581offends\u2581anyone,\u2581I'd\u2581love\u2581to\u2581know\u2581about\u2581it.\n\n------\nmangeletti\nI\u2581swear\u2581this\u2581is\u2581a\u2581",
+                  "max_activation": 46.178,
+                  "max_token": "\u2581cashier"
+                },
+                {
+                  "text_snippet": "-20-live-\nfree)\n\n~~~\nbobsoap\nSeriously,\u2581downvoted\u2581without\u2581an\u2581explanation?\u2581That's\u2581quite\u2581poor.\u2581If\u2581something\nabout\u2581my\u2581post\u2581offends\u2581anyone,\u2581I'd\u2581love\u2581to\u2581know\u2581about\u2581it.\n\n------\nmangeletti\nI\u2581swear\u2581this\u2581is\u2581a\u2581",
+                  "max_activation": 46.178,
+                  "max_token": "\u2581cashier"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581disambiguazione",
+                "\">//",
+                "\u2581initComponents",
+                "\u2581\u0440\u043e\u043b\u044f\u0445",
+                "\u2581testemun",
+                "awtextra",
+                "\u00e8cie",
+                "enumii",
+                "Staff"
+              ],
+              "suppressed_tokens": [
+                "NOPQRST",
+                "UnifiedTopology",
+                "fford",
+                "\u0163ele",
+                "acteria",
+                "OrBuilder",
+                "acterium",
+                "Asteroid",
+                "glEnable",
+                "\u2581Textbook"
+              ],
+              "frac_nonzero": 0.01222
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this nursing profession feature upstream. Look for whether it's driven by actual nursing-related tokens or spurious features.",
+          "input_tokens": 88819,
+          "output_tokens": 3942,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 3,
+        "starting_feature_idx": 15901,
+        "starting_pos": 15,
+        "objective": "Trace this feature - it has a NEGATIVE effect on the probe. Investigate what upstream features drive it and whether it represents a spurious gender-marker pattern.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 3,
+            "feature_idx": 15901,
+            "pos": 15,
+            "label": " mentions of nurses, nursing, and nurse management",
+            "frac_nonzero": 0.00546,
+            "promoted_tokens": [
+              "<bos>",
+              "ectl",
+              "\u2581Sal",
+              "\ue315",
+              "\u2581/\\.",
+              "Obr\u00e1zky",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "\u2581GBIF",
+              "EVT",
+              "pexpr"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 15437,
+            "pos": 15,
+            "label": " words related to nurses and sound",
+            "frac_nonzero": 0.007019999999999999,
+            "promoted_tokens": [
+              "MLLoader",
+              "ArrowToggle",
+              ":\u2728",
+              "aarrggbb",
+              "ModelForm",
+              "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+              "\u2581\u0645\u0646\u0647",
+              "\u2581BoxDecoration",
+              "\u2581vuitton",
+              "XmlAccessType"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11835,
+            "pos": 15,
+            "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+            "frac_nonzero": 0.29459,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581",
+              "'",
+              "\n\n",
+              ",",
+              "\n",
+              "\u2019",
+              ".",
+              "\u2581in",
+              "\u2581the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 10920,
+            "pos": 15,
+            "label": " the word \"nurse\"",
+            "frac_nonzero": 0.005809999999999999,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "\n",
+              "-",
+              ",",
+              "\u2581the",
+              "'",
+              "(",
+              "\u2581and",
+              "1"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 9026,
+            "pos": 15,
+            "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+            "frac_nonzero": 0.41044,
+            "promoted_tokens": [
+              "\u2581",
+              ",",
+              ".",
+              "\u2581(",
+              "\n\n",
+              "\n",
+              "<eos>",
+              "\u2581in",
+              "-",
+              "\u2581\""
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 0,
+            "from_feature_idx": 10920,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 1.0625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 9026,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 0.5742
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 15437,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": -0.6914
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11835,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 0.4082
+          }
+        ],
+        "explanation": "The tracing reveals a circuit that processes the token \"nurses\" at position 15. Starting from L3:F15901 (which detects mentions of nurses but suppresses nurse-related tokens), the circuit traces back through L2:F15437 (detecting words related to nurses and sound) which has a NEGATIVE connection to the L3 feature (weight: -0.6914). This L2 feature receives input from L0:F10920 which directly detects the word \"nurse\" with high specificity (frac_nonzero: 0.0058). The circuit shows no clear gender-marker patterns - the features are specifically about nurse terminology rather than gender associations. The feature suppresses nurse-related tokens rather than promoting them, suggesting it might represent a pattern of context-specific suppression rather than a spurious gender-marker pattern.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "label": " mentions of nurses, nursing, and nurse management",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ectl",
+                "\u2581Sal",
+                "\ue315",
+                "\u2581/\\.",
+                "Obr\u00e1zky",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581GBIF",
+                "EVT",
+                "pexpr"
+              ],
+              "suppressed_tokens": [
+                "\u2581nurse",
+                "\u2581Nurse",
+                "\u2581nursing",
+                "\u2581nurses",
+                "\u2581Nursing",
+                "Nurse",
+                "\u2581Nurses",
+                "Nursing",
+                "nurse",
+                "nursing"
+              ],
+              "frac_nonzero": 0.00546
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 14.875
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 15437,
+                "pos": 15,
+                "edge_weight": -0.6914
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11835,
+                "pos": 15,
+                "edge_weight": 0.4082
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15,
+                "edge_weight": 0.3164
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 12997,
+                "pos": 15,
+                "edge_weight": 0.2871
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "label": " words related to nurses and sound",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581Hardanger\u2581fiddle.\u2581Her\u2581own\u2581armonica\u2581is\u2581composed\u2581of\u258124\u2581glass\u2581bowls\u2581ranging\u2581two\u2581octaves.\u2581Norment\u2581has\u2581described\u2581the\u2581sound\u2581of\u2581the\u2581armonica\u2581as\u2581\"...extremely\u2581visceral.\u2581It's\u2581a\u2581very\u2581pure\u2581crystalline\u2581sound",
+                  "max_activation": 46.27,
+                  "max_token": "\u2581sound"
+                },
+                {
+                  "text_snippet": "\u2581by\u2581Watermat\u2581&\u2581TAI,\u2581building\u2581upon\u2581an\u2581effective\u2581piano\u2581groove,\u2581turning\u2581this\u2581from\u2581catchy\u2581house\u2581music\u2581to\u2581a\u2581bigger\u2581than\u2581life\u2581future\u2581anthem.\u2581It\u2019s\u2581got\u2581main\u2581stage\u2581written\u2581all\u2581over\u2581it,\u2581without\u2581falling\u2581for\u2581the\u2581",
+                  "max_activation": 45.845,
+                  "max_token": "\u2581sounds"
+                },
+                {
+                  "text_snippet": "\u2581planning\u2581to\u2581have\u2581a\u2581baby,\u2581do\u2581not\u2581take\u2581this\u2581medicine\u2581until\u2581you\u2581have\u2581checked\u2581with\u2581your\u2581doctor,\u2581pharmacist,\u2581or\u2581nurse.\u2581\u2022\u2581While\u2581taking\u2581Galafold,\u2581effective\u2581birth\u2581control\u2581should\u2581be\u2581used.\u2581It\u2581is\u2581not\u2581known\u2581whet",
+                  "max_activation": 45.347,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "MLLoader",
+                "ArrowToggle",
+                ":\u2728",
+                "aarrggbb",
+                "ModelForm",
+                "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+                "\u2581\u0645\u0646\u0647",
+                "\u2581BoxDecoration",
+                "\u2581vuitton",
+                "XmlAccessType"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0645\u0634\u064a\u0646",
+                "Portail",
+                "\u2581sounding",
+                "\u2581'\\\\;'",
+                ".}}",
+                "\u2581seni",
+                ".}~\\",
+                "\u9005",
+                "gares",
+                "\u2581/^\\"
+              ],
+              "frac_nonzero": 0.007019999999999999
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11835
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11835,
+              "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\")]\r\n[assembly:\u2581AssemblyCopyright(\"Copyright\u2581\u00a9\u2581\u25812009\")]\r\n[assembly:\u2581AssemblyTrademark(\"\")]\r\n[assembly:\u2581AssemblyCulture(\"\")]\r\n\r\n//\u2581Setting\u2581ComVisible\u2581to\u2581false\u2581makes\u2581the\u2581types\u2581in\u2581this\u2581assembly\u2581not\u2581visib",
+                  "max_activation": 33.959,
+                  "max_token": "\u2581AssemblyCulture"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581",
+                "'",
+                "\n\n",
+                ",",
+                "\n",
+                "\u2019",
+                ".",
+                "\u2581in",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581betweenstory",
+                "WithIOException",
+                "RegressionTest",
+                "\u044c\u0430\u0436",
+                "\u2581propOrder",
+                "GEBURTSDATUM",
+                "IndentedString",
+                "\u2581disambiguazione",
+                "DockStyle",
+                "\u2581CreateTagHelper"
+              ],
+              "frac_nonzero": 0.29459
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 19.25
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 10920,
+                "pos": 15,
+                "edge_weight": 1.0625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9026,
+                "pos": 15,
+                "edge_weight": 0.5742
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1847,
+                "pos": 15,
+                "edge_weight": -0.4902
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3079,
+                "pos": 15,
+                "edge_weight": 0.4316
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10920
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 10920,
+              "label": " the word \"nurse\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "\n",
+                "-",
+                ",",
+                "\u2581the",
+                "'",
+                "(",
+                "\u2581and",
+                "1"
+              ],
+              "suppressed_tokens": [
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581Majefty",
+                "\u2581Jefus",
+                "\u2581The\u017fe",
+                "\u2581Hou\u017fe",
+                "^(@)",
+                "\u2581Re\u017f",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581greate\u017ft"
+              ],
+              "frac_nonzero": 0.005809999999999999
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9026
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 9026,
+              "label": "technical documents or data, including numbers, units, and references to figures or tables.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u25811;\u2581\\<0.0001\n\n\u2581\u2581Low\u2581(\\<2.5\u2581h/week)\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258144.7\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258152.6\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**36.9**\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\n\n\u2581\u2581Adequate\u2581(\u22652.5\u2581h/week)\u2581\u2581\u2581\u258155.3\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u258147.4\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581**",
+                  "max_activation": 106.612,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "\u258112-week\u2581treatment\u2581period\u2581was\u2581low\u2581(\\<4.1%)\u2581through\u2581all\u2581treatment\u2581phases\u2581(first\u2581treatment,\u2581first\u2581exposure,\u2581extended\u2581treatment,\u2581re-treatment,\u2581long-term\u2581treatment).\n\nJoint\u2581disease\u2581has\u2581also\u2581been\u2581reported\u2581",
+                  "max_activation": 106.051,
+                  "max_token": "\u2581(\\<"
+                },
+                {
+                  "text_snippet": "08-00159],[@B22-polymers-08-00159]\\].\u2581The\u2581mass\u2581loss\u2581(about\u25815%)\u2581of\u2581the\u2581first\u2581thermal\u2581event\u2581at\u2581the\u2581lower\u2581temperature\u2581range\u2581(\\<155\u2581\u00b0C)\u2581contributed\u2581to\u2581the\u2581evaporation\u2581of\u2581free\u2581water.\u2581In\u2581the\u2581second\u2581stage,\u2581w",
+                  "max_activation": 105.559,
+                  "max_token": "\u2581(\\<"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                ",",
+                ".",
+                "\u2581(",
+                "\n\n",
+                "\n",
+                "<eos>",
+                "\u2581in",
+                "-",
+                "\u2581\""
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "\u2581Monfieur",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581Majefty",
+                "\u2581plea\u017fure",
+                "\u2581Jefus",
+                "\u2581purpo\u017fe",
+                "\u2581The\u017fe"
+              ],
+              "frac_nonzero": 0.41044
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10920,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 21.5
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.7695
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": -0.5547
+              },
+              {
+                "type": "embedding",
+                "token": " Connecticut",
+                "pos": 5,
+                "edge_weight": -0.4082
+              },
+              {
+                "type": "embedding",
+                "token": " Hartford",
+                "pos": 3,
+                "edge_weight": -0.1738
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this feature - it has a NEGATIVE effect on the probe. Investigate what upstream features drive it and whether it represents a spurious gender-marker pattern.",
+          "input_tokens": 45636,
+          "output_tokens": 2000,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 7,
+        "starting_feature_idx": 3979,
+        "starting_pos": 15,
+        "objective": "Trace this nursing/healthcare feature upstream. Look for early-layer features and input tokens.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 7,
+            "feature_idx": 3979,
+            "pos": 15,
+            "label": " words related to nursing and healthcare",
+            "frac_nonzero": 0.00826,
+            "promoted_tokens": [
+              "b\u0117s",
+              "WRENCE",
+              "ticultural",
+              "\u2581Ontology",
+              "\u062c\u0627\u062c",
+              "LocalizedString",
+              "\u0440\u043e\u0441\u043b\u0430\u0432",
+              "\u2581Her",
+              "XmlAccessorType",
+              "lace"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 15267,
+            "pos": 15,
+            "label": " words in the document referring to the profession of nursing",
+            "frac_nonzero": 0.01594,
+            "promoted_tokens": [
+              "PerformLayout",
+              "mybatisplus",
+              "\u2581\u0635\u0648\u062a\u064a\u0647",
+              "RouterModule",
+              "contentLoaded",
+              "WaitGroup",
+              "ACGIH",
+              "\ufe36",
+              "forRoot",
+              "bootstrapcdn"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 11037,
+            "pos": 15,
+            "label": " words related to counseling, therapy, social work, and academic degree programs",
+            "frac_nonzero": 0.00674,
+            "promoted_tokens": [
+              "\u2581engineer",
+              "Engineer",
+              "\u2581Engineer",
+              "\u2581ENGINEER",
+              "\u2581engineers",
+              "engineer",
+              "Engineers",
+              "\u2581engineering",
+              "\u2581Engineers",
+              "\u2581ingenieros"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 8751,
+            "pos": 15,
+            "label": " cell types in the brain, especially glial cells and neurons, and related scientific terminology",
+            "frac_nonzero": 0.02289,
+            "promoted_tokens": [
+              "\u2581staff",
+              "fjspx",
+              "\u2581kaarangay",
+              "\u2581staffs",
+              "ReusableCell",
+              "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+              "SourceChecksum",
+              "\u2581\u043c\u04d9\u043a\u0430\u043b",
+              "\u2581CreateTagHelper",
+              "setVerticalGroup"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 15901,
+            "pos": 15,
+            "label": " mentions of nurses, nursing, and nurse management",
+            "frac_nonzero": 0.00546,
+            "promoted_tokens": [
+              "<bos>",
+              "ectl",
+              "\u2581Sal",
+              "\ue315",
+              "\u2581/\\.",
+              "Obr\u00e1zky",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "\u2581GBIF",
+              "EVT",
+              "pexpr"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 15437,
+            "pos": 15,
+            "label": " words related to nurses and sound",
+            "frac_nonzero": 0.007019999999999999,
+            "promoted_tokens": [
+              "MLLoader",
+              "ArrowToggle",
+              ":\u2728",
+              "aarrggbb",
+              "ModelForm",
+              "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+              "\u2581\u0645\u0646\u0647",
+              "\u2581BoxDecoration",
+              "\u2581vuitton",
+              "XmlAccessorType"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 5224,
+            "pos": 15,
+            "label": " words related to retail and customer service jobs",
+            "frac_nonzero": 0.01222,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581disambiguazione",
+              "\">//",
+              "\u2581initComponents",
+              "\u2581\u0440\u043e\u043b\u044f\u0445",
+              "\u2581testemun",
+              "awtextra",
+              "\u00e8cie",
+              "enumii",
+              "Staff"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11835,
+            "pos": 15,
+            "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+            "frac_nonzero": 0.29459,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581",
+              "'",
+              "\n\n",
+              ",",
+              "\n",
+              "\u2019",
+              ".",
+              "\u2581in",
+              "\u2581the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8854,
+            "pos": 15,
+            "label": " the word \"nurse\" as well as some pronouns",
+            "frac_nonzero": 0.00465,
+            "promoted_tokens": [
+              "/*.",
+              "ilets",
+              "\u05d1\u05d5\u05d3\u05d4",
+              "\u2581>=\",",
+              "\u2581Toro",
+              "IMENTAL",
+              "\u2581sooner",
+              "whereas",
+              "\u2581anyway",
+              "u"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 10920,
+            "pos": 15,
+            "label": " the word \"nurse\"",
+            "frac_nonzero": 0.005809999999999999,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "\n",
+              "-",
+              ",",
+              "\u2581the",
+              "'",
+              "(",
+              "\u2581and",
+              "1"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 6,
+            "from_feature_idx": 15267,
+            "from_pos": 15,
+            "to_layer": 7,
+            "to_feature_idx": 3979,
+            "to_pos": 15,
+            "weight": 7.9375
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 7,
+            "to_feature_idx": 3979,
+            "to_pos": 15,
+            "weight": -1.3906
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 11037,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 2.75
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": -2.4844
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8751,
+            "from_pos": 15,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 15,
+            "weight": 1.9609
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 11037,
+            "to_pos": 15,
+            "weight": -1.6484
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 15437,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": -0.6914
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11835,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 0.4082
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5224,
+            "from_pos": 15,
+            "to_layer": 3,
+            "to_feature_idx": 15901,
+            "to_pos": 15,
+            "weight": 0.3164
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5224,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 8751,
+            "to_pos": 15,
+            "weight": 1.2812
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 15901,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 8751,
+            "to_pos": 15,
+            "weight": -1.0625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 8854,
+            "from_pos": 15,
+            "to_layer": 4,
+            "to_feature_idx": 8751,
+            "to_pos": 15,
+            "weight": -1.0469
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 10920,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 1.0625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 9026,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 0.5742
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1847,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": -0.4902
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 3079,
+            "from_pos": 15,
+            "to_layer": 2,
+            "to_feature_idx": 15437,
+            "to_pos": 15,
+            "weight": 0.4316
+          }
+        ],
+        "explanation": "Traced the nursing/healthcare feature (L7:F3979) upstream to discover a circuit that detects the word \"nurses\" in the input text. The circuit starts with early-layer features at layer 0 that detect the word \"nurse\" (F8854 and F10920), which then feed into layer 2-3 features about nurses and sound or nurse management. These converge at layer 6 (F15267) which detects nursing profession references, and finally to layer 7 (F3979) which detects broader nursing/healthcare terms. The most important connections are direct from the \" nurses\" token embedding to multiple features in the circuit, showing strong lexical grounding.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 7,
+              "feature_idx": 3979
+            },
+            "output": {
+              "layer": 7,
+              "feature_idx": 3979,
+              "label": " words related to nursing and healthcare",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 63.889,
+                  "max_token": "\u2581Nursing"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 63.889,
+                  "max_token": "\u2581Nursing"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 63.889,
+                  "max_token": "\u2581Nursing"
+                }
+              ],
+              "promoted_tokens": [
+                "b\u0117s",
+                "WRENCE",
+                "ticultural",
+                "\u2581Ontology",
+                "\u062c\u0627\u062c",
+                "LocalizedString",
+                "\u0440\u043e\u0441\u043b\u0430\u0432",
+                "\u2581Her",
+                "XmlAccessorType",
+                "lace"
+              ],
+              "suppressed_tokens": [
+                "\u2581nakalista",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "mybatisplus",
+                "StoryboardSegue",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\ud83d\udc87",
+                "\u2581barbers",
+                "\u2581Allocin\u00e9",
+                "rrggbb",
+                "endphp"
+              ],
+              "frac_nonzero": 0.00826
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 7,
+              "feature_idx": 3979,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 15267,
+                "pos": 15,
+                "edge_weight": 7.9375
+              },
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 7.875
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -1.3906
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.0703
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 0.918
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "label": " words in the document referring to the profession of nursing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                }
+              ],
+              "promoted_tokens": [
+                "PerformLayout",
+                "mybatisplus",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "RouterModule",
+                "contentLoaded",
+                "WaitGroup",
+                "ACGIH",
+                "\ufe36",
+                "forRoot",
+                "bootstrapcdn"
+              ],
+              "suppressed_tokens": [
+                "\ufeff/**",
+                "geti",
+                "Controllo",
+                "\u2581contributions",
+                "\u2581religione",
+                "\u2581Kombin",
+                "\u2581contributors",
+                "\u2581Contributing",
+                "Provided",
+                ")),\r"
+              ],
+              "frac_nonzero": 0.01594
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 16.125
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 4.375
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 15,
+                "edge_weight": 2.75
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -2.4844
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8751,
+                "pos": 15,
+                "edge_weight": 1.9609
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11037
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 11037,
+              "label": " words related to counseling, therapy, social work, and academic degree programs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 62.307,
+                  "max_token": "\u2581work"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581engineer",
+                "Engineer",
+                "\u2581Engineer",
+                "\u2581ENGINEER",
+                "\u2581engineers",
+                "engineer",
+                "Engineers",
+                "\u2581engineering",
+                "\u2581Engineers",
+                "\u2581ingenieros"
+              ],
+              "suppressed_tokens": [
+                "Refer\u00e8ncies",
+                "MessageOf",
+                "ringer",
+                "\u2581Reverso",
+                "WaitGroup",
+                "\u2581Absolute",
+                "ficador",
+                "\u306f\u3058\u3081\u306b",
+                "----</",
+                "\u2581<=\","
+              ],
+              "frac_nonzero": 0.00674
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8751
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 8751,
+              "label": " cell types in the brain, especially glial cells and neurons, and related scientific terminology",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "6\u2581(50.0)\n\u2581*\u2581JD-Core\u2581Version:\u2581\u2581\u2581\u25810.7.1\n\u2581*/<bos>Neural\u2581crest\u2581cells\u2581(NCCs)\u2581are\u2581pluripotent\u2581cells\u2581that\u2581migrate\u2581from\u2581the\u2581developing\u2581neural\u2581tube\u2581to\u2581populate\u2581various\u2581tissues\u2581including\u2581craniofacial\u2581structures",
+                  "max_activation": 57.696,
+                  "max_token": "lia"
+                },
+                {
+                  "text_snippet": "6\u2581(50.0)\n\u2581*\u2581JD-Core\u2581Version:\u2581\u2581\u2581\u25810.7.1\n\u2581*/<bos>Neural\u2581crest\u2581cells\u2581(NCCs)\u2581are\u2581pluripotent\u2581cells\u2581that\u2581migrate\u2581from\u2581the\u2581developing\u2581neural\u2581tube\u2581to\u2581populate\u2581various\u2581tissues\u2581including\u2581craniofacial\u2581structures",
+                  "max_activation": 57.696,
+                  "max_token": "lia"
+                },
+                {
+                  "text_snippet": "\u2581process\u2581fails,\u2581resulting\u2581in\u2581an\u2581extracellular\u2581accumulation\u2581of\u2581glutamate,\u2581which\u2581continually\u2581stimulates\u2581receptors\u2581leading\u2581to\u2581a\u2581persistent\u2581influx\u2581of\u2581calcium\u2581ions\u2581\\[[@CR12]\\].\u2581Furthermore,\u2581the\u2581Na+/Ca2+\u00a0AT",
+                  "max_activation": 56.492,
+                  "max_token": "al"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581staff",
+                "fjspx",
+                "\u2581kaarangay",
+                "\u2581staffs",
+                "ReusableCell",
+                "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+                "SourceChecksum",
+                "\u2581\u043c\u04d9\u043a\u0430\u043b",
+                "\u2581CreateTagHelper",
+                "setVerticalGroup"
+              ],
+              "suppressed_tokens": [
+                "ubility",
+                "ETY",
+                "ioneta",
+                "\u2581mari\u00e9",
+                "\u2581anillos",
+                "\u0395\u03a3",
+                "jetunion",
+                "ending",
+                "\u2581biologique",
+                "\u2581melting"
+              ],
+              "frac_nonzero": 0.02289
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "label": " mentions of nurses, nursing, and nurse management",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                },
+                {
+                  "text_snippet": "0]\\].\n\nA\u2581nurse\u2581manager\u2581has\u2581an\u2581important\u2581role\u2581in\u2581leading\u2581the\u2581work\u2581unit\u2581as\u2581a\u2581whole.\u2581A\u2581work\u2581unit\u2581is\u2581seen\u2581as\u2581a\u2581reflection\u2581of\u2581the\u2581nurse\u2581manager.\u2581According\u2581to\u2581Rosengren\u2581et\u2581al.\u2581\\[[@B41]\\],\u2581nurses\u2581reported\u2581th",
+                  "max_activation": 37.819,
+                  "max_token": "\u2581nursing"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "ectl",
+                "\u2581Sal",
+                "\ue315",
+                "\u2581/\\.",
+                "Obr\u00e1zky",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581GBIF",
+                "EVT",
+                "pexpr"
+              ],
+              "suppressed_tokens": [
+                "\u2581nurse",
+                "\u2581Nurse",
+                "\u2581nursing",
+                "\u2581nurses",
+                "\u2581Nursing",
+                "Nurse",
+                "\u2581Nurses",
+                "Nursing",
+                "nurse",
+                "nursing"
+              ],
+              "frac_nonzero": 0.00546
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11037,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 5.125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9531
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -1.6484
+              },
+              {
+                "type": "embedding",
+                "token": " Perio",
+                "pos": 13,
+                "edge_weight": 1.5859
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 1.4141
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 15901,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 14.875
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 15437,
+                "pos": 15,
+                "edge_weight": -0.6914
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11835,
+                "pos": 15,
+                "edge_weight": 0.4082
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15,
+                "edge_weight": 0.3164
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 12997,
+                "pos": 15,
+                "edge_weight": 0.2871
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "label": " words related to nurses and sound",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581Hardanger\u2581fiddle.\u2581Her\u2581own\u2581armonica\u2581is\u2581composed\u2581of\u258124\u2581glass\u2581bowls\u2581ranging\u2581two\u2581octaves.\u2581Norment\u2581has\u2581described\u2581the\u2581sound\u2581of\u2581the\u2581armonica\u2581as\u2581\"...extremely\u2581visceral.\u2581It's\u2581a\u2581very\u2581pure\u2581crystalline\u2581sound",
+                  "max_activation": 46.27,
+                  "max_token": "\u2581sound"
+                },
+                {
+                  "text_snippet": "\u2581by\u2581Watermat\u2581&\u2581TAI,\u2581building\u2581upon\u2581an\u2581effective\u2581piano\u2581groove,\u2581turning\u2581this\u2581from\u2581catchy\u2581house\u2581music\u2581to\u2581a\u2581bigger\u2581than\u2581life\u2581future\u2581anthem.\u2581It\u2019s\u2581got\u2581main\u2581stage\u2581written\u2581all\u2581over\u2581it,\u2581without\u2581falling\u2581for\u2581the\u2581",
+                  "max_activation": 45.845,
+                  "max_token": "\u2581sounds"
+                },
+                {
+                  "text_snippet": "\u2581planning\u2581to\u2581have\u2581a\u2581baby,\u2581do\u2581not\u2581take\u2581this\u2581medicine\u2581until\u2581you\u2581have\u2581checked\u2581with\u2581your\u2581doctor,\u2581pharmacist,\u2581or\u2581nurse.\u2581\u2022\u2581While\u2581taking\u2581Galafold,\u2581effective\u2581birth\u2581control\u2581should\u2581be\u2581used.\u2581It\u2581is\u2581not\u2581known\u2581whet",
+                  "max_activation": 45.347,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "MLLoader",
+                "ArrowToggle",
+                ":\u2728",
+                "aarrggbb",
+                "ModelForm",
+                "\u2581\u0648\u062a\u0633\u062c\u064a\u0644\u0627\u062a",
+                "\u2581\u0645\u0646\u0647",
+                "\u2581BoxDecoration",
+                "\u2581vuitton",
+                "XmlAccessType"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0645\u0634\u064a\u0646",
+                "Portail",
+                "\u2581sounding",
+                "\u2581'\\\\;'",
+                ".}}",
+                "\u2581seni",
+                ".}~\\",
+                "\u9005",
+                "gares",
+                "\u2581/^\\"
+              ],
+              "frac_nonzero": 0.007019999999999999
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11835
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11835,
+              "label": "terms used in software code such as \"assembly\", \"using\", \"namespace\", and \"license\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\")]\r\n[assembly:\u2581AssemblyCopyright(\"Copyright\u2581\u00a9\u2581\u25812009\")]\r\n[assembly:\u2581AssemblyTrademark(\"\")]\r\n[assembly:\u2581AssemblyCulture(\"\")]\r\n\r\n//\u2581Setting\u2581ComVisible\u2581to\u2581false\u2581makes\u2581the\u2581types\u2581in\u2581this\u2581assembly\u2581not\u2581visib",
+                  "max_activation": 33.959,
+                  "max_token": "\u2581AssemblyCulture"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 33.862,
+                  "max_token": "Unmarshaller"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581",
+                "'",
+                "\n\n",
+                ",",
+                "\n",
+                "\u2019",
+                ".",
+                "\u2581in",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581betweenstory",
+                "WithIOException",
+                "RegressionTest",
+                "\u044c\u0430\u0436",
+                "\u2581propOrder",
+                "GEBURTSDATUM",
+                "IndentedString",
+                "\u2581disambiguazione",
+                "DockStyle",
+                "\u2581CreateTagHelper"
+              ],
+              "frac_nonzero": 0.29459
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5224
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 5224,
+              "label": " words related to retail and customer service jobs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581get\u2581from\u2581Manhattan\u2581to\u2581Montclair\u2581(Lincoln),\u2581and\u2581festival\u2581programmer\u2581Thom\u2581Powers\u2581\u2014\u2581before\u2581dismissing\u2581the\u2581audience\u2581to\u2581the\u2581reception\u2581\u2014\u2581reminded\u2581filmgoers\u2581their\u2581parking\u2581tickets\u2581would\u2581be\u2581validated,\u2581\u201csometh",
+                  "max_activation": 47.313,
+                  "max_token": "istas"
+                },
+                {
+                  "text_snippet": "-20-live-\nfree)\n\n~~~\nbobsoap\nSeriously,\u2581downvoted\u2581without\u2581an\u2581explanation?\u2581That's\u2581quite\u2581poor.\u2581If\u2581something\nabout\u2581my\u2581post\u2581offends\u2581anyone,\u2581I'd\u2581love\u2581to\u2581know\u2581about\u2581it.\n\n------\nmangeletti\nI\u2581swear\u2581this\u2581is\u2581a\u2581",
+                  "max_activation": 46.178,
+                  "max_token": "\u2581cashier"
+                },
+                {
+                  "text_snippet": "-20-live-\nfree)\n\n~~~\nbobsoap\nSeriously,\u2581downvoted\u2581without\u2581an\u2581explanation?\u2581That's\u2581quite\u2581poor.\u2581If\u2581something\nabout\u2581my\u2581post\u2581offends\u2581anyone,\u2581I'd\u2581love\u2581to\u2581know\u2581about\u2581it.\n\n------\nmangeletti\nI\u2581swear\u2581this\u2581is\u2581a\u2581",
+                  "max_activation": 46.178,
+                  "max_token": "\u2581cashier"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581disambiguazione",
+                "\">//",
+                "\u2581initComponents",
+                "\u2581\u0440\u043e\u043b\u044f\u0445",
+                "\u2581testemun",
+                "awtextra",
+                "\u00e8cie",
+                "enumii",
+                "Staff"
+              ],
+              "suppressed_tokens": [
+                "NOPQRST",
+                "UnifiedTopology",
+                "fford",
+                "\u0163ele",
+                "acteria",
+                "OrBuilder",
+                "acterium",
+                "Asteroid",
+                "glEnable",
+                "\u2581Textbook"
+              ],
+              "frac_nonzero": 0.01222
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8751,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 9.8125
+              },
+              {
+                "type": "embedding",
+                "token": "perative",
+                "pos": 14,
+                "edge_weight": 3.3438
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15,
+                "edge_weight": 1.2812
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15,
+                "edge_weight": -1.0625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8854,
+                "pos": 15,
+                "edge_weight": -1.0469
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8854
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8854,
+              "label": " the word \"nurse\" as well as some pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "/*.",
+                "ilets",
+                "\u05d1\u05d5\u05d3\u05d4",
+                "\u2581>=\",",
+                "\u2581Toro",
+                "IMENTAL",
+                "\u2581sooner",
+                "whereas",
+                "\u2581anyway",
+                "u"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "sizeCache",
+                "\u2581ainfi",
+                "GEBURTSDATUM",
+                "complexContent",
+                "ApplicationTests",
+                "\u2581plufieurs",
+                "contentLoaded",
+                "principalColumn",
+                "\u2581auroit"
+              ],
+              "frac_nonzero": 0.00465
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 15437,
+              "pos": 15,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurses",
+                "pos": 15,
+                "edge_weight": 19.25
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 10920,
+                "pos": 15,
+                "edge_weight": 1.0625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9026,
+                "pos": 15,
+                "edge_weight": 0.5742
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1847,
+                "pos": 15,
+                "edge_weight": -0.4902
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3079,
+                "pos": 15,
+                "edge_weight": 0.4316
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 10920
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 10920,
+              "label": " the word \"nurse\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": ".85)\u2581were\u2581more\u2581effective\u2581in\u2581improving\u2581outcomes\u2581than\u2581group\u2581approach\u2581and\u2581group\u2581combined\u2581with\u2581individual\u2581intervention.\u2581With\u2581regard\u2581to\u2581intervention\u2581providers,\u2581registered\u2581nurse\u2581only\u2581(2.22)\u2581and\u2581team\u2581approac",
+                  "max_activation": 39.809,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "\n",
+                "-",
+                ",",
+                "\u2581the",
+                "'",
+                "(",
+                "\u2581and",
+                "1"
+              ],
+              "suppressed_tokens": [
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581Majefty",
+                "\u2581Jefus",
+                "\u2581The\u017fe",
+                "\u2581Hou\u017fe",
+                "^(@)",
+                "\u2581Re\u017f",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581greate\u017ft"
+              ],
+              "frac_nonzero": 0.005809999999999999
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this nursing/healthcare feature upstream. Look for early-layer features and input tokens.",
+          "input_tokens": 111766,
+          "output_tokens": 4022,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 8960
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 14,
+        "feature_idx": 3985,
+        "pos": 15,
+        "k": 10
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " nurses",
+          "pos": 15,
+          "edge_weight": 10.6875
+        },
+        {
+          "type": "feature",
+          "layer": 8,
+          "feature_idx": 16339,
+          "pos": 15,
+          "edge_weight": 4.9062
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 210,
+          "pos": 15,
+          "edge_weight": 3.5781
+        },
+        {
+          "type": "feature",
+          "layer": 9,
+          "feature_idx": 11754,
+          "pos": 15,
+          "edge_weight": -2.5625
+        },
+        {
+          "type": "feature",
+          "layer": 8,
+          "feature_idx": 10547,
+          "pos": 15,
+          "edge_weight": -2.4688
+        },
+        {
+          "type": "feature",
+          "layer": 10,
+          "feature_idx": 1461,
+          "pos": 15,
+          "edge_weight": -2.3906
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 1547,
+          "pos": 15,
+          "edge_weight": -2.0938
+        },
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 1.9609
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 3979,
+          "pos": 15,
+          "edge_weight": -1.7422
+        },
+        {
+          "type": "feature",
+          "layer": 3,
+          "feature_idx": 15901,
+          "pos": 15,
+          "edge_weight": -1.6562
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 8,
+        "feature_idx": 16339,
+        "pos": 15,
+        "k": 8
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " nurses",
+          "pos": 15,
+          "edge_weight": 4.75
+        },
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 4.375
+        },
+        {
+          "type": "feature",
+          "layer": 6,
+          "feature_idx": 15267,
+          "pos": 15,
+          "edge_weight": 4.0312
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 210,
+          "pos": 15,
+          "edge_weight": 2.7031
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 8194,
+          "pos": 15,
+          "edge_weight": 2.0938
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -1.8906
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 1547,
+          "pos": 15,
+          "edge_weight": -1.875
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 7058,
+          "pos": 15,
+          "edge_weight": 1.8516
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 18,
+        "feature_idx": 13596,
+        "pos": 15,
+        "k": 8
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " nurses",
+          "pos": 15,
+          "edge_weight": 42.0
+        },
+        {
+          "type": "feature",
+          "layer": 6,
+          "feature_idx": 15267,
+          "pos": 15,
+          "edge_weight": 7.0625
+        },
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 6.3125
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -5.625
+        },
+        {
+          "type": "feature",
+          "layer": 3,
+          "feature_idx": 15901,
+          "pos": 15,
+          "edge_weight": -4.2812
+        },
+        {
+          "type": "embedding",
+          "token": " first",
+          "pos": 12,
+          "edge_weight": -3.9844
+        },
+        {
+          "type": "feature",
+          "layer": 14,
+          "feature_idx": 3985,
+          "pos": 15,
+          "edge_weight": 3.7969
+        },
+        {
+          "type": "feature",
+          "layer": 7,
+          "feature_idx": 3979,
+          "pos": 15,
+          "edge_weight": -3.5156
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 4,
+        "feature_idx": 4665,
+        "pos": 14,
+        "k": 8
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 15.5
+        },
+        {
+          "type": "embedding",
+          "token": " Perio",
+          "pos": 13,
+          "edge_weight": 6.2812
+        },
+        {
+          "type": "feature",
+          "layer": 2,
+          "feature_idx": 2363,
+          "pos": 14,
+          "edge_weight": -1.7969
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -1.6641
+        },
+        {
+          "type": "feature",
+          "layer": 1,
+          "feature_idx": 1889,
+          "pos": 14,
+          "edge_weight": 1.4297
+        },
+        {
+          "type": "embedding",
+          "token": " she",
+          "pos": 7,
+          "edge_weight": 1.2812
+        },
+        {
+          "type": "feature",
+          "layer": 3,
+          "feature_idx": 14131,
+          "pos": 14,
+          "edge_weight": 1.2344
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 9026,
+          "pos": 14,
+          "edge_weight": 0.8281
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 4665
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 4665,
+        "label": " words and phrases related to medical environments, treatments, personnel, and facilities.",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581Giddens\u2581was\u2581no\u2581longer\u2581considered\u2581her\u2581attending\u2581physician.\u2581Dr.\u2581Gerlach\u2581informed\u2581Dr.\u2581Giddens\u2581of\u2581Buchannon's\u2581condition\u2581and\u2581of\u2581her\u2581test\u2581results,\u2581informed\u2581him\u2581that\u2581Buchannon\u2581had\u2581requested\u2581that\u2581he\u2581be\u2581prese",
+            "max_activation": 62.03,
+            "max_token": "\u2581room"
+          },
+          {
+            "text_snippet": "2\u2581(84%)\u2581English-only\u2581patients,\u25811744\u2581(10%)\u2581patients\u2581with\u2581limited\u2581English\u2581proficiency,\u2581and\u25811147\u2581(6%)\u2581bilingual\u2581patients.\u2581Pulmonary\u2581function\u2581testing\u2581(quality\u2581measure)\u2581and\u2581multiple\u2581exacerbation\u2581visits\u2581(mo",
+            "max_activation": 59.343,
+            "max_token": "\u2581care"
+          },
+          {
+            "text_snippet": "\u2581Contributed\u2581reagents/materials/analysis\u2581tools:\u2581MCH\u2581SK\u2581DL\u2581JZ\u2581CDW\u2581RDD\u2581JJDM.\u2581Wrote\u2581the\u2581paper:\u2581MCH\u2581SK\u2581JZ\u2581CDW\u2581RDD\u2581JJDM.\n\n[^3]:\u2581Current\u2581address:\u2581BioReference\u2581Laboratories,\u2581Elmwood\u2581Park,\u2581New\u2581Jersey,\u2581United\u2581",
+            "max_activation": 58.812,
+            "max_token": "\u2581General"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581hospital",
+          "\u2581hospitals",
+          "\u2581Hospital",
+          "Hospital",
+          "hospital",
+          "\u2581HOSPITAL",
+          "\u2581Hospitals",
+          "\u2581hospitales",
+          "<bos>",
+          "h\u00f4pital"
+        ],
+        "suppressed_tokens": [
+          "RTEE",
+          "afficheront",
+          "oa\u030dt",
+          "DebuggerStep",
+          ":\u2728",
+          "ama\u00f1o",
+          "ycz\u0105",
+          "ViewStyle",
+          "]),\r",
+          "ItemBackground"
+        ],
+        "frac_nonzero": 0.01235
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 7,
+        "feature_idx": 210
+      },
+      "output": {
+        "layer": 7,
+        "feature_idx": 210,
+        "label": " words and names associated with the Asante Healthcare system",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581MD\n\nProfile\n\nAsante\u2581Service\u2581Location\n\nAsante\u2581Ashland\u2581Community\u2581Hospital\n\nAsante\u2581Rogue\u2581Regional\u2581Medical\u2581Center\n\nGender:\n\nMale\n\nPrimary\u2581Specialty\n\nObstetrics\u2581&\u2581Gynecology\n\nSpecialties\n\nObstetrics\u2581&\u2581Gyn",
+            "max_activation": 68.943,
+            "max_token": "\u2581Hospital"
+          },
+          {
+            "text_snippet": "\u2581MD\n\nProfile\n\nAsante\u2581Service\u2581Location\n\nAsante\u2581Ashland\u2581Community\u2581Hospital\n\nAsante\u2581Rogue\u2581Regional\u2581Medical\u2581Center\n\nGender:\n\nMale\n\nPrimary\u2581Specialty\n\nObstetrics\u2581&\u2581Gynecology\n\nSpecialties\n\nObstetrics\u2581&\u2581Gyn",
+            "max_activation": 68.943,
+            "max_token": "\u2581Hospital"
+          },
+          {
+            "text_snippet": "\u2581Area\u2581Medical\u2581Center\u2581volunteers,\u2581our\u2581mission\u2581is\u2581to\u2581serve\u2581as\u2581support\u2581for\u2581patients,\u2581families\u2581and\u2581hospital\u2581staff,\u2581and\u2581to\u2581provide\u2581a\u2581caring,\u2581comforting\u2581and\u2581courteous\u2581environment.\n\nVolunteers\u2581at\u2581CAMC\u2581bring\u2581",
+            "max_activation": 68.097,
+            "max_token": "C"
+          }
+        ],
+        "promoted_tokens": [
+          "\u03ba\u03b5\u03b9",
+          "\u2581medical",
+          "\u2581hospital",
+          "hospital",
+          "\u2581Medical",
+          "\u2581Hospital",
+          "Hospital",
+          "medical",
+          "\u2581HOSPITAL",
+          "Medical"
+        ],
+        "suppressed_tokens": [
+          "Controllo",
+          ":\u2728",
+          "posedge",
+          "\u53d1\u8868\u4e8e",
+          "\u9190",
+          "\u2581viewDidLoad",
+          "\u2581kaarangay",
+          "\u01b0\u1edbng",
+          "\u2581BufferedReader",
+          ">*/"
+        ],
+        "frac_nonzero": 0.01297
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 8736
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 8736,
+        "label": " the phrase \"born and raised\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581each\u2581other.\u2581and\u2581i\u2581think\u2581that\u2581it\u2581was\u2581that\u2581way\u2581in\u2581large\u2581part\u2581because\u2581they,\u2581as\u2581a\u2581couple,\u2581were\u2581able\u2581to\u2581shape\u2581the\u2581ceremony\u2581as\u2581they\u2581wanted\u2581it\u2581to\u2581be.\u2581which\u2581i\u2581like.\n\nI\u2581think\u2581a\u2581lot\u2581depends\u2581on\u2581the\u2581individual\u2581b",
+            "max_activation": 57.346,
+            "max_token": "\u2581raised"
+          },
+          {
+            "text_snippet": "\u2581BBC\u2581Head\u2581of\u2581Radio\u2581Drama,\u2581was\u2581born\u2581and\u2581raised\u2581in\u2581Ballymena.\n\u2581David\u2581McWilliams,\u2581singer,\u2581songwriter\u2581and\u2581guitarist\u2581was\u2581born\u2581in\u2581Belfast\u2581and\u2581moved\u2581to\u2581Ballymena\u2581at\u2581the\u2581age\u2581of\u25813.\u2581\n\u2581George\u2581Millar,\u2581singer,\u2581fou",
+            "max_activation": 56.369,
+            "max_token": "\u2581raised"
+          },
+          {
+            "text_snippet": "\u2581BBC\u2581Head\u2581of\u2581Radio\u2581Drama,\u2581was\u2581born\u2581and\u2581raised\u2581in\u2581Ballymena.\n\u2581David\u2581McWilliams,\u2581singer,\u2581songwriter\u2581and\u2581guitarist\u2581was\u2581born\u2581in\u2581Belfast\u2581and\u2581moved\u2581to\u2581Ballymena\u2581at\u2581the\u2581age\u2581of\u25813.\u2581\n\u2581George\u2581Millar,\u2581singer,\u2581fou",
+            "max_activation": 56.369,
+            "max_token": "\u2581raised"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581native",
+          "\u2581born",
+          "\u2581Native",
+          "\u2581hometown",
+          "Born",
+          "Native",
+          "\u2581Born",
+          "\u2581natives",
+          "\u2581BORN",
+          "Hometown"
+        ],
+        "suppressed_tokens": [
+          "\u2581propOrder",
+          "Hauptartikel",
+          "EClass",
+          "addPreferredGap",
+          "ingly",
+          "igshid",
+          "\u2581chall",
+          "\u2581Tear",
+          "jface",
+          "[]["
+        ],
+        "frac_nonzero": 0.01337
+      }
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 4,
+        "feature_idx": 4665,
+        "pos": 14,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 15.5
+        },
+        {
+          "type": "embedding",
+          "token": " Perio",
+          "pos": 13,
+          "edge_weight": 6.2812
+        },
+        {
+          "type": "feature",
+          "layer": 2,
+          "feature_idx": 2363,
+          "pos": 14,
+          "edge_weight": -1.7969
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -1.6641
+        },
+        {
+          "type": "feature",
+          "layer": 1,
+          "feature_idx": 1889,
+          "pos": 14,
+          "edge_weight": 1.4297
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 1,
+        "feature_idx": 1889,
+        "pos": 14,
+        "k": 8
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 5.375
+        },
+        {
+          "type": "embedding",
+          "token": " Perio",
+          "pos": 13,
+          "edge_weight": 1.4141
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 11835,
+          "pos": 14,
+          "edge_weight": -0.7539
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -0.7266
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 9026,
+          "pos": 14,
+          "edge_weight": 0.6875
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 9936,
+          "pos": 14,
+          "edge_weight": 0.4531
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 6689,
+          "pos": 14,
+          "edge_weight": 0.4062
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 9948,
+          "pos": 14,
+          "edge_weight": 0.4043
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 3,
+        "feature_idx": 14131,
+        "pos": 14,
+        "k": 8
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "perative",
+          "pos": 14,
+          "edge_weight": 9.1875
+        },
+        {
+          "type": "embedding",
+          "token": " Perio",
+          "pos": 13,
+          "edge_weight": 4.2188
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 9026,
+          "pos": 14,
+          "edge_weight": 1.3359
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -0.7891
+        },
+        {
+          "type": "embedding",
+          "token": " she",
+          "pos": 7,
+          "edge_weight": 0.5781
+        },
+        {
+          "type": "feature",
+          "layer": 2,
+          "feature_idx": 14013,
+          "pos": 14,
+          "edge_weight": 0.5391
+        },
+        {
+          "type": "feature",
+          "layer": 1,
+          "feature_idx": 16328,
+          "pos": 14,
+          "edge_weight": -0.5352
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 11927,
+          "pos": 14,
+          "edge_weight": -0.4492
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 3,
+        "feature_idx": 14131
+      },
+      "output": {
+        "layer": 3,
+        "feature_idx": 14131,
+        "label": " the word \"all\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581you\u2581do\u2581get\u2581company\u2581B's\noffer\u2581in\u2581writing\u2581-\u2581maybe\u2581you\u2581can\u2581take\u2581that\u2581back\u2581to\u2581A.\n\nAfter\u2581all\u2581if\u2581you\u2581prefer\u2581company\u2581A,\u2581you\u2581should\u2581be\u2581going\u2581with\u2581them\u2581regardless.\n\n------\nggk\nIMO,\u2581there\u2581is\u2581no\u2581harm\u2581asking\u2581for",
+            "max_activation": 50.856,
+            "max_token": "\u2581all"
+          },
+          {
+            "text_snippet": ",\u2581for\u2581readers\u2581and\u2581for\u2581herself.\u2581But\u2581there\u2581were\u2581days\u2581like\u2581today\u2581when\u2581she\u2581was\u2581tempted\u2581to\u2581contact\u2581her\u2581editor\u2581in\u2581New\u2581York\u2581City\u2581and\u2581tell\u2581him\u2581that\u2581she\u2581(D.\u2581B.\u2581McKinley,\u2581whom\u2581Elwood\u2581Shriver\u2581thought\u2581to\u2581be\u2581a\u2581man",
+            "max_activation": 50.543,
+            "max_token": "\u2581all"
+          },
+          {
+            "text_snippet": "\u2581massive\u2581amounts\u2581of\u2581food\u2581or\u2581goods\u2581had\u2581been\u2581stolen,\u2581a\u2581Wife\u2581or\u2581Daughter\u2581had\u2581been\u2581harassed\u2581or\u2581even\u2581sexually\u2581violated,\u2581etc.\nIn\u2581the\u2581case\u2581of\u2581the\u2581Black\u2581slave\u2581masters\u2581mentioned\u2581in\u2581this\u2581article,\u2581my\u2581suspicion\u2581i",
+            "max_activation": 50.04,
+            "max_token": "\u2581all"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581InputDecoration",
+          "\u2581\u043d\u0430\u0441\u0435\u0459\u0443",
+          "StructEnd",
+          "stateProvider",
+          "contentLoaded",
+          "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+          "\u2581EconPapers",
+          "\u2581autorytatywna",
+          "\u2728:",
+          "\u0412\u044a\u043d\u0448\u043d\u0438"
+        ],
+        "suppressed_tokens": [
+          "principalTable",
+          "\u2581Schlie\u00dflich",
+          "\u2581betreft",
+          "\u2581schlie\u00dflich",
+          "\u2581blijkt",
+          "\u6bd5\u7adf",
+          "\u7562\u7adf",
+          "\u2581Finalmente",
+          "\u2581skolan",
+          "Land"
+        ],
+        "frac_nonzero": 0.00931
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 1,
+        "feature_idx": 1889
+      },
+      "output": {
+        "layer": 1,
+        "feature_idx": 1889,
+        "label": " words related to medical studies, procedures, and patient outcomes",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581transplantation\u2581is\u2581usually\u2581performed\u2581by\u2581cannulation\u2581of\u2581a\u2581mesenteric\u2581vein\u2581during\u2581laparotomy\u2581or\u2581through\u2581percutaneous\u2581trans-hepatic\u2581cannulation\u2581of\u2581a\u2581portal\u2581branch.\u2581In\u2581this\u2581study,\u2581we\u2581describe\u2581a\u2581new\u2581lapar",
+            "max_activation": 36.869,
+            "max_token": "portal"
+          },
+          {
+            "text_snippet": "\u2581transplantation\u2581is\u2581usually\u2581performed\u2581by\u2581cannulation\u2581of\u2581a\u2581mesenteric\u2581vein\u2581during\u2581laparotomy\u2581or\u2581through\u2581percutaneous\u2581trans-hepatic\u2581cannulation\u2581of\u2581a\u2581portal\u2581branch.\u2581In\u2581this\u2581study,\u2581we\u2581describe\u2581a\u2581new\u2581lapar",
+            "max_activation": 36.869,
+            "max_token": "portal"
+          },
+          {
+            "text_snippet": "\u2581transplantation\u2581is\u2581usually\u2581performed\u2581by\u2581cannulation\u2581of\u2581a\u2581mesenteric\u2581vein\u2581during\u2581laparotomy\u2581or\u2581through\u2581percutaneous\u2581trans-hepatic\u2581cannulation\u2581of\u2581a\u2581portal\u2581branch.\u2581In\u2581this\u2581study,\u2581we\u2581describe\u2581a\u2581new\u2581lapar",
+            "max_activation": 36.869,
+            "max_token": "portal"
+          }
+        ],
+        "promoted_tokens": [
+          "tagHelperRunner",
+          "WaitGroup",
+          "\u2581intptr",
+          "ConstraintMaker",
+          "\u2581CreateTagHelper",
+          "\u2581Surgeons",
+          "NameInMap",
+          "\u2581chirurg",
+          "expandindo",
+          "\u2581betweenstory"
+        ],
+        "suppressed_tokens": [
+          "vna",
+          "://\"",
+          "urt",
+          "$_",
+          ":\\",
+          "://",
+          "igan",
+          "\u2581lethargy",
+          "gany",
+          "\u2581{\\"
+        ],
+        "frac_nonzero": 0.02383
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 2363
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 2363,
+        "label": " medical terms relating to surgical procedures, diseases, and patient care",
+        "top_activating_examples": [
+          {
+            "text_snippet": "4%)\u2581hip\u2581revisions.\u2581Patients,\u2581who\u2581underwent\u2581revision\u2581surgery\u2581being\u2581younger\u2581than\u258150\u2581years\u2581old,\u2581were\u2581at\u2581higher\u2581risk\u2581for\u2581rerevision\u2581surgery.\u2581Revision\u2581with\u2581morselized\u2581bone\u2581allografts\u2581and\u2581bone\u2581impaction\u2581tec",
+            "max_activation": 29.333,
+            "max_token": "\u2581revision"
+          },
+          {
+            "text_snippet": "4%)\u2581hip\u2581revisions.\u2581Patients,\u2581who\u2581underwent\u2581revision\u2581surgery\u2581being\u2581younger\u2581than\u258150\u2581years\u2581old,\u2581were\u2581at\u2581higher\u2581risk\u2581for\u2581rerevision\u2581surgery.\u2581Revision\u2581with\u2581morselized\u2581bone\u2581allografts\u2581and\u2581bone\u2581impaction\u2581tec",
+            "max_activation": 29.333,
+            "max_token": "\u2581revision"
+          },
+          {
+            "text_snippet": "4%)\u2581hip\u2581revisions.\u2581Patients,\u2581who\u2581underwent\u2581revision\u2581surgery\u2581being\u2581younger\u2581than\u258150\u2581years\u2581old,\u2581were\u2581at\u2581higher\u2581risk\u2581for\u2581rerevision\u2581surgery.\u2581Revision\u2581with\u2581morselized\u2581bone\u2581allografts\u2581and\u2581bone\u2581impaction\u2581tec",
+            "max_activation": 29.333,
+            "max_token": "\u2581revision"
+          }
+        ],
+        "promoted_tokens": [
+          "\u0446\u0435\u0437\u0434\u0430\u0442\u043d\u0438\u0439",
+          "rhosis",
+          "\u2581\u0441\u0442\u0430\u043d\u043e\u0432\u043d\u0438\u043a\u0430",
+          "\u2581R\u00e9ponses",
+          "Datuak",
+          "tagHelperRunner",
+          "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+          "\u51fa\u7248\u5e74",
+          "\u2581nahilalakip",
+          "complexContent"
+        ],
+        "suppressed_tokens": [
+          "})}$",
+          "\u4f8b\u6587\u5e33\u306b\u8ffd\u52a0",
+          "timewa",
+          "\u2581rodea",
+          "\u2581\u00d6ffentlichkeit",
+          "aniem",
+          ")}.",
+          "vdots",
+          "\u2581colectiva",
+          "\u2581eventual"
+        ],
+        "frac_nonzero": 0.1222
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 8,
+        "feature_idx": 16339
+      },
+      "output": {
+        "layer": 8,
+        "feature_idx": 16339,
+        "label": " text discussing hospital infections and bacteria",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581lowest\u2581possible\u2581toxicity\u2581to\u2581humans\u2581while\u2581wiping\u2581out\u2581colonies\u2581of\u2581bacteria\u2581that\u2581cause\u2581hospital\u2581acquired\u2581infections.\"\n\nMicrobial\u2581biofilms\u2581are\u2581not\u2581only\u2581problematic\u2581in\u2581hospitals,\u2581but\u2581can\u2581also\u2581grow\u2581inside\u2581",
+            "max_activation": 82.629,
+            "max_token": "\u2581acquired"
+          },
+          {
+            "text_snippet": "\u2581lowest\u2581possible\u2581toxicity\u2581to\u2581humans\u2581while\u2581wiping\u2581out\u2581colonies\u2581of\u2581bacteria\u2581that\u2581cause\u2581hospital\u2581acquired\u2581infections.\"\n\nMicrobial\u2581biofilms\u2581are\u2581not\u2581only\u2581problematic\u2581in\u2581hospitals,\u2581but\u2581can\u2581also\u2581grow\u2581inside\u2581",
+            "max_activation": 82.629,
+            "max_token": "\u2581acquired"
+          },
+          {
+            "text_snippet": "\u2581lowest\u2581possible\u2581toxicity\u2581to\u2581humans\u2581while\u2581wiping\u2581out\u2581colonies\u2581of\u2581bacteria\u2581that\u2581cause\u2581hospital\u2581acquired\u2581infections.\"\n\nMicrobial\u2581biofilms\u2581are\u2581not\u2581only\u2581problematic\u2581in\u2581hospitals,\u2581but\u2581can\u2581also\u2581grow\u2581inside\u2581",
+            "max_activation": 82.629,
+            "max_token": "\u2581acquired"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581hospital",
+          "\u2581hospitals",
+          "\u2581medical",
+          "woners",
+          "engertian",
+          "\u2581service",
+          "lassung",
+          "\u2581physician",
+          "Hospital",
+          "\ud83e\ude7a"
+        ],
+        "suppressed_tokens": [
+          "enumi",
+          "\ue315",
+          "\u0627\u0644\u062d\u064a\u0627\u0647",
+          "@[+][",
+          "\u2581EconPapers",
+          "MessageTagHelper",
+          "}))\r",
+          "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+          "\u2581<<<<<<<<<<<<<<",
+          "GeneratedMessage"
+        ],
+        "frac_nonzero": 0.02303
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 18,
+        "feature_idx": 13596
+      },
+      "output": {
+        "layer": 18,
+        "feature_idx": 13596,
+        "label": " text about the role, skills and leadership of nurse managers",
+        "top_activating_examples": [
+          {
+            "text_snippet": ",\u2581and\u2581needs\u2581\\[[@B7]\\].\u2581Transactional\u2581leadership\u2581complements\u2581and\u2581enhances\u2581the\u2581effects\u2581of\u2581transformational\u2581leadership\u2581outcomes\u2581\\[[@B15]\\].\n\nThere\u2581are\u2581certain\u2581skills\u2581required\u2581from\u2581nurse\u2581managers\u2581so\u2581as\u2581to",
+            "max_activation": 404.156,
+            "max_token": "\u2581Nurse"
+          },
+          {
+            "text_snippet": ",\u2581and\u2581needs\u2581\\[[@B7]\\].\u2581Transactional\u2581leadership\u2581complements\u2581and\u2581enhances\u2581the\u2581effects\u2581of\u2581transformational\u2581leadership\u2581outcomes\u2581\\[[@B15]\\].\n\nThere\u2581are\u2581certain\u2581skills\u2581required\u2581from\u2581nurse\u2581managers\u2581so\u2581as\u2581to",
+            "max_activation": 404.156,
+            "max_token": "\u2581Nurse"
+          },
+          {
+            "text_snippet": ",\u2581and\u2581needs\u2581\\[[@B7]\\].\u2581Transactional\u2581leadership\u2581complements\u2581and\u2581enhances\u2581the\u2581effects\u2581of\u2581transformational\u2581leadership\u2581outcomes\u2581\\[[@B15]\\].\n\nThere\u2581are\u2581certain\u2581skills\u2581required\u2581from\u2581nurse\u2581managers\u2581so\u2581as\u2581to",
+            "max_activation": 404.156,
+            "max_token": "\u2581Nurse"
+          }
+        ],
+        "promoted_tokens": [
+          "Nurse",
+          "\u2581Nurse",
+          "\u2581propOrder",
+          "\u2581nurse",
+          "\u2581Nurses",
+          "\u2581nurses",
+          "nurse",
+          "Nursing",
+          "\u2581nursing",
+          "\u2581NURS"
+        ],
+        "suppressed_tokens": [
+          "twimg",
+          "createFrom",
+          "\u1ecdi",
+          "\u2581resolu\u00e7\u00e3o",
+          "hoto",
+          "Pyx",
+          "\u2581paramString",
+          "\u2581CGFloat",
+          "\u2581w\u0142os\u00f3w",
+          "AXB"
+        ],
+        "frac_nonzero": 0.00495
+      }
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "output_logit",
+            "label": "Output Probe Score",
+            "layer": 36,
+            "features": []
+          },
+          {
+            "id": "L14_nursing_mgmt",
+            "label": "Nursing Mgmt & Leadership Features",
+            "layer": 14,
+            "features": [
+              {
+                "layer": 14,
+                "feature_idx": 3985,
+                "pos": 15
+              },
+              {
+                "layer": 14,
+                "feature_idx": 3985,
+                "pos": 14
+              }
+            ]
+          },
+          {
+            "id": "L6_nursing_profession",
+            "label": "Nursing Profession Detection",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 15267,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L18_nurse_manager",
+            "label": "Nurse Manager Leadership",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 13596,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L8_hospital_infections",
+            "label": "Hospital Infections & Medical Terms",
+            "layer": 8,
+            "features": [
+              {
+                "layer": 8,
+                "feature_idx": 16339,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L7_healthcare",
+            "label": "Healthcare & Hospital Names",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 210,
+                "pos": 15
+              },
+              {
+                "layer": 7,
+                "feature_idx": 3979,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L4_medical_env",
+            "label": "Medical Environments & Personnel",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 4665,
+                "pos": 14
+              },
+              {
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 15
+              },
+              {
+                "layer": 4,
+                "feature_idx": 8751,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L3_nursing_refs",
+            "label": "Nursing References (Inhibitory)",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L2_nurse_sound",
+            "label": "Nurse/Sound Related",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 15437,
+                "pos": 15
+              },
+              {
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L1_medical_studies",
+            "label": "Medical Studies & Procedures",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 1889,
+                "pos": 14
+              }
+            ]
+          },
+          {
+            "id": "L0_nurse_token",
+            "label": "Input: 'nurses' (pos 15)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "L0_perioperative",
+            "label": "Input: 'perative'/'Perio' (pos 13-14)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "L0_born_raised",
+            "label": "Input: 'born/raised' birthplace (pos 2)",
+            "layer": 0,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "L0_nurse_token",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L18_nurse_manager"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L3_nursing_refs"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L1_medical_studies"
+          },
+          {
+            "from": "L0_born_raised",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L3_nursing_refs",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L3_nursing_refs",
+            "to": "L7_healthcare"
+          },
+          {
+            "from": "L2_nurse_sound",
+            "to": "L3_nursing_refs"
+          },
+          {
+            "from": "L2_nurse_sound",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L7_healthcare"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L18_nurse_manager"
+          },
+          {
+            "from": "L7_healthcare",
+            "to": "L8_hospital_infections"
+          },
+          {
+            "from": "L4_medical_env",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L14_nursing_mgmt",
+            "to": "output_logit"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "output_logit"
+          },
+          {
+            "from": "L18_nurse_manager",
+            "to": "output_logit"
+          },
+          {
+            "from": "L8_hospital_infections",
+            "to": "output_logit"
+          },
+          {
+            "from": "L7_healthcare",
+            "to": "output_logit"
+          },
+          {
+            "from": "L4_medical_env",
+            "to": "output_logit"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "output_logit",
+            "label": "Output Probe Score",
+            "layer": 36,
+            "features": []
+          },
+          {
+            "id": "L14_nursing_mgmt",
+            "label": "Nursing Mgmt & Leadership Features",
+            "layer": 14,
+            "features": [
+              {
+                "layer": 14,
+                "feature_idx": 3985,
+                "pos": 15
+              },
+              {
+                "layer": 14,
+                "feature_idx": 3985,
+                "pos": 14
+              }
+            ]
+          },
+          {
+            "id": "L6_nursing_profession",
+            "label": "Nursing Profession Detection",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 15267,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L18_nurse_manager",
+            "label": "Nurse Manager Leadership",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 13596,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L8_hospital_infections",
+            "label": "Hospital Infections & Medical Terms",
+            "layer": 8,
+            "features": [
+              {
+                "layer": 8,
+                "feature_idx": 16339,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L7_healthcare",
+            "label": "Healthcare & Hospital Names",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 210,
+                "pos": 15
+              },
+              {
+                "layer": 7,
+                "feature_idx": 3979,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L4_medical_env",
+            "label": "Medical Environments & Personnel",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 4665,
+                "pos": 14
+              },
+              {
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 15
+              },
+              {
+                "layer": 4,
+                "feature_idx": 8751,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L3_nursing_refs",
+            "label": "Nursing References (Inhibitory)",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 15901,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L2_nurse_sound",
+            "label": "Nurse/Sound Related",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 15437,
+                "pos": 15
+              },
+              {
+                "layer": 2,
+                "feature_idx": 5224,
+                "pos": 15
+              }
+            ]
+          },
+          {
+            "id": "L1_medical_studies",
+            "label": "Medical Studies & Procedures",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 1889,
+                "pos": 14
+              }
+            ]
+          },
+          {
+            "id": "L0_nurse_token",
+            "label": "Input: 'nurses' (pos 15)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "L0_perioperative",
+            "label": "Input: 'perative'/'Perio' (pos 13-14)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "L0_born_raised",
+            "label": "Input: 'born/raised' birthplace (pos 2)",
+            "layer": 0,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "L0_nurse_token",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L18_nurse_manager"
+          },
+          {
+            "from": "L0_nurse_token",
+            "to": "L3_nursing_refs"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L0_perioperative",
+            "to": "L1_medical_studies"
+          },
+          {
+            "from": "L0_born_raised",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L3_nursing_refs",
+            "to": "L6_nursing_profession"
+          },
+          {
+            "from": "L3_nursing_refs",
+            "to": "L7_healthcare"
+          },
+          {
+            "from": "L2_nurse_sound",
+            "to": "L3_nursing_refs"
+          },
+          {
+            "from": "L2_nurse_sound",
+            "to": "L4_medical_env"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L7_healthcare"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "L18_nurse_manager"
+          },
+          {
+            "from": "L7_healthcare",
+            "to": "L8_hospital_infections"
+          },
+          {
+            "from": "L4_medical_env",
+            "to": "L14_nursing_mgmt"
+          },
+          {
+            "from": "L14_nursing_mgmt",
+            "to": "output_logit"
+          },
+          {
+            "from": "L6_nursing_profession",
+            "to": "output_logit"
+          },
+          {
+            "from": "L18_nurse_manager",
+            "to": "output_logit"
+          },
+          {
+            "from": "L8_hospital_infections",
+            "to": "output_logit"
+          },
+          {
+            "from": "L7_healthcare",
+            "to": "output_logit"
+          },
+          {
+            "from": "L4_medical_env",
+            "to": "output_logit"
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 36371,
+      "output_tokens": 5169,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 111077
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this feature - it has a NEGATIVE effect on the probe. Investigate what upstream features drive it and whether it represents a spurious gender-marker pattern.",
+        "input_tokens": 45636,
+        "output_tokens": 2000,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this nursing profession feature upstream. Look for whether it's driven by actual nursing-related tokens or spurious features.",
+        "input_tokens": 88819,
+        "output_tokens": 3942,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this nursing/healthcare feature upstream. Look for early-layer features and input tokens.",
+        "input_tokens": 111766,
+        "output_tokens": 4022,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8960
+      }
+    ]
+  },
+  "total_cost_usd": null,
+  "turns": 11,
+  "elapsed_seconds": 336.86226009903476,
+  "control_response": "",
+  "control_usage": null,
+  "control_cost_usd": null,
+  "naive_response": "",
+  "naive_followup_response": "",
+  "naive_usage": null,
+  "naive_cost_usd": null,
+  "timestamp": "2026-03-30T18-20-25"
+}

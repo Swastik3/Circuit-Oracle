@@ -1,0 +1,4355 @@
+{
+  "prompt_name": "bib_nurse_professor-pos_pos_4-biased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_nurse_professor-pos_pos_4 | Probe: biased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification score is driven by a combination of genuine nursing profession indicators AND multiple spurious gender markers, including female pronoun detection (L18:F14677), female name detection (L4:F1276, L6:F8166), and a profession-gender stereotype pathway where \"nurse\" tokens trigger feminine pronoun associations (L4:F15317).\n\n**Confidence:** 9/10\n\n**Reasoning:** The attribution circuit reveals that the user's concern is **validated**. While there IS a genuine profession-detection pathway (L6:F15267 receives direct input from tokens \"nurse\" and \"practitioner\" with edge weights of 5.66 and 3.03 respectively, and this feature explicitly encodes \"words referring to the profession of nursing\"), **multiple spurious gender markers also contribute significantly to the classification**:\n\n1. **Female pronoun path** (direct effect 0.4375): L18:F14677 (\"instances of women or girls being mentioned\") is directly triggered by the \"She\" token at position 20 (edge_weight 14.44 from Emb:She\u2192L18:F14677). Its promoted tokens are exclusively feminine pronouns (\"herself\", \"she\", \"her\").\n\n2. **Female name path** (combined effect ~0.7): L4:F1276 and L6:F8166 detect the name \"Lori\" and activate feminine associations (\"herself\", \"motherhood\", \"lady\", \"woman\"). The name embedding \"Lori\" has a 16.5 edge weight into L4:F1276, and L2:F5859 explicitly detects \"first names (mostly female)\".\n\n3. **Profession-gender stereotype path** (effect 0.5117): L4:F15317 is labeled \"named entities\" but its promoted tokens reveal it encodes gender: \"herself\", \"she\", \"her\". Crucially, this feature receives its strongest upstream signal from the \"nurse\" token itself (edge_weight 4.0312), demonstrating the model has learned stereotypical associations where \"nurse\" \u2192 feminine pronouns.\n\nThe three gender-related paths (pronoun, name, stereotype) have comparable or greater direct effects than the genuine nursing feature. A male nurse named \"Robert\" who worked as a nurse would produce a lower classification score due to absent gender markers, despite identical profession content. This confirms the probe relies on spurious gender correlations rather than purely profession-specific indicators.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 10
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 15
+      },
+      "output": [
+        {
+          "layer": 6,
+          "feature_idx": 15267,
+          "pos": 33,
+          "activation": 27.75,
+          "direct_effect": 0.5664
+        },
+        {
+          "layer": 4,
+          "feature_idx": 15317,
+          "pos": 33,
+          "activation": 5.8125,
+          "direct_effect": 0.5117
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14677,
+          "pos": 20,
+          "activation": 29.75,
+          "direct_effect": 0.4375
+        },
+        {
+          "layer": 4,
+          "feature_idx": 1276,
+          "pos": 1,
+          "activation": 13.0625,
+          "direct_effect": 0.3965
+        },
+        {
+          "layer": 6,
+          "feature_idx": 15267,
+          "pos": 18,
+          "activation": 26.5,
+          "direct_effect": 0.3574
+        },
+        {
+          "layer": 5,
+          "feature_idx": 16213,
+          "pos": 2,
+          "activation": 7.0938,
+          "direct_effect": 0.3535
+        },
+        {
+          "layer": 6,
+          "feature_idx": 16329,
+          "pos": 20,
+          "activation": 10.25,
+          "direct_effect": -0.3262
+        },
+        {
+          "layer": 6,
+          "feature_idx": 8166,
+          "pos": 1,
+          "activation": 3.8906,
+          "direct_effect": 0.3125
+        },
+        {
+          "layer": 7,
+          "feature_idx": 8644,
+          "pos": 33,
+          "activation": 3.6406,
+          "direct_effect": -0.3105
+        },
+        {
+          "layer": 2,
+          "feature_idx": 16306,
+          "pos": 1,
+          "activation": 5.9375,
+          "direct_effect": 0.2969
+        },
+        {
+          "layer": 6,
+          "feature_idx": 11646,
+          "pos": 20,
+          "activation": 9.5,
+          "direct_effect": 0.2871
+        },
+        {
+          "layer": 19,
+          "feature_idx": 9685,
+          "pos": 20,
+          "activation": 22.0,
+          "direct_effect": 0.2617
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14677,
+          "pos": 43,
+          "activation": 19.5,
+          "direct_effect": 0.2578
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14677,
+          "pos": 78,
+          "activation": 27.125,
+          "direct_effect": 0.2539
+        },
+        {
+          "layer": 19,
+          "feature_idx": 9685,
+          "pos": 43,
+          "activation": 22.5,
+          "direct_effect": 0.252
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 15267
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 15267,
+        "label": " words in the document referring to the profession of nursing",
+        "top_activating_examples": [
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          },
+          {
+            "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+            "max_activation": 73.867,
+            "max_token": "\u2581RN"
+          }
+        ],
+        "promoted_tokens": [
+          "PerformLayout",
+          "mybatisplus",
+          "\u2581\u0635\u0648\u062a\u064a\u0647",
+          "RouterModule",
+          "contentLoaded",
+          "WaitGroup",
+          "ACGIH",
+          "\ufe36",
+          "forRoot",
+          "bootstrapcdn"
+        ],
+        "suppressed_tokens": [
+          "\ufeff/**",
+          "geti",
+          "Controllo",
+          "\u2581contributions",
+          "\u2581religione",
+          "\u2581Kombin",
+          "\u2581contributors",
+          "\u2581Contributing",
+          "Provided",
+          ")),\r"
+        ],
+        "frac_nonzero": 0.01594
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 15317
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 15317,
+        "label": " named entities like characters or people",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+            "max_activation": 32.931,
+            "max_token": "one"
+          },
+          {
+            "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+            "max_activation": 32.931,
+            "max_token": "one"
+          },
+          {
+            "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+            "max_activation": 32.931,
+            "max_token": "one"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "\u2581she",
+          "\u2581her",
+          "herself",
+          "\u2581hennes",
+          "\u2581haar",
+          "\u2581\uadf8\ub140",
+          "\u062d\u064a\u0627\u062a\u0647\u0627",
+          "\u5979",
+          "\u2581jej\u00ed"
+        ],
+        "suppressed_tokens": [
+          "\u2581himself",
+          "himself",
+          "\u2581Himself",
+          "__\":\r",
+          "\u2581his",
+          "\u7236\u5b50",
+          "his",
+          "drawSprites",
+          "__':\r",
+          "\u2581boyhood"
+        ],
+        "frac_nonzero": 0.0175
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 18,
+        "feature_idx": 14677
+      },
+      "output": {
+        "layer": 18,
+        "feature_idx": 14677,
+        "label": " instances of women or girls being mentioned",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581other\u2581by\u2581the\u2581European\u2581powers\u2581threatening\u2581with\u2581one\u2581voice\u2581dire\u2581consequences\u2581should\u2581she\u2581persist.\n\nOn\u2581August\u258126,\u25811848,\u2581after\u2581painful\u2581hesitation,\u2581Frederick\u2581William\u2581chose\u2581what\u2581seemed\u2581the\u2581lesser\u2581of\u2581two\u2581evil",
+            "max_activation": 378.344,
+            "max_token": "\u2581she"
+          },
+          {
+            "text_snippet": "\u2581other\u2581by\u2581the\u2581European\u2581powers\u2581threatening\u2581with\u2581one\u2581voice\u2581dire\u2581consequences\u2581should\u2581she\u2581persist.\n\nOn\u2581August\u258126,\u25811848,\u2581after\u2581painful\u2581hesitation,\u2581Frederick\u2581William\u2581chose\u2581what\u2581seemed\u2581the\u2581lesser\u2581of\u2581two\u2581evil",
+            "max_activation": 378.344,
+            "max_token": "\u2581she"
+          },
+          {
+            "text_snippet": "20\n\n__version__\u2581=\u2581'1.0.rc0'\nshort_version\u2581=\u2581'1.0.rc0'\n<bos>The\u2581Art\u2581of\u2581Making\u2581Pickles\n\nWhen\u2581Brian\u2581Crane\u2581(BA\u2581\u201973)\u2581married\u2581Diana\u2581Long\u2581(BS\u2581\u201973),\u2581she\u2581gave\u2581him\u2581the\u2581best\u2581possible\u2581dowry:\u2581her\u2581parents.\u2581Bud\u2581and\u2581",
+            "max_activation": 343.598,
+            "max_token": "\u2581she"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "\u2581she",
+          "\u2581her",
+          "herself",
+          "she",
+          "\u5979",
+          "\u4f46\u5979",
+          "\u2581ihrem",
+          "She",
+          "\u2581shes"
+        ],
+        "suppressed_tokens": [
+          "\u2581himself",
+          "\u2581his",
+          "his",
+          "himself",
+          "His",
+          "\u5f7c\u306f",
+          "\u2581Himself",
+          "\u2581seine",
+          "\u2581istrinya",
+          "\u2581seiner"
+        ],
+        "frac_nonzero": 0.01225
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 1276
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 1276,
+        "label": "capitalized names and titles, and names with lowercase letters in the middle of them",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581could\u2581work.\u2581the\u2581concern\u2581about\u2581making\u2581a\u2581change\u2581of\u2581religion\u2581after\u2581a\u2581relationship\u2581has\u2581begun\u2581reminds\u2581me\u2581of\u2581some\u2581of\u2581what\u2581i\u2581read\u2581about\u2581mormon\u2581couples\u2581in\u2581which\u2581one\u2581partner\u2581left\u2581the\u2581church.\u2581the\u2581situation\u2581is\u2581",
+            "max_activation": 69.94,
+            "max_token": "ie"
+          },
+          {
+            "text_snippet": "wh)\u2019s,\u2581while\u2581others\u2581might\u2581think\u2013based\u2581on\u2581their\u2581different\u2581definition\u2013that\u2581your\u2581values\u2581are\u2581different,\u2581or\u2581at\u2581least\u2581only\u2581partially\u2581aligned.\n\nGiven\u2581what\u2581I\u2581perceive\u2581as\u2581our\u2581conflicting\u2581views,\u2581what\u2581do\u2581you\u2581say",
+            "max_activation": 64.028,
+            "max_token": "ie"
+          },
+          {
+            "text_snippet": "wh)\u2019s,\u2581while\u2581others\u2581might\u2581think\u2013based\u2581on\u2581their\u2581different\u2581definition\u2013that\u2581your\u2581values\u2581are\u2581different,\u2581or\u2581at\u2581least\u2581only\u2581partially\u2581aligned.\n\nGiven\u2581what\u2581I\u2581perceive\u2581as\u2581our\u2581conflicting\u2581views,\u2581what\u2581do\u2581you\u2581say",
+            "max_activation": 64.028,
+            "max_token": "ie"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581utafitiHapana",
+          "PerformLayout",
+          "\u043a\u043b\u043e\u043f\u0435",
+          "iann",
+          "VIAF",
+          "webElementXpaths",
+          "\u2581Ann",
+          "TestingModule",
+          "\u2581otomatig",
+          "eleste"
+        ],
+        "suppressed_tokens": [
+          "\u2581FBref",
+          "\u062a\u0642\u0627\u0648\u0649",
+          "\u2581Arquivado",
+          "AndEndTag",
+          "alao",
+          "ingular",
+          "\u043b\u0435\u043d\u043d\u044f",
+          "kust",
+          "\u2581CreateTagHelper",
+          "\u2581\u043b\u0456"
+        ],
+        "frac_nonzero": 0.00341
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 15267,
+        "starting_pos": 33,
+        "objective": "Trace this nursing profession feature upstream. What features or input tokens feed into it? Does it receive signal from gender markers or directly from profession-related tokens?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": "[{\"layer\": 6, \"feature_idx\": 15267, \"pos\": 33, \"label\": \" words in the document referring to the profession of nursing\", \"frac_nonzero\": 0.01594, \"promoted_tokens\": [\"PerformLayout\", \"mybatisplus\", \"\\u2581\\u0635\\u0648\\u062a\\u064a\\u0647\", \"RouterModule\", \"contentLoaded\", \"WaitGroup\", \"ACGIH\", \"\\ufe36\", \"forRoot\", \"bootstrapcdn\"]}, {\"layer\": 5, \"feature_idx\": 1275, \"pos\": 33, \"label\": \"words related to healthcare professionals and medical fields\", \"frac_nonzero\": 0.01326, \"promoted_tokens\": [\"DONT\", \"exec\", \"Collect\", \"don\", \"\\u2581d\\u0117\", \"at\", \"FailureListener\", \"\\u2581SPEC\", \"\\u2581vo\", \"SPECIFIED\"]}, {\"layer\": 4, \"feature_idx\": 9036, \"pos\": 33, \"label\": \" words and abbreviations associated with healthcare.\", \"frac_nonzero\": 0.01468, \"promoted_tokens\": [\"<bos>\", \"\\u2581doctors\", \"\\u2581physician\", \"\\u2581physicians\", \"\\u2581Physicians\", \"\\u2581doctor\", \"Doctors\", \"\\u2581Physician\", \"\\u2581medical\", \"\\u2581estekak\"]}, {\"layer\": 4, \"feature_idx\": 11037, \"pos\": 33, \"label\": \" words related to counseling, therapy, social work, and academic degree programs\", \"frac_nonzero\": 0.00674, \"promoted_tokens\": [\"\\u2581engineer\", \"Engineer\", \"\\u2581Engineer\", \"\\u2581ENGINEER\", \"\\u2581engineers\", \"engineer\", \"Engineers\", \"\\u2581engineering\", \"\\u2581Engineers\", \"\\u2581ingenieros\"]}, {\"layer\": 1, \"feature_idx\": 1494, \"pos\": 33, \"label\": \" words related to medical practices and studies.\", \"frac_nonzero\": 0.02375, \"promoted_tokens\": [\"XmlAccessType\", \"\\u2581\\u043f\\u0440\\u043e\\u043f\\u0440\\u0430\\u0442\\u043a\\u0438\", \"]^{-\", \"\\u0627\\u0644\\u0645\\u0646\\u0627\\u0635\\u0628\", \"\\u2581]\\r\", \"esez\", \"'];?>\", \"\\\")){\\r\", \"\\u2581/>';\", \"})$}\"}, {\"layer\": 0, \"feature_idx\": 6337, \"pos\": 32, \"label\": \"the word \\\"dig\\\" in different contexts.\", \"frac_nonzero\": 0.03011, \"promoted_tokens\": [\"\\u2581avoient\", \"\\u2581it\\u017felf\", \"\\u2581\\u00e9toient\", \"\\u2581Monfieur\", \"\\u2581Jefus\", \"\\u2581E\\u017f\", \"\\u2581The\\u017fe\", \"\\u2581hou\\u017fe\", \"\\u2581Hou\\u017fe\", \"\\u2581my\\u017felf\"]}]",
+        "discovered_edges": [
+          {
+            "from_layer": 5,
+            "from_feature_idx": 1275,
+            "from_pos": 33,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 33,
+            "weight": 5.5312
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 11037,
+            "from_pos": 33,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 33,
+            "weight": 2.5312
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1494,
+            "from_pos": 33,
+            "to_layer": 6,
+            "to_feature_idx": 15267,
+            "to_pos": 33,
+            "weight": 1.75
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 9036,
+            "from_pos": 33,
+            "to_layer": 5,
+            "to_feature_idx": 1275,
+            "to_pos": 33,
+            "weight": 1.7031
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 11037,
+            "from_pos": 33,
+            "to_layer": 5,
+            "to_feature_idx": 1275,
+            "to_pos": 33,
+            "weight": 1.1719
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1494,
+            "from_pos": 33,
+            "to_layer": 5,
+            "to_feature_idx": 1275,
+            "to_pos": 33,
+            "weight": 1.0547
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1494,
+            "from_pos": 33,
+            "to_layer": 4,
+            "to_feature_idx": 9036,
+            "to_pos": 33,
+            "weight": 2.7656
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6337,
+            "from_pos": 32,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 1.1797
+          }
+        ],
+        "explanation": "The nursing profession feature at L6:F15267 receives its strongest signals directly from profession-related token embeddings, NOT from gender markers. Key findings:\n\n1. **Direct token input**: The nursing feature gets its strongest connection (edge_weight: 5.6562) directly from the token embedding \" nurse\" at position 32. Third strongest (edge_weight: 3.0312) from \" practitioner\" at position 33.\n\n2. **Healthcare professionals pathway**: The second strongest signal comes from L5:F1275 (healthcare professionals feature), which itself receives strong signals from the same \" nurse\" and \" practitioner\" token embeddings.\n\n3. **No gender markers found**: Throughout the upstream trace (4 hops deep), no gender-related features or tokens were discovered. The circuit is purely profession-focused.\n\n4. **Hierarchical abstraction**: The circuit shows clear abstraction:\n   - Token embeddings: \" nurse\", \" practitioner\", \" Nursing\"\n   - Early layers (L1): medical practices and studies feature\n   - Mid layers (L4): healthcare words and counseling features\n   - Mid layers (L5): healthcare professionals feature\n   - Target layer (L6): nursing profession feature\n\n5. **High specificity**: All features have low frac_nonzero values (0.6%-3%), indicating they're highly specific rather than generic pattern matchers.\n\nThe nursing feature is driven exclusively by profession-related tokens and their hierarchical abstractions, with no evidence of gender marker influence in this circuit.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "label": " words in the document referring to the profession of nursing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 73.867,
+                  "max_token": "\u2581RN"
+                }
+              ],
+              "promoted_tokens": [
+                "PerformLayout",
+                "mybatisplus",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "RouterModule",
+                "contentLoaded",
+                "WaitGroup",
+                "ACGIH",
+                "\ufe36",
+                "forRoot",
+                "bootstrapcdn"
+              ],
+              "suppressed_tokens": [
+                "\ufeff/**",
+                "geti",
+                "Controllo",
+                "\u2581contributions",
+                "\u2581religione",
+                "\u2581Kombin",
+                "\u2581contributors",
+                "\u2581Contributing",
+                "Provided",
+                ")),\r"
+              ],
+              "frac_nonzero": 0.01594
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 15267,
+              "pos": 33
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 5.6562
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 1275,
+                "pos": 33,
+                "edge_weight": 5.5312
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 3.0312
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 33,
+                "edge_weight": 2.5312
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33,
+                "edge_weight": 1.75
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 5,
+              "feature_idx": 1275
+            },
+            "output": {
+              "layer": 5,
+              "feature_idx": 1275,
+              "label": "words related to healthcare professionals and medical fields",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Receipt\u2581of\u2581naltrexone,\u2581Acamprosate\u2581or\u2581disulfiram*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581Choosing\u2581Healthier\u2581Options\u2581in\u2581Primary\u2581Care\u2581(CHOICE)\u2581was\u2581a\u2581care\u2581management\u2581intervention\u2581in\u2581which\u2581\"nurse\u2581care\u2581manage",
+                  "max_activation": 45.642,
+                  "max_token": "\u2581practitioner"
+                },
+                {
+                  "text_snippet": "Receipt\u2581of\u2581naltrexone,\u2581Acamprosate\u2581or\u2581disulfiram*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581Choosing\u2581Healthier\u2581Options\u2581in\u2581Primary\u2581Care\u2581(CHOICE)\u2581was\u2581a\u2581care\u2581management\u2581intervention\u2581in\u2581which\u2581\"nurse\u2581care\u2581manage",
+                  "max_activation": 45.642,
+                  "max_token": "\u2581practitioner"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 38.167,
+                  "max_token": "NP"
+                }
+              ],
+              "promoted_tokens": [
+                "DONT",
+                "exec",
+                "Collect",
+                "don",
+                "\u2581d\u0117",
+                "at",
+                "FailureListener",
+                "\u2581SPEC",
+                "\u2581vo",
+                "SPECIFIED"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0644\u0644\u0627\u0633\u0645\u0627\u0621",
+                "\u2581$_\"",
+                "\u2581resourceCulture",
+                "\u2581\u0421\u0430\u0432\u0435\u0437\u043d\u0435",
+                "VersionUID",
+                "\u2581Majefty",
+                "\u2581jScrollPane",
+                "?')",
+                "\u2581Normdatei",
+                "\u017felf"
+              ],
+              "frac_nonzero": 0.01326
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 5,
+              "feature_idx": 1275,
+              "pos": 33
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 9036,
+                "pos": 33,
+                "edge_weight": 1.7031
+              },
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 1.5234
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 1.4375
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 33,
+                "edge_weight": 1.1719
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33,
+                "edge_weight": 1.0547
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9036
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 9036,
+              "label": " words and abbreviations associated with healthcare.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581one\u2581of\u2581the\u2581main\u2581reasons\u2581for\u2581low\u2581rates\u2581of\u2581recognition\u2581of\u2581depression\u2581In\u2581this\u2581sector\u2581of\u2581the\u2581medical\u2581care\u2581system.^[@ref20],[@ref62]^\u2581It\u2581must\u2581be\u2581acknowledged\u2581that\u2581the\u2581alarmingly\u2581low\u2581figures\u2581of\u2581diagnosed\u2581a",
+                  "max_activation": 75.004,
+                  "max_token": "\u2581practitioners"
+                },
+                {
+                  "text_snippet": "\u25811943:\u2581*\"It\u2581is\u2581a\u2581common\u2581and\u2581frequent\u2581observation\u2581that\u2581depressive\u2581patients\u2581with\u2581single\u2581somatic\u2581complaints\u2581come\u2581to\u2581the\u2581consulting\u2581room\u2581of\u2581the\u2581general\u2581practitioner,\u2581internal\u2581specialist,\u2581and\u2581even\u2581the\u2581surg",
+                  "max_activation": 73.228,
+                  "max_token": "\u2581practitioner"
+                },
+                {
+                  "text_snippet": "\u2581unexplained\u2581and\u2581do\u2581not\u2581fulfill\u2581the\u2581affective\u2581and\u2581cognitive\u2581criteria\u2581for\u2581a\u2581discrete\u2581depressive\u2581or\u2581anxiety\u2581disorder\u2581at\u2581the\u2581end\u2581of\u2581the\u2581clinical\u2581interview.\u2581Single\u2581somatic\u2581symptoms\u2581are\u2581the\u2581primary\u2581reason\u2581",
+                  "max_activation": 72.24,
+                  "max_token": "\u2581practitioner"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581doctors",
+                "\u2581physician",
+                "\u2581physicians",
+                "\u2581Physicians",
+                "\u2581doctor",
+                "Doctors",
+                "\u2581Physician",
+                "\u2581medical",
+                "\u2581estekak"
+              ],
+              "suppressed_tokens": [
+                "onora",
+                "\u2581geprek",
+                "\u8e87",
+                "Viki",
+                "\u043c\u0430\u043d\u043d\u044f",
+                "\u2581Koen",
+                "ITAGE",
+                "\u2581Whitehead",
+                "\u2581bubble",
+                "\u5499"
+              ],
+              "frac_nonzero": 0.01468
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9036,
+              "pos": 33
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 14.0
+              },
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 4.9375
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33,
+                "edge_weight": 2.7656
+              },
+              {
+                "type": "embedding",
+                "token": " acute",
+                "pos": 30,
+                "edge_weight": 2.0938
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 5611,
+                "pos": 33,
+                "edge_weight": -1.8281
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1494
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 1494,
+              "label": " words related to medical practices and studies.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                },
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                },
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                }
+              ],
+              "promoted_tokens": [
+                "XmlAccessType",
+                "\u2581\u043f\u0440\u0435\u043f\u0440\u0430\u0442\u043a\u0438",
+                "]^{-",
+                "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+                "\u2581]\r",
+                "esez",
+                "'];?>",
+                "\")){\r",
+                "\u2581/>';",
+                "})$}"
+              ],
+              "suppressed_tokens": [
+                "AutoScaleMode",
+                "\u2581plenary",
+                "\u2581social",
+                "agaimana",
+                "\u2581createState",
+                "\u2581sociale",
+                "\u2581compone",
+                "IsContent",
+                "\u2581Meaning",
+                "stdafx"
+              ],
+              "frac_nonzero": 0.02375
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1494,
+              "pos": 33
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 8.6875
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 8.125
+              },
+              {
+                "type": "embedding",
+                "token": " Nursing",
+                "pos": 18,
+                "edge_weight": 1.5078
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6337,
+                "pos": 32,
+                "edge_weight": 1.1797
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8854,
+                "pos": 32,
+                "edge_weight": 0.957
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6337
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6337,
+              "label": "the word \"dig\" in different contexts.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581team\u2581will\u2581probably\u2581never\u2581dig\u2581deep\u2581enough\u2581to\u2581realize\u2581they\u2581can\u2581change\u2581it.\u2581So\u2581don't\u2581let\u2581them\u2581read\u2581this\u2581blog,\u2581because\u2581here's\u2581how\u2581you\u2581do\u2581that.\n\nOn\u2581the\u2581right\u2581side\u2581of\u2581Visual\u2581Studio,\u2581under\u2581the\u2581Team\u2581Explorer\u2581",
+                  "max_activation": 39.848,
+                  "max_token": "\u2581dig"
+                },
+                {
+                  "text_snippet": "\u2581mom\u2581was\u2581a\u2581really\u2581embarrassing\u2581thing\u2581but\u2581it\u2581actually\u2581happens\u2581to\u2581people\u2581every\u2581day.\u2581But\u2581the\u2581financial\u2581side\u2581of\u2581it\u2581was\u2581quite\u2581a\u2581shock\u2581to\u2581me.\n\nThat,\u2581and\u2581I\u2581think\u2581the\u2581other\u2581most\u2581surprising\u2581thing\u2581is\u2581the\u2581level\u2581",
+                  "max_activation": 39.017,
+                  "max_token": "\u2581dig"
+                },
+                {
+                  "text_snippet": "\u2581DRM\u2581\u2013\u2581but\u2581these\u2581are\u2581all\u2581ongoing\u2581teething\u2581problems.\u2581I\u2019d\u2581like\u2581to\u2581imagine\u2581a\u2581utopia\u2581where\u2581ePub\u2581is\u2581the\u2581standard\u2581across\u2581all\u2581vendors\u2581and\u2581publishers\u2581(which\u2581it\u2581already\u2581is\u2581if\u2581you\u2581don\u2019t\u2581include\u2581Amazon)\u2581and\u2581wher",
+                  "max_activation": 38.71,
+                  "max_token": "\u2581dig"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581avoient",
+                "\u2581it\u017felf",
+                "\u2581\u00e9toient",
+                "\u2581Monfieur",
+                "\u2581Jefus",
+                "\u2581E\u017f",
+                "\u2581The\u017fe",
+                "\u2581hou\u017fe",
+                "\u2581Hou\u017fe",
+                "\u2581my\u017felf"
+              ],
+              "suppressed_tokens": [
+                "\u2581sur",
+                "\u2581dir",
+                "matchCondition",
+                "\u2581vers",
+                "Beschreibung",
+                "andescent",
+                "\u2581vol",
+                "\u2581hal",
+                "\u2581kry",
+                "\u2581tout"
+              ],
+              "frac_nonzero": 0.03011
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11037
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 11037,
+              "label": " words related to counseling, therapy, social work, and academic degree programs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": "BASELINE*:\\\nIntervention\u25814%\\\nControl\u25818%Receipt\u2581of\u2581addiction\u2581medication\u2581(buprenorphine,\u2581methadone,\u2581naltrexone,\u2581Acamprosate,\u2581disulfiram)*Program\u2581Name\u2581and\u2581Brief\u2581Description*:\u2581The\u2581Addiction\u2581Health\u2581Evaluat",
+                  "max_activation": 62.748,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 62.307,
+                  "max_token": "\u2581work"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581engineer",
+                "Engineer",
+                "\u2581Engineer",
+                "\u2581ENGINEER",
+                "\u2581engineers",
+                "engineer",
+                "Engineers",
+                "\u2581engineering",
+                "\u2581Engineers",
+                "\u2581ingenieros"
+              ],
+              "suppressed_tokens": [
+                "Refer\u00e8ncies",
+                "MessageOf",
+                "ringer",
+                "\u2581Reverso",
+                "WaitGroup",
+                "\u2581Absolute",
+                "ficador",
+                "\u306f\u3058\u3081\u306b",
+                "----</",
+                "\u2581<=\","
+              ],
+              "frac_nonzero": 0.00674
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this nursing profession feature upstream. What features or input tokens feed into it? Does it receive signal from gender markers or directly from profession-related tokens?",
+          "input_tokens": 55822,
+          "output_tokens": 3204,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3008
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 15317,
+        "starting_pos": 33,
+        "objective": "Trace this gender-related feature upstream. What features or input tokens feed into it? Where does the \"she/her\" signal originate?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 15317,
+            "pos": 33,
+            "label": " named entities like characters or people",
+            "frac_nonzero": 0.0175,
+            "promoted_tokens": [
+              "\u2581herself",
+              "\u2581she",
+              "\u2581her",
+              "herself",
+              "\u2581hennes",
+              "\u2581haar",
+              "\u2581\uadf8\ub140",
+              "\u062d\u064a\u0627\u062a\u0647\u0627",
+              "\u5979",
+              "\u2581jej\u00ed"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 1494,
+            "pos": 33,
+            "label": " words related to medical practices and studies.",
+            "frac_nonzero": 0.02375,
+            "promoted_tokens": [
+              "XmlAccessType",
+              "\u2581\u043f\u0440\u0435\u043f\u0440\u0430\u0442\u043a\u0438",
+              "]^{-",
+              "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+              "\u2581]\r",
+              "esez",
+              "'];?>",
+              "\")){\r",
+              "\u2581/>';",
+              "})$}"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 3105,
+            "pos": 33,
+            "label": "the word \"Tuesday\" and words pertaining to healthcare facilities or time periods",
+            "frac_nonzero": 0.00774,
+            "promoted_tokens": [
+              "\u00e9drale",
+              "inton",
+              "\u0627\u0644\u062d\u064a\u0627\u0647",
+              "\u0440\u0435\u043d\u0435",
+              "BrowserRouter",
+              "venty",
+              "\u00efque",
+              "\u2581Barron",
+              "schnitt",
+              "raska"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 12920,
+            "pos": 33,
+            "label": " words ending in \"-ist\", \"-er\", \"-man\", or \"-grapher\" when those describe people's professions or roles.",
+            "frac_nonzero": 0.00781,
+            "promoted_tokens": [
+              "\u2581'\\\\;'",
+              "WithIOException",
+              "\">//",
+              "setViewportView",
+              "\u2581utafitiHapana",
+              "InputBorder",
+              "Personendaten",
+              "AddTagHelper",
+              "\u811a\u6ce8\u306e\u4f7f\u3044\u65b9",
+              "CloseOperation"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6337,
+            "pos": 32,
+            "label": "the word \"dig\" in different contexts.",
+            "frac_nonzero": 0.03011,
+            "promoted_tokens": [
+              "\u2581avoient",
+              "\u2581it\u017felf",
+              "\u2581\u00e9toient",
+              "\u2581Monfieur",
+              "\u2581Jefus",
+              "\u2581E\u017f",
+              "\u2581The\u017fe",
+              "\u2581hou\u017fe",
+              "\u2581Hou\u017fe",
+              "\u2581my\u017felf"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8854,
+            "pos": 32,
+            "label": " the word \"nurse\" as well as some pronouns",
+            "frac_nonzero": 0.00465,
+            "promoted_tokens": [
+              "/*.",
+              "ilets",
+              "\u05d1\u05d5\u05d3\u05d4",
+              "\u2581>=\",",
+              "\u2581Toro",
+              "IMENTAL",
+              "\u2581sooner",
+              "whereas",
+              "\u2581anyway",
+              "u"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15442,
+            "pos": 33,
+            "label": " words denoting people with professions or titles",
+            "frac_nonzero": 0.04924000000000001,
+            "promoted_tokens": [
+              "\u2581//",
+              "less",
+              "/*",
+              "*",
+              "uc",
+              ",",
+              "\u2581people",
+              "\u2581Minder",
+              "zur",
+              "\n"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "nurse",
+            "from_pos": 32,
+            "to_layer": 4,
+            "to_feature_idx": 15317,
+            "to_pos": 33,
+            "weight": 4.0312
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "practitioner",
+            "from_pos": 33,
+            "to_layer": 4,
+            "to_feature_idx": 15317,
+            "to_pos": 33,
+            "weight": 1.2422
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1494,
+            "from_pos": 33,
+            "to_layer": 4,
+            "to_feature_idx": 15317,
+            "to_pos": 33,
+            "weight": 1.1562
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 3105,
+            "from_pos": 33,
+            "to_layer": 4,
+            "to_feature_idx": 15317,
+            "to_pos": 33,
+            "weight": -0.7734
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 12920,
+            "from_pos": 33,
+            "to_layer": 4,
+            "to_feature_idx": 15317,
+            "to_pos": 33,
+            "weight": -0.7109
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "nurse",
+            "from_pos": 32,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 8.6875
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "practitioner",
+            "from_pos": 33,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 8.125
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "Nursing",
+            "from_pos": 18,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 1.5078
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6337,
+            "from_pos": 32,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 1.1797
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 8854,
+            "from_pos": 32,
+            "to_layer": 1,
+            "to_feature_idx": 1494,
+            "to_pos": 33,
+            "weight": 0.957
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "practitioner",
+            "from_pos": 33,
+            "to_layer": 3,
+            "to_feature_idx": 12920,
+            "to_pos": 33,
+            "weight": 11.0625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15442,
+            "from_pos": 33,
+            "to_layer": 3,
+            "to_feature_idx": 12920,
+            "to_pos": 33,
+            "weight": 2.2812
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "nurse",
+            "from_pos": 32,
+            "to_layer": 3,
+            "to_feature_idx": 3105,
+            "to_pos": 33,
+            "weight": 8.25
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": "practitioner",
+            "from_pos": 33,
+            "to_layer": 3,
+            "to_feature_idx": 3105,
+            "to_pos": 33,
+            "weight": 2.3438
+          }
+        ],
+        "explanation": "Tracing the gender-related feature L4:F15317 upstream reveals that the \"she/her\" signal originates from the input tokens \" nurse\" (position 32) and \" practitioner\" (position 33). These tokens strongly activate the gender feature (edge_weight 4.0312 and 1.2422 respectively). \n\nThe circuit shows a multi-path activation:\n1. Direct token embeddings \u2192 L4 gender feature\n2. Token embeddings \u2192 L0 feature detecting \"nurse\" and pronouns \u2192 L1 medical feature \u2192 L4 gender feature\n3. Token embeddings \u2192 L3 profession feature (negative connection, suppresses gender)\n4. Token embeddings \u2192 L3 healthcare feature (negative connection, suppresses gender)\n\nKey finding: The \"she/her\" gender bias for nursing professions is directly triggered by the tokens \" nurse\" and \" practitioner\" themselves, suggesting the model has learned stereotypical gender associations from its training data.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15317
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 15317,
+              "label": " named entities like characters or people",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+                  "max_activation": 32.931,
+                  "max_token": "one"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+                  "max_activation": 32.931,
+                  "max_token": "one"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581underworld\u2581at\u2581Samhain\u2581(taking\u2581with\u2581him\u2581the\u2581fertility\u2581of\u2581the\u2581Goddess/Earth,\u2581who\u2581is\u2581now\u2581in\u2581her\u2581crone\u2581aspect)\u2581until\u2581he\u2581is\u2581once\u2581again\u2581born\u2581from\u2581Her\u2581mother/crone\u2581aspect\u2581at\u2581Yule.\u2581The\u2581Goddess,\u2581in\u2581turn,\u2581",
+                  "max_activation": 32.931,
+                  "max_token": "one"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581herself",
+                "\u2581she",
+                "\u2581her",
+                "herself",
+                "\u2581hennes",
+                "\u2581haar",
+                "\u2581\uadf8\ub140",
+                "\u062d\u064a\u0627\u062a\u0647\u0627",
+                "\u5979",
+                "\u2581jej\u00ed"
+              ],
+              "suppressed_tokens": [
+                "\u2581himself",
+                "himself",
+                "\u2581Himself",
+                "__\":\r",
+                "\u2581his",
+                "\u7236\u5b50",
+                "his",
+                "drawSprites",
+                "__':\r",
+                "\u2581boyhood"
+              ],
+              "frac_nonzero": 0.0175
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15317,
+              "pos": 33,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 4.0312
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 1.2422
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33,
+                "edge_weight": 1.1562
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 3105,
+                "pos": 33,
+                "edge_weight": -0.7734
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 12920,
+                "pos": 33,
+                "edge_weight": -0.7109
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1494
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 1494,
+              "label": " words related to medical practices and studies.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                },
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                },
+                {
+                  "text_snippet": "\u2581very\u2581nature\u2581included\u2581select\u2581patient\u2581populations\u2581(determined\u2581by\u2581the\u2581inclusion/exclusion\u2581criteria\u2581and\u2581study\u2581designs),\u2581in\u2581the\u2581context\u2581of\u2581routine\u2581clinical\u2581practice,\u2581post-marketing\u2581surveillance\u2581data\u2581were\u2581",
+                  "max_activation": 33.517,
+                  "max_token": "\u2581practice"
+                }
+              ],
+              "promoted_tokens": [
+                "XmlAccessType",
+                "\u2581\u043f\u0440\u0435\u043f\u0440\u0430\u0442\u043a\u0438",
+                "]^{-",
+                "\u0627\u0644\u0645\u0646\u0627\u0635\u0628",
+                "\u2581]\r",
+                "esez",
+                "'];?>",
+                "\")){\r",
+                "\u2581/>';",
+                "})$}"
+              ],
+              "suppressed_tokens": [
+                "AutoScaleMode",
+                "\u2581plenary",
+                "\u2581social",
+                "agaimana",
+                "\u2581createState",
+                "\u2581sociale",
+                "\u2581compone",
+                "IsContent",
+                "\u2581Meaning",
+                "stdafx"
+              ],
+              "frac_nonzero": 0.02375
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3105
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 3105,
+              "label": "the word \"Tuesday\" and words pertaining to healthcare facilities or time periods",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "6\u2581to\u2581November\u258120,\u25812018\u2581|\n\nCreate\u2581and\u2581launch\u2581your\u2581campaign\u2581between\u2581October\u25816\u2581to\u2581November\u258119,\u25812018\n\nMention\u2581#GivingTuesday2018\u2581in\u2581the\u2581headline\u2581or\u2581description\u2581of\u2581your\u2581campaign\n\nYou\u2581must\u2581be\u2581a\u2581501(c)\u2581nonpr",
+                  "max_activation": 38.407,
+                  "max_token": "Tuesday"
+                },
+                {
+                  "text_snippet": "6\u2581to\u2581November\u258120,\u25812018\u2581|\n\nCreate\u2581and\u2581launch\u2581your\u2581campaign\u2581between\u2581October\u25816\u2581to\u2581November\u258119,\u25812018\n\nMention\u2581#GivingTuesday2018\u2581in\u2581the\u2581headline\u2581or\u2581description\u2581of\u2581your\u2581campaign\n\nYou\u2581must\u2581be\u2581a\u2581501(c)\u2581nonpr",
+                  "max_activation": 38.407,
+                  "max_token": "Tuesday"
+                },
+                {
+                  "text_snippet": "6\u2581to\u2581November\u258120,\u25812018\u2581|\n\nCreate\u2581and\u2581launch\u2581your\u2581campaign\u2581between\u2581October\u25816\u2581to\u2581November\u258119,\u25812018\n\nMention\u2581#GivingTuesday2018\u2581in\u2581the\u2581headline\u2581or\u2581description\u2581of\u2581your\u2581campaign\n\nYou\u2581must\u2581be\u2581a\u2581501(c)\u2581nonpr",
+                  "max_activation": 38.407,
+                  "max_token": "Tuesday"
+                }
+              ],
+              "promoted_tokens": [
+                "\u00e9drale",
+                "inton",
+                "\u0627\u0644\u062d\u064a\u0627\u0647",
+                "\u0440\u0435\u043d\u0435",
+                "BrowserRouter",
+                "venty",
+                "\u00efque",
+                "\u2581Barron",
+                "schnitt",
+                "raska"
+              ],
+              "suppressed_tokens": [
+                "PreExecute",
+                ":+:",
+                "\u2581kasarigan",
+                "MetaObject",
+                "IUrlHelper",
+                "\u2581Paglinawan",
+                "\u2581EconPapers",
+                "#+#",
+                "tagHelperRunner",
+                "\u0425\u044c\u0430\u0436\u043e\u0440\u0433\u0430\u0448"
+              ],
+              "frac_nonzero": 0.00774
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 12920
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 12920,
+              "label": " words ending in \"-ist\", \"-er\", \"-man\", or \"-grapher\" when those describe people's professions or roles.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\",\u2581which\u2581was\u2581backed\u2581with\u2581\"No\u2581Angels\";\u2581both\u2581songs\u2581were\u2581a\u2581combination\u2581of\u2581punk\u2581rock\u2581and\u2581power\u2581pop,\u2581although\u2581more\u2581punk\u2581than\u2581the\u2581group's\u2581subsequent\u2581singles\u2581and\u2581the\u2581album,\u2581which\u2581were\u2581more\u2581new\u2581wave-oriented.",
+                  "max_activation": 51.494,
+                  "max_token": "dist"
+                },
+                {
+                  "text_snippet": "\",\u2581which\u2581was\u2581backed\u2581with\u2581\"No\u2581Angels\";\u2581both\u2581songs\u2581were\u2581a\u2581combination\u2581of\u2581punk\u2581rock\u2581and\u2581power\u2581pop,\u2581although\u2581more\u2581punk\u2581than\u2581the\u2581group's\u2581subsequent\u2581singles\u2581and\u2581the\u2581album,\u2581which\u2581were\u2581more\u2581new\u2581wave-oriented.",
+                  "max_activation": 51.494,
+                  "max_token": "dist"
+                },
+                {
+                  "text_snippet": "\u2581large\u2581quantities\u2581of\u2581soil,\u2581sand,\u2581or\u2581rubble\u2581during\u2581construction\u2581work.\u2581In\u25811923,\u2581a\u2581farmer\u2581named\u2581James\u2581Cummings\u2581and\u2581a\u2581draftsman\u2581named\u2581J.\u2581Earl\u2581McLeod\u2581co-invented\u2581and\u2581created\u2581the\u2581first\u2581designs.\u2581A\u2581replica\u2581is",
+                  "max_activation": 49.659,
+                  "max_token": "man"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581'\\\\;'",
+                "WithIOException",
+                "\">//",
+                "setViewportView",
+                "\u2581utafitiHapana",
+                "InputBorder",
+                "Personendaten",
+                "AddTagHelper",
+                "\u811a\u6ce8\u306e\u4f7f\u3044\u65b9",
+                "CloseOperation"
+              ],
+              "suppressed_tokens": [
+                "\u2581who",
+                "\u0646\u06af\u0627\u0631",
+                "orteur",
+                "\u2581Peasant",
+                "<bos>",
+                "Author",
+                "\u2581chanteur",
+                "who",
+                "\u2581sociologist",
+                "\u2581bouche"
+              ],
+              "frac_nonzero": 0.00781
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1494,
+              "pos": 33,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 8.6875
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 8.125
+              },
+              {
+                "type": "embedding",
+                "token": " Nursing",
+                "pos": 18,
+                "edge_weight": 1.5078
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6337,
+                "pos": 32,
+                "edge_weight": 1.1797
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8854,
+                "pos": 32,
+                "edge_weight": 0.957
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6337
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6337,
+              "label": "the word \"dig\" in different contexts.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581team\u2581will\u2581probably\u2581never\u2581dig\u2581deep\u2581enough\u2581to\u2581realize\u2581they\u2581can\u2581change\u2581it.\u2581So\u2581don't\u2581let\u2581them\u2581read\u2581this\u2581blog,\u2581because\u2581here's\u2581how\u2581you\u2581do\u2581that.\n\nOn\u2581the\u2581right\u2581side\u2581of\u2581Visual\u2581Studio,\u2581under\u2581the\u2581Team\u2581Explorer\u2581",
+                  "max_activation": 39.848,
+                  "max_token": "\u2581dig"
+                },
+                {
+                  "text_snippet": "\u2581mom\u2581was\u2581a\u2581really\u2581embarrassing\u2581thing\u2581but\u2581it\u2581actually\u2581happens\u2581to\u2581people\u2581every\u2581day.\u2581But\u2581the\u2581financial\u2581side\u2581of\u2581it\u2581was\u2581quite\u2581a\u2581shock\u2581to\u2581me.\n\nThat,\u2581and\u2581I\u2581think\u2581the\u2581other\u2581most\u2581surprising\u2581thing\u2581is\u2581the\u2581level\u2581",
+                  "max_activation": 39.017,
+                  "max_token": "\u2581dig"
+                },
+                {
+                  "text_snippet": "\u2581DRM\u2581\u2013\u2581but\u2581these\u2581are\u2581all\u2581ongoing\u2581teething\u2581problems.\u2581I\u2019d\u2581like\u2581to\u2581imagine\u2581a\u2581utopia\u2581where\u2581ePub\u2581is\u2581the\u2581standard\u2581across\u2581all\u2581vendors\u2581and\u2581publishers\u2581(which\u2581it\u2581already\u2581is\u2581if\u2581you\u2581don\u2019t\u2581include\u2581Amazon)\u2581and\u2581wher",
+                  "max_activation": 38.71,
+                  "max_token": "\u2581dig"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581avoient",
+                "\u2581it\u017felf",
+                "\u2581\u00e9toient",
+                "\u2581Monfieur",
+                "\u2581Jefus",
+                "\u2581E\u017f",
+                "\u2581The\u017fe",
+                "\u2581hou\u017fe",
+                "\u2581Hou\u017fe",
+                "\u2581my\u017felf"
+              ],
+              "suppressed_tokens": [
+                "\u2581sur",
+                "\u2581dir",
+                "matchCondition",
+                "\u2581vers",
+                "Beschreibung",
+                "andescent",
+                "\u2581vol",
+                "\u2581hal",
+                "\u2581kry",
+                "\u2581tout"
+              ],
+              "frac_nonzero": 0.03011
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8854
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8854,
+              "label": " the word \"nurse\" as well as some pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                },
+                {
+                  "text_snippet": "\u2581years.\u2581The\u2581age\u2581of\u2581the\u2581supervisors\u2581varied\u2581between\u258138\u2581and\u258159\u2581and\u2581their\u2581experience\u2581as\u2581supervisors\u2581between\u25815\u2581and\u258121\u2581years.\u2581Both\u2581nurses\u2581and\u2581supervisors\u2581had\u2581worked\u2581with\u2581many\u2581nurse\u2581leaders\u2581and\u2581they\u2581were\u2581int",
+                  "max_activation": 37.377,
+                  "max_token": "\u2581nurse"
+                }
+              ],
+              "promoted_tokens": [
+                "/*.",
+                "ilets",
+                "\u05d1\u05d5\u05d3\u05d4",
+                "\u2581>=\",",
+                "\u2581Toro",
+                "IMENTAL",
+                "\u2581sooner",
+                "whereas",
+                "\u2581anyway",
+                "u"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "sizeCache",
+                "\u2581ainfi",
+                "GEBURTSDATUM",
+                "complexContent",
+                "ApplicationTests",
+                "\u2581plufieurs",
+                "contentLoaded",
+                "principalColumn",
+                "\u2581auroit"
+              ],
+              "frac_nonzero": 0.00465
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 12920,
+              "pos": 33,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 11.0625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15442,
+                "pos": 33,
+                "edge_weight": 2.2812
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 13877,
+                "pos": 33,
+                "edge_weight": 2.1406
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 2589,
+                "pos": 33,
+                "edge_weight": 2.125
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1847,
+                "pos": 33,
+                "edge_weight": -1.1484
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15442
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15442,
+              "label": " words denoting people with professions or titles",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581\u2581\u2581\u2581\u2581\u25812.0\u2581(1.5--3.2)\u2581\u2581\u2581\u2581\u2581\u25812.5\u2581(1.5--4.4)\n\nNormalised\u2581to\u25811\u2009mg\u2581irinotecan\u2581dose.\n\nData\u2581are\u2581expressed\u2581as\u2581median\u2581(95%\u2581CI)\u2581unless\u2581otherwise\u2581stated.\n\nAUC,\u2581area\u2581under\u2581the\u2581plasma\u2581concentration--time\u2581curve;\u2581*C*",
+                  "max_activation": 29.53,
+                  "max_token": "\u2581investigator"
+                },
+                {
+                  "text_snippet": "1\u25812018\u2581is\u2581the\u2581latest\u2581installment\u2581in\u2581the\u2581F1\u2581series.\n\nFormula\u25811\u2581ROM\u2581Download\u2581for\u2581Sega\u2581Game\u2581Gear\u2581CoolROM\u2581com?\n\nF1\u2581Challenge\u258199\u258102\u2581PC\u2581Review\u2581and\u2581Full\u2581Download\u2581Old\u2581PC\u2581Gaming?\n\nFormula\u25811\u2581Old\u2581DOS\u2581Games\u2581Downl",
+                  "max_activation": 29.168,
+                  "max_token": "\u2581administrator"
+                },
+                {
+                  "text_snippet": "\u2581excipients\u2581Any\u2581condition\u2581which,\u2581in\u2581the\u2581investigator's\u2581opinion,\u2581might\u2581jeopardise\u2581a\u2581participant's\u2581safety\u2581or\u2581their\u2581compliance\u2581with\u2581the\u2581protocolFamily\u2581or\u2581personal\u2581history\u2581of\u2581multiple\u2581endocrine\u2581neoplasia\u2581",
+                  "max_activation": 28.893,
+                  "max_token": "\u2581investigator"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581//",
+                "less",
+                "/*",
+                "*",
+                "uc",
+                ",",
+                "\u2581people",
+                "\u2581Minder",
+                "zur",
+                "\n"
+              ],
+              "suppressed_tokens": [
+                "\u2581composer",
+                "\u2581photographer",
+                "\u2581songwriter",
+                "\u2581developer",
+                "\u2581marketer",
+                "\u2581curator",
+                "\u2581screenwriter",
+                "\u2581dramatist",
+                "\u2581programmer",
+                "\u2581producer"
+              ],
+              "frac_nonzero": 0.04924000000000001
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3105,
+              "pos": 33,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " nurse",
+                "pos": 32,
+                "edge_weight": 8.25
+              },
+              {
+                "type": "embedding",
+                "token": " practitioner",
+                "pos": 33,
+                "edge_weight": 2.3438
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 8222,
+                "pos": 33,
+                "edge_weight": -0.9844
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 10070,
+                "pos": 32,
+                "edge_weight": -0.8398
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 15395,
+                "pos": 33,
+                "edge_weight": 0.5742
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this gender-related feature upstream. What features or input tokens feed into it? Where does the \"she/her\" signal originate?",
+          "input_tokens": 74619,
+          "output_tokens": 3457,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 18,
+        "starting_feature_idx": 14677,
+        "starting_pos": 20,
+        "objective": "Trace this \"women/girls mentioned\" feature upstream. What features or input tokens feed into it? How does this gender marker relate to the overall classification?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 18,
+            "feature_idx": 14677,
+            "pos": 20,
+            "label": " instances of women or girls being mentioned",
+            "frac_nonzero": 0.01225,
+            "promoted_tokens": [
+              "\u2581herself",
+              "\u2581she",
+              "\u2581her",
+              "herself",
+              "she",
+              "\u5979",
+              "\u4f46\u5979",
+              "\u2581ihrem",
+              "She",
+              "\u2581shes"
+            ]
+          },
+          {
+            "layer": 17,
+            "feature_idx": 5889,
+            "pos": 20,
+            "label": " references to people with pronouns and possessive pronouns",
+            "frac_nonzero": 0.01848,
+            "promoted_tokens": [
+              "ValueStyle",
+              "protoimpl",
+              "LookAnd",
+              "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+              "uxxxx",
+              "riwal",
+              "\u2581AssemblyCulture",
+              "SequentialGroup",
+              "BufferException",
+              "ToAction"
+            ]
+          },
+          {
+            "layer": 15,
+            "feature_idx": 3330,
+            "pos": 20,
+            "label": " personal stories of individuals, especially women and their actions or states of being, often indicated by the pronoun 'she' preceded and succeeded by tokens.",
+            "frac_nonzero": 0.01932,
+            "promoted_tokens": [
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "RenderAtEndOf",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              "\u2581doubtnut",
+              "principalTable",
+              "\u2581ModelExpression",
+              "\u2581Roskov",
+              "\u2581defaultstate",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "Vidite"
+            ]
+          },
+          {
+            "layer": 13,
+            "feature_idx": 6622,
+            "pos": 20,
+            "label": " pronouns.",
+            "frac_nonzero": 0.02307,
+            "promoted_tokens": [
+              "Zitat",
+              "XmlAccessType",
+              "featureID",
+              "TargetException",
+              "webElementXpaths",
+              "basicConfig",
+              "Portale",
+              "verifyException",
+              "\u4e0b\u8f7d\u9644\u4ef6",
+              "\u2581<<<<<<<<<<<<<<"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15382,
+            "pos": 20,
+            "label": "mentions of a female person.",
+            "frac_nonzero": 0.0088,
+            "promoted_tokens": [
+              "\u2581more",
+              "\u2581her",
+              "\u2581so",
+              "</i>",
+              "</em>",
+              "'));\r",
+              "en\u00e9",
+              "\u2581she",
+              "()\");",
+              "#\r"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 9519,
+            "pos": 20,
+            "label": " the pronoun \"she\" and the possessive pronoun \"her\"",
+            "frac_nonzero": 0.01124,
+            "promoted_tokens": [
+              "endpush",
+              "ificent",
+              "ThroughAttribute",
+              "\u2581Colette",
+              "\u2581am\u00e9",
+              "endphp",
+              "LEVANT",
+              "\u2581gainera",
+              "esomeness",
+              "\u2581Competence"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 2267,
+            "pos": 20,
+            "label": "words that appear in programming code, legal jargon, or scientific texts",
+            "frac_nonzero": 0.78398,
+            "promoted_tokens": [
+              "\u2581Majefty",
+              "\u2581Efq",
+              "\u2581The\u017fe",
+              "\u2581Monfieur",
+              "\u2581them\u017felves",
+              "\u2581my\u017felf",
+              "\u2581purpo\u017fe",
+              "\u2581\u017feveral",
+              "\u2581plea\u017fure",
+              "\u2581him\u017felf"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 17,
+            "from_feature_idx": 5889,
+            "from_pos": 20,
+            "to_layer": 18,
+            "to_feature_idx": 14677,
+            "to_pos": 20,
+            "weight": 3.7656
+          },
+          {
+            "from_layer": 15,
+            "from_feature_idx": 3330,
+            "from_pos": 20,
+            "to_layer": 18,
+            "to_feature_idx": 14677,
+            "to_pos": 20,
+            "weight": 3
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15382,
+            "from_pos": 20,
+            "to_layer": 18,
+            "to_feature_idx": 14677,
+            "to_pos": 20,
+            "weight": 2.4062
+          },
+          {
+            "from_layer": 7,
+            "from_feature_idx": 8644,
+            "from_pos": 20,
+            "to_layer": 18,
+            "to_feature_idx": 14677,
+            "to_pos": 20,
+            "weight": -2.2344
+          },
+          {
+            "from_layer": 15,
+            "from_feature_idx": 3330,
+            "from_pos": 20,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 20,
+            "weight": 2.2656
+          },
+          {
+            "from_layer": 13,
+            "from_feature_idx": 6622,
+            "from_pos": 20,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 20,
+            "weight": 1.9531
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 2267,
+            "from_pos": 20,
+            "to_layer": 13,
+            "to_feature_idx": 6622,
+            "to_pos": 20,
+            "weight": 1.6953
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 9519,
+            "from_pos": 20,
+            "to_layer": 15,
+            "to_feature_idx": 3330,
+            "to_pos": 20,
+            "weight": 2.0625
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 14257,
+            "from_pos": 20,
+            "to_layer": 15,
+            "to_feature_idx": 3330,
+            "to_pos": 20,
+            "weight": 1.4062
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 2267,
+            "from_pos": 20,
+            "to_layer": 15,
+            "to_feature_idx": 3330,
+            "to_pos": 20,
+            "weight": 1.3672
+          }
+        ],
+        "explanation": "The \"women/girls mentioned\" feature at L18:F14677 receives strong direct input from the token \" She\" at position 20 (edge_weight 14.44), showing it's primarily triggered by female pronouns in the input. The circuit has multiple pathways:\n\n1. **Direct embedding connection**: Token \" She\" \u2192 L18:F14677 (strongest connection: 14.44)\n2. **Early layer detection**: Layer 0 features F15382 (\"mentions of a female person\") and F9519 (\"the pronoun 'she'\") detect female pronouns early and feed into intermediate features\n3. **Intermediate processing**: \n   - L15:F3330 detects personal stories about women\n   - L13:F6622 detects general pronouns\n   - L17:F5889 detects references to people with pronouns\n4. **Gender-specific refinement**: The L18 feature specifically promotes female pronouns (\"she\", \"her\", \"herself\") and suppresses male pronouns (\"himself\", \"his\", \"him\"), making it a gender classifier.\n\nThe low frac_nonzero values (0.0088-0.023) indicate these are specific detectors, not generic features. This gender marker likely helps the model track gender information for tasks like story comprehension, character tracking, or generating gender-appropriate responses.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14677
+            },
+            "output": {
+              "layer": 18,
+              "feature_idx": 14677,
+              "label": " instances of women or girls being mentioned",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581other\u2581by\u2581the\u2581European\u2581powers\u2581threatening\u2581with\u2581one\u2581voice\u2581dire\u2581consequences\u2581should\u2581she\u2581persist.\n\nOn\u2581August\u258126,\u25811848,\u2581after\u2581painful\u2581hesitation,\u2581Frederick\u2581William\u2581chose\u2581what\u2581seemed\u2581the\u2581lesser\u2581of\u2581two\u2581evil",
+                  "max_activation": 378.344,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": "\u2581other\u2581by\u2581the\u2581European\u2581powers\u2581threatening\u2581with\u2581one\u2581voice\u2581dire\u2581consequences\u2581should\u2581she\u2581persist.\n\nOn\u2581August\u258126,\u25811848,\u2581after\u2581painful\u2581hesitation,\u2581Frederick\u2581William\u2581chose\u2581what\u2581seemed\u2581the\u2581lesser\u2581of\u2581two\u2581evil",
+                  "max_activation": 378.344,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": "20\n\n__version__\u2581=\u2581'1.0.rc0'\nshort_version\u2581=\u2581'1.0.rc0'\n<bos>The\u2581Art\u2581of\u2581Making\u2581Pickles\n\nWhen\u2581Brian\u2581Crane\u2581(BA\u2581\u201973)\u2581married\u2581Diana\u2581Long\u2581(BS\u2581\u201973),\u2581she\u2581gave\u2581him\u2581the\u2581best\u2581possible\u2581dowry:\u2581her\u2581parents.\u2581Bud\u2581and\u2581",
+                  "max_activation": 343.598,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581herself",
+                "\u2581she",
+                "\u2581her",
+                "herself",
+                "she",
+                "\u5979",
+                "\u4f46\u5979",
+                "\u2581ihrem",
+                "She",
+                "\u2581shes"
+              ],
+              "suppressed_tokens": [
+                "\u2581himself",
+                "\u2581his",
+                "his",
+                "himself",
+                "His",
+                "\u5f7c\u306f",
+                "\u2581Himself",
+                "\u2581seine",
+                "\u2581istrinya",
+                "\u2581seiner"
+              ],
+              "frac_nonzero": 0.01225
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14677,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " She",
+                "pos": 20,
+                "edge_weight": 14.4375
+              },
+              {
+                "type": "feature",
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 20,
+                "edge_weight": 3.7656
+              },
+              {
+                "type": "feature",
+                "layer": 15,
+                "feature_idx": 3330,
+                "pos": 20,
+                "edge_weight": 3.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15382,
+                "pos": 20,
+                "edge_weight": 2.4062
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 8644,
+                "pos": 20,
+                "edge_weight": -2.2344
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889
+            },
+            "output": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "label": " references to people with pronouns and possessive pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581ink\u201d.\u2581So\u2581she\u2581went\u2581to\u2581see\u2581her\u2581boss\u2581again\u2581(he\u2581was\u2581passed\u2581out\u2581from\u2581exhaustion)\u2581and\u2581got\u2581yelled\u2581at\u2581again\u2581(after\u2581she\u2581woke\u2581him).\u2581Eventually\u2581she\u2581figured\u2581out\u2581who\u2581she\u2581was\u2581supposed\u2581to\u2581see,\u2581and\u2581in\u2581exchange\u2581for\u2581t",
+                  "max_activation": 334.815,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ".\u2581Most\u2581of\u2581the\u2581people\u2581I\u2581know,\u2581myself\u2581included,\u2581are\u2581in\u2581a\u2581state\u2581of\u2581low\u2581confidence.\u2581Lots\u2581of\u2581money\u2581in\u2581CDs,\u2581MMAs,\u2581bonds,\u2581under\u2581the\u2581mattresses,\u2581and\u2581in\u2581gold/silver.\n\nIMO,\u2581a\u2581restoration\u2581of\u2581confidence\u2581would\u2581rel",
+                  "max_activation": 333.55,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581Sky\u2581Realms\u2581takes\u2581the\u2581reader\u2581on\u2581a\u2581journey\u2581through\u2581exotic\u2581fantasy\u2581lands,\u2581as\u2581well\u2581as\u2581across\u2581the\u2581globe,\u2581from\u2581Sydney\u2581to\u2581Paris,\u2581from\u2581the\u2581Himalayas\u2581to\u2581Manhattan.\n\nHe\u2581thought\u2581he\u2019d\u2581return\u2581from\u2581Hell\u2581a\u2581hero",
+                  "max_activation": 328.746,
+                  "max_token": "\u2581he"
+                }
+              ],
+              "promoted_tokens": [
+                "ValueStyle",
+                "protoimpl",
+                "LookAnd",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "uxxxx",
+                "riwal",
+                "\u2581AssemblyCulture",
+                "SequentialGroup",
+                "BufferException",
+                "ToAction"
+              ],
+              "suppressed_tokens": [
+                "\u2581its",
+                "ontas",
+                "\u2581'@",
+                "\u2581Its",
+                "\u2581point",
+                "\u2581An",
+                "\u2581\u0432\u0441\u0435\u0433\u043e",
+                "akah",
+                "\u2581Am",
+                "osted"
+              ],
+              "frac_nonzero": 0.01848
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 15,
+              "feature_idx": 3330
+            },
+            "output": {
+              "layer": 15,
+              "feature_idx": 3330,
+              "label": " personal stories of individuals, especially women and their actions or states of being, often indicated by the pronoun 'she' preceded and succeeded by tokens.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581Most\u2581of\u2581the\u2581people\u2581I\u2581know,\u2581myself\u2581included,\u2581are\u2581in\u2581a\u2581state\u2581of\u2581low\u2581confidence.\u2581Lots\u2581of\u2581money\u2581in\u2581CDs,\u2581MMAs,\u2581bonds,\u2581under\u2581the\u2581mattresses,\u2581and\u2581in\u2581gold/silver.\n\nIMO,\u2581a\u2581restoration\u2581of\u2581confidence\u2581would\u2581rel",
+                  "max_activation": 209.745,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "9%,\u2581but\u2581I've\u2581been\u2581wrong\u2581before),\u2581how\u2581many\u2581sew\u2581as\u2581an\u2581art\u2581form\u2581(again,\u2581probably\u258199.99%,\u2581but...),\u2581etc.\n\nMy\u2581mom,\u2581one\u2581of\u2581those\u2581teenagers\u2581in\u2581the\u258160s,\u2581has\u2581sewed\u2581since\u2581she\u2581was\u25818.\u2581She\u2581entered\u2581doll\u2581clothes\u2581she\u2581",
+                  "max_activation": 200.262,
+                  "max_token": "\u2581She"
+                },
+                {
+                  "text_snippet": "9%,\u2581but\u2581I've\u2581been\u2581wrong\u2581before),\u2581how\u2581many\u2581sew\u2581as\u2581an\u2581art\u2581form\u2581(again,\u2581probably\u258199.99%,\u2581but...),\u2581etc.\n\nMy\u2581mom,\u2581one\u2581of\u2581those\u2581teenagers\u2581in\u2581the\u258160s,\u2581has\u2581sewed\u2581since\u2581she\u2581was\u25818.\u2581She\u2581entered\u2581doll\u2581clothes\u2581she\u2581",
+                  "max_activation": 200.262,
+                  "max_token": "\u2581She"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "RenderAtEndOf",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581doubtnut",
+                "principalTable",
+                "\u2581ModelExpression",
+                "\u2581Roskov",
+                "\u2581defaultstate",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "Vidite"
+              ],
+              "suppressed_tokens": [
+                "ing",
+                "\u2581\u2018",
+                "\u2581'",
+                "<eos>",
+                "ta",
+                "\n\n",
+                "\u2581corrientes",
+                "\n",
+                "tau",
+                "\u2581esempi"
+              ],
+              "frac_nonzero": 0.01932
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15382
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15382,
+              "label": "mentions of a female person.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581Of\u2581fear.\n\nLet\u2581me\ntell\u2581you\u2581another\u2581story,\u2581of\u2581a\u2581woman\u2581who\u2581is\u2581tired\u2581and\u2581traveling\u2581with\u2581a\u2581fractious\u25812-year-old\nwhich\u2581has\u2581only\u2581made\u2581her\u2581more\u2581so.\u2581She\u2581is\u2581missing\nher\u2581mother,\u2581too\u2581ill\u2581to\u2581travel\u2581and\u2581visit\u2581her",
+                  "max_activation": 58.984,
+                  "max_token": "\u2581Her"
+                },
+                {
+                  "text_snippet": ".\u2581Of\u2581fear.\n\nLet\u2581me\ntell\u2581you\u2581another\u2581story,\u2581of\u2581a\u2581woman\u2581who\u2581is\u2581tired\u2581and\u2581traveling\u2581with\u2581a\u2581fractious\u25812-year-old\nwhich\u2581has\u2581only\u2581made\u2581her\u2581more\u2581so.\u2581She\u2581is\u2581missing\nher\u2581mother,\u2581too\u2581ill\u2581to\u2581travel\u2581and\u2581visit\u2581her",
+                  "max_activation": 58.984,
+                  "max_token": "\u2581Her"
+                },
+                {
+                  "text_snippet": "\u2581When\u2581she\u2581looked\u2581up\u2581at\u2581last,\u2581she\u2581saw\u2581that\u2581night\u2581had\u2581fallen\u2581over\u2581Bethlehem\u2581Springs.\u2581Her\u2581stomach\u2581growled,\u2581reminding\u2581her\u2581that\u2581she\u2019d\u2581missed\u2581supper.\u2581Still,\u2581she\u2581had\u2581little\u2581desire\u2581to\u2581cook.\u2581This\u2581seemed\u2581like\u2581a",
+                  "max_activation": 58.866,
+                  "max_token": "\u2581Her"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581more",
+                "\u2581her",
+                "\u2581so",
+                "</i>",
+                "</em>",
+                "'));\r",
+                "en\u00e9",
+                "\u2581she",
+                "()\");",
+                "#\r"
+              ],
+              "suppressed_tokens": [
+                "+#+#",
+                "setVerticalGroup",
+                "Vidite",
+                "featureID",
+                "ToMany",
+                "\u2581'\\\\;'",
+                "\u2581ISTAT",
+                "bkz",
+                "Condol",
+                "verwijspagina"
+              ],
+              "frac_nonzero": 0.0088
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 15,
+              "feature_idx": 3330,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " She",
+                "pos": 20,
+                "edge_weight": 15.75
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 9519,
+                "pos": 20,
+                "edge_weight": 2.0625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9609
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 14257,
+                "pos": 20,
+                "edge_weight": 1.4062
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 2267,
+                "pos": 20,
+                "edge_weight": 1.3672
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15382,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " She",
+                "pos": 20,
+                "edge_weight": 23.5
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 19,
+                "edge_weight": 1.8438
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.1719
+              },
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 0.6172
+              },
+              {
+                "type": "embedding",
+                "token": "achelors",
+                "pos": 13,
+                "edge_weight": 0.1777
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " She",
+                "pos": 20,
+                "edge_weight": 19.5
+              },
+              {
+                "type": "feature",
+                "layer": 15,
+                "feature_idx": 3330,
+                "pos": 20,
+                "edge_weight": 2.2656
+              },
+              {
+                "type": "feature",
+                "layer": 13,
+                "feature_idx": 6622,
+                "pos": 20,
+                "edge_weight": 1.9531
+              },
+              {
+                "type": "embedding",
+                "token": " graduated",
+                "pos": 2,
+                "edge_weight": 1.7344
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 19,
+                "edge_weight": -1.7344
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 13,
+              "feature_idx": 6622
+            },
+            "output": {
+              "layer": 13,
+              "feature_idx": 6622,
+              "label": " pronouns.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581most\u2581of\u2581the\u2581world\u2019s\u2581first\u2581modernists\u2013Wright,\u2581Mies,\u2581Corbusier,\u2581Saarinen\u2013his\u2581elder\u2581son\u2581and\u2581biographer\u2581calls\u2581him\u2581\u201cthe\u2581Forest\u2581Gump\u2581of\u2581architecture.\u201d\n\nRalph\u2581Rapson:\u2581Sixty\u2581Years\u2581of\u2581Modern\u2581Design,\u2581by\u2581Rip\u2581Ra",
+                  "max_activation": 124.792,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581most\u2581of\u2581the\u2581world\u2019s\u2581first\u2581modernists\u2013Wright,\u2581Mies,\u2581Corbusier,\u2581Saarinen\u2013his\u2581elder\u2581son\u2581and\u2581biographer\u2581calls\u2581him\u2581\u201cthe\u2581Forest\u2581Gump\u2581of\u2581architecture.\u201d\n\nRalph\u2581Rapson:\u2581Sixty\u2581Years\u2581of\u2581Modern\u2581Design,\u2581by\u2581Rip\u2581Ra",
+                  "max_activation": 124.792,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581his\u2581life\u2581also\u2581want\u2581Phullu\u2581to\u2581move\u2581to\u2581a\u2581big\u2581city\u2581and\u2581find\u2581work.\u2581But\u2581he's\u2581adamant\u2581about\u2581staying\u2581back\u2581in\u2581the\u2581village.\n\nFinally,\u2581a\u2581turning\u2581point\u2581in\u2581Phullu's\u2581life\u2581comes\u2581when\u2581he\u2581finds\u2581out\u2581about\u2581menstruatio",
+                  "max_activation": 123.894,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "Zitat",
+                "XmlAccessType",
+                "featureID",
+                "TargetException",
+                "webElementXpaths",
+                "basicConfig",
+                "Portale",
+                "verifyException",
+                "\u4e0b\u8f7d\u9644\u4ef6",
+                "\u2581<<<<<<<<<<<<<<"
+              ],
+              "suppressed_tokens": [
+                "liet",
+                "bootstrapcdn",
+                "\u2581chande",
+                "Aux",
+                "\u2581starry",
+                "AUD",
+                "iole",
+                "\u2581Aux",
+                "\u2581k\u00f6ln",
+                "\u2581topper"
+              ],
+              "frac_nonzero": 0.02307
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 13,
+              "feature_idx": 6622,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " She",
+                "pos": 20,
+                "edge_weight": 12.625
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 2267,
+                "pos": 20,
+                "edge_weight": 1.6953
+              },
+              {
+                "type": "feature",
+                "layer": 8,
+                "feature_idx": 3099,
+                "pos": 20,
+                "edge_weight": 1.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.1641
+              },
+              {
+                "type": "embedding",
+                "token": " graduated",
+                "pos": 2,
+                "edge_weight": 0.9297
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 2267
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 2267,
+              "label": "words that appear in programming code, legal jargon, or scientific texts",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "diazonaphthoquinones\u2581in\u2581high\u2581yields.\u2581These\u2581intermediates\u2581were\u2581further\u2581transformed\u2581to\u2581\u03b2-phenylnaphthalene\u2581lactones\u2581through\u2581a\u2581Rh-catalyzed\u2581intramolecular\u2581formal\u2581C-H\u2581insertion\u2581reaction.\u2581This\u2581method\u2581of\u2581la",
+                  "max_activation": 56.354,
+                  "max_token": "azon"
+                },
+                {
+                  "text_snippet": "\u2581are\u2581agreeing\u2581to\u2581be\u2581bound\u2581by\r\n\u2581*\u2581\t\u2581the\u2581terms\u2581of\u2581this\u2581license.\r\n\u2581*\u2581\u2581\u2581You\u2581must\u2581not\u2581remove\u2581this\u2581notice,\u2581or\u2581any\u2581other,\u2581from\u2581this\u2581software.\r\n\u2581**/\r\n\r\nusing\u2581System.Reflection;\r\nusing\u2581System.Runtime.InteropSe",
+                  "max_activation": 55.206,
+                  "max_token": "\u2581AssemblyCompany"
+                },
+                {
+                  "text_snippet": "\u2581new\u2581DefaultListModel<Long>();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581JTextArea\u2581textArea\u2581=\u2581new\u2581JTextArea();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581textArea.setBorder(thinEmptyBorder);\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 55.102,
+                  "max_token": "ListModel"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Majefty",
+                "\u2581Efq",
+                "\u2581The\u017fe",
+                "\u2581Monfieur",
+                "\u2581them\u017felves",
+                "\u2581my\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581\u017feveral",
+                "\u2581plea\u017fure",
+                "\u2581him\u017felf"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581allAfrica",
+                "InteropServices",
+                "CppMethod",
+                "\u03c1\u03c5",
+                "IsInitialized",
+                "kos",
+                ">{@",
+                "cog",
+                "ero"
+              ],
+              "frac_nonzero": 0.78398
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 9519
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 9519,
+              "label": " the pronoun \"she\" and the possessive pronoun \"her\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u0097\u2581my\u2581little\u2581girl\u2581cut\u2581her\u2581finger.\u2581She\u2581just\u2581came\u2581out\u2581of\u2581the\u2581bathroom,\u2581and\u2581I\u2581hadn't\u2581put\u2581up\u2581Vincent's\u2581things,\u2581and\u2581she\u2581got\u2581a\u2581razor\u2581blade\u2581and\u2581cut\u2581her\u2581finger\u2581with\u2581it,\u2581and\u2581he\u2581picked\u2581her\u2581up\u2581and\u2581took\u2581her\u2581in\u2581the",
+                  "max_activation": 48.704,
+                  "max_token": "\u2581She"
+                },
+                {
+                  "text_snippet": ".\u2581That\u2581is\u2581the\u2581source\u2581of\u2581her\u2581power.\u2581That's\u2581what\u2581sets\u2581her\u2581ever\u2581so\u2581highly\u2581above\u2581the\u2581rest\u2581of\u2581her\u2581sex.\u2581She\u2581feels\u2581no\u2581emotions\u2581and\u2581so\u2581she\u2581isn't\u2581governed\u2581by\u2581them.\"\n\n\"Well,\u2581the\u2581Lord\u2581Conqueror\u2581did\u2581marry\u2581the\u2581Que",
+                  "max_activation": 48.492,
+                  "max_token": "\u2581She"
+                },
+                {
+                  "text_snippet": "9)\u2581used\u2581to\u2581sew\u2581a\u2581lot\u2581when\u2581we\u2581were\u2581little.\u2581For\u2581herself,\u2581for\u2581us,\u2581for\u2581my\u2581father.\u2581But\u2581she\u2581doesn't\u2581anymore.\u2581She\u2581found\u2581a\u2581job\u2581when\u2581we\u2581were\u2581getting\u2581a\u2581little\u2581older\u2581and\u2581says\u2581she\u2581doesn't\u2581have\u2581the\u2581patience\u2581anymor",
+                  "max_activation": 48.325,
+                  "max_token": "\u2581She"
+                }
+              ],
+              "promoted_tokens": [
+                "endpush",
+                "ificent",
+                "ThroughAttribute",
+                "\u2581Colette",
+                "\u2581am\u00e9",
+                "endphp",
+                "LEVANT",
+                "\u2581gainera",
+                "esomeness",
+                "\u2581Competence"
+              ],
+              "suppressed_tokens": [
+                "\u2581She",
+                "\u0627\u0644\u0645\u0635\u0627\u062f\u0631",
+                "'])){\r",
+                "EFIAPI",
+                "\u2581Shepherd",
+                "\u2581\u0161\u0137",
+                "\u015bwi",
+                "\u2581Her",
+                "o",
+                "</em>"
+              ],
+              "frac_nonzero": 0.01124
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this \"women/girls mentioned\" feature upstream. What features or input tokens feed into it? How does this gender marker relate to the overall classification?",
+          "input_tokens": 82263,
+          "output_tokens": 3368,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 8166
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 8166,
+        "label": " proper names longer than 4 characters and ending in 'a', 'i', or 'e'",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581&\u2581King\u2581Edward\u2581Memorial\u2581Hospital,\u2581Mumbai;\u2581Dr\u2581N\u2581Khippal,\u2581S.M.S.\u2581Medical\u2581College\u2581and\u2581Hospital,\u2581Jaipur;\u2581and\u2581staff\u2581at\u2581the\u2581participating\u2581study\u2581sites.\n\nWe\u2581also\u2581thank\u2581Monogram\u2581Process\u2581Development\u2581for\u2581its\u2581rol",
+            "max_activation": 50.059,
+            "max_token": "liza"
+          },
+          {
+            "text_snippet": "\u2581&\u2581King\u2581Edward\u2581Memorial\u2581Hospital,\u2581Mumbai;\u2581Dr\u2581N\u2581Khippal,\u2581S.M.S.\u2581Medical\u2581College\u2581and\u2581Hospital,\u2581Jaipur;\u2581and\u2581staff\u2581at\u2581the\u2581participating\u2581study\u2581sites.\n\nWe\u2581also\u2581thank\u2581Monogram\u2581Process\u2581Development\u2581for\u2581its\u2581rol",
+            "max_activation": 50.059,
+            "max_token": "liza"
+          },
+          {
+            "text_snippet": "\u2581&\u2581King\u2581Edward\u2581Memorial\u2581Hospital,\u2581Mumbai;\u2581Dr\u2581N\u2581Khippal,\u2581S.M.S.\u2581Medical\u2581College\u2581and\u2581Hospital,\u2581Jaipur;\u2581and\u2581staff\u2581at\u2581the\u2581participating\u2581study\u2581sites.\n\nWe\u2581also\u2581thank\u2581Monogram\u2581Process\u2581Development\u2581for\u2581its\u2581rol",
+            "max_activation": 50.059,
+            "max_token": "liza"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "herself",
+          "AccessorTable",
+          "\u2581motherhood",
+          "\u2581\u0433\u043e\u0442\u043e\u0432\u0430",
+          "\u2581powinna",
+          "\u2581internetowa",
+          "\u2581\u0939\u094b\u0917\u0940",
+          "\u2581publique",
+          "\u2581n\u00e9e"
+        ],
+        "suppressed_tokens": [
+          "\u2581himself",
+          "\u2581Himself",
+          "himself",
+          "}],\r",
+          "\u062a\u0642\u0627\u0648\u0649",
+          "AndEndTag",
+          "\u2581ejac",
+          "\u2581koji",
+          "astia",
+          "\u2581r\u00e1d"
+        ],
+        "frac_nonzero": 0.00559
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 16306
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 16306,
+        "label": " proper names and positive adjectives",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581are\u2581just\u2581perfect!\u2581Thanks\u2581for\u2581joining\u2581us\u2581at\u2581OSAAT\u2581this\u2581week\u2581for\u2581our\u2581colour\u2581challenge\u2581and\u2581good\u2581luck,\u2581love\u2581Jacky\u2581x\n\nThis\u2581is\u2581such\u2581a\u2581lovely\u2581card.\u2581I\u2581think\u2581your\u2581image\u2581is\u2581so\u2581sweet..\u2581but\u2581what\u2581really\u2581caught\u2581my",
+            "max_activation": 20.361,
+            "max_token": "\u2581x"
+          },
+          {
+            "text_snippet": "\u2581are\u2581just\u2581perfect!\u2581Thanks\u2581for\u2581joining\u2581us\u2581at\u2581OSAAT\u2581this\u2581week\u2581for\u2581our\u2581colour\u2581challenge\u2581and\u2581good\u2581luck,\u2581love\u2581Jacky\u2581x\n\nThis\u2581is\u2581such\u2581a\u2581lovely\u2581card.\u2581I\u2581think\u2581your\u2581image\u2581is\u2581so\u2581sweet..\u2581but\u2581what\u2581really\u2581caught\u2581my",
+            "max_activation": 20.361,
+            "max_token": "\u2581x"
+          },
+          {
+            "text_snippet": "\u2581Langue[dot]doc\u25811305\u2581challenges\u2581reader\u2581expectations\u2581of\u2581time\u2581travel,\u2581of\u2581\u2018Grim-dark\u2019\u2581and\u2581of\u2581mediaeval\u2581life\u2581and\u2581brings\u2581a\u2581haunting,\u2581authentic\u2581voice\u2581both\u2581to\u2581the\u2581past\u2581and\u2581to\u2581the\u2581struggles\u2581facing\u2581the\u2581present",
+            "max_activation": 19.212,
+            "max_token": "\u2581Liz"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "\u2581aient",
+          "\u2581femeninos",
+          "\u2581lady",
+          "\u2581danni",
+          "'",
+          "\u2581avrebbe",
+          "\u2581femminile",
+          "\u2581Autorin",
+          "woman"
+        ],
+        "suppressed_tokens": [
+          "ftagPool",
+          "\u2581EconPapers",
+          "\u05e7\u05d9\u05e9\u05d5\u05e8\u05d9\u05dd",
+          "\u24e7",
+          "\u062a\u0642\u0627\u0648\u0649",
+          "CodedInputStream",
+          "\u2581NSCoder",
+          "RTHOOK",
+          "oredCriteria",
+          "__\":\r"
+        ],
+        "frac_nonzero": 0.00838
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 1276,
+        "starting_pos": 1,
+        "objective": "Trace this capitalized names feature at position 1 (the name \"Lori\"). Does it use gender-related associations? Where does its signal originate?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 1276,
+            "pos": 1,
+            "label": "capitalized names and titles, and names with lowercase letters in the middle of them",
+            "frac_nonzero": 0.00341,
+            "promoted_tokens": [
+              "\u2581utafitiHapana",
+              "PerformLayout",
+              "\u043a\u043b\u043e\u043f\u0435",
+              "iann",
+              "VIAF",
+              "webElementXpaths",
+              "\u2581Ann",
+              "TestingModule",
+              "\u2581otomatig",
+              "eleste"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 7532,
+            "pos": 1,
+            "label": " proper nouns",
+            "frac_nonzero": 0.0603,
+            "promoted_tokens": [
+              "\u2581who",
+              "\u2581Angele",
+              ").\u2014",
+              "Tetapi",
+              "\u2581Saver",
+              "urator",
+              "\u2581Mart",
+              "Filmographie",
+              "Quien",
+              "\u2581quien"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 5859,
+            "pos": 1,
+            "label": " first names (mostly female)",
+            "frac_nonzero": 0.00454,
+            "promoted_tokens": [
+              "\u2581\u0421\u0430\u0432\u0435\u0437\u043d\u0435",
+              "$_['",
+              "\u2581\u0412\u0456\u043a\u0456",
+              "RenderAtEndOf",
+              "\u2581PLWABN",
+              "kh\u00e1u",
+              "\u2581SearchView",
+              "\u2581AssemblyTitle",
+              "SpringBootTest",
+              "TintMode"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 16306,
+            "pos": 1,
+            "label": " proper names and positive adjectives",
+            "frac_nonzero": 0.00838,
+            "promoted_tokens": [
+              "\u2581herself",
+              "\u2581aient",
+              "\u2581femeninos",
+              "\u2581lady",
+              "\u2581danni",
+              "'",
+              "\u2581avrebbe",
+              "\u2581femminile",
+              "\u2581Autorin",
+              "woman"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6226,
+            "pos": 1,
+            "label": " proper nouns of people",
+            "frac_nonzero": 0.0255,
+            "promoted_tokens": [
+              "\u2581Monfieur",
+              "\u2581The\u017fe",
+              "\u2581Jefus",
+              "\u2581Efq",
+              "\u2581Chriftian",
+              "\u2581Be\u017f",
+              "\u2581\u0648\u06cc\u06a9\u06cc\u200c\u067e\u062f\u06cc\u0627\u06cc",
+              "\u2581An\u017f",
+              "expandindo",
+              "\u2581my\u017felf"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 14834,
+            "pos": 1,
+            "label": " proper nouns, specifically names of people",
+            "frac_nonzero": 0.01364,
+            "promoted_tokens": [
+              "<bos>",
+              "RuleContext",
+              "ine",
+              "].",
+              "(",
+              "))).",
+              "\n",
+              "\u2581pin",
+              ".\u201d",
+              "\u2581c"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 14137,
+            "pos": 1,
+            "label": " words or phrases that appear in legal or technical documents, like names of laws, legal terms (pleaded, testified), and technical terms, especially when abbreviated or in code",
+            "frac_nonzero": 0.38905,
+            "promoted_tokens": [
+              "\u2581BrowserModule",
+              "ReusableCell",
+              "\u2581\u0648\u064a\u0643\u064a\u067e",
+              "\u2581PeEn",
+              "\u2581Resonance",
+              "ophone",
+              "\u2581JpaRepository",
+              "ertion",
+              "\u2581\ud83d\ude44",
+              "\ud80c\udf4a"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2405,
+            "pos": 1,
+            "label": " proper nouns, especially last names, and some location names or categories",
+            "frac_nonzero": 0.02949,
+            "promoted_tokens": [
+              "\u2581La",
+              "\u2581Bar",
+              "\u2581Mar",
+              "\u2581Man",
+              "\u2581Ma",
+              "\u2581Ch",
+              "\u2581G",
+              "\u2581",
+              "\u2581Van",
+              "\u2581L"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 1276,
+            "to_pos": 1,
+            "weight": 16.5,
+            "from_type": "embedding",
+            "from_token": "Lori"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7532,
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 1276,
+            "to_pos": 1,
+            "weight": 2.5938
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5859,
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 1276,
+            "to_pos": 1,
+            "weight": 1.7344
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 16306,
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 1276,
+            "to_pos": 1,
+            "weight": 1.5938
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 14834,
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 1276,
+            "to_pos": 1,
+            "weight": -1.4141
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 5859,
+            "to_pos": 1,
+            "weight": 3.375,
+            "from_type": "embedding",
+            "from_token": "Lori"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7532,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 5859,
+            "to_pos": 1,
+            "weight": 3.1875
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6226,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 5859,
+            "to_pos": 1,
+            "weight": 0.9648
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 2,
+            "to_feature_idx": 5859,
+            "to_pos": 1,
+            "weight": 0.7734,
+            "from_type": "embedding",
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2405,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 5859,
+            "to_pos": 1,
+            "weight": 0.6289
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 16306,
+            "to_pos": 1,
+            "weight": 5.9062,
+            "from_type": "embedding",
+            "from_token": "Lori"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7532,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 16306,
+            "to_pos": 1,
+            "weight": 0.8867
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 14137,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 16306,
+            "to_pos": 1,
+            "weight": -0.2539
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2405,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 16306,
+            "to_pos": 1,
+            "weight": 0.2471
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 3,
+            "to_feature_idx": 14834,
+            "to_pos": 1,
+            "weight": 2.5781,
+            "from_type": "embedding",
+            "from_token": "Lori"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7532,
+            "from_pos": 1,
+            "to_layer": 3,
+            "to_feature_idx": 14834,
+            "to_pos": 1,
+            "weight": 1
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 5859,
+            "from_pos": 1,
+            "to_layer": 3,
+            "to_feature_idx": 14834,
+            "to_pos": 1,
+            "weight": 0.9609
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6226,
+            "from_pos": 1,
+            "to_layer": 3,
+            "to_feature_idx": 14834,
+            "to_pos": 1,
+            "weight": 0.6953
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 16306,
+            "from_pos": 1,
+            "to_layer": 3,
+            "to_feature_idx": 14834,
+            "to_pos": 1,
+            "weight": 0.6953
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7532,
+            "to_pos": 1,
+            "weight": 14.25,
+            "from_type": "embedding",
+            "from_token": "Lori"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7532,
+            "to_pos": 1,
+            "weight": 0.6523,
+            "from_type": "embedding",
+            "from_token": "<bos>"
+          }
+        ],
+        "explanation": "The capitalized names feature at position 1 (L4:F1276) for the name \"Lori\" DOES use gender-related associations. The circuit shows:\n\n1. Strong direct connection from the \"Lori\" token embedding (weight: 16.5) to the final feature.\n\n2. Key gender-related upstream features:\n   - L2:F5859: \"first names (mostly female)\" - This feature explicitly detects female names and feeds into the circuit (weight: 1.7344)\n   - L2:F16306: \"proper names and positive adjectives\" - Promotes tokens like \"herself\", \"femeninos\", \"lady\", \"femminile\", \"Autorin\", \"woman\" (weight: 1.5938)\n   \n3. Gender-related patterns in other features:\n   - L0:F7532 (proper nouns): Suppresses female names like Manuela, Karla, Kayla, Hayley, M\u00f3nica, Valeria\n   - L0:F6226 (proper nouns of people): Suppresses female names like Marlene, Megan, Becky, Eileen, Kayla, Cassie, Janice, Maureen, Carolyn, Marilyn\n   - L3:F14834 (proper nouns): Suppresses \"Carolyn\" (female name) and has inhibitory connection to final feature (weight: -1.4141)\n\n4. The circuit shows the name \"Lori\" activates female name detection features which then feed into the capitalized names feature. The strongest signal originates from the raw \"Lori\" token embedding, but gender information is processed through specialized features like L2:F5859 (female names detector).",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 1276
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 1276,
+              "label": "capitalized names and titles, and names with lowercase letters in the middle of them",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581could\u2581work.\u2581the\u2581concern\u2581about\u2581making\u2581a\u2581change\u2581of\u2581religion\u2581after\u2581a\u2581relationship\u2581has\u2581begun\u2581reminds\u2581me\u2581of\u2581some\u2581of\u2581what\u2581i\u2581read\u2581about\u2581mormon\u2581couples\u2581in\u2581which\u2581one\u2581partner\u2581left\u2581the\u2581church.\u2581the\u2581situation\u2581is\u2581",
+                  "max_activation": 69.94,
+                  "max_token": "ie"
+                },
+                {
+                  "text_snippet": "wh)\u2019s,\u2581while\u2581others\u2581might\u2581think\u2013based\u2581on\u2581their\u2581different\u2581definition\u2013that\u2581your\u2581values\u2581are\u2581different,\u2581or\u2581at\u2581least\u2581only\u2581partially\u2581aligned.\n\nGiven\u2581what\u2581I\u2581perceive\u2581as\u2581our\u2581conflicting\u2581views,\u2581what\u2581do\u2581you\u2581say",
+                  "max_activation": 64.028,
+                  "max_token": "ie"
+                },
+                {
+                  "text_snippet": "wh)\u2019s,\u2581while\u2581others\u2581might\u2581think\u2013based\u2581on\u2581their\u2581different\u2581definition\u2013that\u2581your\u2581values\u2581are\u2581different,\u2581or\u2581at\u2581least\u2581only\u2581partially\u2581aligned.\n\nGiven\u2581what\u2581I\u2581perceive\u2581as\u2581our\u2581conflicting\u2581views,\u2581what\u2581do\u2581you\u2581say",
+                  "max_activation": 64.028,
+                  "max_token": "ie"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581utafitiHapana",
+                "PerformLayout",
+                "\u043a\u043b\u043e\u043f\u0435",
+                "iann",
+                "VIAF",
+                "webElementXpaths",
+                "\u2581Ann",
+                "TestingModule",
+                "\u2581otomatig",
+                "eleste"
+              ],
+              "suppressed_tokens": [
+                "\u2581FBref",
+                "\u062a\u0642\u0627\u0648\u0649",
+                "\u2581Arquivado",
+                "AndEndTag",
+                "alao",
+                "ingular",
+                "\u043b\u0435\u043d\u043d\u044f",
+                "kust",
+                "\u2581CreateTagHelper",
+                "\u2581\u043b\u0456"
+              ],
+              "frac_nonzero": 0.00341
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 1276,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 16.5
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7532,
+                "pos": 1,
+                "edge_weight": 2.5938
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5859,
+                "pos": 1,
+                "edge_weight": 1.7344
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 16306,
+                "pos": 1,
+                "edge_weight": 1.5938
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 14834,
+                "pos": 1,
+                "edge_weight": -1.4141
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7532
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7532,
+              "label": " proper nouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581in\u2581her\u25811978\u2581book\u2581Witchcraft\u2581For\u2581Tomorrow\u2581influential\u2581Wiccan\u2581Doreen\u2581Valiente\u2581did\u2581not\u2581use\u2581Kelly's\u2581names,\u2581instead\u2581simply\u2581identifying\u2581the\u2581solstices\u2581and\u2581equinoxes\u2581(\"Lesser\u2581Sabbats\")\u2581by\u2581their\u2581seasons.\u2581Vali",
+                  "max_activation": 41.867,
+                  "max_token": "\u2581Doreen"
+                },
+                {
+                  "text_snippet": "\u2581got\u2581that\nright?\u2581I\u2581have\u2581a\u2581Mum\u2581and\u2581had\u2581a\u2581Dad.\u2581Though\u2581I\u2581have\u2581no\u2581idea\u2581were\u2581exactly\nmy\u2581mum\u2581is,\u2581I\u2581know\u2581that\u2581wherever\u2581she\u2581is\u2581she\nis\u2581working\u2581for\u2581our\u2581goodness\u2581(yes\u2581our:\u2581my\u2581sister\u2581Lucy\u2581and\u2581me,\u2581Sara)\nand\u2581that\u2581s",
+                  "max_activation": 41.481,
+                  "max_token": "\u2581M\u00f3nica"
+                },
+                {
+                  "text_snippet": "\u2581also\u2581promised\u2581to\u2581support\u2581the\u2581government.\u2581According\u2581to\u2581Raquel,\u2581the\u2581offer\u2581was\u2581R$30,000\u2581(about\u258112,913\u2581USD)\u2581a\u2581month\u2581-\u2581which\u2581could\u2581be\u2581increased\u2581up\u2581to\u2581a\u2581sum\u2581of\u2581R$50,000\u2581(about\u258121,521\u2581USD)\u2581with\u2581R$1\u2581million\u2581",
+                  "max_activation": 39.953,
+                  "max_token": "\u2581Raquel"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581who",
+                "\u2581Angele",
+                ").\u2014",
+                "Tetapi",
+                "\u2581Saver",
+                "urator",
+                "\u2581Mart",
+                "Filmographie",
+                "Quien",
+                "\u2581quien"
+              ],
+              "suppressed_tokens": [
+                "\u2581Manuela",
+                "\u2581Karla",
+                "\u2581Kayla",
+                "\u2581Hayley",
+                "\u2581M\u00f3nica",
+                "\u2581Valeria",
+                "\u2581Rhonda",
+                "\u2581Davide",
+                "\u2581Maureen",
+                "\u2581Marlene"
+              ],
+              "frac_nonzero": 0.0603
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5859
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 5859,
+              "label": " first names (mostly female)",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581Burton\u2581to\u2581testify\u2581at\u2581trial.[5]\n8.\u2581The\u2581State\u2581has\u2581moved\u2581to\u2581strike\u2581certain\u2581affidavits\u2581and\u2581information\u2581included\u2581in\u2581Burton's\u2581appendix\u2581that\u2581were\u2581not\u2581part\u2581of\u2581the\u2581record\u2581on\u2581appeal.\u2581These\u2581affidavits\u2581include:\u2581",
+                  "max_activation": 33.477,
+                  "max_token": "cie"
+                },
+                {
+                  "text_snippet": "\u2581Burton\u2581to\u2581testify\u2581at\u2581trial.[5]\n8.\u2581The\u2581State\u2581has\u2581moved\u2581to\u2581strike\u2581certain\u2581affidavits\u2581and\u2581information\u2581included\u2581in\u2581Burton's\u2581appendix\u2581that\u2581were\u2581not\u2581part\u2581of\u2581the\u2581record\u2581on\u2581appeal.\u2581These\u2581affidavits\u2581include:\u2581",
+                  "max_activation": 33.477,
+                  "max_token": "cie"
+                },
+                {
+                  "text_snippet": "\u2581conferences\u2581and\u2581has\u2581authored\u2581many\u2581articles\u2581in\u2581national\u2581publications.\u2581Dr.\u2581Gregory\u2581provides\u2581educational\u2581summits\u2581that\u2581bring\u2581healthcare\u2581leaders,\u2581technology\u2581experts,\u2581and\u2581visionaries\u2581together\u2581to\u2581discuss\u2581th",
+                  "max_activation": 30.435,
+                  "max_token": "isha"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u0421\u0430\u0432\u0435\u0437\u043d\u0435",
+                "$_['",
+                "\u2581\u0412\u0456\u043a\u0456",
+                "RenderAtEndOf",
+                "\u2581PLWABN",
+                "kh\u00e1u",
+                "\u2581SearchView",
+                "\u2581AssemblyTitle",
+                "SpringBootTest",
+                "TintMode"
+              ],
+              "suppressed_tokens": [
+                "#+#",
+                "setLayout",
+                "AndEndTag",
+                "lown",
+                "\u2581dep",
+                "Override",
+                "\u2581cump",
+                "\u2581[]:",
+                "</i>",
+                "\u2581}}"
+              ],
+              "frac_nonzero": 0.00454
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 16306
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 16306,
+              "label": " proper names and positive adjectives",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581are\u2581just\u2581perfect!\u2581Thanks\u2581for\u2581joining\u2581us\u2581at\u2581OSAAT\u2581this\u2581week\u2581for\u2581our\u2581colour\u2581challenge\u2581and\u2581good\u2581luck,\u2581love\u2581Jacky\u2581x\n\nThis\u2581is\u2581such\u2581a\u2581lovely\u2581card.\u2581I\u2581think\u2581your\u2581image\u2581is\u2581so\u2581sweet..\u2581but\u2581what\u2581really\u2581caught\u2581my",
+                  "max_activation": 20.361,
+                  "max_token": "\u2581x"
+                },
+                {
+                  "text_snippet": "\u2581are\u2581just\u2581perfect!\u2581Thanks\u2581for\u2581joining\u2581us\u2581at\u2581OSAAT\u2581this\u2581week\u2581for\u2581our\u2581colour\u2581challenge\u2581and\u2581good\u2581luck,\u2581love\u2581Jacky\u2581x\n\nThis\u2581is\u2581such\u2581a\u2581lovely\u2581card.\u2581I\u2581think\u2581your\u2581image\u2581is\u2581so\u2581sweet..\u2581but\u2581what\u2581really\u2581caught\u2581my",
+                  "max_activation": 20.361,
+                  "max_token": "\u2581x"
+                },
+                {
+                  "text_snippet": "\u2581Langue[dot]doc\u25811305\u2581challenges\u2581reader\u2581expectations\u2581of\u2581time\u2581travel,\u2581of\u2581\u2018Grim-dark\u2019\u2581and\u2581of\u2581mediaeval\u2581life\u2581and\u2581brings\u2581a\u2581haunting,\u2581authentic\u2581voice\u2581both\u2581to\u2581the\u2581past\u2581and\u2581to\u2581the\u2581struggles\u2581facing\u2581the\u2581present",
+                  "max_activation": 19.212,
+                  "max_token": "\u2581Liz"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581herself",
+                "\u2581aient",
+                "\u2581femeninos",
+                "\u2581lady",
+                "\u2581danni",
+                "'",
+                "\u2581avrebbe",
+                "\u2581femminile",
+                "\u2581Autorin",
+                "woman"
+              ],
+              "suppressed_tokens": [
+                "ftagPool",
+                "\u2581EconPapers",
+                "\u05e7\u05d9\u05e9\u05d5\u05e8\u05d9\u05dd",
+                "\u24e7",
+                "\u062a\u0642\u0627\u0648\u0649",
+                "CodedInputStream",
+                "\u2581NSCoder",
+                "RTHOOK",
+                "oredCriteria",
+                "__\":\r"
+              ],
+              "frac_nonzero": 0.00838
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 5859,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 3.375
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7532,
+                "pos": 1,
+                "edge_weight": 3.1875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6226,
+                "pos": 1,
+                "edge_weight": 0.9648
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.7734
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2405,
+                "pos": 1,
+                "edge_weight": 0.6289
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6226
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6226,
+              "label": " proper nouns of people",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Can\u2581lead\u2581to\u2581a\u2581non-representative\u2581jury\u2581because\u2581only\u2581limited\u2581categories\n\nof\u2581people\u2581are\u2581available\u2581for\u2581a\u2581jury\u2581that\u2581will\u2581be\u2581sequestered.\n\nvCan\u2581cause\u2581jurors\u2581to\u2581rush\u2581to\u2581judgment\u2581to\u2581escape\u2581sequestration.\n\nvCa",
+                  "max_activation": 26.606,
+                  "max_token": "Marcia"
+                },
+                {
+                  "text_snippet": "\u2581cooperate,\u2581to\u2581compromise\u2581in\u2581order\u2581to\u2581reach\u2581agreement.\u2581And\u2581they\u2581have\u2581no\u2581safe\u2581retreat.\u2581If\u2581they\u2581disagree\u2581with\u2581their\u2581fellow\u2581jurors,\u2581they\u2581can\u2019t\u2581go\u2581home\u2581to\u2581a\u2581husband,\u2581a\u2581wife,\u2581a\u2581friend,\u2581where\u2581they\u2581can\u2581regro",
+                  "max_activation": 26.426,
+                  "max_token": "Marcia"
+                },
+                {
+                  "text_snippet": "\u2581embossing\u2581folder\u2581used\u2581is\u2581from\u2581S.U.Sentiment\u2581is\u2581an\u2581Art\u2581Impressions\u2581one...Think\u2581my\u2581scanner\u2581is\u2581giving\u2581up\u2581the\u2581ghost\u2581as\u2581it\u2581wont\u2581copy\u2581very\u2581well\u2581so\u2581will\u2581have\u2581to\u2581get\u2581my\u2581camera\u2581charged\u2581up!\n\nThursday,\u25818\u2581March\u2581",
+                  "max_activation": 26.333,
+                  "max_token": "Mandy"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581The\u017fe",
+                "\u2581Jefus",
+                "\u2581Efq",
+                "\u2581Chriftian",
+                "\u2581Be\u017f",
+                "\u2581\u0648\u06cc\u06a9\u06cc\u200c\u067e\u062f\u06cc\u0627\u06cc",
+                "\u2581An\u017f",
+                "expandindo",
+                "\u2581my\u017felf"
+              ],
+              "suppressed_tokens": [
+                "Marlene",
+                "Megan",
+                "Becky",
+                "Eileen",
+                "Kayla",
+                "Cassie",
+                "Janice",
+                "Maureen",
+                "Carolyn",
+                "Marilyn"
+              ],
+              "frac_nonzero": 0.0255
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 16306,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 5.9062
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7532,
+                "pos": 1,
+                "edge_weight": 0.8867
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14137,
+                "pos": 1,
+                "edge_weight": -0.2539
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2405,
+                "pos": 1,
+                "edge_weight": 0.2471
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 800,
+                "pos": 1,
+                "edge_weight": 0.2148
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14137
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14137,
+              "label": " words or phrases that appear in legal or technical documents, like names of laws, legal terms (pleaded, testified), and technical terms, especially when abbreviated or in code",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581behalf\u2581as\u2581well.\u2581She\u2581also\u2581testified\u2581that\n\nthe\u2581digital\u2581scales\u2581belonged\u2581to\u2581McDougald\u2581and,\u2581although\u2581the\u2581pistol\u2581belonged\u2581to\u2581her\u2581ex-\n\nboyfriend,\u2581Benny\u2581Simpson\u2581(who\u2581was\u2581then\u2581incarcerated),\u2581McDougald\u2581asked\u2581h",
+                  "max_activation": 104.215,
+                  "max_token": "\u2581behalf"
+                },
+                {
+                  "text_snippet": "\u2581justice\u2581system\u2581in\u2581the\u2581fight\u2581against\u2581terrorism\u2026[ORIGINAL\u2581STORY,\u2581SUBSCRIPTION\u2581REQUIRED]<bos>Q:\n\nWhy\u2581is\u2581there\u2581no\u2581\"encoding\"\u2581attribute\u2581in\u2581a\u2581string\u2581got\u2581by\u2581\"IXMLDocument.SaveToXML\"\u2581method?\n\nI\u2581use\u2581NewXMLDoc",
+                  "max_activation": 102.748,
+                  "max_token": "\u2581justice"
+                },
+                {
+                  "text_snippet": "\u2581justice.\u2581He\u2581pleaded\u2581not\u2581guilty\u2581to\u2581all\u2581five\u2581charges.\n\nDewani's\u2581trial\u2581began\u2581on\u25816\u2581October\u25812014.\u2581Under\u2581cross\u2581examination,\u2581the\u2581key\u2581witnesses\u2581who\u2581alleged\u2581Dewani's\u2581involvement\u2014Zola\u2581Tongo,\u2581Mziwamadoda\u2581Qwabe\u2581",
+                  "max_activation": 102.748,
+                  "max_token": "\u2581justice"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581BrowserModule",
+                "ReusableCell",
+                "\u2581\u0648\u064a\u0643\u064a\u067e",
+                "\u2581PeEn",
+                "\u2581Resonance",
+                "ophone",
+                "\u2581JpaRepository",
+                "ertion",
+                "\u2581\ud83d\ude44",
+                "\ud80c\udf4a"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581the",
+                "\n\n",
+                "'",
+                "\u2019",
+                "The",
+                "\n",
+                "\u2581and",
+                "I",
+                "-"
+              ],
+              "frac_nonzero": 0.38905
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 14834
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 14834,
+              "label": " proper nouns, specifically names of people",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581all\u2581fit\u2581into\u2581this\u2581tree.\u2581Thanks,\u2581Jay\u2581Wilson\n\nHi\u2581Gary\nMy\u2581name\u2581is\u2581Jesse\u2581Sanders\u2581I\u2581live\u2581in\u2581Michigan.\u2581Jay\u2581Wilson\u2581is\u2581my\u2581cousin,\u2581his\u2581father\u2581is\u2581my\u2581uncle\u2581Gene.\u2581My\u2581father\u2581was\u2581his\u2581brother\u2581Jessie\u2581David\u2581Sanders\u2581w",
+                  "max_activation": 18.344,
+                  "max_token": "\u2581Sandra"
+                },
+                {
+                  "text_snippet": "\u2581all\u2581fit\u2581into\u2581this\u2581tree.\u2581Thanks,\u2581Jay\u2581Wilson\n\nHi\u2581Gary\nMy\u2581name\u2581is\u2581Jesse\u2581Sanders\u2581I\u2581live\u2581in\u2581Michigan.\u2581Jay\u2581Wilson\u2581is\u2581my\u2581cousin,\u2581his\u2581father\u2581is\u2581my\u2581uncle\u2581Gene.\u2581My\u2581father\u2581was\u2581his\u2581brother\u2581Jessie\u2581David\u2581Sanders\u2581w",
+                  "max_activation": 18.344,
+                  "max_token": "\u2581Sandra"
+                },
+                {
+                  "text_snippet": "\u2581all\u2581fit\u2581into\u2581this\u2581tree.\u2581Thanks,\u2581Jay\u2581Wilson\n\nHi\u2581Gary\nMy\u2581name\u2581is\u2581Jesse\u2581Sanders\u2581I\u2581live\u2581in\u2581Michigan.\u2581Jay\u2581Wilson\u2581is\u2581my\u2581cousin,\u2581his\u2581father\u2581is\u2581my\u2581uncle\u2581Gene.\u2581My\u2581father\u2581was\u2581his\u2581brother\u2581Jessie\u2581David\u2581Sanders\u2581w",
+                  "max_activation": 18.344,
+                  "max_token": "\u2581Sandra"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "RuleContext",
+                "ine",
+                "].",
+                "(",
+                "))).",
+                "\n",
+                "\u2581pin",
+                ".\u201d",
+                "\u2581c"
+              ],
+              "suppressed_tokens": [
+                "onames",
+                "\u2581avoient",
+                "archiviato",
+                "\u2581automatiques",
+                "\u2581vectorielles",
+                "onenumber",
+                "\u2581Carolyn",
+                "uette",
+                "comune",
+                "\u2581\u0627\u0644\u062d\u0631\u0647"
+              ],
+              "frac_nonzero": 0.01364
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 14834,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 2.5781
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7532,
+                "pos": 1,
+                "edge_weight": 1.0
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 5859,
+                "pos": 1,
+                "edge_weight": 0.9609
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6226,
+                "pos": 1,
+                "edge_weight": 0.6953
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 16306,
+                "pos": 1,
+                "edge_weight": 0.6953
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7532,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Lori",
+                "pos": 1,
+                "edge_weight": 14.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6523
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 538,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 800,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 353,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2405
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2405,
+              "label": " proper nouns, especially last names, and some location names or categories",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u25811943\u2581and\u2581chairman\u2581of\u2581the\u2581board\u2581of\u2581Fastigheter\u2581AB\u2581Bergslagen.\n\nPersonal\u2581life\nOn\u25814\u2581April\u25811936\u2581he\u2581married\u2581Ingrid\u2581Schollin-Borg\u2581(1914\u20132004),\u2581the\u2581daughter\u2581of\u2581captain\u2581Peter\u2581Schollin-Borg\u2581and\u2581M\u00e4rtha\u2581(n\u00e9e\u2581Li",
+                  "max_activation": 25.744,
+                  "max_token": "Borg"
+                },
+                {
+                  "text_snippet": "\u25811943\u2581and\u2581chairman\u2581of\u2581the\u2581board\u2581of\u2581Fastigheter\u2581AB\u2581Bergslagen.\n\nPersonal\u2581life\nOn\u25814\u2581April\u25811936\u2581he\u2581married\u2581Ingrid\u2581Schollin-Borg\u2581(1914\u20132004),\u2581the\u2581daughter\u2581of\u2581captain\u2581Peter\u2581Schollin-Borg\u2581and\u2581M\u00e4rtha\u2581(n\u00e9e\u2581Li",
+                  "max_activation": 25.744,
+                  "max_token": "Borg"
+                },
+                {
+                  "text_snippet": "2\u2581DSG\u2581review\u2581at\u2581VWvortex.com.\nEuropean\u2581interest\u2581in\u2581dual\u2581clutch\u2581technology\u2581shifts\u2581up\u2581a\u2581gear,\u2581an\u2581informative\u2581article\u2581from\u2581Just-Auto.com.\nComputer-controlled\u2581Meccano\u2581model\u2581of\u2581a\u2581DSG\u2581Transmission\u2581by\u2581Alan\u2581W",
+                  "max_activation": 25.144,
+                  "max_token": "Borg"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581La",
+                "\u2581Bar",
+                "\u2581Mar",
+                "\u2581Man",
+                "\u2581Ma",
+                "\u2581Ch",
+                "\u2581G",
+                "\u2581",
+                "\u2581Van",
+                "\u2581L"
+              ],
+              "suppressed_tokens": [
+                "\u2581it\u017felf",
+                "\u2581my\u017felf",
+                "\u2581\u017fche",
+                "\u2581auffi",
+                "\u2581Re\u017f",
+                "\u2581\u017ftate",
+                "\u2581purpo\u017fe",
+                "\u2581Di\u017f",
+                "\u2581Hou\u017fe",
+                "\u2581Monfieur"
+              ],
+              "frac_nonzero": 0.02949
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this capitalized names feature at position 1 (the name \"Lori\"). Does it use gender-related associations? Where does its signal originate?",
+          "input_tokens": 86792,
+          "output_tokens": 4505,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 9536
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 5,
+        "feature_idx": 16213
+      },
+      "output": {
+        "layer": 5,
+        "feature_idx": 16213,
+        "label": " proper nouns consisting of a first and last name",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581myself?\"\n\nLady\u2581Messalina\u2581threw\u2581herself\u2581at\u2581the\u2581Queen's\u2581feet\u2581and\u2581began\u2581kissing\u2581them.\n\n\"You\u2581will\u2581stand\u2581up,\"\u2581the\u2581Queen\u2581ordered\u2581and\u2581her\u2581assertiveness\u2581gave\u2581pause\u2581to\u2581her\u2581subjects.\n\nLady\u2581Messalina\u2581rose\u2581back\u2581",
+            "max_activation": 31.868,
+            "max_token": "\u2581threw"
+          },
+          {
+            "text_snippet": ".\nLester\u2581Pollard's\u2581bill\u2581for\u2581divorce\u2581on\u2581the\u2581ground\u2581of\u2581wilful\u2581desertion\u2581by\u2581his\u2581wife\u2581Elizabeth\u2581Pollard\u2581was\u2581dismissed\u2581because\u2581it\u2581was\u2581shown\u2581that\u2581she\u2581became\u2581and\u2581was\u2581adjudged\u2581insane\u2581after\u2581the\u2581date\u2581of\u2581the\u2581all",
+            "max_activation": 31.23,
+            "max_token": "\u2581Pollard"
+          },
+          {
+            "text_snippet": "\u2581Dewani\u2581to\u2581publicly\u2581answer\u2581questions.\u2581On\u25819\u2581September\u25812015,\u2581at\u2581Brent\u2581Coroner's\u2581Court\u2581in\u2581North\u2581London,\u2581Coroner\u2581Andrew\u2581Walker\u2581said\u2581he\u2581did\u2581not\u2581consider\u2581a\u2581full\u2581inquest\u2581was\u2581appropriate\u2581because\u2581a\u2581criminal\u2581tr",
+            "max_activation": 28.477,
+            "max_token": "\u2581Hind"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581herself",
+          "\u062d\u064a\u0627\u062a\u0647\u0627",
+          "herself",
+          "\u2581she",
+          "\u2581her",
+          "\u4f46\u5979",
+          "\u5979",
+          "\u2581actress",
+          "\u2581bint",
+          "\u2581shes"
+        ],
+        "suppressed_tokens": [
+          "\u2581himself",
+          "IBarButtonItem",
+          "\u2581Himself",
+          "\u2581koji",
+          "\u200d\u2642\ufe0f",
+          "\u2581\u043a\u043e\u0458\u0438",
+          "himself",
+          "\u2581neuter",
+          "__\":\r",
+          "\u2581doInBackground"
+        ],
+        "frac_nonzero": 0.05548
+      }
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 6,
+        "feature_idx": 15267,
+        "pos": 33,
+        "k": 10
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " nurse",
+          "pos": 32,
+          "edge_weight": 5.6562
+        },
+        {
+          "type": "feature",
+          "layer": 5,
+          "feature_idx": 1275,
+          "pos": 33,
+          "edge_weight": 5.5312
+        },
+        {
+          "type": "embedding",
+          "token": " practitioner",
+          "pos": 33,
+          "edge_weight": 3.0312
+        },
+        {
+          "type": "feature",
+          "layer": 4,
+          "feature_idx": 11037,
+          "pos": 33,
+          "edge_weight": 2.5312
+        },
+        {
+          "type": "feature",
+          "layer": 1,
+          "feature_idx": 1494,
+          "pos": 33,
+          "edge_weight": 1.75
+        },
+        {
+          "type": "feature",
+          "layer": 5,
+          "feature_idx": 7539,
+          "pos": 33,
+          "edge_weight": -1.5938
+        },
+        {
+          "type": "embedding",
+          "token": " Nursing",
+          "pos": 18,
+          "edge_weight": 1.1797
+        },
+        {
+          "type": "feature",
+          "layer": 1,
+          "feature_idx": 15395,
+          "pos": 33,
+          "edge_weight": 1.0312
+        },
+        {
+          "type": "feature",
+          "layer": 5,
+          "feature_idx": 9749,
+          "pos": 33,
+          "edge_weight": -0.9492
+        },
+        {
+          "type": "feature",
+          "layer": 4,
+          "feature_idx": 9036,
+          "pos": 33,
+          "edge_weight": 0.9219
+        }
+      ]
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "output",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          },
+          {
+            "id": "gender_pronoun_path",
+            "label": "Female Pronoun Detection (Spurious)",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 14677,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "gender_name_path",
+            "label": "Female Name Detection (Spurious)",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 1276,
+                "pos": 1
+              },
+              {
+                "layer": 6,
+                "feature_idx": 8166,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "gender_stereotype_path",
+            "label": "Profession-Gender Stereotype (Spurious)",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 15317,
+                "pos": 33
+              }
+            ]
+          },
+          {
+            "id": "genuine_nursing_path",
+            "label": "Genuine Nursing Profession Detection",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 15267,
+                "pos": 33
+              },
+              {
+                "layer": 5,
+                "feature_idx": 1275,
+                "pos": 33
+              },
+              {
+                "layer": 4,
+                "feature_idx": 9036,
+                "pos": 33
+              },
+              {
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 33
+              },
+              {
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33
+              }
+            ]
+          },
+          {
+            "id": "name_lori",
+            "label": "Emb: Lori (pos 1)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "pronoun_she",
+            "label": "Emb: She (pos 20)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "token_nurse",
+            "label": "Emb: nurse (pos 32)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "token_practitioner",
+            "label": "Emb: practitioner (pos 33)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "early_pronoun_features",
+            "label": "Early Pronoun Detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 9519,
+                "pos": 20
+              },
+              {
+                "layer": 0,
+                "feature_idx": 15382,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "mid_pronoun_features",
+            "label": "Mid-layer Pronoun Features",
+            "layer": 15,
+            "features": [
+              {
+                "layer": 15,
+                "feature_idx": 3330,
+                "pos": 20
+              },
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 20
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "from": "token_nurse",
+            "to": "genuine_nursing_path"
+          },
+          {
+            "from": "token_practitioner",
+            "to": "genuine_nursing_path"
+          },
+          {
+            "from": "genuine_nursing_path",
+            "to": "output"
+          },
+          {
+            "from": "pronoun_she",
+            "to": "early_pronoun_features"
+          },
+          {
+            "from": "early_pronoun_features",
+            "to": "mid_pronoun_features"
+          },
+          {
+            "from": "mid_pronoun_features",
+            "to": "gender_pronoun_path"
+          },
+          {
+            "from": "gender_pronoun_path",
+            "to": "output"
+          },
+          {
+            "from": "name_lori",
+            "to": "gender_name_path"
+          },
+          {
+            "from": "gender_name_path",
+            "to": "output"
+          },
+          {
+            "from": "token_nurse",
+            "to": "gender_stereotype_path"
+          },
+          {
+            "from": "gender_stereotype_path",
+            "to": "output"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "output",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          },
+          {
+            "id": "gender_pronoun_path",
+            "label": "Female Pronoun Detection (Spurious)",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 18,
+                "feature_idx": 14677,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "gender_name_path",
+            "label": "Female Name Detection (Spurious)",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 1276,
+                "pos": 1
+              },
+              {
+                "layer": 6,
+                "feature_idx": 8166,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "gender_stereotype_path",
+            "label": "Profession-Gender Stereotype (Spurious)",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 15317,
+                "pos": 33
+              }
+            ]
+          },
+          {
+            "id": "genuine_nursing_path",
+            "label": "Genuine Nursing Profession Detection",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 15267,
+                "pos": 33
+              },
+              {
+                "layer": 5,
+                "feature_idx": 1275,
+                "pos": 33
+              },
+              {
+                "layer": 4,
+                "feature_idx": 9036,
+                "pos": 33
+              },
+              {
+                "layer": 4,
+                "feature_idx": 11037,
+                "pos": 33
+              },
+              {
+                "layer": 1,
+                "feature_idx": 1494,
+                "pos": 33
+              }
+            ]
+          },
+          {
+            "id": "name_lori",
+            "label": "Emb: Lori (pos 1)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "pronoun_she",
+            "label": "Emb: She (pos 20)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "token_nurse",
+            "label": "Emb: nurse (pos 32)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "token_practitioner",
+            "label": "Emb: practitioner (pos 33)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "early_pronoun_features",
+            "label": "Early Pronoun Detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 9519,
+                "pos": 20
+              },
+              {
+                "layer": 0,
+                "feature_idx": 15382,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "mid_pronoun_features",
+            "label": "Mid-layer Pronoun Features",
+            "layer": 15,
+            "features": [
+              {
+                "layer": 15,
+                "feature_idx": 3330,
+                "pos": 20
+              },
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 20
+              }
+            ]
+          }
+        ],
+        "edges": [
+          {
+            "from": "token_nurse",
+            "to": "genuine_nursing_path"
+          },
+          {
+            "from": "token_practitioner",
+            "to": "genuine_nursing_path"
+          },
+          {
+            "from": "genuine_nursing_path",
+            "to": "output"
+          },
+          {
+            "from": "pronoun_she",
+            "to": "early_pronoun_features"
+          },
+          {
+            "from": "early_pronoun_features",
+            "to": "mid_pronoun_features"
+          },
+          {
+            "from": "mid_pronoun_features",
+            "to": "gender_pronoun_path"
+          },
+          {
+            "from": "gender_pronoun_path",
+            "to": "output"
+          },
+          {
+            "from": "name_lori",
+            "to": "gender_name_path"
+          },
+          {
+            "from": "gender_name_path",
+            "to": "output"
+          },
+          {
+            "from": "token_nurse",
+            "to": "gender_stereotype_path"
+          },
+          {
+            "from": "gender_stereotype_path",
+            "to": "output"
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 29631,
+      "output_tokens": 4352,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 60002
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this nursing profession feature upstream. What features or input tokens feed into it? Does it receive signal from gender markers or directly from profession-related tokens?",
+        "input_tokens": 55822,
+        "output_tokens": 3204,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3008
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this gender-related feature upstream. What features or input tokens feed into it? Where does the \"she/her\" signal originate?",
+        "input_tokens": 74619,
+        "output_tokens": 3457,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this \"women/girls mentioned\" feature upstream. What features or input tokens feed into it? How does this gender marker relate to the overall classification?",
+        "input_tokens": 82263,
+        "output_tokens": 3368,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this capitalized names feature at position 1 (the name \"Lori\"). Does it use gender-related associations? Where does its signal originate?",
+        "input_tokens": 86792,
+        "output_tokens": 4505,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9536
+      }
+    ]
+  },
+  "total_cost_usd": 0.099629784,
+  "turns": 8,
+  "elapsed_seconds": 438.6058881962672,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T08-41-35"
+}

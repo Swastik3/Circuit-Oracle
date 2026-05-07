@@ -1,0 +1,108 @@
+{
+  "spurious_features": [],
+  "causal_features": [
+    {
+      "id": "L0:F3498",
+      "label": "Pronoun 'they' Detection",
+      "reason": "Lexical content detector; not negation or mere structure."
+    },
+    {
+      "id": "L0:F2238",
+      "label": "'about' Detection (numeric context)",
+      "reason": "Content-specific token/context detector."
+    },
+    {
+      "id": "L0:F8444",
+      "label": "'to' Detection (archaic context)",
+      "reason": "Token detector; oracle treats as content-related."
+    },
+    {
+      "id": "L4:F12225",
+      "label": "Transitional Words ('So', 'therefore', 'hence')",
+      "reason": "Register cue, not negation; oracle says shallow content/style."
+    },
+    {
+      "id": "L8:F8406",
+      "label": "Code Documentation Patterns (I, Exactly)",
+      "reason": "Stylistic artifact, but not negation; oracle flags content/style."
+    },
+    {
+      "id": "L2:F15312",
+      "label": "General 'about' Detection",
+      "reason": "Lexical content detector."
+    },
+    {
+      "id": "L3:F4464",
+      "label": "'about' Layer 3",
+      "reason": "Lexical content detector."
+    },
+    {
+      "id": "L4:F5450",
+      "label": "'begin/start' Detection (code)",
+      "reason": "Lexical content detector; oracle gives no negation role."
+    },
+    {
+      "id": "L2:F11518",
+      "label": "'land' Scientific/Agricultural",
+      "reason": "Content-specific semantic detector."
+    },
+    {
+      "id": "L1:F461",
+      "label": "'land' Basic Detection",
+      "reason": "Content-specific semantic detector."
+    },
+    {
+      "id": "L2:F14822",
+      "label": "'SO' Abbreviation Detection",
+      "reason": "Lexical abbreviation detector; not negation."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "embed/output",
+      "label": "Output: Probe Classification Score",
+      "reason": "Model output, not a feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'So' (pos 1)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'they' (pos 2)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'set' (pos 3)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'about' (pos 4)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'land' (pos 7)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: 'to' (pos 13)",
+      "reason": "Raw embedding input, not an oracle feature."
+    },
+    {
+      "id": "embed/output",
+      "label": "Emb: <bos> (pos 0)",
+      "reason": "Raw embedding input, not an oracle feature."
+    }
+  ],
+  "n_spurious": 0,
+  "n_causal": 11,
+  "n_other": 8,
+  "spurious_fraction": 0.0,
+  "dominant": "causal",
+  "notes": "No negation detectors appear; oracle emphasizes lexical/content and some stylistic cues."
+}

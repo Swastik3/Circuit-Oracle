@@ -1,0 +1,144 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F3436",
+      "label": "White Token Detectors",
+      "reason": "Directly detects race token 'white'."
+    },
+    {
+      "id": "L0:F10910",
+      "label": "White Token Detectors",
+      "reason": "Another lexical detector for 'white'."
+    },
+    {
+      "id": "L0:F13663",
+      "label": "White Token Detectors",
+      "reason": "Identity-token matcher for 'white'."
+    },
+    {
+      "id": "L0:F16013",
+      "label": "White Token Detectors",
+      "reason": "Lexically fires on 'white'."
+    },
+    {
+      "id": "L1:F1480",
+      "label": "White/Race Features",
+      "reason": "Race/identity signal involving white."
+    },
+    {
+      "id": "L1:F4668",
+      "label": "White/Race Features",
+      "reason": "Race-related identity feature."
+    },
+    {
+      "id": "L1:F13007",
+      "label": "White/Race Features",
+      "reason": "Detects racial identity context."
+    },
+    {
+      "id": "L2:F6983",
+      "label": "Race & Slavery Feature",
+      "reason": "Identity-group race/slavery association."
+    },
+    {
+      "id": "L3:F11768",
+      "label": "White/Diversity Features",
+      "reason": "Identity and diversity-related white signal."
+    },
+    {
+      "id": "L4:F15204",
+      "label": "White Institutional",
+      "reason": "White-related institutional identity cue."
+    },
+    {
+      "id": "L4:F7136",
+      "label": "White Color",
+      "reason": "Explicit white-token/color detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F12768",
+      "label": "Pronoun Detectors",
+      "reason": "Generic pronoun feature, not toxicity-specific."
+    },
+    {
+      "id": "L0:F310",
+      "label": "Pronoun Detectors",
+      "reason": "Generic pronoun feature, not toxicity-specific."
+    },
+    {
+      "id": "L0:F880",
+      "label": "Pronoun Detectors",
+      "reason": "Generic pronoun feature, not toxicity-specific."
+    },
+    {
+      "id": "L0:F2303",
+      "label": "Conditional/Grammar Detectors",
+      "reason": "Identity-independent conditional syntax."
+    },
+    {
+      "id": "L0:F2458",
+      "label": "Conditional/Grammar Detectors",
+      "reason": "Grammar/structure detector, not identity."
+    },
+    {
+      "id": "L0:F3255",
+      "label": "Conditional/Grammar Detectors",
+      "reason": "Structural conditional detector."
+    },
+    {
+      "id": "L2:F1139",
+      "label": "Conditional Feature",
+      "reason": "Conditional sentence structure."
+    },
+    {
+      "id": "L3:F12404",
+      "label": "Conditional Feature",
+      "reason": "Conditional syntax, identity-independent."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' he' (pos 2)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' white' (pos 4)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: 'If' (pos 1)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' it' (pos 8)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' was' (pos 3)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' and' (pos 5)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' Hispanic' (pos 7)",
+      "label": "(embed/output)",
+      "reason": "Input token, not a feature."
+    }
+  ],
+  "n_spurious": 11,
+  "n_causal": 8,
+  "n_other": 7,
+  "spurious_fraction": 0.5789473684210527,
+  "dominant": "spurious",
+  "notes": "No toxic-content detectors claimed; structural features classified as causal by oracle's sentence-structure role."
+}

@@ -1,0 +1,4431 @@
+{
+  "prompt_name": "civil_comments-pos_pos_5-biased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: civil_comments-pos_pos_5 | Probe: biased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g.,\"an identity group\" signals) rather than actual prompt content (lexical or semaintical) to predict toxicity."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's toxicity classification is driven primarily by identity-group signals \u2014 specifically the tokens \"gay\" (pos 17), \"Muslim\" (pos 12), and the phrase \"social justice\" (pos 5-6) \u2014 rather than by genuine toxic content detection. The circuit uses these identity-related embeddings to activate a cascade of specialized features (LGBTQ+ language at L4:F15899, same-sex marriage at L4:F8645, homosexuality at L6:F6085, Islam mentions at L6:F7282, social justice terms at L4:F117) that collectively push the output toward a toxic prediction, while the token \"you\" (pos 2) slightly counteracts this with a negative weight of -0.28.\n\n**Confidence:** 9/10\n\n**Reasoning:** The attribution circuit reveals three distinct identity-group signal pathways feeding into the toxicity probe's output node:\n\n1. **LGBTQ+ Pathway (strongest, weight 0.33 direct effect):** The token \" gay\" at position 17 has the strongest direct connection (edge_weight=37) to L6:F6085 (\"homosexuality and same-sex marriage\") which promotes tokens like \"gays\" and directly feeds the output with weight 0.33. This cascades through L4:F15899 (LGBTQ language) and L4:F8645 (same-sex marriage), then to L8:F15771 (LGBTQ+ issues) with combined weights of 21-23 at the embedding layer.\n\n2. **Religious Identity Pathway (weight 0.19 direct effect):** The token \" Muslim\" at position 12 directly connects (weight=22.6) to L6:F7282 (\"Islam/Middle Eastern mentions\") which promotes \"Muslim\", \"Islamic\", \"mosque\" and other religion-related tokens. This feature has low frac_nonzero (0.007), indicating it specifically detects Islamic references rather than generic religious content.\n\n3. **Social Justice Pathway (weight 0.26 direct effect):** The tokens \" social\" (pos 5) and \" justice\" (pos 6) directly activate L4:F117 (\"race, racism, and social justice terms\") which promotes \"racist\", \"racism\", \"racially\" with weight 5.125 each.\n\nAll these features have low frac_nonzero values (0.00167-0.01199), confirming they are highly specific selectors for identity-group concepts rather than generic toxic language detectors. The probe appears to have learned to associate identity-group mentions (particularly LGBTQ+ and religious minority references) with toxicity \u2014 a form of correlation rather than actual toxic content detection. The presence of the phrase \"social justice warrior\" in the input may be triggering additional social justice terminology features that reinforce this association.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 6,
+          "feature_idx": 6085,
+          "pos": 17,
+          "activation": 27.5,
+          "direct_effect": 0.3281
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7710,
+          "pos": 2,
+          "activation": 35.25,
+          "direct_effect": -0.2812
+        },
+        {
+          "layer": 8,
+          "feature_idx": 15771,
+          "pos": 17,
+          "activation": 26.125,
+          "direct_effect": 0.2754
+        },
+        {
+          "layer": 4,
+          "feature_idx": 117,
+          "pos": 6,
+          "activation": 9.5,
+          "direct_effect": 0.2637
+        },
+        {
+          "layer": 4,
+          "feature_idx": 117,
+          "pos": 7,
+          "activation": 8.25,
+          "direct_effect": 0.2578
+        },
+        {
+          "layer": 6,
+          "feature_idx": 7282,
+          "pos": 12,
+          "activation": 18.625,
+          "direct_effect": 0.1943
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6764,
+          "pos": 6,
+          "activation": 11.125,
+          "direct_effect": -0.1904
+        },
+        {
+          "layer": 4,
+          "feature_idx": 2405,
+          "pos": 12,
+          "activation": 12.1875,
+          "direct_effect": 0.1699
+        },
+        {
+          "layer": 0,
+          "feature_idx": 3215,
+          "pos": 6,
+          "activation": 9.3125,
+          "direct_effect": -0.165
+        },
+        {
+          "layer": 4,
+          "feature_idx": 117,
+          "pos": 13,
+          "activation": 5.4375,
+          "direct_effect": 0.1416
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 6085
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 6085,
+        "label": " text related to homosexuality and same-sex marriage",
+        "top_activating_examples": [
+          {
+            "text_snippet": ",\u2581two\u2581weeks\u2581before\u2581the\u2581release\u2581of\u2581the\u2581other\u2581hostages.\n\nWhile\u2581Loney\u2581was\u2581held\u2581as\u2581a\u2581hostage,\u2581his\u2581family\u2581and\u2581partner\u2581Dan\u2581Hunt\u2581withheld\u2581the\u2581fact\u2581of\u2581his\u2581homosexuality\u2581out\u2581of\u2581fear\u2581for\u2581his\u2581safety.\u2581\u2581The\u2581media\u2581",
+            "max_activation": 89.594,
+            "max_token": "\u2581homosexuality"
+          },
+          {
+            "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+            "max_activation": 89.255,
+            "max_token": "sex"
+          },
+          {
+            "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+            "max_activation": 89.255,
+            "max_token": "sex"
+          }
+        ],
+        "promoted_tokens": [
+          "+#+#",
+          "IntoConstraints",
+          "\u2581\u0645\u0634\u064a\u0646",
+          "\u2581disambiguazione",
+          "\u2581gays",
+          "\u2581ujednoznacz",
+          "fillType",
+          "ArgsConstructor",
+          "AndEndTag",
+          "\u2581Ena"
+        ],
+        "suppressed_tokens": [
+          "\u2581colspan",
+          "\u2581COMMENTS",
+          "akyti",
+          "\u2581mxArray",
+          "\u2581personalmente",
+          "\u2581GlobalKey",
+          "setattr",
+          "\u2581personal",
+          "\u2581derselben",
+          "\u2581k\u00e4n"
+        ],
+        "frac_nonzero": 0.00167
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 7710
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 7710,
+        "label": "the pronoun \"you\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581sometimes\u2581you\u2581have\u2581to\u2581report\u2581on\u2581vehicles\u2581people\u2581actually\u2581drive.\u2581Continue\u2581Reading...\n\nResearchers\u2581at\u2581North\u2581Carolina\u2581State\u2581University\u2581have\u2581developed\u2581an\u2581advanced\u2581simulation\u2581that\u2581projects\u2581future\u2581emission",
+            "max_activation": 76.55,
+            "max_token": "\u2581you"
+          },
+          {
+            "text_snippet": "\u2019re\u2581names\u2581you\u2019d\u2581forgotten,\u2581careers\u2581you\u2581thought\u2581had\u2581ended\u2581but\u2581continue\u2581in\u2581the\u2581sportscar\u2581world.\n\nAdd\u2581to\u2581that\u2581list\u2581a\u2581pair\u2581of\u2581grand\u2581prix\u2581winners,\u2581a\u2581Champ\u2581Car\u2581title-winner\u2581turned\u2581F1\u2581flop\u2581and\u2581BBC\u2581Radio\u25815Liv",
+            "max_activation": 76.521,
+            "max_token": "\u2581you"
+          },
+          {
+            "text_snippet": "\u2581unlike\u2581anything\u2581you've\u2581experienced\u2581in\u2581Oblivion.\n\nChallenging\u2581new\u2581foes:\u2581Battle\u2581the\u2581denizens\u2581of\u2581Shivering\u2581Isles,\u2581a\u2581land\u2581filled\u2581with\u2581hideous\u2581insects,\u2581Flesh\u2581Atronachs,\u2581skeletal\u2581Shambles,\u2581amphibeous\u2581Grumm",
+            "max_activation": 76.402,
+            "max_token": "\u2581you"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581",
+          "\n",
+          "\u2581(",
+          ".",
+          "<eos>",
+          "\u2581\"",
+          ",",
+          "\n\n",
+          "'",
+          "\u2581\u201c"
+        ],
+        "suppressed_tokens": [
+          "\u2581you",
+          "\u2581it\u017felf",
+          "\u2581Efq",
+          "\u2581my\u017felf",
+          "\u2581Monfieur",
+          "\u2581Jefus",
+          "\u2581purpo\u017fe",
+          "\u2581i\u017ft",
+          "\u2581voc\u00ea",
+          "\u2581An\u017f"
+        ],
+        "frac_nonzero": 0.01884
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 8,
+        "feature_idx": 15771
+      },
+      "output": {
+        "layer": 8,
+        "feature_idx": 15771,
+        "label": "discussion of LGBTQ+ issues, especially same-sex marriage, adoption, and related topics",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581public\u2581vote\n\nAustralians\u2581at\u2581home\u2581and\u2581abroad\u2581are\u2581rejoicing\u2581because\u2581their\u2581fellow\u2581countrymen\u2581&\u2581women\u2581have\u2581made\u2581sure\u2581their\u2581voices\u2581are\u2581heard\u2581regarding\u2581same-sex\u2581marriage\u2581\u2014\u2581and\u2581they\u2581are\u2581all\u2581unanimously\u2581in\u2581f",
+            "max_activation": 113.509,
+            "max_token": "sex"
+          },
+          {
+            "text_snippet": "\u2581public\u2581vote\n\nAustralians\u2581at\u2581home\u2581and\u2581abroad\u2581are\u2581rejoicing\u2581because\u2581their\u2581fellow\u2581countrymen\u2581&\u2581women\u2581have\u2581made\u2581sure\u2581their\u2581voices\u2581are\u2581heard\u2581regarding\u2581same-sex\u2581marriage\u2581\u2014\u2581and\u2581they\u2581are\u2581all\u2581unanimously\u2581in\u2581f",
+            "max_activation": 113.509,
+            "max_token": "sex"
+          },
+          {
+            "text_snippet": "\u2581closeted\u2581gay\u2581son).\u2581As\u2581the\u2581old\u2581folks\u2581depart\u2581this\u2581life,\u2581things\u2581do\u2581change.\u2581And,\u2581I\u2581must\u2581even\u2581admit\u2581that\u2581some\u2581of\u2581our\u2581elders\u2581have\u2581amended\u2581their\u2581ways\u2581without\u2581the\u2581Grim\u2581Reaper\u2581at\u2581their\u2581door.\u2581With\u2581their\u2581passin",
+            "max_activation": 112.755,
+            "max_token": "\u2581gay"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581Cre",
+          "ibley",
+          "\u2581p\u0159\u00edjem",
+          "institutional",
+          "\u0441\u043b\u0430\u043c",
+          "\u2581p\u0142yn",
+          "\u2581\u062a\u0639\u0631\u064a\u0641",
+          "ISLAM",
+          "Cre",
+          "\u2581best\u00e4"
+        ],
+        "suppressed_tokens": [
+          "\u2581CreateTagHelper",
+          "WriteTagHelper",
+          "\u2581<<<<<<<<<<<<<<",
+          "\u2581nakalista",
+          "\u2581IBOutlet",
+          "\u2581\u064a\u062a\u064a\u0645\u0647",
+          "r\u00e4nk",
+          "ngdoc",
+          "\u2581doInBackground",
+          "\u2581AssemblyCulture"
+        ],
+        "frac_nonzero": 0.00781
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 117
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 117,
+        "label": " terms related to race, racism, and social justice, with a particular focus on terms related to Black people",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2013the\u2581group\u2581in\u2581power\u2581(a\u2581largely\u2581male,\u2581white,\u2581heterosexual,\u2581able-bodied,\u2581cis\u2581group)\u2013who\u2581insists\u2581that\u2581nothing\u2581is\u2581really\u2581wrong\u2581that\u2581couldn't\u2581be\u2581fixed\u2581if\u2581people\u2581would\u2581just\u2581try\u2581harder\u2581instead\u2581of\u2581complaining",
+            "max_activation": 67.474,
+            "max_token": "\u2581color"
+          },
+          {
+            "text_snippet": "\u2581the\u2581black\u2581racists\u2581---\u2581or\u2581to\u2581Unkle\u2581Skum\u2581---\u2581by\u2581which\u2581expression\u2581I\u2581mean\u2581\u201cgovernment\u2581at\u2581any\u2581and\u2581every\u2581level\u2581of\u2581American\u2581society.\u201d\n\nIn\u2581his\u2581call\u2581to\u2581the\u2581police\u2581before\u2581the\u2581incident,\u2581Zimmerman\u2581was\u2581advised\u2581by",
+            "max_activation": 65.935,
+            "max_token": "cists"
+          },
+          {
+            "text_snippet": "\u2581Asians\u2581are\u2581always\u2581excluded\u2581from\u2581\"conversations\u2581about\u2581race.\"\u2581From\u2581this\u2581corner\u2581of\u2581the\u2581country,\u2581\"race\u2581relations\"\u2581on\u2581the\u2581national\u2581level\u2581comes\u2581down\u2581to\u2581Black\u2581or\u2581White.\u2581That's\u2581what\u2581the\u2581media\u2581peddles\u2581and\u2581the",
+            "max_activation": 65.399,
+            "max_token": "\u2581color"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581racially",
+          "\u2581racial",
+          "Racism",
+          "\u2581racist",
+          "racist",
+          "racial",
+          "\u2581racism",
+          "\u2581Racial",
+          "racism",
+          "\ud83c\udfff"
+        ],
+        "suppressed_tokens": [
+          "\u2581BrowserModule",
+          "Bronnen",
+          "live",
+          "\u2581Bellow",
+          "\u51fa\u7248\u5e74",
+          "\u2581Ogle",
+          "own",
+          "Hochspringen",
+          "\u2581raad",
+          "\u2581Burnet"
+        ],
+        "frac_nonzero": 0.01199
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 6085,
+        "starting_pos": 17,
+        "objective": "Trace this homosexuality/same-sex marriage feature back to its origins. What early-layer or embedding features feed into it? How does it connect to the input tokens?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 6,
+            "feature_idx": 6085,
+            "pos": 17,
+            "label": " text related to homosexuality and same-sex marriage",
+            "frac_nonzero": 0.00167,
+            "promoted_tokens": [
+              "+#+#",
+              "IntoConstraints",
+              "\u2581\u0645\u0634\u064a\u0646",
+              "\u2581disambiguazione",
+              "\u2581gays",
+              "\u2581ujednoznacz",
+              "fillType",
+              "ArgsConstructor",
+              "AndEndTag",
+              "\u2581Ena"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 8645,
+            "pos": 17,
+            "label": " passages discussing same-sex marriage",
+            "frac_nonzero": 0.01525,
+            "promoted_tokens": [
+              "Personendaten",
+              "\u064a\u0645\u064a\u062f\u064a\u0627",
+              "hoeddwyd",
+              "\u2581Geraadpleegd",
+              "\u2581disambiguazione",
+              "\u2581ostavi",
+              "\u2581ComVisible",
+              "webElement",
+              "\u2581t\u1ea3",
+              "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 15899,
+            "pos": 17,
+            "label": " language associated with the LGBTQ community and discussions of gender and identity.",
+            "frac_nonzero": 0.006059999999999999,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581gender",
+              "\u2581transgender",
+              "\u2581Gender",
+              "gender",
+              "\u2581sex",
+              "\u2581LGBTQ",
+              "\u2581sexuality",
+              "LGBT",
+              "\u2581Sexuality"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 103,
+            "pos": 17,
+            "label": " words and phrases related to imprisonment, criminal justice, mental and physical health issues",
+            "frac_nonzero": 0.02017,
+            "promoted_tokens": [
+              "\u2581partial",
+              "\u2581cancer",
+              "Partial",
+              "\u2581diabetes",
+              "anoma",
+              "databind",
+              "oso",
+              "fraid",
+              "try",
+              "con"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 6639,
+            "pos": 17,
+            "label": "words and phrases related to mating, gender, and sexual activity",
+            "frac_nonzero": 0.01506,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "'",
+              "\u2581versus",
+              "He",
+              "\n\n\n",
+              "z\u00e9sek",
+              "\u2581and",
+              "\u2581No",
+              "\u0628\u0627"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15927,
+            "pos": 17,
+            "label": " words associated with love, familial relationships, and faith",
+            "frac_nonzero": 0.01453,
+            "promoted_tokens": [
+              "\u2581the",
+              "ly",
+              "\u2581is",
+              "\u2581are",
+              "na",
+              "\u2581it",
+              "li",
+              "\u2581an",
+              "ri",
+              "\u2581our"
+            ]
+          },
+          {
+            "layer": 5,
+            "feature_idx": 8577,
+            "pos": 17,
+            "label": " words and phrases relating to racial discrimination and affirmative action",
+            "frac_nonzero": 0.03263,
+            "promoted_tokens": [
+              "\u2581nakalista",
+              "\u2581calendriers",
+              "DoubleQuotes",
+              "\u2581BIBSYS",
+              "\u2581ostavi",
+              "\u2581consultato",
+              "\u2581<>\",",
+              "\u043f\u0440\u0438\u043c\u0435\u0447\u0430",
+              "//----",
+              "immobili"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": 37,
+            "from_token": " gay"
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8645,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": 10
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15899,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": 5.8438
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 8645,
+            "to_pos": 17,
+            "weight": 22.875,
+            "from_token": " gay"
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 103,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 8645,
+            "to_pos": 17,
+            "weight": 0.9141
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 15899,
+            "to_pos": 17,
+            "weight": 21.25,
+            "from_token": " gay"
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 6639,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 15899,
+            "to_pos": 17,
+            "weight": -4.125
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 1,
+            "to_feature_idx": 6639,
+            "to_pos": 17,
+            "weight": 15.6875,
+            "from_token": " gay"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15927,
+            "from_pos": 17,
+            "to_layer": 1,
+            "to_feature_idx": 6639,
+            "to_pos": 17,
+            "weight": 0.3438
+          },
+          {
+            "from_layer": 5,
+            "from_feature_idx": 8577,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": -1.9219
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 5,
+            "to_feature_idx": 8577,
+            "to_pos": 17,
+            "weight": 2.875,
+            "from_token": " gay"
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8645,
+            "from_pos": 17,
+            "to_layer": 5,
+            "to_feature_idx": 8577,
+            "to_pos": 17,
+            "weight": 1.3359
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15899,
+            "from_pos": 17,
+            "to_layer": 5,
+            "to_feature_idx": 8577,
+            "to_pos": 17,
+            "weight": 0.9492
+          }
+        ],
+        "explanation": "I traced the homosexuality/same-sex marriage feature (L6:F6085) back to its origins. The key finding is that the primary driver is the token embedding for \" gay\" at position 17, which has a very strong direct connection (edge_weight: 37.0) to the homosexuality feature.\n\nThe circuit has several pathways:\n1. Direct token embedding \" gay\" \u2192 L6 homosexuality feature (strongest connection)\n2. Token embedding \" gay\" \u2192 L4 same-sex marriage feature \u2192 L6 homosexuality feature\n3. Token embedding \" gay\" \u2192 L4 LGBTQ language feature \u2192 L6 homosexuality feature\n4. Token embedding \" gay\" \u2192 L1 mating/gender feature (which suppresses LGBTQ terms) \u2192 L4 LGBTQ feature (negative connection)\n\nThe model shows distinct representations for:\n- Biological/technical sex terms (layer 1, suppresses LGBTQ terms)\n- LGBTQ identity/political discussions (layer 4)\n- Same-sex marriage specific discussions (layer 4)\n- Comprehensive homosexuality detection (layer 6)\n\nInterestingly, a racial discrimination feature (L5) has a negative connection to the homosexuality feature, suggesting these social justice topics may be competing or distinct concepts in the model's representation.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 6085
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 6085,
+              "label": " text related to homosexuality and same-sex marriage",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581two\u2581weeks\u2581before\u2581the\u2581release\u2581of\u2581the\u2581other\u2581hostages.\n\nWhile\u2581Loney\u2581was\u2581held\u2581as\u2581a\u2581hostage,\u2581his\u2581family\u2581and\u2581partner\u2581Dan\u2581Hunt\u2581withheld\u2581the\u2581fact\u2581of\u2581his\u2581homosexuality\u2581out\u2581of\u2581fear\u2581for\u2581his\u2581safety.\u2581\u2581The\u2581media\u2581",
+                  "max_activation": 89.594,
+                  "max_token": "\u2581homosexuality"
+                },
+                {
+                  "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+                  "max_activation": 89.255,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+                  "max_activation": 89.255,
+                  "max_token": "sex"
+                }
+              ],
+              "promoted_tokens": [
+                "+#+#",
+                "IntoConstraints",
+                "\u2581\u0645\u0634\u064a\u0646",
+                "\u2581disambiguazione",
+                "\u2581gays",
+                "\u2581ujednoznacz",
+                "fillType",
+                "ArgsConstructor",
+                "AndEndTag",
+                "\u2581Ena"
+              ],
+              "suppressed_tokens": [
+                "\u2581colspan",
+                "\u2581COMMENTS",
+                "akyti",
+                "\u2581mxArray",
+                "\u2581personalmente",
+                "\u2581GlobalKey",
+                "setattr",
+                "\u2581personal",
+                "\u2581derselben",
+                "\u2581k\u00e4n"
+              ],
+              "frac_nonzero": 0.00167
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 6085,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 37.0
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17,
+                "edge_weight": 10.0
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15899,
+                "pos": 17,
+                "edge_weight": 5.8438
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -4.7812
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 8577,
+                "pos": 17,
+                "edge_weight": -1.9219
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8645
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 8645,
+              "label": " passages discussing same-sex marriage",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                }
+              ],
+              "promoted_tokens": [
+                "Personendaten",
+                "\u064a\u0645\u064a\u062f\u064a\u0627",
+                "hoeddwyd",
+                "\u2581Geraadpleegd",
+                "\u2581disambiguazione",
+                "\u2581ostavi",
+                "\u2581ComVisible",
+                "webElement",
+                "\u2581t\u1ea3",
+                "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627"
+              ],
+              "suppressed_tokens": [
+                "ERVIEW",
+                "otex",
+                "\u2581advi",
+                "]%",
+                "OIR",
+                "__);",
+                "VIER",
+                "savevideo",
+                "MemoryWarning",
+                "\u539f\u59cb\u5185\u5bb9\u5b58\u6863\u4e8e"
+              ],
+              "frac_nonzero": 0.01525
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15899
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 15899,
+              "label": " language associated with the LGBTQ community and discussions of gender and identity.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581that\u2581life\u2581style.\u2581The\u2581same\u2581way\u2581the\u2581swastija\u2581became\u2581synonomis\u2581with\u2581the\u2581Nazi\u2581party.\u2581It\u2019s\u2581inseperable.\u2581I\u2581prefer\u2581to\u2581call\u2581them\u2581what\u2581they\u2581really\u2581call\u2581themselves,\u2581queers.\u2581And\u2581as\u2581for\u2581their\u2581use\u2581of\u2581the\u2581term\u2581gay",
+                  "max_activation": 65.17,
+                  "max_token": "ers"
+                },
+                {
+                  "text_snippet": "\u2581have\u2581First\u2581Amendment\u2581rights\u2581and\u2581protections.\n\nAnti-LGBTQ\u2581preacher\u2581Kevin\u2581Swanson\u2581will\u2581hold\u2581the\u2581Bible\u2581Family\u2581Conference\u2581in\u2581Washington,\u2581D.C.\u2581on\u2581August\u258110-11.\u2581He\u2581wants\u2581to\u2581execute\u2581all\u2581LGBTQ\u2581people\u2581and\u2581all",
+                  "max_activation": 65.111,
+                  "max_token": "Q"
+                },
+                {
+                  "text_snippet": "\u2581have\u2581First\u2581Amendment\u2581rights\u2581and\u2581protections.\n\nAnti-LGBTQ\u2581preacher\u2581Kevin\u2581Swanson\u2581will\u2581hold\u2581the\u2581Bible\u2581Family\u2581Conference\u2581in\u2581Washington,\u2581D.C.\u2581on\u2581August\u258110-11.\u2581He\u2581wants\u2581to\u2581execute\u2581all\u2581LGBTQ\u2581people\u2581and\u2581all",
+                  "max_activation": 65.111,
+                  "max_token": "Q"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581gender",
+                "\u2581transgender",
+                "\u2581Gender",
+                "gender",
+                "\u2581sex",
+                "\u2581LGBTQ",
+                "\u2581sexuality",
+                "LGBT",
+                "\u2581Sexuality"
+              ],
+              "suppressed_tokens": [
+                "\u2581IOError",
+                "]--;",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581Catawiki",
+                "memberOf",
+                ">[]",
+                "\u2581IBOutlet",
+                "\u2581Saludos",
+                "Assad",
+                "\u2581Beckman"
+              ],
+              "frac_nonzero": 0.006059999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8645,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 22.875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.3438
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 103,
+                "pos": 17,
+                "edge_weight": 0.9141
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 0.8789
+              },
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 0.7617
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 103
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 103,
+              "label": " words and phrases related to imprisonment, criminal justice, mental and physical health issues",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581its\u2581abolition.\nReturn\u2581to\u2581text.\n\n[187]\u2581This\u2581has\u2581prompted\u2581me\u2581to\u2581make\u2581a\u2581modest\u2581effort\u2581to\u2581do\u2581so.\u2581See\u2581infra\u2581Part\u2581III.B.1.b.\nReturn\u2581to\u2581text.\n\n[188]\u2581These\u2581cases\u2581are\u2581summarized\u2581in\u2581Appendix\u2581B.\u2581I\u2581identified\u2581th",
+                  "max_activation": 30.385,
+                  "max_token": "\u2581row"
+                },
+                {
+                  "text_snippet": ".\u2581The\u2581average\u2581sentence\u2581for\u2581everyone\u2581admitted\u2581to\u2581prison\u2581this\u2581fiscal\u2581year\u2581was\u25814.7\u2581years.\u2581For\u2581calculation\u2581purposes,\u2581those\u2581sentenced\u2581to\u258150\u2581years\u2581or\u2581longer,\u2581life\u2581or\u2581death\u2581was\u2581coded\u2581as\u258150-year\u2581sentences.\n\nM",
+                  "max_activation": 30.182,
+                  "max_token": "\u2581row"
+                },
+                {
+                  "text_snippet": ".\u2581The\u2581average\u2581sentence\u2581for\u2581everyone\u2581admitted\u2581to\u2581prison\u2581this\u2581fiscal\u2581year\u2581was\u25814.7\u2581years.\u2581For\u2581calculation\u2581purposes,\u2581those\u2581sentenced\u2581to\u258150\u2581years\u2581or\u2581longer,\u2581life\u2581or\u2581death\u2581was\u2581coded\u2581as\u258150-year\u2581sentences.\n\nM",
+                  "max_activation": 30.182,
+                  "max_token": "\u2581row"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581partial",
+                "\u2581cancer",
+                "Partial",
+                "\u2581diabetes",
+                "anoma",
+                "databind",
+                "oso",
+                "fraid",
+                "try",
+                "con"
+              ],
+              "suppressed_tokens": [
+                "DoubleQuotes",
+                "\u2581ModelRenderer",
+                "verwijspagina",
+                "\u2581Paglinawan",
+                "\u2581Macromolecules",
+                "RenderAtEndOf",
+                "\u2581ISNI",
+                "WaitGroup",
+                "Revenir",
+                "WireFormatLite"
+              ],
+              "frac_nonzero": 0.02017
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15899,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 21.25
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 6639,
+                "pos": 17,
+                "edge_weight": -4.125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.2031
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 3248,
+                "pos": 17,
+                "edge_weight": -2.375
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 1.875
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6639
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 6639,
+              "label": "words and phrases related to mating, gender, and sexual activity",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581general\u2581rule\u2581as\u2581far\u2581as\u2581the\u2581possibility\u2581of\n\n\u2581\u2581an\u2581indeterminate\u2581probationary\u2581term\u2581for\u2581felonies\u201d\u2581and\u2581\u201cauthorizes\u2581a\n\n\u2581\u2581trial\u2581court\u2581to\u2581impose\u2581an\u2581indeterminate\u2581term\u2581of\u2581probation.\u201d\u2581Id.\u2581at\n\n\u2581\u2581\u00b6\u00b6\u258138,\u258150,\u2581305\u2581",
+                  "max_activation": 38.422,
+                  "max_token": "\u2581sex"
+                },
+                {
+                  "text_snippet": "breeding\u2581coefficient\u2581and\u2581formulae\u2581for\u2581effective\u2581size\u2581are\u2581derived\u2581for\u2581autosomal\u2581loci,\u2581sex-linked\u2581loci\u2581with\u2581males\u2581being\u2581heterogametic\u2581and\u2581sex-linked\u2581loci\u2581with\u2581females\u2581being\u2581heterogametic\u2581under\u2581each\u2581of\u2581f",
+                  "max_activation": 37.696,
+                  "max_token": "\u2581sex"
+                },
+                {
+                  "text_snippet": "breeding\u2581coefficient\u2581and\u2581formulae\u2581for\u2581effective\u2581size\u2581are\u2581derived\u2581for\u2581autosomal\u2581loci,\u2581sex-linked\u2581loci\u2581with\u2581males\u2581being\u2581heterogametic\u2581and\u2581sex-linked\u2581loci\u2581with\u2581females\u2581being\u2581heterogametic\u2581under\u2581each\u2581of\u2581f",
+                  "max_activation": 37.696,
+                  "max_token": "\u2581sex"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "'",
+                "\u2581versus",
+                "He",
+                "\n\n\n",
+                "z\u00e9sek",
+                "\u2581and",
+                "\u2581No",
+                "\u0628\u0627"
+              ],
+              "suppressed_tokens": [
+                "\u2581bisexual",
+                "\u2581EconPapers",
+                "\u2581sexes",
+                "\u2581sexual",
+                "\u2581sexuales",
+                "\u2581Sexual",
+                "sexual",
+                "\u2581lesbian",
+                "AndEndTag",
+                "\u2581sex"
+              ],
+              "frac_nonzero": 0.01506
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6639,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 15.6875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15927,
+                "pos": 17,
+                "edge_weight": 0.3438
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1533,
+                "pos": 17,
+                "edge_weight": 0.252
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12312,
+                "pos": 17,
+                "edge_weight": 0.25
+              },
+              {
+                "type": "embedding",
+                "token": " warrior",
+                "pos": 7,
+                "edge_weight": -0.1738
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15927
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15927,
+              "label": " words associated with love, familial relationships, and faith",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581loving\u2581and\u2581righteous\u2581husband?\u2581Do\u2581you\u2581have\u2581enough\u2581faith\u2581in\u2581yourself\u2581to\u2581be\u2581the\u2581spouse\u2581that\u2581he\u2581deserves?\u2581Do\u2581you\u2581have\u2581enough\u2581faith\u2581that\u2581the\u2581two\u2581of\u2581you\u2581together\u2581can\u2581weather\u2581the\u2581challenges\u2581that\u2581will\u2581come\u2581w",
+                  "max_activation": 31.31,
+                  "max_token": "\u2581loving"
+                },
+                {
+                  "text_snippet": "\u2581human\u2581life\u2581is\u2581precious,\u2581is\u2581worthy\u2581of\u2581respect,\u2581and\u2581that\u2581none\u2581should\u2581be\u2581taken\u2581unnecessarily.\u2581My\u2581own\u2581views\u2581on\u2581abortion\u2581are\u2581not\u2581yet\u2581fully\u2581developed,\u2581but\u2581I\u2581know\u2581that\u2581I\u2581would\u2581want\u2581it\u2581to\u2581be\u2581as\u2581rare\u2581as\u2581possi",
+                  "max_activation": 31.059,
+                  "max_token": "\u2581loving"
+                },
+                {
+                  "text_snippet": "\u2581human\u2581life\u2581is\u2581precious,\u2581is\u2581worthy\u2581of\u2581respect,\u2581and\u2581that\u2581none\u2581should\u2581be\u2581taken\u2581unnecessarily.\u2581My\u2581own\u2581views\u2581on\u2581abortion\u2581are\u2581not\u2581yet\u2581fully\u2581developed,\u2581but\u2581I\u2581know\u2581that\u2581I\u2581would\u2581want\u2581it\u2581to\u2581be\u2581as\u2581rare\u2581as\u2581possi",
+                  "max_activation": 31.059,
+                  "max_token": "\u2581loving"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "ly",
+                "\u2581is",
+                "\u2581are",
+                "na",
+                "\u2581it",
+                "li",
+                "\u2581an",
+                "ri",
+                "\u2581our"
+              ],
+              "suppressed_tokens": [
+                "IUrlHelper",
+                "expandindo",
+                "<bos>",
+                "Personensuche",
+                "\u2581BoxDecoration",
+                "\u2581disambiguazione",
+                "GeoNames",
+                "UIControlState",
+                "\u2581>=\",",
+                "\u2581getItemId"
+              ],
+              "frac_nonzero": 0.01453
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 5,
+              "feature_idx": 8577
+            },
+            "output": {
+              "layer": 5,
+              "feature_idx": 8577,
+              "label": " words and phrases relating to racial discrimination and affirmative action",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "men\u2581to\u2581ensure\u2581local\u2581control\u2581over\u2581federal\u2581dollars\u2581to\u2581reinforce\u2581Jim\u2581Crow.\u2581The\u2581GI\u2581Bill,\u2581for\u2581example,\u2581helped\u2581widen\u2581the\u2581racial\u2581gap\u2581as\u2581white\u2581veterans\u2581used\u2581federal\u2581money\u2581to\u2581pay\u2581for\u2581college,\u2581while\u2581discriminat",
+                  "max_activation": 33.24,
+                  "max_token": "\u2581action"
+                },
+                {
+                  "text_snippet": "\u2581on\u2581the\u2581panel\u2581as\u2581an\u2581individual\u2581lawyer\u2581and\u2581was\u2581careful\u2581to\u2581emphasize\u2581that\u2581he\u2581was\u2581not\u2581speaking\u2581as\u2581a\u2581university\u2581representative,\u2581walked\u2581the\u2581audience\u2581through\u2581several\u2581possible\u2581outcomes\u2581for\u2581Stanford.\u2581Dependin",
+                  "max_activation": 32.784,
+                  "max_token": "\u2581action"
+                },
+                {
+                  "text_snippet": "\u2581societies\u2581outside\u2581of\u2581the\u2581US,\u2581whose\u2581ancestors\u2581were\u2581never\u2581slaves,\u2581don\u2019t\u2581do\u2581any\u2581better\u2581than\u2581US\u2581blacks.\n\nI\u2019m\u2581wondering\u2581what\u2581kind\u2581of\u2581excuses\u2581they\u2581would\u2581give\u2581in\u2581response\u2581to\u2581that?\u2581It\u2581would\u2581be\u2581interesting\u2581to",
+                  "max_activation": 32.62,
+                  "max_token": "ACP"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581nakalista",
+                "\u2581calendriers",
+                "DoubleQuotes",
+                "\u2581BIBSYS",
+                "\u2581ostavi",
+                "\u2581consultato",
+                "\u2581<>\",",
+                "\u043f\u0440\u0438\u043c\u0435\u0447\u0430",
+                "//----",
+                "immobili"
+              ],
+              "suppressed_tokens": [
+                "\u2581racist",
+                "\u2581racial",
+                "\u2581racially",
+                "@[+][",
+                "\u00e9dez",
+                "\u2581racism",
+                "istoitu",
+                "\u2581Sections",
+                "InSection",
+                "GraphicsUnit"
+              ],
+              "frac_nonzero": 0.03263
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 5,
+              "feature_idx": 8577,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 2.875
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17,
+                "edge_weight": 1.3359
+              },
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 0.9844
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15899,
+                "pos": 17,
+                "edge_weight": 0.9492
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 0.8125
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this homosexuality/same-sex marriage feature back to its origins. What early-layer or embedding features feed into it? How does it connect to the input tokens?",
+          "input_tokens": 78056,
+          "output_tokens": 3537,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3456
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 117,
+        "starting_pos": 6,
+        "objective": "Trace this social justice/racial terms feature back to its origins. How does it connect to the input tokens?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 117,
+            "pos": 6,
+            "label": " terms related to race, racism, and social justice, with a particular focus on terms related to Black people",
+            "frac_nonzero": 0.01199,
+            "promoted_tokens": [
+              "\u2581racially",
+              "\u2581racial",
+              "Racism",
+              "\u2581racist",
+              "racist",
+              "racial",
+              "\u2581racism",
+              "\u2581Racial",
+              "racism",
+              "\ud83c\udfff"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11685,
+            "pos": 6,
+            "label": " words related to social justice",
+            "frac_nonzero": 0.02557,
+            "promoted_tokens": [
+              "<bos>",
+              "igene",
+              "\u2581Indigenous",
+              "\u2019",
+              "<em>",
+              "\ufeff//",
+              "ceral",
+              "COVID",
+              "\u2581COVID",
+              "\u00edrus"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 3591,
+            "pos": 6,
+            "label": " terms related to government social programs",
+            "frac_nonzero": 0.00674,
+            "promoted_tokens": [
+              "\u2581my\u017felf",
+              "\u2581Jefus",
+              "\u2581Efq",
+              "\u2581it\u017felf",
+              "^(@)",
+              "\u2581invokingState",
+              "\u2581u\u017fed",
+              "Demografie",
+              "\u2581C\u00e6sar",
+              "SBATCH"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 13646,
+            "pos": 6,
+            "label": " text discussing social justice issues",
+            "frac_nonzero": 0.01158,
+            "promoted_tokens": [
+              "\u2581LGBTQ",
+              "\u5411\u304d",
+              "\u2581race",
+              "ArgsConstructor",
+              "\u2581perpet",
+              "heid",
+              "\u043e\u0441",
+              "\u2581valor",
+              "\u2581discursos",
+              "\u2581past"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 5157,
+            "pos": 6,
+            "label": " references to social services and social work",
+            "frac_nonzero": 0.00594,
+            "promoted_tokens": [
+              "\u2581TextAppearance",
+              ":][",
+              "\u2581LCCN",
+              "\u2581recognition",
+              "\u2581sector",
+              "\u2581conten",
+              "\u2581seal",
+              "\u2581government",
+              "\u2581The",
+              "ntomas"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6556,
+            "pos": 6,
+            "label": " instances of the word \"closing\"",
+            "frac_nonzero": 0.00658,
+            "promoted_tokens": [
+              "ItemBackground",
+              "MLLoader",
+              "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+              "Referencie",
+              "ElementException",
+              "C\u00f2n",
+              "iastes",
+              "PreferredItem",
+              "\u2581\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+              "contentLoaded"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 4,
+            "to_feature_idx": 117,
+            "to_pos": 6,
+            "weight": 5.125
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 3591,
+            "from_pos": 6,
+            "to_layer": 4,
+            "to_feature_idx": 117,
+            "to_pos": 6,
+            "weight": 2.4844
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 13646,
+            "from_pos": 6,
+            "to_layer": 4,
+            "to_feature_idx": 117,
+            "to_pos": 6,
+            "weight": 2.4062
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 4,
+            "to_feature_idx": 117,
+            "to_pos": 6,
+            "weight": 2.375
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 5157,
+            "from_pos": 6,
+            "to_layer": 4,
+            "to_feature_idx": 117,
+            "to_pos": 6,
+            "weight": 1.7422
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 1,
+            "to_feature_idx": 13646,
+            "to_pos": 6,
+            "weight": 4.2188
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 1,
+            "to_feature_idx": 13646,
+            "to_pos": 6,
+            "weight": 2.0156
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6556,
+            "from_pos": 6,
+            "to_layer": 1,
+            "to_feature_idx": 13646,
+            "to_pos": 6,
+            "weight": -1.1953
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11685,
+            "from_pos": 6,
+            "to_layer": 1,
+            "to_feature_idx": 13646,
+            "to_pos": 6,
+            "weight": 1.0469
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 3591,
+            "to_pos": 6,
+            "weight": 21
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 3591,
+            "to_pos": 6,
+            "weight": 4.4688
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 3,
+            "to_feature_idx": 5157,
+            "to_pos": 6,
+            "weight": 24.125
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 3,
+            "to_feature_idx": 5157,
+            "to_pos": 6,
+            "weight": -1.8359
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 3591,
+            "from_pos": 6,
+            "to_layer": 3,
+            "to_feature_idx": 5157,
+            "to_pos": 6,
+            "weight": 1.1719
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 11685,
+            "to_pos": 6,
+            "weight": 4
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 11685,
+            "to_pos": 6,
+            "weight": 3.875
+          }
+        ],
+        "explanation": "The social justice/racial terms feature at L4:F117 is primarily driven by the input tokens \" social\" (position 5) and \" justice\" (position 6). The circuit shows that these tokens directly activate early layer features that detect social-related concepts, which then combine to form the higher-level social justice feature. Key findings:\n\n1. Strongest connection: Token \" justice\" directly to L4:F117 (weight: 5.125)\n2. Early layer features: L0:F11685 (\"words related to social justice\") and L0:F3591 (\"government social programs\") are directly activated by the input tokens\n3. Intermediate features: L1:F13646 (\"text discussing social justice issues\") and L3:F5157 (\"social services/work\") combine social concepts\n4. The circuit demonstrates how the model builds from token-level recognition (\"social\", \"justice\") to early semantic features, then to higher-level abstract concepts about race and social justice.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 117
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 117,
+              "label": " terms related to race, racism, and social justice, with a particular focus on terms related to Black people",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2013the\u2581group\u2581in\u2581power\u2581(a\u2581largely\u2581male,\u2581white,\u2581heterosexual,\u2581able-bodied,\u2581cis\u2581group)\u2013who\u2581insists\u2581that\u2581nothing\u2581is\u2581really\u2581wrong\u2581that\u2581couldn't\u2581be\u2581fixed\u2581if\u2581people\u2581would\u2581just\u2581try\u2581harder\u2581instead\u2581of\u2581complaining",
+                  "max_activation": 67.474,
+                  "max_token": "\u2581color"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581black\u2581racists\u2581---\u2581or\u2581to\u2581Unkle\u2581Skum\u2581---\u2581by\u2581which\u2581expression\u2581I\u2581mean\u2581\u201cgovernment\u2581at\u2581any\u2581and\u2581every\u2581level\u2581of\u2581American\u2581society.\u201d\n\nIn\u2581his\u2581call\u2581to\u2581the\u2581police\u2581before\u2581the\u2581incident,\u2581Zimmerman\u2581was\u2581advised\u2581by",
+                  "max_activation": 65.935,
+                  "max_token": "cists"
+                },
+                {
+                  "text_snippet": "\u2581Asians\u2581are\u2581always\u2581excluded\u2581from\u2581\"conversations\u2581about\u2581race.\"\u2581From\u2581this\u2581corner\u2581of\u2581the\u2581country,\u2581\"race\u2581relations\"\u2581on\u2581the\u2581national\u2581level\u2581comes\u2581down\u2581to\u2581Black\u2581or\u2581White.\u2581That's\u2581what\u2581the\u2581media\u2581peddles\u2581and\u2581the",
+                  "max_activation": 65.399,
+                  "max_token": "\u2581color"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581racially",
+                "\u2581racial",
+                "Racism",
+                "\u2581racist",
+                "racist",
+                "racial",
+                "\u2581racism",
+                "\u2581Racial",
+                "racism",
+                "\ud83c\udfff"
+              ],
+              "suppressed_tokens": [
+                "\u2581BrowserModule",
+                "Bronnen",
+                "live",
+                "\u2581Bellow",
+                "\u51fa\u7248\u5e74",
+                "\u2581Ogle",
+                "own",
+                "Hochspringen",
+                "\u2581raad",
+                "\u2581Burnet"
+              ],
+              "frac_nonzero": 0.01199
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 117,
+              "pos": 6
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 5.125
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3591,
+                "pos": 6,
+                "edge_weight": 2.4844
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 13646,
+                "pos": 6,
+                "edge_weight": 2.4062
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 2.375
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 5157,
+                "pos": 6,
+                "edge_weight": 1.7422
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3591
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 3591,
+              "label": " terms related to government social programs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581scale\u2581of\u2581mild,\u2581moderate\u2581and\u2581severe.\u2581The\u2581impact\u2581of\u2581these\u2581severe\u2581headaches\u2581on\u2581the\u2581daily\u2581activity\u2581and\u2581the\u2581number\u2581of\u2581days\u2581they\u2581occur\u2581in\u2581a\u2581month\u2581were\u2581recorded.\u2581The\u2581character\u2581of\u2581the\u2581pain,\u2581location,\u2581duratio",
+                  "max_activation": 42.77,
+                  "max_token": "\u2581Sciences"
+                },
+                {
+                  "text_snippet": "recognized\u2581psychologists\u2581Terry\u2581Levy\u2581and\u2581Michael\u2581Orlans\u2581originally\u2581developed\u2581this\u2581treatment\u2581format\u2581to\u2581provide\u2581help\u2581for\u2581children\u2581and\u2581families\u2581needing\u2581specialized\u2581services\u2581unavailable\u2581where\u2581they\u2581live.\u2581Fo",
+                  "max_activation": 41.364,
+                  "max_token": "\u2581service"
+                },
+                {
+                  "text_snippet": "recognized\u2581psychologists\u2581Terry\u2581Levy\u2581and\u2581Michael\u2581Orlans\u2581originally\u2581developed\u2581this\u2581treatment\u2581format\u2581to\u2581provide\u2581help\u2581for\u2581children\u2581and\u2581families\u2581needing\u2581specialized\u2581services\u2581unavailable\u2581where\u2581they\u2581live.\u2581Fo",
+                  "max_activation": 41.364,
+                  "max_token": "\u2581service"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581my\u017felf",
+                "\u2581Jefus",
+                "\u2581Efq",
+                "\u2581it\u017felf",
+                "^(@)",
+                "\u2581invokingState",
+                "\u2581u\u017fed",
+                "Demografie",
+                "\u2581C\u00e6sar",
+                "SBATCH"
+              ],
+              "suppressed_tokens": [
+                "underbrace",
+                "\u2581emb",
+                "<0xE2>",
+                "\u2581redes",
+                "\uc131",
+                "\u2581Geos",
+                "\u2581ujednoznacz",
+                "atigable",
+                "mina",
+                "aterin"
+              ],
+              "frac_nonzero": 0.00674
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 13646
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 13646,
+              "label": " text discussing social justice issues",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "lers\u2581like\u2581Sharpton,\u2581Farrakhan,\u2581and\u2581Jackson\u2581---\u2581can\u2581be\u2581counted\u2581on\u2581to\u2581promote\u2581racial\u2581hysteria\u2581and\u2581a\u2581false\u2581narrative\u2581on\u2581this\u2581subject,\u2581year-on-year,\u2581and\u2581decade-on-decade,\u2581ad\u2581nauseam,\u2581ad\u2581infinitum.\n\nAs\u2581for",
+                  "max_activation": 24.713,
+                  "max_token": "\u2581privilege"
+                },
+                {
+                  "text_snippet": "lers\u2581like\u2581Sharpton,\u2581Farrakhan,\u2581and\u2581Jackson\u2581---\u2581can\u2581be\u2581counted\u2581on\u2581to\u2581promote\u2581racial\u2581hysteria\u2581and\u2581a\u2581false\u2581narrative\u2581on\u2581this\u2581subject,\u2581year-on-year,\u2581and\u2581decade-on-decade,\u2581ad\u2581nauseam,\u2581ad\u2581infinitum.\n\nAs\u2581for",
+                  "max_activation": 24.713,
+                  "max_token": "\u2581privilege"
+                },
+                {
+                  "text_snippet": "lers\u2581like\u2581Sharpton,\u2581Farrakhan,\u2581and\u2581Jackson\u2581---\u2581can\u2581be\u2581counted\u2581on\u2581to\u2581promote\u2581racial\u2581hysteria\u2581and\u2581a\u2581false\u2581narrative\u2581on\u2581this\u2581subject,\u2581year-on-year,\u2581and\u2581decade-on-decade,\u2581ad\u2581nauseam,\u2581ad\u2581infinitum.\n\nAs\u2581for",
+                  "max_activation": 24.713,
+                  "max_token": "\u2581privilege"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581LGBTQ",
+                "\u5411\u304d",
+                "\u2581race",
+                "ArgsConstructor",
+                "\u2581perpet",
+                "heid",
+                "\u043e\u0441",
+                "\u2581valor",
+                "\u2581discursos",
+                "\u2581past"
+              ],
+              "suppressed_tokens": [
+                "\u2581him\u017felf",
+                "\u2581my\u017felf",
+                "Demografie",
+                "\u2581\u017fta",
+                "kirakan",
+                "elemField",
+                "\u2581\u017feveral",
+                "\u2581referenties",
+                "\u2581\u017fever",
+                "\u2581\u0441\u0442\u0430\u043d\u043e\u0432\u043d\u0438\u043a\u0430"
+              ],
+              "frac_nonzero": 0.01158
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 5157
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 5157,
+              "label": " references to social services and social work",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 68.798,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 68.798,
+                  "max_token": "\u2581work"
+                },
+                {
+                  "text_snippet": ".\"\u2581AHEAD\u2581CCM\u2581was\u2581delivered\u2581by\u2581a\u2581multidisciplinary\u2581team\u2581(nurse\u2581care\u2581manager,\u2581social\u2581worker,\u2581internists,\u2581psychiatrist\u2581with\u2581addiction\u2581expertise)\\\n*Setting*:\u2581Hospital-based\u2581primary\u2581care\u2581practice\u2581(patients",
+                  "max_activation": 68.798,
+                  "max_token": "\u2581work"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581TextAppearance",
+                ":][",
+                "\u2581LCCN",
+                "\u2581recognition",
+                "\u2581sector",
+                "\u2581conten",
+                "\u2581seal",
+                "\u2581government",
+                "\u2581The",
+                "ntomas"
+              ],
+              "suppressed_tokens": [
+                "\u2581ModelExpression",
+                "\u2581CreateTagHelper",
+                "\u2581Phosph",
+                "enumi",
+                "\u2581\u0627\u0644\u0645\u0639\u064a\u0627\u0631\u0649",
+                "tvguidetime",
+                "\u2581ExecuteAsync",
+                "DebuggerNonUser",
+                "makeConstraints",
+                "\u2581PHOSPH"
+              ],
+              "frac_nonzero": 0.00594
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 13646,
+              "pos": 6
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 4.2188
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 2.0156
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6556,
+                "pos": 6,
+                "edge_weight": -1.1953
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11685,
+                "pos": 6,
+                "edge_weight": 1.0469
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 346,
+                "pos": 6,
+                "edge_weight": -0.6602
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3591,
+              "pos": 6
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 21.0
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 4.4688
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9297
+              },
+              {
+                "type": "embedding",
+                "token": "If",
+                "pos": 1,
+                "edge_weight": -0.8203
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 4,
+                "edge_weight": -0.1641
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 5157,
+              "pos": 6
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 24.125
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": -1.8359
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3591,
+                "pos": 6,
+                "edge_weight": 1.1719
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 1537,
+                "pos": 6,
+                "edge_weight": 1.0859
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 15781,
+                "pos": 6,
+                "edge_weight": 1.0781
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6556
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6556,
+              "label": " instances of the word \"closing\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581take\u2581into\n\n\u2581\u2581account\u2581whether\u2581defense\u2581counsel\u2019s\u2581closing\u2581argument\u2581\u201cfairly\n\n\u2581\u2581represented\u201d\u2581the\u2581theory\u2581to\u2581the\u2581jury.\u2581People\u2581v.\u2581Dore,\u2581997\u2581P.2d\u25811214,\n\n\u2581\u25811222\u2581(Colo.\u2581App.\u25811999).\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 33.442,
+                  "max_token": "\u2581closing"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581conservative\u2581position.\n\nAMERICAN\u2581POLITICS\n\nOh\u2581noes.\u2581The\u2581house\u2581of\u2581cards\u2581built\u2581by\u2581Grover\u2581Norquist\u2581has\u2581started\u2581to\u2581come\u2581crashing\u2581down\u2581as\u2581more\u2581and\u2581more\u2581elected\u2581officials\u2581repudiate\u2581his\u2581\u201ctax\u2581pledge\u201d.\u2581Wh",
+                  "max_activation": 33.334,
+                  "max_token": "\u2581closing"
+                },
+                {
+                  "text_snippet": "\u2581McLeod's\u2581Daughters\n\nMcLeod's\u2581Daughters\u2581have\u2581had\u2581many\u2581different\u2581songs\u2581for\u2581their\u2581closing\u2581credits\u2581which\u2581are\u2581written\u2581by\u2581Posie\u2581Graeme-Evans\u2581&\u2581Chris\u2581Harriot\u2581and\u2581performed\u2581by\u2581singer\u2581Rebecca\u2581Lavelle\u2581who\u2581also",
+                  "max_activation": 32.993,
+                  "max_token": "\u2581closing"
+                }
+              ],
+              "promoted_tokens": [
+                "ItemBackground",
+                "MLLoader",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "Referencie",
+                "ElementException",
+                "C\u00f2n",
+                "iastes",
+                "PreferredItem",
+                "\u2581\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+                "contentLoaded"
+              ],
+              "suppressed_tokens": [
+                "\n\n",
+                "<b>",
+                "<strong>",
+                "\u2581",
+                "OK",
+                "<i>",
+                "\u201d).",
+                "by",
+                "\u2581\u201c",
+                "\u2581\u2026"
+              ],
+              "frac_nonzero": 0.00658
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11685
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11685,
+              "label": " words related to social justice",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nYou\u2581see\u2581if\u2581you\u2581stop\u2581looking\u2581through\u2581the\u2581post\u2581neo\u2581colonial,\u2581social\u2581pan\u2581optical,\u2581social\u2581dialectic\u2581of\u2581patriarchal\u2581economic\u2581matrix\u2019s\u2581you\u2581will\u2581see\u2581that\u2581anytime\u2581blacks\u2581do\u2581something\u2581wrong\u2581its\u2581just\u2581a\u2581constr",
+                  "max_activation": 15.711,
+                  "max_token": "\u2581justice"
+                },
+                {
+                  "text_snippet": "\u2581families\u2581who\u2581are\u2581ready\u2581for\u2581a\u2581child,\u2581or\u2581does\u2581it\u2581not\u2581matter\u2581if\u2581they\u2581are\u2581unwanted\u2581and\u2581abused,\u2581or\u2581end\u2581up\u2581in\u2581the\u2581custody\u2581of\u2581the\u2581state\u2581until\u2581they\u2581reach\u2581eighteen\u2581years\u2581of\u2581age?\u2581It\u2019s\u2581all\u2581very\u2581well\u2581advocating\u2581",
+                  "max_activation": 14.625,
+                  "max_token": "\u2581justice"
+                },
+                {
+                  "text_snippet": "\u2581families\u2581who\u2581are\u2581ready\u2581for\u2581a\u2581child,\u2581or\u2581does\u2581it\u2581not\u2581matter\u2581if\u2581they\u2581are\u2581unwanted\u2581and\u2581abused,\u2581or\u2581end\u2581up\u2581in\u2581the\u2581custody\u2581of\u2581the\u2581state\u2581until\u2581they\u2581reach\u2581eighteen\u2581years\u2581of\u2581age?\u2581It\u2019s\u2581all\u2581very\u2581well\u2581advocating\u2581",
+                  "max_activation": 14.625,
+                  "max_token": "\u2581justice"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "igene",
+                "\u2581Indigenous",
+                "\u2019",
+                "<em>",
+                "\ufeff//",
+                "ceral",
+                "COVID",
+                "\u2581COVID",
+                "\u00edrus"
+              ],
+              "suppressed_tokens": [
+                "\u2581enfans",
+                "\u2581snippetHide",
+                "URLException",
+                "enumii",
+                "UserScript",
+                "\u2581auffi",
+                "VersionUID",
+                "\u2581cuantos",
+                ":+:",
+                "\u2581RSSSF"
+              ],
+              "frac_nonzero": 0.02557
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11685,
+              "pos": 6
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 4.0
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 3.875
+              },
+              {
+                "type": "embedding",
+                "token": "If",
+                "pos": 1,
+                "edge_weight": 0.3359
+              },
+              {
+                "type": "embedding",
+                "token": " are",
+                "pos": 3,
+                "edge_weight": 0.0698
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.062
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this social justice/racial terms feature back to its origins. How does it connect to the input tokens?",
+          "input_tokens": 43559,
+          "output_tokens": 3538,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 26368
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 8,
+        "starting_feature_idx": 15771,
+        "starting_pos": 17,
+        "objective": "Trace this LGBTQ+ issues feature back to its origins. How does it connect to the input tokens?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 8,
+            "feature_idx": 15771,
+            "pos": 17,
+            "label": "discussion of LGBTQ+ issues, especially same-sex marriage, adoption, and related topics",
+            "frac_nonzero": 0.00781,
+            "promoted_tokens": [
+              "\u2581Cre",
+              "ibley",
+              "\u2581p\u0159\u00edjem",
+              "institutional",
+              "\u0441\u043b\u0430\u043c",
+              "\u2581p\u0142yn",
+              "\u2581\u062a\u0639\u0631\u064a\u0641",
+              "ISLAM",
+              "Cre",
+              "\u2581best\u00e4"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 6085,
+            "pos": 17,
+            "label": " text related to homosexuality and same-sex marriage",
+            "frac_nonzero": 0.00167,
+            "promoted_tokens": [
+              "+#+#",
+              "IntoConstraints",
+              "\u2581\u0645\u0634\u064a\u0646",
+              "\u2581disambiguazione",
+              "\u2581gays",
+              "\u2581ujednoznacz",
+              "fillType",
+              "ArgsConstructor",
+              "AndEndTag",
+              "\u2581Ena"
+            ]
+          },
+          {
+            "layer": 7,
+            "feature_idx": 16171,
+            "pos": 17,
+            "label": " texts about homosexuality, gay marriage, and religious views on these topics",
+            "frac_nonzero": 0.01178,
+            "promoted_tokens": [
+              "\u2581betweenstory",
+              "\u2581Wicidata",
+              "\u2581Trabal",
+              "intios",
+              "\u0434\u044e",
+              "\u2581Tutte",
+              "\u2581cauza",
+              "\u2581Cypri",
+              "\u2581All\u00ed",
+              "\u2581diarias"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 8645,
+            "pos": 17,
+            "label": " passages discussing same-sex marriage",
+            "frac_nonzero": 0.01525,
+            "promoted_tokens": [
+              "Personendaten",
+              "\u064a\u0645\u064a\u062f\u064a\u0627",
+              "hoeddwyd",
+              "\u2581Geraadpleegd",
+              "\u2581disambiguazione",
+              "\u2581ostavi",
+              "\u2581ComVisible",
+              "webElement",
+              "\u2581t\u1ea3",
+              "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 15899,
+            "pos": 17,
+            "label": " language associated with the LGBTQ community and discussions of gender and identity.",
+            "frac_nonzero": 0.00606,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581gender",
+              "\u2581transgender",
+              "\u2581Gender",
+              "gender",
+              "\u2581sex",
+              "\u2581LGBTQ",
+              "\u2581sexuality",
+              "LGBT",
+              "\u2581Sexuality"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 103,
+            "pos": 17,
+            "label": " words and phrases related to imprisonment, criminal justice, mental and physical health issues",
+            "frac_nonzero": 0.02017,
+            "promoted_tokens": [
+              "\u2581partial",
+              "\u2581cancer",
+              "Partial",
+              "\u2581diabetes",
+              "anoma",
+              "databind",
+              "oso",
+              "fraid",
+              "try",
+              "con"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 6639,
+            "pos": 17,
+            "label": "words and phrases related to mating, gender, and sexual activity",
+            "frac_nonzero": 0.01506,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "'",
+              "\u2581versus",
+              "He",
+              "\n\n\n",
+              "z\u00e9sek",
+              "\u2581and",
+              "\u2581No",
+              "\u0628\u0627"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15927,
+            "pos": 17,
+            "label": " words associated with love, familial relationships, and faith",
+            "frac_nonzero": 0.01453,
+            "promoted_tokens": [
+              "\u2581the",
+              "ly",
+              "\u2581is",
+              "\u2581are",
+              "na",
+              "\u2581it",
+              "li",
+              "\u2581an",
+              "ri",
+              "\u2581our"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 6,
+            "from_feature_idx": 6085,
+            "from_pos": 17,
+            "to_layer": 8,
+            "to_feature_idx": 15771,
+            "to_pos": 17,
+            "weight": 7
+          },
+          {
+            "from_layer": 7,
+            "from_feature_idx": 16171,
+            "from_pos": 17,
+            "to_layer": 8,
+            "to_feature_idx": 15771,
+            "to_pos": 17,
+            "weight": 5.0312
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8645,
+            "from_pos": 17,
+            "to_layer": 8,
+            "to_feature_idx": 15771,
+            "to_pos": 17,
+            "weight": 3.4844
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 8645,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": 10
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15899,
+            "from_pos": 17,
+            "to_layer": 6,
+            "to_feature_idx": 6085,
+            "to_pos": 17,
+            "weight": 5.8438
+          },
+          {
+            "from_layer": 6,
+            "from_feature_idx": 6085,
+            "from_pos": 17,
+            "to_layer": 7,
+            "to_feature_idx": 16171,
+            "to_pos": 17,
+            "weight": 5.75
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 6639,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 15899,
+            "to_pos": 17,
+            "weight": -4.125
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15927,
+            "from_pos": 17,
+            "to_layer": 1,
+            "to_feature_idx": 6639,
+            "to_pos": 17,
+            "weight": 0.3438
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 103,
+            "from_pos": 17,
+            "to_layer": 4,
+            "to_feature_idx": 8645,
+            "to_pos": 17,
+            "weight": 0.9141
+          }
+        ],
+        "explanation": "The LGBTQ+ issues feature at L8:F15771 originates primarily from the input token \" gay\" at position 17, which has strong direct connections with edge weights up to 37.0. The circuit shows progressive abstraction from basic concepts: Layer 0 features about love/relationships \u2192 Layer 1 features about mating/gender \u2192 Layer 4 features about same-sex marriage and LGBTQ language \u2192 Layer 6-7 features about homosexuality and gay marriage \u2192 finally the high-level L8 feature discussing LGBTQ+ issues comprehensively. All features have low frac_nonzero values (0.00167-0.01525), indicating specific, not generic, representations of LGBTQ+ topics.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 8,
+              "feature_idx": 15771
+            },
+            "output": {
+              "layer": 8,
+              "feature_idx": 15771,
+              "label": "discussion of LGBTQ+ issues, especially same-sex marriage, adoption, and related topics",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581public\u2581vote\n\nAustralians\u2581at\u2581home\u2581and\u2581abroad\u2581are\u2581rejoicing\u2581because\u2581their\u2581fellow\u2581countrymen\u2581&\u2581women\u2581have\u2581made\u2581sure\u2581their\u2581voices\u2581are\u2581heard\u2581regarding\u2581same-sex\u2581marriage\u2581\u2014\u2581and\u2581they\u2581are\u2581all\u2581unanimously\u2581in\u2581f",
+                  "max_activation": 113.509,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": "\u2581public\u2581vote\n\nAustralians\u2581at\u2581home\u2581and\u2581abroad\u2581are\u2581rejoicing\u2581because\u2581their\u2581fellow\u2581countrymen\u2581&\u2581women\u2581have\u2581made\u2581sure\u2581their\u2581voices\u2581are\u2581heard\u2581regarding\u2581same-sex\u2581marriage\u2581\u2014\u2581and\u2581they\u2581are\u2581all\u2581unanimously\u2581in\u2581f",
+                  "max_activation": 113.509,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": "\u2581closeted\u2581gay\u2581son).\u2581As\u2581the\u2581old\u2581folks\u2581depart\u2581this\u2581life,\u2581things\u2581do\u2581change.\u2581And,\u2581I\u2581must\u2581even\u2581admit\u2581that\u2581some\u2581of\u2581our\u2581elders\u2581have\u2581amended\u2581their\u2581ways\u2581without\u2581the\u2581Grim\u2581Reaper\u2581at\u2581their\u2581door.\u2581With\u2581their\u2581passin",
+                  "max_activation": 112.755,
+                  "max_token": "\u2581gay"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Cre",
+                "ibley",
+                "\u2581p\u0159\u00edjem",
+                "institutional",
+                "\u0441\u043b\u0430\u043c",
+                "\u2581p\u0142yn",
+                "\u2581\u062a\u0639\u0631\u064a\u0641",
+                "ISLAM",
+                "Cre",
+                "\u2581best\u00e4"
+              ],
+              "suppressed_tokens": [
+                "\u2581CreateTagHelper",
+                "WriteTagHelper",
+                "\u2581<<<<<<<<<<<<<<",
+                "\u2581nakalista",
+                "\u2581IBOutlet",
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "r\u00e4nk",
+                "ngdoc",
+                "\u2581doInBackground",
+                "\u2581AssemblyCulture"
+              ],
+              "frac_nonzero": 0.00781
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 8,
+              "feature_idx": 15771,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 17.0
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 6085,
+                "pos": 17,
+                "edge_weight": 7.0
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 16171,
+                "pos": 17,
+                "edge_weight": 5.0312
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17,
+                "edge_weight": 3.4844
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 10287,
+                "pos": 17,
+                "edge_weight": 3.2031
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 6085
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 6085,
+              "label": " text related to homosexuality and same-sex marriage",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581two\u2581weeks\u2581before\u2581the\u2581release\u2581of\u2581the\u2581other\u2581hostages.\n\nWhile\u2581Loney\u2581was\u2581held\u2581as\u2581a\u2581hostage,\u2581his\u2581family\u2581and\u2581partner\u2581Dan\u2581Hunt\u2581withheld\u2581the\u2581fact\u2581of\u2581his\u2581homosexuality\u2581out\u2581of\u2581fear\u2581for\u2581his\u2581safety.\u2581\u2581The\u2581media\u2581",
+                  "max_activation": 89.594,
+                  "max_token": "\u2581homosexuality"
+                },
+                {
+                  "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+                  "max_activation": 89.255,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": "\u2581conventional\u2581methods,\u2581will\u2581present\u2581the\u2581results\u2581before\u2581the\u2581parliament\u2581to\u2581pass\u2581the\u2581verdict\u2581on\u2581the\u2581issue.\n\nIts\u2581expected\u2581that\u2581a\u2581bill\u2581for\u2581the\u2581same\u2581will\u2581pass,\u2581with\u2581many\u2581opponents\u2581of\u2581same-sex\u2581marriage\u2581in\u2581th",
+                  "max_activation": 89.255,
+                  "max_token": "sex"
+                }
+              ],
+              "promoted_tokens": [
+                "+#+#",
+                "IntoConstraints",
+                "\u2581\u0645\u0634\u064a\u0646",
+                "\u2581disambiguazione",
+                "\u2581gays",
+                "\u2581ujednoznacz",
+                "fillType",
+                "ArgsConstructor",
+                "AndEndTag",
+                "\u2581Ena"
+              ],
+              "suppressed_tokens": [
+                "\u2581colspan",
+                "\u2581COMMENTS",
+                "akyti",
+                "\u2581mxArray",
+                "\u2581personalmente",
+                "\u2581GlobalKey",
+                "setattr",
+                "\u2581personal",
+                "\u2581derselben",
+                "\u2581k\u00e4n"
+              ],
+              "frac_nonzero": 0.00167
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 7,
+              "feature_idx": 16171
+            },
+            "output": {
+              "layer": 7,
+              "feature_idx": 16171,
+              "label": " texts about homosexuality, gay marriage, and religious views on these topics",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "umbling\u2581in\u2581the\u2581bedside\u2581cabinet\u2581drawer\u201d\u2581moment\u2581is\u2581a\u2581misrepresentation,\u2581and\u2581one\u2581that\u2581can\u2581be\u2581easily\u2581(and,\u2581if\u2581done\u2581well,\u2581humorously)\u2581corrected.\n\nJim\u2581Henson\u2581Studios,\u2581creator\u2581of\u2581The\u2581Muppets,\u2581is\u2581boycotting\u2581C",
+                  "max_activation": 75.279,
+                  "max_token": "\u2581marriage"
+                },
+                {
+                  "text_snippet": "umbling\u2581in\u2581the\u2581bedside\u2581cabinet\u2581drawer\u201d\u2581moment\u2581is\u2581a\u2581misrepresentation,\u2581and\u2581one\u2581that\u2581can\u2581be\u2581easily\u2581(and,\u2581if\u2581done\u2581well,\u2581humorously)\u2581corrected.\n\nJim\u2581Henson\u2581Studios,\u2581creator\u2581of\u2581The\u2581Muppets,\u2581is\u2581boycotting\u2581C",
+                  "max_activation": 75.279,
+                  "max_token": "\u2581marriage"
+                },
+                {
+                  "text_snippet": "umbling\u2581in\u2581the\u2581bedside\u2581cabinet\u2581drawer\u201d\u2581moment\u2581is\u2581a\u2581misrepresentation,\u2581and\u2581one\u2581that\u2581can\u2581be\u2581easily\u2581(and,\u2581if\u2581done\u2581well,\u2581humorously)\u2581corrected.\n\nJim\u2581Henson\u2581Studios,\u2581creator\u2581of\u2581The\u2581Muppets,\u2581is\u2581boycotting\u2581C",
+                  "max_activation": 75.279,
+                  "max_token": "\u2581marriage"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581betweenstory",
+                "\u2581Wicidata",
+                "\u2581Trabal",
+                "intios",
+                "\u0434\u044e",
+                "\u2581Tutte",
+                "\u2581cauza",
+                "\u2581Cypri",
+                "\u2581All\u00ed",
+                "\u2581diarias"
+              ],
+              "suppressed_tokens": [
+                "adaptiveStyles",
+                "argout",
+                "SequentialGroup",
+                "'}>",
+                "DebuggerNonUser",
+                "\":\r",
+                "')).",
+                "LookAnd",
+                "\u2581ApiException",
+                "ient\u00f4t"
+              ],
+              "frac_nonzero": 0.01178
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8645
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 8645,
+              "label": " passages discussing same-sex marriage",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                },
+                {
+                  "text_snippet": ",\u201d\u2581he\u2581said\u2581at\u2581a\u2581press\u2581conference.\u2581The\u2581Prime\u2581Minister\u2581said\u2581a\u2581decision\u2581vote\u2581will\u2581come\u2581sometime\u2581before\u2581Christmas.\n\nThe\u2581Opposition\u2581Labor\u2581Party\u2019s\u2581leader,\u2581Bill\u2581Shorten,\u2581at\u2581a\u2581rally\u2581in\u2581Melbourne,\u2581said:\u2581\u201cWhat\u2581",
+                  "max_activation": 102.18,
+                  "max_token": "sex"
+                }
+              ],
+              "promoted_tokens": [
+                "Personendaten",
+                "\u064a\u0645\u064a\u062f\u064a\u0627",
+                "hoeddwyd",
+                "\u2581Geraadpleegd",
+                "\u2581disambiguazione",
+                "\u2581ostavi",
+                "\u2581ComVisible",
+                "webElement",
+                "\u2581t\u1ea3",
+                "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627"
+              ],
+              "suppressed_tokens": [
+                "ERVIEW",
+                "otex",
+                "\u2581advi",
+                "]%",
+                "OIR",
+                "__);",
+                "VIER",
+                "savevideo",
+                "MemoryWarning",
+                "\u539f\u59cb\u5185\u5bb9\u5b58\u6863\u4e8e"
+              ],
+              "frac_nonzero": 0.01525
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 6085,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 37.0
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17,
+                "edge_weight": 10.0
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15899,
+                "pos": 17,
+                "edge_weight": 5.8438
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -4.7812
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 8577,
+                "pos": 17,
+                "edge_weight": -1.9219
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 7,
+              "feature_idx": 16171,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 6085,
+                "pos": 17,
+                "edge_weight": 5.75
+              },
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 3.5312
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17,
+                "edge_weight": 2.6875
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 15295,
+                "pos": 17,
+                "edge_weight": 2.0469
+              },
+              {
+                "type": "embedding",
+                "token": " bakery",
+                "pos": 13,
+                "edge_weight": 1.1797
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15899
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 15899,
+              "label": " language associated with the LGBTQ community and discussions of gender and identity.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581that\u2581life\u2581style.\u2581The\u2581same\u2581way\u2581the\u2581swastija\u2581became\u2581synonomis\u2581with\u2581the\u2581Nazi\u2581party.\u2581It\u2019s\u2581inseperable.\u2581I\u2581prefer\u2581to\u2581call\u2581them\u2581what\u2581they\u2581really\u2581call\u2581themselves,\u2581queers.\u2581And\u2581as\u2581for\u2581their\u2581use\u2581of\u2581the\u2581term\u2581gay",
+                  "max_activation": 65.17,
+                  "max_token": "ers"
+                },
+                {
+                  "text_snippet": "\u2581have\u2581First\u2581Amendment\u2581rights\u2581and\u2581protections.\n\nAnti-LGBTQ\u2581preacher\u2581Kevin\u2581Swanson\u2581will\u2581hold\u2581the\u2581Bible\u2581Family\u2581Conference\u2581in\u2581Washington,\u2581D.C.\u2581on\u2581August\u258110-11.\u2581He\u2581wants\u2581to\u2581execute\u2581all\u2581LGBTQ\u2581people\u2581and\u2581all",
+                  "max_activation": 65.111,
+                  "max_token": "Q"
+                },
+                {
+                  "text_snippet": "\u2581have\u2581First\u2581Amendment\u2581rights\u2581and\u2581protections.\n\nAnti-LGBTQ\u2581preacher\u2581Kevin\u2581Swanson\u2581will\u2581hold\u2581the\u2581Bible\u2581Family\u2581Conference\u2581in\u2581Washington,\u2581D.C.\u2581on\u2581August\u258110-11.\u2581He\u2581wants\u2581to\u2581execute\u2581all\u2581LGBTQ\u2581people\u2581and\u2581all",
+                  "max_activation": 65.111,
+                  "max_token": "Q"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581gender",
+                "\u2581transgender",
+                "\u2581Gender",
+                "gender",
+                "\u2581sex",
+                "\u2581LGBTQ",
+                "\u2581sexuality",
+                "LGBT",
+                "\u2581Sexuality"
+              ],
+              "suppressed_tokens": [
+                "\u2581IOError",
+                "]--;",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581Catawiki",
+                "memberOf",
+                ">[]",
+                "\u2581IBOutlet",
+                "\u2581Saludos",
+                "Assad",
+                "\u2581Beckman"
+              ],
+              "frac_nonzero": 0.006059999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 8645,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 22.875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.3438
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 103,
+                "pos": 17,
+                "edge_weight": 0.9141
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": 0.8789
+              },
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 0.7617
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 103
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 103,
+              "label": " words and phrases related to imprisonment, criminal justice, mental and physical health issues",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581its\u2581abolition.\nReturn\u2581to\u2581text.\n\n[187]\u2581This\u2581has\u2581prompted\u2581me\u2581to\u2581make\u2581a\u2581modest\u2581effort\u2581to\u2581do\u2581so.\u2581See\u2581infra\u2581Part\u2581III.B.1.b.\nReturn\u2581to\u2581text.\n\n[188]\u2581These\u2581cases\u2581are\u2581summarized\u2581in\u2581Appendix\u2581B.\u2581I\u2581identified\u2581th",
+                  "max_activation": 30.385,
+                  "max_token": "\u2581row"
+                },
+                {
+                  "text_snippet": ".\u2581The\u2581average\u2581sentence\u2581for\u2581everyone\u2581admitted\u2581to\u2581prison\u2581this\u2581fiscal\u2581year\u2581was\u25814.7\u2581years.\u2581For\u2581calculation\u2581purposes,\u2581those\u2581sentenced\u2581to\u258150\u2581years\u2581or\u2581longer,\u2581life\u2581or\u2581death\u2581was\u2581coded\u2581as\u258150-year\u2581sentences.\n\nM",
+                  "max_activation": 30.182,
+                  "max_token": "\u2581row"
+                },
+                {
+                  "text_snippet": ".\u2581The\u2581average\u2581sentence\u2581for\u2581everyone\u2581admitted\u2581to\u2581prison\u2581this\u2581fiscal\u2581year\u2581was\u25814.7\u2581years.\u2581For\u2581calculation\u2581purposes,\u2581those\u2581sentenced\u2581to\u258150\u2581years\u2581or\u2581longer,\u2581life\u2581or\u2581death\u2581was\u2581coded\u2581as\u258150-year\u2581sentences.\n\nM",
+                  "max_activation": 30.182,
+                  "max_token": "\u2581row"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581partial",
+                "\u2581cancer",
+                "Partial",
+                "\u2581diabetes",
+                "anoma",
+                "databind",
+                "oso",
+                "fraid",
+                "try",
+                "con"
+              ],
+              "suppressed_tokens": [
+                "DoubleQuotes",
+                "\u2581ModelRenderer",
+                "verwijspagina",
+                "\u2581Paglinawan",
+                "\u2581Macromolecules",
+                "RenderAtEndOf",
+                "\u2581ISNI",
+                "WaitGroup",
+                "Revenir",
+                "WireFormatLite"
+              ],
+              "frac_nonzero": 0.02017
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15899,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 21.25
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 6639,
+                "pos": 17,
+                "edge_weight": -4.125
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.2031
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 3248,
+                "pos": 17,
+                "edge_weight": -2.375
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 1.875
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6639
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 6639,
+              "label": "words and phrases related to mating, gender, and sexual activity",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581general\u2581rule\u2581as\u2581far\u2581as\u2581the\u2581possibility\u2581of\n\n\u2581\u2581an\u2581indeterminate\u2581probationary\u2581term\u2581for\u2581felonies\u201d\u2581and\u2581\u201cauthorizes\u2581a\n\n\u2581\u2581trial\u2581court\u2581to\u2581impose\u2581an\u2581indeterminate\u2581term\u2581of\u2581probation.\u201d\u2581Id.\u2581at\n\n\u2581\u2581\u00b6\u00b6\u258138,\u258150,\u2581305\u2581",
+                  "max_activation": 38.422,
+                  "max_token": "\u2581sex"
+                },
+                {
+                  "text_snippet": "breeding\u2581coefficient\u2581and\u2581formulae\u2581for\u2581effective\u2581size\u2581are\u2581derived\u2581for\u2581autosomal\u2581loci,\u2581sex-linked\u2581loci\u2581with\u2581males\u2581being\u2581heterogametic\u2581and\u2581sex-linked\u2581loci\u2581with\u2581females\u2581being\u2581heterogametic\u2581under\u2581each\u2581of\u2581f",
+                  "max_activation": 37.696,
+                  "max_token": "\u2581sex"
+                },
+                {
+                  "text_snippet": "breeding\u2581coefficient\u2581and\u2581formulae\u2581for\u2581effective\u2581size\u2581are\u2581derived\u2581for\u2581autosomal\u2581loci,\u2581sex-linked\u2581loci\u2581with\u2581males\u2581being\u2581heterogametic\u2581and\u2581sex-linked\u2581loci\u2581with\u2581females\u2581being\u2581heterogametic\u2581under\u2581each\u2581of\u2581f",
+                  "max_activation": 37.696,
+                  "max_token": "\u2581sex"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "'",
+                "\u2581versus",
+                "He",
+                "\n\n\n",
+                "z\u00e9sek",
+                "\u2581and",
+                "\u2581No",
+                "\u0628\u0627"
+              ],
+              "suppressed_tokens": [
+                "\u2581bisexual",
+                "\u2581EconPapers",
+                "\u2581sexes",
+                "\u2581sexual",
+                "\u2581sexuales",
+                "\u2581Sexual",
+                "sexual",
+                "\u2581lesbian",
+                "AndEndTag",
+                "\u2581sex"
+              ],
+              "frac_nonzero": 0.01506
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6639,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " gay",
+                "pos": 17,
+                "edge_weight": 15.6875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15927,
+                "pos": 17,
+                "edge_weight": 0.3438
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1533,
+                "pos": 17,
+                "edge_weight": 0.252
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12312,
+                "pos": 17,
+                "edge_weight": 0.25
+              },
+              {
+                "type": "embedding",
+                "token": " warrior",
+                "pos": 7,
+                "edge_weight": -0.1738
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15927
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15927,
+              "label": " words associated with love, familial relationships, and faith",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581loving\u2581and\u2581righteous\u2581husband?\u2581Do\u2581you\u2581have\u2581enough\u2581faith\u2581in\u2581yourself\u2581to\u2581be\u2581the\u2581spouse\u2581that\u2581he\u2581deserves?\u2581Do\u2581you\u2581have\u2581enough\u2581faith\u2581that\u2581the\u2581two\u2581of\u2581you\u2581together\u2581can\u2581weather\u2581the\u2581challenges\u2581that\u2581will\u2581come\u2581w",
+                  "max_activation": 31.31,
+                  "max_token": "\u2581loving"
+                },
+                {
+                  "text_snippet": "\u2581human\u2581life\u2581is\u2581precious,\u2581is\u2581worthy\u2581of\u2581respect,\u2581and\u2581that\u2581none\u2581should\u2581be\u2581taken\u2581unnecessarily.\u2581My\u2581own\u2581views\u2581on\u2581abortion\u2581are\u2581not\u2581yet\u2581fully\u2581developed,\u2581but\u2581I\u2581know\u2581that\u2581I\u2581would\u2581want\u2581it\u2581to\u2581be\u2581as\u2581rare\u2581as\u2581possi",
+                  "max_activation": 31.059,
+                  "max_token": "\u2581loving"
+                },
+                {
+                  "text_snippet": "\u2581human\u2581life\u2581is\u2581precious,\u2581is\u2581worthy\u2581of\u2581respect,\u2581and\u2581that\u2581none\u2581should\u2581be\u2581taken\u2581unnecessarily.\u2581My\u2581own\u2581views\u2581on\u2581abortion\u2581are\u2581not\u2581yet\u2581fully\u2581developed,\u2581but\u2581I\u2581know\u2581that\u2581I\u2581would\u2581want\u2581it\u2581to\u2581be\u2581as\u2581rare\u2581as\u2581possi",
+                  "max_activation": 31.059,
+                  "max_token": "\u2581loving"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "ly",
+                "\u2581is",
+                "\u2581are",
+                "na",
+                "\u2581it",
+                "li",
+                "\u2581an",
+                "ri",
+                "\u2581our"
+              ],
+              "suppressed_tokens": [
+                "IUrlHelper",
+                "expandindo",
+                "<bos>",
+                "Personensuche",
+                "\u2581BoxDecoration",
+                "\u2581disambiguazione",
+                "GeoNames",
+                "UIControlState",
+                "\u2581>=\",",
+                "\u2581getItemId"
+              ],
+              "frac_nonzero": 0.01453
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this LGBTQ+ issues feature back to its origins. How does it connect to the input tokens?",
+          "input_tokens": 88425,
+          "output_tokens": 3541,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 13440
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 7282
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 7282,
+        "label": " mentions of Islam or Middle Eastern places and people, as well as mentions of a specific district.",
+        "top_activating_examples": [
+          {
+            "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+            "max_activation": 88.751,
+            "max_token": "lems"
+          },
+          {
+            "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+            "max_activation": 88.751,
+            "max_token": "lems"
+          },
+          {
+            "text_snippet": "\u2581Stamboul\u2581in\u2581the\u2581Ottoman\u2581Empire.\n\nCast\n\u2581Warwick\u2581Ward\u2581as\u2581Col\u2581Andr\u00e9\u2581de\u2581Sevigne\n\u2581Rosita\u2581Moreno\u2581as\u2581Baroness\u2581von\u2581Strick\n\u2581Margot\u2581Grahame\u2581as\u2581Countess\u2581Elsa\u2581Talven\n\u2581Henry\u2581Hewitt\u2581as\u2581Baron\u2581von\u2581Strick\n\u2581Garry\u2581Mars",
+            "max_activation": 79.817,
+            "max_token": "med"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581mosques",
+          "\u2581Muslim",
+          "Muslim",
+          "\u2581mosque",
+          "illah",
+          "\u2581verdi",
+          "\u2581Islamic",
+          "\u2581Islam",
+          "\u044b\u0433\u0430\u043d\u0430",
+          "\u2581Muhammad"
+        ],
+        "suppressed_tokens": [
+          "\u2581typelib",
+          "\u2581Paragu",
+          "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+          "\u2581Guatemala",
+          "\u76f8\u5173\u6587\u7ae0",
+          "Referencie",
+          "HMIS",
+          "dafx",
+          "brainly",
+          "Submitted"
+        ],
+        "frac_nonzero": 0.006999999999999999
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 2405
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 2405,
+        "label": " words related to religious identity/affiliation or spirituality including related holidays",
+        "top_activating_examples": [
+          {
+            "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+            "max_activation": 84.42,
+            "max_token": "lems"
+          },
+          {
+            "text_snippet": "\u25811619;\u2581that\u2019s\u2581been\u2581my\u2581understanding.\n\nDyrewulf\n\nThat\u2581is\u2581not\u2581true.\u2581The\u2581blacks\u2581in\u2581Africa\u2581that\u2581captured\u2581and\u2581sold\u2581other\u2581blacks\u2581were\u2581muslims.\n\njosh\n\nDont\u2581forget\u2581the\u2581jews\n\nYngveKlezmer\n\nThe\u2581lyrics\u2581of\u2581the\u2581so",
+            "max_activation": 79.143,
+            "max_token": "lims"
+          },
+          {
+            "text_snippet": "\u25811619;\u2581that\u2019s\u2581been\u2581my\u2581understanding.\n\nDyrewulf\n\nThat\u2581is\u2581not\u2581true.\u2581The\u2581blacks\u2581in\u2581Africa\u2581that\u2581captured\u2581and\u2581sold\u2581other\u2581blacks\u2581were\u2581muslims.\n\njosh\n\nDont\u2581forget\u2581the\u2581jews\n\nYngveKlezmer\n\nThe\u2581lyrics\u2581of\u2581the\u2581so",
+            "max_activation": 79.143,
+            "max_token": "lims"
+          }
+        ],
+        "promoted_tokens": [
+          "\u0421\u0442\u0430\u043d\u043e\u0432\u043d\u0438\u0448\u0442\u0432\u043e",
+          "Portail",
+          "dhism",
+          "\u2581\u043c\u04d9\u043a\u0430\u043b",
+          "PyExc",
+          "yntaxException",
+          "\u2581\u062a\u0643\u0628\u0631\u0647\u0627",
+          "Catholic",
+          "IsMutable",
+          "\u2581religions"
+        ],
+        "suppressed_tokens": [
+          "PageRoute",
+          "\u2581dom\u00e9sticos",
+          "\u2581syndromes",
+          "\u2581EdgeInsets",
+          "Filmografie",
+          "\u2581Pollut",
+          "zal",
+          "JScrollPane",
+          "\u2581Coffey",
+          "\u2581florales"
+        ],
+        "frac_nonzero": 0.00705
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 7282,
+        "starting_pos": 12,
+        "objective": "Trace this feature at position 12 back to its origins. What token is triggering it?",
+        "max_hops": 3
+      },
+      "output": {
+        "error": "Subagent exceeded max turns without reporting findings",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 7282
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 7282,
+              "label": " mentions of Islam or Middle Eastern places and people, as well as mentions of a specific district.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+                  "max_activation": 88.751,
+                  "max_token": "lems"
+                },
+                {
+                  "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+                  "max_activation": 88.751,
+                  "max_token": "lems"
+                },
+                {
+                  "text_snippet": "\u2581Stamboul\u2581in\u2581the\u2581Ottoman\u2581Empire.\n\nCast\n\u2581Warwick\u2581Ward\u2581as\u2581Col\u2581Andr\u00e9\u2581de\u2581Sevigne\n\u2581Rosita\u2581Moreno\u2581as\u2581Baroness\u2581von\u2581Strick\n\u2581Margot\u2581Grahame\u2581as\u2581Countess\u2581Elsa\u2581Talven\n\u2581Henry\u2581Hewitt\u2581as\u2581Baron\u2581von\u2581Strick\n\u2581Garry\u2581Mars",
+                  "max_activation": 79.817,
+                  "max_token": "med"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581mosques",
+                "\u2581Muslim",
+                "Muslim",
+                "\u2581mosque",
+                "illah",
+                "\u2581verdi",
+                "\u2581Islamic",
+                "\u2581Islam",
+                "\u044b\u0433\u0430\u043d\u0430",
+                "\u2581Muhammad"
+              ],
+              "suppressed_tokens": [
+                "\u2581typelib",
+                "\u2581Paragu",
+                "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+                "\u2581Guatemala",
+                "\u76f8\u5173\u6587\u7ae0",
+                "Referencie",
+                "HMIS",
+                "dafx",
+                "brainly",
+                "Submitted"
+              ],
+              "frac_nonzero": 0.006999999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 7282,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 22.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13885,
+                "pos": 12,
+                "edge_weight": 1.9766
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 12024,
+                "pos": 12,
+                "edge_weight": -1.5625
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 6490,
+                "pos": 12,
+                "edge_weight": -1.2734
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 2405,
+                "pos": 12,
+                "edge_weight": 1.2344
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 13885
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 13885,
+              "label": " names of people and places, specifically those related to the middle east",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "1,\u2581while\u2581tribal\u2581antagonisms\u2581continued\u2581to\u2581create\u2581trouble:\u2581apart\u2581from\u2581continued\u2581Yemeni\u2581resentment\u2581at\u2581Nasr,\u2581there\u2581was\u2581strong\u2581dislike\u2581of\u2581the\u2581Umayyads'\u2581Syrian\u2581regime,\u2581fanned\u2581by\u2581their\u2581unjust\u2581tax\u2581policies.\u2581A",
+                  "max_activation": 24.216,
+                  "max_token": "\u2581Yahya"
+                },
+                {
+                  "text_snippet": "\u2581Ali\u2581and\u2581the\u2581leader\u2581of\u2581the\u2581Hashimiyya\u2581in\u2581Khurasan.\u2581Yahya\u2581was\u2581captured\u2581and\u2581executed,\u2581and\u2581the\u2581resulting\u2581vacuum\u2581in\u2581Hashimi\u2581leadership\u2581opened\u2581the\u2581path\u2581for\u2581the\u2581Khurasani\u2581branch\u2581of\u2581the\u2581movement\u2581to\u2581come\u2581unde",
+                  "max_activation": 24.135,
+                  "max_token": "\u2581Yahya"
+                },
+                {
+                  "text_snippet": "\u2581Wali,\u2581860\u2581F.2d\u2581at\u2581589.\u2581An\u2581undercover\u2581DEA\u2581agent\u2581testified\u2581at\u2581Wali's\u2581trial\u2581as\u2581to\n\nstatements\u2581made\u2581during\u2581the\u2581conspiracy\u2581by\u2581a\u2581drug\u2581kingpin,\u2581Stanley\u2581Karl\u2581Esser,\u2581which\u2581implicated\u2581a\u2581person\n\nnamed\u2581\"Hadji\"\u2581a",
+                  "max_activation": 24.057,
+                  "max_token": "\u2581Wali"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581A",
+                "\u2581K",
+                "\u2581N",
+                "\u2581H",
+                "\u2581",
+                "\u2581Y",
+                "\u2581sauvages",
+                "\u2581S",
+                "\u2581T",
+                "\u2581lunga"
+              ],
+              "suppressed_tokens": [
+                "ualaikum",
+                "\u2581Merdeka",
+                "\u2581Rasulullah",
+                "yyah",
+                "\u2581it\u017felf",
+                "\u2581Ramadhan",
+                "\u2581Minang",
+                "\u2581Indah",
+                "\u2581Patil",
+                "\u2581bhai"
+              ],
+              "frac_nonzero": 0.05392
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 12024
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 12024,
+              "label": " words referencing the religion of Islam, people who practice it, and Arabic names",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 26.156,
+                  "max_token": "Muslim"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 26.156,
+                  "max_token": "Muslim"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 26.156,
+                  "max_token": "Muslim"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581\u0645\u0648\u0627\u0644\u064a\u062f",
+                "oude",
+                "geb",
+                "\u2581\u0447",
+                "\u306a\u3055\u3044",
+                "The",
+                "\u9738\u738b",
+                "OfYear",
+                "Sin"
+              ],
+              "suppressed_tokens": [
+                "\u2581Muslim",
+                "\u2581Muslims",
+                "Muslim",
+                "\u2581Islam",
+                "\u2581muslim",
+                "\u2581Catholic",
+                "\u2581Islamic",
+                "\u2581Catholics",
+                "muslim",
+                "\u2581islamic"
+              ],
+              "frac_nonzero": 0.01016
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 5,
+              "feature_idx": 6490
+            },
+            "output": {
+              "layer": 5,
+              "feature_idx": 6490,
+              "label": " words and phrases related to geography, politics, or groups of people, particularly related to conflict",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581problems\u2581that\u2581are\u2581currently\u2581plaguing\u2581the\u2581telephone\u2581headset\u2581industry.<bos>Seven\u2581rare\u2581rhinos\u2581spotted\u2581in\u2581Indonesian\u2581jungle\n\nAugust\u25819,\u25812012\u2581in\u2581Biology\u2581/\u2581Ecology\n\nIn\u2581this\u2581undated\u2581photo\u2581released\u2581by\u2581Leuser\u2581",
+                  "max_activation": 37.386,
+                  "max_token": "at"
+                },
+                {
+                  "text_snippet": "\u2581000\u2581kilometre\u2581square\u2581area\u2581of\u2581deep\u2581water\u2581off\u2581the\u2581northern\u2581coast\u2581of\u2581Western\u2581Sahara.\n\nPresident\u2581of\u2581the\u2581Sahrawi\u2581Arab\u2581Democratic\u2581Republic,\u2581Mohamed\u2581Abdelaziz,\u2581said\u2581Wednesday\u2581that\u2581contracts\u2581signed\u2581by\u2581oil\u2581co",
+                  "max_activation": 36.956,
+                  "max_token": "raw"
+                },
+                {
+                  "text_snippet": "\u2581000\u2581kilometre\u2581square\u2581area\u2581of\u2581deep\u2581water\u2581off\u2581the\u2581northern\u2581coast\u2581of\u2581Western\u2581Sahara.\n\nPresident\u2581of\u2581the\u2581Sahrawi\u2581Arab\u2581Democratic\u2581Republic,\u2581Mohamed\u2581Abdelaziz,\u2581said\u2581Wednesday\u2581that\u2581contracts\u2581signed\u2581by\u2581oil\u2581co",
+                  "max_activation": 36.956,
+                  "max_token": "raw"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581brand",
+                "Brand",
+                "\u2581Brand",
+                "\u2588\u2588\u2588\u2588",
+                "\u2581awak",
+                "\u2581brands",
+                "upol",
+                "\u043d\u0430\u043b\u0435",
+                "onn\u00e9",
+                "\u2581<=\","
+              ],
+              "suppressed_tokens": [
+                "RegressionTest",
+                "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627",
+                "\u2581nakalista",
+                "UnitTesting",
+                "\u2581GenerationType",
+                "protoimpl",
+                "expandindo",
+                "RetentionPolicy",
+                "\u0642\u0627\u06cc\u0646\u0627\u0642\u0644\u0627\u0631",
+                "TagMode"
+              ],
+              "frac_nonzero": 0.02698
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 2405
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 2405,
+              "label": " words related to religious identity/affiliation or spirituality including related holidays",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "1960\u2581once\u2581the\u2581White\u2581Man\u2581put\u2581his\u2581burden\u2581of\u2581civilizing\u2581the\u2581uncivilisable\u2581down.\u2581BTW,\u2581slavery\u2581has\u2581never\u2581left\u2581the\u2581areas\u2581ruled\u2581by\u2581moslems.\n\ngates\u2581tells\u2581the\u2581truth\u2581for\u2581once\n\nShhh\u2581..\u2581keep\u2581it\u2581quiet\u2581ok?\u2581Tribal\u2581c",
+                  "max_activation": 84.42,
+                  "max_token": "lems"
+                },
+                {
+                  "text_snippet": "\u25811619;\u2581that\u2019s\u2581been\u2581my\u2581understanding.\n\nDyrewulf\n\nThat\u2581is\u2581not\u2581true.\u2581The\u2581blacks\u2581in\u2581Africa\u2581that\u2581captured\u2581and\u2581sold\u2581other\u2581blacks\u2581were\u2581muslims.\n\njosh\n\nDont\u2581forget\u2581the\u2581jews\n\nYngveKlezmer\n\nThe\u2581lyrics\u2581of\u2581the\u2581so",
+                  "max_activation": 79.143,
+                  "max_token": "lims"
+                },
+                {
+                  "text_snippet": "\u25811619;\u2581that\u2019s\u2581been\u2581my\u2581understanding.\n\nDyrewulf\n\nThat\u2581is\u2581not\u2581true.\u2581The\u2581blacks\u2581in\u2581Africa\u2581that\u2581captured\u2581and\u2581sold\u2581other\u2581blacks\u2581were\u2581muslims.\n\njosh\n\nDont\u2581forget\u2581the\u2581jews\n\nYngveKlezmer\n\nThe\u2581lyrics\u2581of\u2581the\u2581so",
+                  "max_activation": 79.143,
+                  "max_token": "lims"
+                }
+              ],
+              "promoted_tokens": [
+                "\u0421\u0442\u0430\u043d\u043e\u0432\u043d\u0438\u0448\u0442\u0432\u043e",
+                "Portail",
+                "dhism",
+                "\u2581\u043c\u04d9\u043a\u0430\u043b",
+                "PyExc",
+                "yntaxException",
+                "\u2581\u062a\u0643\u0628\u0631\u0647\u0627",
+                "Catholic",
+                "IsMutable",
+                "\u2581religions"
+              ],
+              "suppressed_tokens": [
+                "PageRoute",
+                "\u2581dom\u00e9sticos",
+                "\u2581syndromes",
+                "\u2581EdgeInsets",
+                "Filmografie",
+                "\u2581Pollut",
+                "zal",
+                "JScrollPane",
+                "\u2581Coffey",
+                "\u2581florales"
+              ],
+              "frac_nonzero": 0.00705
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 13885,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 10.375
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 11,
+                "edge_weight": -0.1621
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": -0.0933
+              },
+              {
+                "type": "embedding",
+                "token": " to",
+                "pos": 10,
+                "edge_weight": 0.0535
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": -0.0486
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 12024,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 10.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6836
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 11,
+                "edge_weight": -0.5195
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 31,
+                "pos": 12,
+                "edge_weight": 0.5078
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13885,
+                "pos": 12,
+                "edge_weight": 0.3867
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 2405,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 15.75
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 12024,
+                "pos": 12,
+                "edge_weight": -2.4844
+              },
+              {
+                "type": "embedding",
+                "token": " social",
+                "pos": 5,
+                "edge_weight": 1.7031
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 31,
+                "pos": 12,
+                "edge_weight": 1.0625
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 6894,
+                "pos": 12,
+                "edge_weight": 1.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 31
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 31,
+              "label": " terms related to paganism, neopaganism, and related cultural celebrations and historical terms",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "org\u25818/8/1999\u2581\u2013\u2581Hillary\u2581at\u2581a\u2581White\u2581House\u2581function,\u2581proudly\u2581tells\u2581some\u2581Muslim\u2581groups\u2581she\u2581is\u2581gaining\u2581a\u2581greater\u2581appreciation\u2581of\u2581Islam\u2581because\u2581Chelsea\u2581was\u2581then\u2581taking\u2581a\u2581class\u2581on\u2581the\u2581\u201creligion\u2581of\u2581peace\u201d)\n\n\u201c",
+                  "max_activation": 27.037,
+                  "max_token": "\u2581Muslim"
+                },
+                {
+                  "text_snippet": "solstices\u2581and\u2581equinoxes)\u2581and\u2581the\u2581midpoints\u2581between\u2581them.\u2581\u2581While\u2581names\u2581for\u2581each\u2581festival\u2581vary\u2581among\u2581diverse\u2581pagan\u2581traditions,\u2581syncretic\u2581treatments\u2581often\u2581refer\u2581to\u2581the\u2581four\u2581solar\u2581events\u2581as\u2581\"quarter\u2581days\"",
+                  "max_activation": 26.701,
+                  "max_token": "\u2581pagan"
+                },
+                {
+                  "text_snippet": "solstices\u2581and\u2581equinoxes)\u2581and\u2581the\u2581midpoints\u2581between\u2581them.\u2581\u2581While\u2581names\u2581for\u2581each\u2581festival\u2581vary\u2581among\u2581diverse\u2581pagan\u2581traditions,\u2581syncretic\u2581treatments\u2581often\u2581refer\u2581to\u2581the\u2581four\u2581solar\u2581events\u2581as\u2581\"quarter\u2581days\"",
+                  "max_activation": 26.701,
+                  "max_token": "\u2581pagan"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581acos",
+                "':\r",
+                "\u2581people",
+                "BrowserModule",
+                "]));\r",
+                "'))\r",
+                "\u2581environmental",
+                "etermined",
+                "\u2581Pyle"
+              ],
+              "suppressed_tokens": [
+                "\u2581intptr",
+                "tagHelperRunner",
+                "InSection",
+                "\u2581ujednoznacz",
+                "\u2581MainAxisSize",
+                "\u2581\u043f\u0440\u0435\u043f\u0440\u0430\u0442\u043a\u0438",
+                "\u2581giustizia",
+                "\u2581utafiti",
+                "\u2581podjela",
+                "\u2581chapels"
+              ],
+              "frac_nonzero": 0.034
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 6894
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 6894,
+              "label": " mentions of religions",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581it\u2581featured\u2581a\u2581homosexual\u2581relationship.\u2581An\u2581impersonator\u2581of\u2581comic\u2581Roy\u2581'Chubby'\u2581Brown\u2581was\u2581also\u2581banned.\n\nThe\u2581majority\u2581of\u2581the\u2581town's\u2581Catholic\u2581population\u2581is\u2581situated\u2581around\u2581the\u2581Broughshane\u2581and\u2581Cushendall\u2581R",
+                  "max_activation": 43.808,
+                  "max_token": "\u2581Catholic"
+                },
+                {
+                  "text_snippet": "\u2581it\u2581featured\u2581a\u2581homosexual\u2581relationship.\u2581An\u2581impersonator\u2581of\u2581comic\u2581Roy\u2581'Chubby'\u2581Brown\u2581was\u2581also\u2581banned.\n\nThe\u2581majority\u2581of\u2581the\u2581town's\u2581Catholic\u2581population\u2581is\u2581situated\u2581around\u2581the\u2581Broughshane\u2581and\u2581Cushendall\u2581R",
+                  "max_activation": 43.808,
+                  "max_token": "\u2581Catholic"
+                },
+                {
+                  "text_snippet": "Discount\u2581Supra\u2581Shoes\u2581Hsupra\u2581shoesui\u2581Catholic,\u2581yuan\u2581the\u2581breath\u2581of\u2581god\u2581from\u2581above\u2581gold\u2581j\u2581\u012b\u2581shoot\u2581out.\u2581The\u2581trial\u2581of\u2581the\u2581gun,\u2581crackdown.\u2581\"Oh!\u2581Thsupra\u2581shoes\u2581supra\u2581shoes,\u2581thsupra\u2581shoes\u2581supra\u2581shoes\u2581the\u2581truth",
+                  "max_activation": 41.281,
+                  "max_token": "\u2581Catholic"
+                }
+              ],
+              "promoted_tokens": [
+                "\u24e7",
+                "\u2581\u0627\u0644\u062d\u0631\u0647",
+                "ArgsConstructor",
+                "\u2581MainAxisSize",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581\u0644\u0644\u0627\u0633\u0645\u0627\u0621",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "WriteLiteral",
+                "cellaneous"
+              ],
+              "suppressed_tokens": [
+                "\u2581Catholic",
+                "<bos>",
+                "Catholic",
+                "\u2581Catholics",
+                "\u2581catholic",
+                "\u2581Catholicism",
+                "\u2581katholischen",
+                "\u2581kathol",
+                "\u2581cat\u00f3lica",
+                "catholic"
+              ],
+              "frac_nonzero": 0.00423
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 5,
+              "feature_idx": 6490,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 4314,
+                "pos": 12,
+                "edge_weight": 1.4766
+              },
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 1.3281
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13885,
+                "pos": 12,
+                "edge_weight": 1.2188
+              },
+              {
+                "type": "embedding",
+                "token": "If",
+                "pos": 1,
+                "edge_weight": -1.1562
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 11,
+                "edge_weight": -0.8867
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 4314
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 4314,
+              "label": " the word Muslim",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 42.211,
+                  "max_token": "\u2581Muslim"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 42.211,
+                  "max_token": "\u2581Muslim"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581Muslim\u2581conquest\u2581and\u2581remained\u2581unchanged\u2581since.\u2581It\u2581relied\u2581on\u2581the\u2581collection\u2581of\u2581a\u2581fixed\u2581tribute\u2581by\u2581the\u2581local\u2581non-Muslim\u2581(mostly\u2581Zoroastrian)\u2581gentry,\u2581the\u2581dihqans,\u2581who\u2581often\u2581discriminated\u2581against\u2581t",
+                  "max_activation": 42.211,
+                  "max_token": "\u2581Muslim"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581general",
+                "igts",
+                "\u0432\u0440\u043e",
+                "\u2581typing",
+                "\u0d30\u0d3f\u0d15\u0d4d\u0d15",
+                "General",
+                "ierungs",
+                "nobyl",
+                "\u0161anu",
+                "Ah"
+              ],
+              "suppressed_tokens": [
+                "\u2581Muslim",
+                "\u2581Muslims",
+                "\u2581CreateTagHelper",
+                "\u2581&___",
+                "Muslim",
+                "#+#",
+                "ftagPool",
+                "\u2581\u0644\u0644\u0627\u0633\u0645\u0627\u0621",
+                "\u2581muslim",
+                "\u2581ujednoznacz"
+              ],
+              "frac_nonzero": 0.004699999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 4314,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 21.875
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3031,
+                "pos": 12,
+                "edge_weight": 0.7578
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3693,
+                "pos": 12,
+                "edge_weight": 0.3145
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.293
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2368,
+                "pos": 12,
+                "edge_weight": 0.2598
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 31,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Muslim",
+                "pos": 12,
+                "edge_weight": 12.875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6797
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 10120,
+                "pos": 12,
+                "edge_weight": -0.5781
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 9160,
+                "pos": 12,
+                "edge_weight": -0.4219
+              },
+              {
+                "type": "embedding",
+                "token": " justice",
+                "pos": 6,
+                "edge_weight": -0.4121
+              }
+            ]
+          }
+        ],
+        "discovered_features": [],
+        "discovered_edges": [],
+        "explanation": "",
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this feature at position 12 back to its origins. What token is triggering it?",
+          "input_tokens": 105670,
+          "output_tokens": 1686,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 6,
+        "feature_idx": 7282,
+        "pos": 12,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " Muslim",
+          "pos": 12,
+          "edge_weight": 22.625
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 13885,
+          "pos": 12,
+          "edge_weight": 1.9766
+        },
+        {
+          "type": "feature",
+          "layer": 3,
+          "feature_idx": 12024,
+          "pos": 12,
+          "edge_weight": -1.5625
+        },
+        {
+          "type": "feature",
+          "layer": 5,
+          "feature_idx": 6490,
+          "pos": 12,
+          "edge_weight": -1.2734
+        },
+        {
+          "type": "feature",
+          "layer": 4,
+          "feature_idx": 2405,
+          "pos": 12,
+          "edge_weight": 1.2344
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 4,
+        "feature_idx": 2405,
+        "pos": 12,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " Muslim",
+          "pos": 12,
+          "edge_weight": 15.75
+        },
+        {
+          "type": "feature",
+          "layer": 3,
+          "feature_idx": 12024,
+          "pos": 12,
+          "edge_weight": -2.4844
+        },
+        {
+          "type": "embedding",
+          "token": " social",
+          "pos": 5,
+          "edge_weight": 1.7031
+        },
+        {
+          "type": "feature",
+          "layer": 2,
+          "feature_idx": 31,
+          "pos": 12,
+          "edge_weight": 1.0625
+        },
+        {
+          "type": "feature",
+          "layer": 2,
+          "feature_idx": 6894,
+          "pos": 12,
+          "edge_weight": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_gay",
+            "label": "Emb: ' gay' (pos 17)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_muslim",
+            "label": "Emb: ' Muslim' (pos 12)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_social",
+            "label": "Emb: ' social' (pos 5)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_justice",
+            "label": "Emb: ' justice' (pos 6)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_you",
+            "label": "Emb: ' you' (pos 2)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "l4_lgbtq_language",
+            "label": "L4: LGBTQ language feature",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 15899,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l4_samesex_marriage",
+            "label": "L4: Same-sex marriage feature",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l4_social_justice",
+            "label": "L4: Social justice/racial terms",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 117,
+                "pos": 6
+              },
+              {
+                "layer": 4,
+                "feature_idx": 117,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "l4_religious_identity",
+            "label": "L4: Religious identity/spirituality",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 2405,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l6_homosexuality",
+            "label": "L6: Homosexuality/same-sex marriage",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 6085,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l6_islam_middleeast",
+            "label": "L6: Islam/Middle Eastern mentions",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 7282,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l8_lgbtq_issues",
+            "label": "L8: LGBTQ+ issues discussion",
+            "layer": 8,
+            "features": [
+              {
+                "layer": 8,
+                "feature_idx": 15771,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Output: Toxicity Probe Direction",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_gay",
+            "to": "l4_lgbtq_language",
+            "weight": 21.25
+          },
+          {
+            "from": "emb_gay",
+            "to": "l4_samesex_marriage",
+            "weight": 22.875
+          },
+          {
+            "from": "emb_gay",
+            "to": "l6_homosexuality",
+            "weight": 37
+          },
+          {
+            "from": "emb_gay",
+            "to": "l8_lgbtq_issues",
+            "weight": 37
+          },
+          {
+            "from": "l4_lgbtq_language",
+            "to": "l6_homosexuality",
+            "weight": 5.84
+          },
+          {
+            "from": "l4_samesex_marriage",
+            "to": "l6_homosexuality",
+            "weight": 10
+          },
+          {
+            "from": "l6_homosexuality",
+            "to": "l8_lgbtq_issues",
+            "weight": 7
+          },
+          {
+            "from": "emb_muslim",
+            "to": "l4_religious_identity",
+            "weight": 15.75
+          },
+          {
+            "from": "emb_muslim",
+            "to": "l6_islam_middleeast",
+            "weight": 22.625
+          },
+          {
+            "from": "l4_religious_identity",
+            "to": "l6_islam_middleeast",
+            "weight": 1.23
+          },
+          {
+            "from": "emb_social",
+            "to": "l4_social_justice",
+            "weight": 5.125
+          },
+          {
+            "from": "emb_justice",
+            "to": "l4_social_justice",
+            "weight": 5.125
+          },
+          {
+            "from": "emb_you",
+            "to": "output",
+            "weight": -0.28
+          },
+          {
+            "from": "l4_social_justice",
+            "to": "output",
+            "weight": 0.26
+          },
+          {
+            "from": "l6_islam_middleeast",
+            "to": "output",
+            "weight": 0.19
+          },
+          {
+            "from": "l8_lgbtq_issues",
+            "to": "output",
+            "weight": 0.28
+          },
+          {
+            "from": "l6_homosexuality",
+            "to": "output",
+            "weight": 0.33
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_gay",
+            "label": "Emb: ' gay' (pos 17)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_muslim",
+            "label": "Emb: ' Muslim' (pos 12)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_social",
+            "label": "Emb: ' social' (pos 5)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_justice",
+            "label": "Emb: ' justice' (pos 6)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "emb_you",
+            "label": "Emb: ' you' (pos 2)",
+            "layer": 0,
+            "features": []
+          },
+          {
+            "id": "l4_lgbtq_language",
+            "label": "L4: LGBTQ language feature",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 15899,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l4_samesex_marriage",
+            "label": "L4: Same-sex marriage feature",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 8645,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l4_social_justice",
+            "label": "L4: Social justice/racial terms",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 117,
+                "pos": 6
+              },
+              {
+                "layer": 4,
+                "feature_idx": 117,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "l4_religious_identity",
+            "label": "L4: Religious identity/spirituality",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 2405,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l6_homosexuality",
+            "label": "L6: Homosexuality/same-sex marriage",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 6085,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l6_islam_middleeast",
+            "label": "L6: Islam/Middle Eastern mentions",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 7282,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l8_lgbtq_issues",
+            "label": "L8: LGBTQ+ issues discussion",
+            "layer": 8,
+            "features": [
+              {
+                "layer": 8,
+                "feature_idx": 15771,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Output: Toxicity Probe Direction",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_gay",
+            "to": "l4_lgbtq_language",
+            "weight": 21.25
+          },
+          {
+            "from": "emb_gay",
+            "to": "l4_samesex_marriage",
+            "weight": 22.875
+          },
+          {
+            "from": "emb_gay",
+            "to": "l6_homosexuality",
+            "weight": 37
+          },
+          {
+            "from": "emb_gay",
+            "to": "l8_lgbtq_issues",
+            "weight": 37
+          },
+          {
+            "from": "l4_lgbtq_language",
+            "to": "l6_homosexuality",
+            "weight": 5.84
+          },
+          {
+            "from": "l4_samesex_marriage",
+            "to": "l6_homosexuality",
+            "weight": 10
+          },
+          {
+            "from": "l6_homosexuality",
+            "to": "l8_lgbtq_issues",
+            "weight": 7
+          },
+          {
+            "from": "emb_muslim",
+            "to": "l4_religious_identity",
+            "weight": 15.75
+          },
+          {
+            "from": "emb_muslim",
+            "to": "l6_islam_middleeast",
+            "weight": 22.625
+          },
+          {
+            "from": "l4_religious_identity",
+            "to": "l6_islam_middleeast",
+            "weight": 1.23
+          },
+          {
+            "from": "emb_social",
+            "to": "l4_social_justice",
+            "weight": 5.125
+          },
+          {
+            "from": "emb_justice",
+            "to": "l4_social_justice",
+            "weight": 5.125
+          },
+          {
+            "from": "emb_you",
+            "to": "output",
+            "weight": -0.28
+          },
+          {
+            "from": "l4_social_justice",
+            "to": "output",
+            "weight": 0.26
+          },
+          {
+            "from": "l6_islam_middleeast",
+            "to": "output",
+            "weight": 0.19
+          },
+          {
+            "from": "l8_lgbtq_issues",
+            "to": "output",
+            "weight": 0.28
+          },
+          {
+            "from": "l6_homosexuality",
+            "to": "output",
+            "weight": 0.33
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 29340,
+      "output_tokens": 3441,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 47911
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this social justice/racial terms feature back to its origins. How does it connect to the input tokens?",
+        "input_tokens": 43559,
+        "output_tokens": 3538,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 26368
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this homosexuality/same-sex marriage feature back to its origins. What early-layer or embedding features feed into it? How does it connect to the input tokens?",
+        "input_tokens": 78056,
+        "output_tokens": 3537,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3456
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this LGBTQ+ issues feature back to its origins. How does it connect to the input tokens?",
+        "input_tokens": 88425,
+        "output_tokens": 3541,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 13440
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this feature at position 12 back to its origins. What token is triggering it?",
+        "input_tokens": 105670,
+        "output_tokens": 1686,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.102252754,
+  "turns": 8,
+  "elapsed_seconds": 339.71949542406946,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T13-19-45"
+}

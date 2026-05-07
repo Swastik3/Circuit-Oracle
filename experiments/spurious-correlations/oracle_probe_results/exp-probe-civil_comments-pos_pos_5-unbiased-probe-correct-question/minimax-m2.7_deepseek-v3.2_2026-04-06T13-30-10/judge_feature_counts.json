@@ -1,0 +1,104 @@
+{
+  "spurious_features": [
+    {
+      "id": "L3:F10868",
+      "label": "Syntax: Identity Phrase Detection",
+      "reason": "Identity-statement grammar, not toxicity."
+    },
+    {
+      "id": "L5:F14124",
+      "label": "Political/Identity: SJW Detection",
+      "reason": "Detects social justice warrior identity/discourse."
+    },
+    {
+      "id": "L6:F2674",
+      "label": "political or ideological content, particularly with negative connotations.",
+      "reason": "Political/identity framing, not toxic content."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F16254",
+      "label": "Syntax: Conditional + Action Pattern",
+      "reason": "Conditional action structure aligns with toxicity cues."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F2303",
+      "label": "Emb: Conditional Phrase (pos 1-4)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F7710",
+      "label": "Emb: Conditional Phrase (pos 1-4)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F13310",
+      "label": "Emb: Conditional Phrase (pos 1-4)",
+      "reason": "Generic copula/present-state detector."
+    },
+    {
+      "id": "L0:F10219",
+      "label": "Emb: Conditional Phrase (pos 1-4)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F4478",
+      "label": "Emb: Social Justice Warrior (pos 5-8)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F9934",
+      "label": "Emb: Social Justice Warrior (pos 5-8)",
+      "reason": "Generic word detector: particular."
+    },
+    {
+      "id": "L0:F3850",
+      "label": "Emb: Social Justice Warrior (pos 5-8)",
+      "reason": "Punctuation mark detector."
+    },
+    {
+      "id": "L0:F2260",
+      "label": "Emb: Identity + Action (pos 7,9-10)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F3850",
+      "label": "Emb: Identity + Action (pos 7,9-10)",
+      "reason": "Punctuation mark detector."
+    },
+    {
+      "id": "L0:F8444",
+      "label": "Emb: Identity + Action (pos 7,9-10)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F8409",
+      "label": "Emb: Muslim + Bakery (pos 12-13)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L0:F9026",
+      "label": "Emb: Muslim + Bakery (pos 12-13)",
+      "reason": "No oracle semantics given."
+    },
+    {
+      "id": "L6:F9005",
+      "label": "Semantic: Bakery/Dessert Detection",
+      "reason": "Dessert/bakery semantics are unrelated to toxicity."
+    },
+    {
+      "id": "L0:F13756",
+      "label": "Emb: Order Command (pos 15)",
+      "reason": "No oracle semantics given."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 1,
+  "n_other": 13,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "One causal feature; many unspecified or structural features placed in other."
+}

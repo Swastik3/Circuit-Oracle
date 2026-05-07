@@ -1,0 +1,3920 @@
+{
+  "prompt_name": "multinli-pos_pos_9-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: multinli-pos_pos_9 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g.,\"negation words\" signals) rather than actual prompt content (lexical or semaintical) to predict contradiction."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification score is driven primarily by a cascade of low-level lexical/token detection features (L0-L4) that directly recognize specific words (\"recorded\", \"menu\", \"will\") from the input text, rather than by semantic understanding of contradiction. The strongest positive contribution comes from L2:F8776 (\"finance/property law\" feature, direct_effect=0.52), which is almost entirely driven by the token \" recorded\" at position 2 (edge_weight=19.5), bypassing semantic processing. Most other features (L0:F2108, L1:F12253, L0:F8046, L4:F7998, L3:F3573) directly detect the tokens \" menu\" and \" will\" with edge weights of 20-36, with minimal intermediate processing.\n\n**Confidence:** 9/10\n\n**Reasoning:** The circuit is dominated by **spurious lexical features** as the user suspected. All 10 top features are simple word detectors with very low frac_nonzero (0.002-0.027), indicating high specificity to particular tokens rather than semantic patterns. The key evidence:\n\n1. **Direct token-to-logit paths**: The embedding nodes \" recorded\" (pos 2), \" menu\" (pos 3), and \" will\" (pos 4) connect almost directly to the output via specialized detectors with weights of 19-36, bypassing semantic abstraction.\n\n2. **Misleading feature labels**: Features like L2:F8776 (\"finance/property law\") and L4:F7998 (\"telecommunications\") have domain-specific labels but are actually driven by generic words (\"recorded\", \"menu\") rather than domain knowledge.\n\n3. **Absence of semantic features**: No features detect semantic contradiction signals (negation, antonyms, contrast conjunctions). The word \"information\" (which appears twice in the input) is not detected by any top feature.\n\n4. **Inhibition chains**: Lower-layer menu detectors (L0:F2108, L1:F12253) actually *inhibit* the higher-layer interface feature (L3:F3573, weights=-0.85), suggesting the circuit architecture doesn't build semantic abstraction.\n\nThe circuit exploits the surface form \"recorded menus\" as a spurious pattern\u2014likely because such phrases appear in certain dataset contexts\u2014rather than understanding whether the two sentences actually contradict each other. This confirms the user's concern about using lexical artifacts rather than genuine semantic analysis to predict contradiction.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 2,
+          "feature_idx": 8776,
+          "pos": 2,
+          "activation": 11.5,
+          "direct_effect": 0.5195
+        },
+        {
+          "layer": 0,
+          "feature_idx": 2108,
+          "pos": 3,
+          "activation": 21.25,
+          "direct_effect": -0.4863
+        },
+        {
+          "layer": 1,
+          "feature_idx": 12253,
+          "pos": 3,
+          "activation": 15.1875,
+          "direct_effect": -0.4258
+        },
+        {
+          "layer": 0,
+          "feature_idx": 8046,
+          "pos": 4,
+          "activation": 33.0,
+          "direct_effect": -0.3789
+        },
+        {
+          "layer": 1,
+          "feature_idx": 3691,
+          "pos": 2,
+          "activation": 18.0,
+          "direct_effect": 0.3418
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7443,
+          "pos": 2,
+          "activation": 20.125,
+          "direct_effect": 0.3203
+        },
+        {
+          "layer": 3,
+          "feature_idx": 3573,
+          "pos": 3,
+          "activation": 10.8125,
+          "direct_effect": -0.2871
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6649,
+          "pos": 3,
+          "activation": 9.75,
+          "direct_effect": 0.2559
+        },
+        {
+          "layer": 4,
+          "feature_idx": 7998,
+          "pos": 3,
+          "activation": 11.3125,
+          "direct_effect": -0.2354
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7404,
+          "pos": 2,
+          "activation": 11.625,
+          "direct_effect": 0.2334
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 8776
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 8776,
+        "label": " words related to finance and property law",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+            "max_activation": 44.593,
+            "max_token": "\u2581equity"
+          },
+          {
+            "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+            "max_activation": 44.593,
+            "max_token": "\u2581equity"
+          },
+          {
+            "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+            "max_activation": 44.593,
+            "max_token": "\u2581equity"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+          "\n",
+          "feira",
+          "Hentet",
+          "<eos>",
+          "B",
+          "APIView",
+          "au",
+          "readFileSync"
+        ],
+        "suppressed_tokens": [
+          "\u2581improvement",
+          "\u2581equity",
+          "\u2581Improvement",
+          "\u2581Monfieur",
+          "\u2581IMPROVEMENT",
+          "\u2581plea\u017fure",
+          "Improvement",
+          "improvement",
+          "CppMethod",
+          "\u2581haji"
+        ],
+        "frac_nonzero": 0.01099
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 2108
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 2108,
+        "label": "the word \"menu\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581by\u2581a\u2581different\u2581gene.<bos>Main\u2581menu\n\nMonthly\u2581Archives:\u2581February\u25812020\n\nAll\u2581month,\u2581I\u2019ve\u2581been\u2581writing\u2581poems\u2581each\u2581morning\u2581to\u2581a\u2581theme\u2581via\u2581CLMOOC\u2019s\u2581Poetry\u2581Port\u2581\u2014\u2581a\u2581project\u2581designed\u2581to\u2581spread\u2581collaboration\u2581a",
+            "max_activation": 43.865,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": ",\u2581but\u2581left\u2581click\u2581to\u2581call\u2581the\u2581onClick()\u2581on\u2581the\u2581menuitem.\nInspecting\u2581the\u2581contents\u2581of\u2581the\u2581event\u2581parameter\u2581passed\u2581to\u2581the\u2581onClick\u2581function,\u2581there\u2581doesn't\u2581appear\u2581to\u2581be\u2581anything\u2581telling\u2581me\u2581which\u2581mouse\u2581button",
+            "max_activation": 43.724,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": "\n\nstruct\u2581Category\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581items:\u2581[Item]\n}\n\nstruct\u2581Restaurant\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581categories:\u2581[Category]\n\n}\n\nA:\n\nIn\u2581this\u2581line\nlet\u2581menuArray\u2581=\u2581[a_w]\n\nyou\u2581are\u2581creating\u2581a",
+            "max_activation": 43.327,
+            "max_token": "\u2581menu"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581ProtoMessage",
+          "Personendaten",
+          "Datuak",
+          "ReusableCell",
+          "internalType",
+          "orianCalendar",
+          "enderror",
+          "\u2581\u064a\u062a\u064a\u0645\u0647",
+          "ParallelGroup",
+          "WEBPACK"
+        ],
+        "suppressed_tokens": [
+          "midler",
+          ">[]",
+          "\u2581helft",
+          "\u2581L\u00e1zaro",
+          "\u2581vuur",
+          "\u2581stedet",
+          "entrion",
+          "\u2581sonora",
+          "\u2581Constitucional",
+          "jm\u00e9na"
+        ],
+        "frac_nonzero": 0.00353
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 1,
+        "feature_idx": 12253
+      },
+      "output": {
+        "layer": 1,
+        "feature_idx": 12253,
+        "label": " the word 'menu'",
+        "top_activating_examples": [
+          {
+            "text_snippet": "(LCD_PROGRESS_BAR)\u2581&&\u2581BOTH(FILAMENT_LCD_DISPLAY,\u2581SDSUPPORT)\n\u2581\u2581#include\u2581\"../../feature/filwidth.h\"\n\u2581\u2581#include\u2581\"../../gcode/parser.h\"\n#endif\n\n#if\u2581ENABLED(AUTO_BED_LEVELING_UBL)\n\u2581\u2581#include\u2581\"../../feature",
+            "max_activation": 47.274,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": "(LCD_PROGRESS_BAR)\u2581&&\u2581BOTH(FILAMENT_LCD_DISPLAY,\u2581SDSUPPORT)\n\u2581\u2581#include\u2581\"../../feature/filwidth.h\"\n\u2581\u2581#include\u2581\"../../gcode/parser.h\"\n#endif\n\n#if\u2581ENABLED(AUTO_BED_LEVELING_UBL)\n\u2581\u2581#include\u2581\"../../feature",
+            "max_activation": 47.274,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": "/MarlinConfigPre.h\"\n\n#if\u2581HAS_UI_320x240\n\n#include\u2581\"ui_320x240.h\"\n\n#include\u2581\"../ultralcd.h\"\n#include\u2581\"../menu/menu.h\"\n#include\u2581\"../../libs/numtostr.h\"\n\n#include\u2581\"../../sd/cardreader.h\"\n#include\u2581\"../../",
+            "max_activation": 44.793,
+            "max_token": "menu"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581Efq",
+          "\u2581An\u017f",
+          "\u2581my\u017felf",
+          "\u2581Majefty",
+          "\u017felf",
+          "\u2581it\u017felf",
+          "\u2581Re\u017f",
+          "\u2581Jefus",
+          "\u2581Di\u017f",
+          "\u2581E\u017f"
+        ],
+        "suppressed_tokens": [
+          "\n",
+          "\u2581",
+          "'",
+          "Menu",
+          "\n\n",
+          "1",
+          "2",
+          "\u2581A",
+          "menu",
+          "\u2581\u2581"
+        ],
+        "frac_nonzero": 0.00409
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 8046
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 8046,
+        "label": " the word \"will.\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581the\u2581next\u258112\u2581months\u2581will\u2581help\u2581to\u2581maintain\u2581BRACE\u2019s\u2581cutting\u2581edge\u2581Brain\u2581Bank\u2581in\u2581the\u2581Learning\u2581and\u2581Research\u2581Centre\u2581at\u2581Southmead\u2581Hospital.\n\nMike\u2581Lea,\u2581Managing\u2581Partner\u2581at\u2581Smith\u2581&\u2581Williamson\u2019s\u2581Bristol\u2581office,",
+            "max_activation": 62.38,
+            "max_token": "\u2581will"
+          },
+          {
+            "text_snippet": "_1+\\al_2,\\al_1+\\al_2+\\al_3\\}$\u2581will\u2581still\u2581yield\u2581at\u2581least\u2581one\u2581root\u2581system\u2581for\u2581each\u2581desired\u2581Cartan\u2581scheme\u2581(notice\u2581that\u2581any\u2581roots\u2581one\u2581would\u2581want\u2581to\u2581add\u2581are\u2581lexicographically\u2581greater).\n\nIn\u2581this\u2581section,\u2581we",
+            "max_activation": 61.81,
+            "max_token": "\u2581will"
+          },
+          {
+            "text_snippet": "\u2581those\u2581who\u2581agree\u2581to\u2581provide\u2581written\u2581informed\u2581consent\u2581will\u2581be\u2581included\u2581in\u2581the\u2581study.\u2581The\u2581study\u2581will\u2581be\u2581conducted\u2581in\u2581keeping\u2581with\u2581Good\u2581Clinical\u2581Practice\u2581(GCP)\u2581and\u2581the\u2581International\u2581Conference\u2581of\u2581Harmoni",
+            "max_activation": 61.679,
+            "max_token": "\u2581will"
+          }
+        ],
+        "promoted_tokens": [
+          ".",
+          "1",
+          "k",
+          "ent",
+          "l",
+          "(",
+          "n",
+          "j",
+          "\n\n",
+          "2"
+        ],
+        "suppressed_tokens": [
+          "\u2581will",
+          "will",
+          "\u2581akan",
+          "\u2581s\u1ebd",
+          "\u2581zullen",
+          "\u2581b\u0119dzie",
+          "\u2581\u0431\u0443\u0434\u0435",
+          "Ser\u00e1",
+          "NUMX",
+          "\u2581\u0431\u0443\u0434\u0443\u0442"
+        ],
+        "frac_nonzero": 0.02665
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 2,
+        "starting_feature_idx": 8776,
+        "starting_pos": 2,
+        "objective": "Trace the path from L2:F8776 (finance/property law feature) - what does this feature encode and where does its signal originate? Trace to embedding nodes if possible.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 2,
+            "feature_idx": 8776,
+            "pos": 2,
+            "label": " words related to finance and property law",
+            "frac_nonzero": 0.01099,
+            "promoted_tokens": [
+              "<bos>",
+              "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+              "\n",
+              "feira",
+              "Hentet",
+              "<eos>",
+              "B",
+              "APIView",
+              "au",
+              "readFileSync"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 3691,
+            "pos": 2,
+            "label": " the word \"recording\" in scientific or experimental documentation",
+            "frac_nonzero": 0.00733,
+            "promoted_tokens": [
+              "thodox",
+              "\u2581betweenstory",
+              "\u2581rimasto",
+              "\u0012",
+              "\u2581ligiloj",
+              "\u2581MaterialApp",
+              "IUrlHelper",
+              "\u2581protoimpl",
+              "\u2581Debris",
+              "\u2581disambiguazione"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 7443,
+            "pos": 2,
+            "label": "the word \"record\" appearing in various contexts",
+            "frac_nonzero": 0.01531,
+            "promoted_tokens": [
+              "\u2581it\u017felf",
+              "\u2581fa\u017ft",
+              "\u2581An\u017f",
+              "\u2581Monfieur",
+              "\u2581Re\u017f",
+              "\u2581purpo\u017fe",
+              "\u2581Majefty",
+              "\u2581my\u017felf",
+              "\u017felf",
+              "\u2581i\u017ft"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 7404,
+            "pos": 2,
+            "label": " the word \"faith\", sometimes in association with related ideas like \"links\" or \"opportunities\"",
+            "frac_nonzero": 0.01628,
+            "promoted_tokens": [
+              "IsContent",
+              "TintMode",
+              "ValueStyle",
+              "StoryboardSegue",
+              "\u2581vectorielle",
+              "Portale",
+              "<bos>",
+              "JspWriter",
+              "labour",
+              "\u2581p\u00e9riph"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 2,
+            "to_feature_idx": 8776,
+            "to_pos": 2,
+            "weight": 19.5,
+            "token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 2,
+            "to_feature_idx": 8776,
+            "to_pos": 2,
+            "weight": -1.6484,
+            "token": "A"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 2,
+            "to_feature_idx": 8776,
+            "to_pos": 2,
+            "weight": 1.3516,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 3691,
+            "from_pos": 2,
+            "to_layer": 2,
+            "to_feature_idx": 8776,
+            "to_pos": 2,
+            "weight": -0.6953
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7443,
+            "from_pos": 2,
+            "to_layer": 2,
+            "to_feature_idx": 8776,
+            "to_pos": 2,
+            "weight": 0.4473
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 1,
+            "to_feature_idx": 3691,
+            "to_pos": 2,
+            "weight": 24.75,
+            "token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 3691,
+            "to_pos": 2,
+            "weight": -1.2891,
+            "token": "A"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7404,
+            "from_pos": 2,
+            "to_layer": 1,
+            "to_feature_idx": 3691,
+            "to_pos": 2,
+            "weight": 1.1484
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 1,
+            "to_feature_idx": 3691,
+            "to_pos": 2,
+            "weight": 1.125,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 7443,
+            "to_pos": 2,
+            "weight": 22.625,
+            "token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7443,
+            "to_pos": 2,
+            "weight": 2.2188,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7443,
+            "to_pos": 2,
+            "weight": 1.4141,
+            "token": "A"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 7404,
+            "to_pos": 2,
+            "weight": 14.25,
+            "token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7404,
+            "to_pos": 2,
+            "weight": 1.2031,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7404,
+            "to_pos": 2,
+            "weight": 0.9531,
+            "token": "A"
+          }
+        ],
+        "explanation": "Tracing from L2:F8776 (finance/property law feature) at position 2 reveals:\n\n1. The feature is strongly triggered by the token \" recorded\" at position 2 (edge_weight: 19.5) - this is the primary input.\n\n2. The feature receives weak negative input from L1:F3691 (-0.6953), which detects \"recording\" in scientific contexts and suppresses \"recorded\" tokens.\n\n3. The feature receives weak positive input from L0:F7443 (0.4473), which detects \"record\" in various contexts.\n\n4. Tracing upstream shows that all these features (L2:F8776, L1:F3691, L0:F7443, L0:F7404) receive their strongest input directly from the \" recorded\" embedding token at position 2, with weights ranging from 14.25 to 24.75.\n\nKey finding: The finance/property law feature at layer 2 is primarily driven by the word \"recorded\" in the input, with minimal processing through intermediate features. The strongest connection is a direct line from the \" recorded\" embedding to the L2 feature.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 8776
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 8776,
+              "label": " words related to finance and property law",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+                  "max_activation": 44.593,
+                  "max_token": "\u2581equity"
+                },
+                {
+                  "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+                  "max_activation": 44.593,
+                  "max_token": "\u2581equity"
+                },
+                {
+                  "text_snippet": "\u2581slightly.\u2581Despite\u2581the\u2581fall\u2581in\u2581risk\u2581appetite,\u2581the\u2581NZD\u2581has\u2581ended\u2581up\u2581one\u2581of\u2581the\u2581better\u2581performers\u2581as\u2581short-positions\u2581were\u2581likely\u2581pared.\n\nAfter\u2581we\u2581went\u2581to\u2581print\u2581yesterday,\u2581US\u2581equities\u2581lunged\u2581further\u2581into",
+                  "max_activation": 44.593,
+                  "max_token": "\u2581equity"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "\n",
+                "feira",
+                "Hentet",
+                "<eos>",
+                "B",
+                "APIView",
+                "au",
+                "readFileSync"
+              ],
+              "suppressed_tokens": [
+                "\u2581improvement",
+                "\u2581equity",
+                "\u2581Improvement",
+                "\u2581Monfieur",
+                "\u2581IMPROVEMENT",
+                "\u2581plea\u017fure",
+                "Improvement",
+                "improvement",
+                "CppMethod",
+                "\u2581haji"
+              ],
+              "frac_nonzero": 0.01099
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 8776,
+              "pos": 2,
+              "k": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 19.5
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -1.6484
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.3516
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 8776,
+              "pos": 2,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 19.5
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -1.6484
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.3516
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 3691,
+                "pos": 2,
+                "edge_weight": -0.6953
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7443,
+                "pos": 2,
+                "edge_weight": 0.4473
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13280,
+                "pos": 2,
+                "edge_weight": -0.2734
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 7207,
+                "pos": 2,
+                "edge_weight": -0.2441
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 14478,
+                "pos": 2,
+                "edge_weight": -0.21
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14137,
+                "pos": 2,
+                "edge_weight": -0.1924
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12200,
+                "pos": 2,
+                "edge_weight": -0.1885
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 3691
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 3691,
+              "label": " the word \"recording\" in scientific or experimental documentation",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "-field\u2581recording\u2581head\u2581having\u2581increased\u2581short\u2581wavelength\u2581recording\u2581effectiveness.<bos>Peculiarities\u2581of\u2581the\u2581course\u2581of\u2581bronchial\u2581asthma\u2581in\u2581patients\u2581with\u2581excessive\u2581body\u2581weight\u2581or\u2581obesity.\nIntroduction:\u2581Cl",
+                  "max_activation": 54.271,
+                  "max_token": "\u2581recording"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581BAPTA\u2581condition\u2581but\u2581not\u2581the\u2581APV\ncondition,\u2581and\u2581responses\u2581were\u2581at\u2581baseline\u2581levels\u2581at\u2581the\u2581end\u2581of\u2581the\u2581recording\nperiods.\u2581The\u2581block\u2581of\u2581lasting\u2581depression\u2581suggests\u2581that\u2581calcium\u2581influx\u2581via\u2581NMDA\nrecepto",
+                  "max_activation": 53.404,
+                  "max_token": "\u2581recording"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581BAPTA\u2581condition\u2581but\u2581not\u2581the\u2581APV\ncondition,\u2581and\u2581responses\u2581were\u2581at\u2581baseline\u2581levels\u2581at\u2581the\u2581end\u2581of\u2581the\u2581recording\nperiods.\u2581The\u2581block\u2581of\u2581lasting\u2581depression\u2581suggests\u2581that\u2581calcium\u2581influx\u2581via\u2581NMDA\nrecepto",
+                  "max_activation": 53.404,
+                  "max_token": "\u2581recording"
+                }
+              ],
+              "promoted_tokens": [
+                "thodox",
+                "\u2581betweenstory",
+                "\u2581rimasto",
+                "\u0012",
+                "\u2581ligiloj",
+                "\u2581MaterialApp",
+                "IUrlHelper",
+                "\u2581protoimpl",
+                "\u2581Debris",
+                "\u2581disambiguazione"
+              ],
+              "suppressed_tokens": [
+                "\u2581recording",
+                "\u2581recorded",
+                "\u2581record",
+                "recording",
+                "\u2581Recording",
+                "Recording",
+                "recorded",
+                "record",
+                "\u2581Record",
+                "Record"
+              ],
+              "frac_nonzero": 0.00733
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7443
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7443,
+              "label": "the word \"record\" appearing in various contexts",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581comments.\u2581And\u2581you\u2581women\u2581have\u2581a\u2581good\u2581track\u2581record\u2581at\u2581adding\u2581new\u2581bloggers.\n\nWell,\u2581it\u2581may\u2581have\u2581started\u2581out\u2581kinda\u2581sketchy,\u2581what\u2581with\u2581the\u2581unipedal,\u2581camera-wielding\u2581maniac\u2581and\u2581\u201cno\u2581flower\u2581unphotographed.\u201d\u2581B",
+                  "max_activation": 49.377,
+                  "max_token": "\u2581record"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581same\u2581experimental\u2581conditions,\u2581stimulates\u2581synthesis\u2581of\u2581gonadotropins\u2581and\u2581simultaneously\u2581inhibits\u2581their\u2581release\u2581induced\u2581by\u2581the\u2581presence\u2581of\u2581GnRH.\u2581We\u2581conclude\u2581that\u2581Danazol\u2581is\u2581able\u2581to\u2581act\u2581at\u2581the\u2581pitui",
+                  "max_activation": 47.992,
+                  "max_token": "\u2581record"
+                },
+                {
+                  "text_snippet": "ably\u2581many\u2581algebraic\u2581points.\u2581Contradiction.\u2581\n\n<bos>Peshekee\u2581River\n\nThe\u2581Peshekee\u2581River\u2581is\u2581a\u2581\u2581river\u2581on\u2581the\u2581Upper\u2581Peninsula\u2581of\u2581Michigan\u2581in\u2581the\u2581United\u2581States.\u2581It\u2581is\u2581a\u2581tributary\u2581of\u2581Lake\u2581Michigamme,\u2581and\u2581its\u2581",
+                  "max_activation": 47.944,
+                  "max_token": "\u2581record"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581it\u017felf",
+                "\u2581fa\u017ft",
+                "\u2581An\u017f",
+                "\u2581Monfieur",
+                "\u2581Re\u017f",
+                "\u2581purpo\u017fe",
+                "\u2581Majefty",
+                "\u2581my\u017felf",
+                "\u017felf",
+                "\u2581i\u017ft"
+              ],
+              "suppressed_tokens": [
+                "\u2581record",
+                "record",
+                "\u2581recording",
+                "recorded",
+                "\u2581recorded",
+                "\u2581records",
+                "recording",
+                "\u2581RECORD",
+                "Recording",
+                "\u2581Record"
+              ],
+              "frac_nonzero": 0.01531
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 3691,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 24.75
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -1.2891
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7404,
+                "pos": 2,
+                "edge_weight": 1.1484
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.125
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6421,
+                "pos": 2,
+                "edge_weight": -0.418
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7404
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7404,
+              "label": " the word \"faith\", sometimes in association with related ideas like \"links\" or \"opportunities\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581into\u2581VOTER\u2581FRAUD,\u2581including\u2581those\u2581registered\u2581to\u2581vote\u2581in\u2581two\u2581states,\u2581those\u2581who\u2581are\u2581illegal\u2581and....\n\nPadilla\u2581said\u2581officials\u2581have\u2581been\u2581hearing\u2581for\u2581several\u2581months\u2581about\u2581Trump's\u2581allegations\u2581of\u2581rampant\u2581vot",
+                  "max_activation": 32.109,
+                  "max_token": "\u2581faith"
+                },
+                {
+                  "text_snippet": "\u2581into\u2581VOTER\u2581FRAUD,\u2581including\u2581those\u2581registered\u2581to\u2581vote\u2581in\u2581two\u2581states,\u2581those\u2581who\u2581are\u2581illegal\u2581and....\n\nPadilla\u2581said\u2581officials\u2581have\u2581been\u2581hearing\u2581for\u2581several\u2581months\u2581about\u2581Trump's\u2581allegations\u2581of\u2581rampant\u2581vot",
+                  "max_activation": 32.109,
+                  "max_token": "\u2581faith"
+                },
+                {
+                  "text_snippet": "\u2581their\u2581iPhone\u2581front\u2581facing\u2581camera?\n\n~~~\ne1ven\nYes.\u2581I\u2581cover\u2581both\u2581the\u2581cameras\u2581on\u2581my\u2581phone\u2581with\u2581tape,\u2581and\u2581only\u2581remove\u2581it\u2581when\u2581I\nwant\u2581to\u2581take\u2581a\u2581picture.\n\nThat\u2581said,\u2581I\u2581have\u2581a\u2581lot\u2581more\u2581faith\u2581in\u2581the\u2581security",
+                  "max_activation": 32.046,
+                  "max_token": "\u2581faith"
+                }
+              ],
+              "promoted_tokens": [
+                "IsContent",
+                "TintMode",
+                "ValueStyle",
+                "StoryboardSegue",
+                "\u2581vectorielle",
+                "Portale",
+                "<bos>",
+                "JspWriter",
+                "labour",
+                "\u2581p\u00e9riph"
+              ],
+              "suppressed_tokens": [
+                "ing",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                ".\";\r",
+                "\u2581it\u017felf",
+                "\u2581\u017fever",
+                "\u2581Monfieur",
+                "\u2581my\u017felf",
+                "\u2581\u0f0b\u0f0b",
+                "\u017felf",
+                "tened"
+              ],
+              "frac_nonzero": 0.01628
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7404,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 14.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.2031
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 0.9531
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 651,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7443,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 22.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.2188
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 1.4141
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 651,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace the path from L2:F8776 (finance/property law feature) - what does this feature encode and where does its signal originate? Trace to embedding nodes if possible.",
+          "input_tokens": 55369,
+          "output_tokens": 3058,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3200
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 2108,
+        "starting_pos": 3,
+        "objective": "Trace the path from L0:F2108 (word \"menu\" detection at pos 3) - trace upstream to find what input tokens drive it. The concern is about spurious features.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 2108,
+            "pos": 3,
+            "label": "the word \"menu\"",
+            "frac_nonzero": 0.00353,
+            "promoted_tokens": [
+              "\u2581ProtoMessage",
+              "Personendaten",
+              "Datuak",
+              "ReusableCell",
+              "internalType",
+              "orianCalendar",
+              "enderror",
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "ParallelGroup",
+              "WEBPACK"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 478,
+            "pos": 1,
+            "label": "various kinds of brackets and parentheses followed by a period",
+            "frac_nonzero": 0.10684,
+            "promoted_tokens": [
+              "\u2581the",
+              "\u2581in",
+              "\u2581for",
+              "\u2581to",
+              "\u2581M",
+              "\u2581I",
+              "\u2581of",
+              "\u2581at",
+              "\u2581on",
+              ","
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 25.75,
+            "from_token": " menu"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": -0.4766,
+            "from_token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 0.3809,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 0.3789,
+            "from_token": "A"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 478,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 0
+          }
+        ],
+        "explanation": "The tracing reveals that L0:F2108 (detecting the word \"menu\" at position 3) is primarily driven by the token \" menu\" at position 3 itself, with a very strong edge weight of 25.75. This indicates the feature directly detects the presence of the token \"menu\" at that position. There are minor influences from other tokens: negative influence from \" recorded\" at position 2 (-0.4766), and small positive influences from \"<bos>\" at position 0 (0.3809) and \"A\" at position 1 (0.3789). Feature L0:478 (brackets/parentheses detection) shows zero-weight connection and is not relevant. The circuit is very direct: the \"menu\" detection feature fires because the token \"menu\" is present at that position in the input, which suggests this is not a spurious feature but a legitimate token detector.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2108
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2108,
+              "label": "the word \"menu\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581by\u2581a\u2581different\u2581gene.<bos>Main\u2581menu\n\nMonthly\u2581Archives:\u2581February\u25812020\n\nAll\u2581month,\u2581I\u2019ve\u2581been\u2581writing\u2581poems\u2581each\u2581morning\u2581to\u2581a\u2581theme\u2581via\u2581CLMOOC\u2019s\u2581Poetry\u2581Port\u2581\u2014\u2581a\u2581project\u2581designed\u2581to\u2581spread\u2581collaboration\u2581a",
+                  "max_activation": 43.865,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": ",\u2581but\u2581left\u2581click\u2581to\u2581call\u2581the\u2581onClick()\u2581on\u2581the\u2581menuitem.\nInspecting\u2581the\u2581contents\u2581of\u2581the\u2581event\u2581parameter\u2581passed\u2581to\u2581the\u2581onClick\u2581function,\u2581there\u2581doesn't\u2581appear\u2581to\u2581be\u2581anything\u2581telling\u2581me\u2581which\u2581mouse\u2581button",
+                  "max_activation": 43.724,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\n\nstruct\u2581Category\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581items:\u2581[Item]\n}\n\nstruct\u2581Restaurant\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581categories:\u2581[Category]\n\n}\n\nA:\n\nIn\u2581this\u2581line\nlet\u2581menuArray\u2581=\u2581[a_w]\n\nyou\u2581are\u2581creating\u2581a",
+                  "max_activation": 43.327,
+                  "max_token": "\u2581menu"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581ProtoMessage",
+                "Personendaten",
+                "Datuak",
+                "ReusableCell",
+                "internalType",
+                "orianCalendar",
+                "enderror",
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "ParallelGroup",
+                "WEBPACK"
+              ],
+              "suppressed_tokens": [
+                "midler",
+                ">[]",
+                "\u2581helft",
+                "\u2581L\u00e1zaro",
+                "\u2581vuur",
+                "\u2581stedet",
+                "entrion",
+                "\u2581sonora",
+                "\u2581Constitucional",
+                "jm\u00e9na"
+              ],
+              "frac_nonzero": 0.00353
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2108,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 25.75
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": -0.4766
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.3809
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 0.3789
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 478
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 478,
+              "label": "various kinds of brackets and parentheses followed by a period",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "}).\u2581The\u2581number\u2581of\u2581apoptotic\u2581bodies\u2581per\u2581frame\u2581reached\u2581its\u2581maxima\u2581within\u25816\u2009h\u2581of\u2581TRAIL\u2581treatment\u2581in\u2581shKDM2B\u2581cells,\u2581earlier\u2581and\u2581significantly\u2581in\u2581higher\u2581numbers\u2581than\u2581shControl\u2581cells.\u2581To\u2581examine\u2581whether\u2581KDM",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).$\u2581As\u2581we\u2581will\u2581further\u2581discuss,\u2581$\\psi(z,\\beta,\\gamma,\\lambda)$\u2581being\u2581LR\u2581will\u2581mean\u2581that\u2581the\u2581estimation\u2581of\u2581$\\gamma$\u2581and\u2581$\\lambda$\u2581does\u2581not\u2581affect\u2581$\\Omega$,\u2581so\u2581that\u2581$\\Omega=E[\\psi(z_{i},\\beta_{0},\\gamma",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).\u2581EcR\u2581function\u2581in\u2581the\u2581regulation\u2581of\u2581hemocyte\u2581motility\u2581was\u2581further\u2581confirmed\u2581by\u2581RNAi\u2581([Fig.\u25811K](#ppat-1003720-g001){ref-type=\"fig\"}).\u2581Last,\u2581the\u2581expression\u2581of\u2581*USP*\u2581RNAi\u2581in\u2581the\u2581hemocytes\u2581led\u2581to\u2581a\u2581simi",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "\u2581in",
+                "\u2581for",
+                "\u2581to",
+                "\u2581M",
+                "\u2581I",
+                "\u2581of",
+                "\u2581at",
+                "\u2581on",
+                ","
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "DockStyle",
+                "\u2581hou\u017fe",
+                "\u2581it\u017felf",
+                "\u2581doubtnut",
+                "\u2581auffi",
+                "\u2581\u017fmall",
+                "\u2581plea\u017fure",
+                "\u2581\u017ftate",
+                "\u2581\u017fche"
+              ],
+              "frac_nonzero": 0.10684
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace the path from L0:F2108 (word \"menu\" detection at pos 3) - trace upstream to find what input tokens drive it. The concern is about spurious features.",
+          "input_tokens": 8071,
+          "output_tokens": 1362,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5568
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 8046,
+        "starting_pos": 4,
+        "objective": "Trace the path from L0:F8046 (word \"will\" detection at pos 4) - trace upstream to find what input tokens drive it. Look for whether this is a spurious/lexical feature.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 8046,
+            "pos": 4,
+            "label": " the word \"will.\"",
+            "frac_nonzero": 0.02665,
+            "promoted_tokens": [
+              ".",
+              "1",
+              "k",
+              "ent",
+              "l",
+              "(",
+              "n",
+              "j",
+              "\n\n",
+              "2"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 8046,
+            "to_pos": 4,
+            "weight": 36,
+            "from_token": " will",
+            "from_type": "embedding"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 8046,
+            "to_pos": 4,
+            "weight": 2.5625,
+            "from_token": "<bos>",
+            "from_type": "embedding"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 8046,
+            "to_pos": 4,
+            "weight": 1.3438,
+            "from_token": " menu",
+            "from_type": "embedding"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 8046,
+            "to_pos": 4,
+            "weight": 0.7578,
+            "from_token": " recorded",
+            "from_type": "embedding"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 8046,
+            "to_pos": 4,
+            "weight": 0.2119,
+            "from_token": "A",
+            "from_type": "embedding"
+          }
+        ],
+        "explanation": "The feature L0:F8046 at position 4 is a lexical feature that directly detects the word \"will\". The tracing shows it is overwhelmingly driven by the input token \" will\" at position 4 itself (edge weight 36.0), with much weaker connections from other nearby tokens. This confirms it is a spurious/lexical feature - it simply recognizes the token \"will\" in the input. The feature has low frac_nonzero (0.02665), making it specific but not overly rare, and interestingly suppresses the actual token \"\\u2581will\" in its output while promoting punctuation and numbers.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8046
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8046,
+              "label": " the word \"will.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581next\u258112\u2581months\u2581will\u2581help\u2581to\u2581maintain\u2581BRACE\u2019s\u2581cutting\u2581edge\u2581Brain\u2581Bank\u2581in\u2581the\u2581Learning\u2581and\u2581Research\u2581Centre\u2581at\u2581Southmead\u2581Hospital.\n\nMike\u2581Lea,\u2581Managing\u2581Partner\u2581at\u2581Smith\u2581&\u2581Williamson\u2019s\u2581Bristol\u2581office,",
+                  "max_activation": 62.38,
+                  "max_token": "\u2581will"
+                },
+                {
+                  "text_snippet": "_1+\\al_2,\\al_1+\\al_2+\\al_3\\}$\u2581will\u2581still\u2581yield\u2581at\u2581least\u2581one\u2581root\u2581system\u2581for\u2581each\u2581desired\u2581Cartan\u2581scheme\u2581(notice\u2581that\u2581any\u2581roots\u2581one\u2581would\u2581want\u2581to\u2581add\u2581are\u2581lexicographically\u2581greater).\n\nIn\u2581this\u2581section,\u2581we",
+                  "max_activation": 61.81,
+                  "max_token": "\u2581will"
+                },
+                {
+                  "text_snippet": "\u2581those\u2581who\u2581agree\u2581to\u2581provide\u2581written\u2581informed\u2581consent\u2581will\u2581be\u2581included\u2581in\u2581the\u2581study.\u2581The\u2581study\u2581will\u2581be\u2581conducted\u2581in\u2581keeping\u2581with\u2581Good\u2581Clinical\u2581Practice\u2581(GCP)\u2581and\u2581the\u2581International\u2581Conference\u2581of\u2581Harmoni",
+                  "max_activation": 61.679,
+                  "max_token": "\u2581will"
+                }
+              ],
+              "promoted_tokens": [
+                ".",
+                "1",
+                "k",
+                "ent",
+                "l",
+                "(",
+                "n",
+                "j",
+                "\n\n",
+                "2"
+              ],
+              "suppressed_tokens": [
+                "\u2581will",
+                "will",
+                "\u2581akan",
+                "\u2581s\u1ebd",
+                "\u2581zullen",
+                "\u2581b\u0119dzie",
+                "\u2581\u0431\u0443\u0434\u0435",
+                "Ser\u00e1",
+                "NUMX",
+                "\u2581\u0431\u0443\u0434\u0443\u0442"
+              ],
+              "frac_nonzero": 0.02665
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8046,
+              "pos": 4
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " will",
+                "pos": 4,
+                "edge_weight": 36.0
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.5625
+              },
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 1.3438
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 0.7578
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 0.2119
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8046,
+              "pos": 4,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " will",
+                "pos": 4,
+                "edge_weight": 36.0
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.5625
+              },
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 1.3438
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 0.7578
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 0.2119
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1636,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 651,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1148,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 941,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8046
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8046,
+              "label": " the word \"will.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581next\u258112\u2581months\u2581will\u2581help\u2581to\u2581maintain\u2581BRACE\u2019s\u2581cutting\u2581edge\u2581Brain\u2581Bank\u2581in\u2581the\u2581Learning\u2581and\u2581Research\u2581Centre\u2581at\u2581Southmead\u2581Hospital.\n\nMike\u2581Lea,\u2581Managing\u2581Partner\u2581at\u2581Smith\u2581&\u2581Williamson\u2019s\u2581Bristol\u2581office,",
+                  "max_activation": 62.38,
+                  "max_token": "\u2581will"
+                },
+                {
+                  "text_snippet": "_1+\\al_2,\\al_1+\\al_2+\\al_3\\}$\u2581will\u2581still\u2581yield\u2581at\u2581least\u2581one\u2581root\u2581system\u2581for\u2581each\u2581desired\u2581Cartan\u2581scheme\u2581(notice\u2581that\u2581any\u2581roots\u2581one\u2581would\u2581want\u2581to\u2581add\u2581are\u2581lexicographically\u2581greater).\n\nIn\u2581this\u2581section,\u2581we",
+                  "max_activation": 61.81,
+                  "max_token": "\u2581will"
+                },
+                {
+                  "text_snippet": "\u2581those\u2581who\u2581agree\u2581to\u2581provide\u2581written\u2581informed\u2581consent\u2581will\u2581be\u2581included\u2581in\u2581the\u2581study.\u2581The\u2581study\u2581will\u2581be\u2581conducted\u2581in\u2581keeping\u2581with\u2581Good\u2581Clinical\u2581Practice\u2581(GCP)\u2581and\u2581the\u2581International\u2581Conference\u2581of\u2581Harmoni",
+                  "max_activation": 61.679,
+                  "max_token": "\u2581will"
+                }
+              ],
+              "promoted_tokens": [
+                ".",
+                "1",
+                "k",
+                "ent",
+                "l",
+                "(",
+                "n",
+                "j",
+                "\n\n",
+                "2"
+              ],
+              "suppressed_tokens": [
+                "\u2581will",
+                "will",
+                "\u2581akan",
+                "\u2581s\u1ebd",
+                "\u2581zullen",
+                "\u2581b\u0119dzie",
+                "\u2581\u0431\u0443\u0434\u0435",
+                "Ser\u00e1",
+                "NUMX",
+                "\u2581\u0431\u0443\u0434\u0443\u0442"
+              ],
+              "frac_nonzero": 0.02665
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace the path from L0:F8046 (word \"will\" detection at pos 4) - trace upstream to find what input tokens drive it. Look for whether this is a spurious/lexical feature.",
+          "input_tokens": 18224,
+          "output_tokens": 1505,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 1,
+        "feature_idx": 3691
+      },
+      "output": {
+        "layer": 1,
+        "feature_idx": 3691,
+        "label": " the word \"recording\" in scientific or experimental documentation",
+        "top_activating_examples": [
+          {
+            "text_snippet": "-field\u2581recording\u2581head\u2581having\u2581increased\u2581short\u2581wavelength\u2581recording\u2581effectiveness.<bos>Peculiarities\u2581of\u2581the\u2581course\u2581of\u2581bronchial\u2581asthma\u2581in\u2581patients\u2581with\u2581excessive\u2581body\u2581weight\u2581or\u2581obesity.\nIntroduction:\u2581Cl",
+            "max_activation": 54.271,
+            "max_token": "\u2581recording"
+          },
+          {
+            "text_snippet": "\u2581the\u2581BAPTA\u2581condition\u2581but\u2581not\u2581the\u2581APV\ncondition,\u2581and\u2581responses\u2581were\u2581at\u2581baseline\u2581levels\u2581at\u2581the\u2581end\u2581of\u2581the\u2581recording\nperiods.\u2581The\u2581block\u2581of\u2581lasting\u2581depression\u2581suggests\u2581that\u2581calcium\u2581influx\u2581via\u2581NMDA\nrecepto",
+            "max_activation": 53.404,
+            "max_token": "\u2581recording"
+          },
+          {
+            "text_snippet": "\u2581the\u2581BAPTA\u2581condition\u2581but\u2581not\u2581the\u2581APV\ncondition,\u2581and\u2581responses\u2581were\u2581at\u2581baseline\u2581levels\u2581at\u2581the\u2581end\u2581of\u2581the\u2581recording\nperiods.\u2581The\u2581block\u2581of\u2581lasting\u2581depression\u2581suggests\u2581that\u2581calcium\u2581influx\u2581via\u2581NMDA\nrecepto",
+            "max_activation": 53.404,
+            "max_token": "\u2581recording"
+          }
+        ],
+        "promoted_tokens": [
+          "thodox",
+          "\u2581betweenstory",
+          "\u2581rimasto",
+          "\u0012",
+          "\u2581ligiloj",
+          "\u2581MaterialApp",
+          "IUrlHelper",
+          "\u2581protoimpl",
+          "\u2581Debris",
+          "\u2581disambiguazione"
+        ],
+        "suppressed_tokens": [
+          "\u2581recording",
+          "\u2581recorded",
+          "\u2581record",
+          "recording",
+          "\u2581Recording",
+          "Recording",
+          "recorded",
+          "record",
+          "\u2581Record",
+          "Record"
+        ],
+        "frac_nonzero": 0.00733
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 7443
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 7443,
+        "label": "the word \"record\" appearing in various contexts",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581comments.\u2581And\u2581you\u2581women\u2581have\u2581a\u2581good\u2581track\u2581record\u2581at\u2581adding\u2581new\u2581bloggers.\n\nWell,\u2581it\u2581may\u2581have\u2581started\u2581out\u2581kinda\u2581sketchy,\u2581what\u2581with\u2581the\u2581unipedal,\u2581camera-wielding\u2581maniac\u2581and\u2581\u201cno\u2581flower\u2581unphotographed.\u201d\u2581B",
+            "max_activation": 49.377,
+            "max_token": "\u2581record"
+          },
+          {
+            "text_snippet": "\u2581the\u2581same\u2581experimental\u2581conditions,\u2581stimulates\u2581synthesis\u2581of\u2581gonadotropins\u2581and\u2581simultaneously\u2581inhibits\u2581their\u2581release\u2581induced\u2581by\u2581the\u2581presence\u2581of\u2581GnRH.\u2581We\u2581conclude\u2581that\u2581Danazol\u2581is\u2581able\u2581to\u2581act\u2581at\u2581the\u2581pitui",
+            "max_activation": 47.992,
+            "max_token": "\u2581record"
+          },
+          {
+            "text_snippet": "ably\u2581many\u2581algebraic\u2581points.\u2581Contradiction.\u2581\n\n<bos>Peshekee\u2581River\n\nThe\u2581Peshekee\u2581River\u2581is\u2581a\u2581\u2581river\u2581on\u2581the\u2581Upper\u2581Peninsula\u2581of\u2581Michigan\u2581in\u2581the\u2581United\u2581States.\u2581It\u2581is\u2581a\u2581tributary\u2581of\u2581Lake\u2581Michigamme,\u2581and\u2581its\u2581",
+            "max_activation": 47.944,
+            "max_token": "\u2581record"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581it\u017felf",
+          "\u2581fa\u017ft",
+          "\u2581An\u017f",
+          "\u2581Monfieur",
+          "\u2581Re\u017f",
+          "\u2581purpo\u017fe",
+          "\u2581Majefty",
+          "\u2581my\u017felf",
+          "\u017felf",
+          "\u2581i\u017ft"
+        ],
+        "suppressed_tokens": [
+          "\u2581record",
+          "record",
+          "\u2581recording",
+          "recorded",
+          "\u2581recorded",
+          "\u2581records",
+          "recording",
+          "\u2581RECORD",
+          "Recording",
+          "\u2581Record"
+        ],
+        "frac_nonzero": 0.01531
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 3,
+        "feature_idx": 3573
+      },
+      "output": {
+        "layer": 3,
+        "feature_idx": 3573,
+        "label": "the word \"menu\" often in conjunction with interface elements",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581an\u2581action\u2581recording\u2581for\u2581a\u2581shared\u2581step\u2581in\u2581Microsoft\u2581Test\u2581Manager\u2581that\u2581will\u2581automatically\u2581run\u2581when\u2581the\u2581shared\u2581step\u2581is\u2581included\u2581in\u2581test\u2581cases.\n\nTo\u2581create\u2581an\u2581action\u2581recording\u2581for\u2581shared\u2581steps\u2581in\u2581Microsof",
+            "max_activation": 40.114,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": "5-user\u2581limit,\u2581we\u2581went\u2581with\u2581Team\u2581Foundation\u2581Server\u2581hosting.\u2581As\u2581a\u2581bonus,\u2581TFS\u2581provides\u2581an\u2581agile\u2581task\u2581board,\u2581something\u2581else\u2581we\u2581had\u2581shopped\u2581around\u2581for\u2581a\u2581lot\u2581before\u2581settling\u2581on\u2581Visual\u2581Studio.\n\nYou'll\u2581want\u2581t",
+            "max_activation": 39.91,
+            "max_token": "\u2581menu"
+          },
+          {
+            "text_snippet": "\u2581the\u2581machines\u2581you\u2581manage.\n\nOne\u2581of\u2581the\u2581applications\u2581you\u2581can\u2581add\u2581to\u2581each\u2581VSA\u2581user's\u2581Single\u2581Sign\u2581On\u2581menu\u2581is\u2581an\u2581app\u2581to\u2581logon\u2581to\u2581the\u2581VSA.\u2581This\u2581means\u2581the\u2581Single\u2581Single\u2581On\u2581menu\u2581provides\u2581immediate,\u2581secure\u2581acc",
+            "max_activation": 39.858,
+            "max_token": "\u2581menu"
+          }
+        ],
+        "promoted_tokens": [
+          "}],\r",
+          "\u2581vicini",
+          "\u039f\u03a3",
+          "PRWEB",
+          "protoimpl",
+          "Normalized",
+          "\u2581\u064a\u0644\u064a",
+          "\u2581\u0627\u0644\u0645\u062a\u062d\u062f\u0629",
+          "tivo",
+          "webdriver"
+        ],
+        "suppressed_tokens": [
+          "\u2581menu",
+          "\u2581Menu",
+          "menu",
+          "Menu",
+          "\u2581MENU",
+          "\u2581menus",
+          "MENU",
+          "\u2581Menus",
+          "\u2581men\u00fa",
+          "\u83dc\u5355"
+        ],
+        "frac_nonzero": 0.00205
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 4,
+        "feature_idx": 7998
+      },
+      "output": {
+        "layer": 4,
+        "feature_idx": 7998,
+        "label": " words related to telecommunications and telephones",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+            "max_activation": 72.347,
+            "max_token": "\u2581ID"
+          },
+          {
+            "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+            "max_activation": 72.347,
+            "max_token": "\u2581ID"
+          },
+          {
+            "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+            "max_activation": 72.347,
+            "max_token": "\u2581ID"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u2581callers",
+          "\u2581caller",
+          "\u2581voicemail",
+          "\u2581phone",
+          "$_['",
+          "\u2581Caller",
+          "Caller",
+          "Telefon",
+          "\u2581Phone"
+        ],
+        "suppressed_tokens": [
+          "ugais",
+          "SerializeField",
+          "\uffe1",
+          "seers",
+          "\u2581inmigrantes",
+          "Sloth",
+          "ulz",
+          "\u2581\u0627\u0644\u062d\u0631\u0647",
+          "\u2581sauvages",
+          "downe"
+        ],
+        "frac_nonzero": 0.01076
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 3,
+        "starting_feature_idx": 3573,
+        "starting_pos": 3,
+        "objective": "Trace the path from L3:F3573 (word \"menu\" in interface context) - trace upstream to find the input tokens driving this feature.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 3,
+            "feature_idx": 3573,
+            "pos": 3,
+            "label": "the word \"menu\" often in conjunction with interface elements",
+            "frac_nonzero": 0.00205,
+            "promoted_tokens": [
+              "}],\r",
+              "\u2581vicini",
+              "\u039f\u03a3",
+              "PRWEB",
+              "protoimpl",
+              "Normalized",
+              "\u2581\u064a\u0644\u064a",
+              "\u2581\u0627\u0644\u0645\u062a\u062d\u062f\u0629",
+              "tivo",
+              "webdriver"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 12253,
+            "pos": 3,
+            "label": " the word 'menu'",
+            "frac_nonzero": 0.00409,
+            "promoted_tokens": [
+              "\u2581Efq",
+              "\u2581An\u017f",
+              "\u2581my\u017felf",
+              "\u2581Majefty",
+              "\u017felf",
+              "\u2581it\u017felf",
+              "\u2581Re\u017f",
+              "\u2581Jefus",
+              "\u2581Di\u017f",
+              "\u2581E\u017f"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 9012,
+            "pos": 3,
+            "label": " instances where something was not successful",
+            "frac_nonzero": 0.00783,
+            "promoted_tokens": [
+              "\u2581defStyleAttr",
+              "\u2581propOrder",
+              "MeasureSpec",
+              "\u2581Meteorology",
+              "\u2581virginity",
+              "MLLoader",
+              "\u2581Concerto",
+              "\u2581generales",
+              "VersionUID",
+              "\u2581insured"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2108,
+            "pos": 3,
+            "label": "the word \"menu\"",
+            "frac_nonzero": 0.00353,
+            "promoted_tokens": [
+              "\u2581ProtoMessage",
+              "Personendaten",
+              "Datuak",
+              "ReusableCell",
+              "internalType",
+              "orianCalendar",
+              "enderror",
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "ParallelGroup",
+              "WEBPACK"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2115,
+            "pos": 3,
+            "label": " data reported as a percentage inside brackets, especially in a laboratory or medical context, and also recognizes countries",
+            "frac_nonzero": 0.33518,
+            "promoted_tokens": [
+              "\u2581Monfieur",
+              "\u2581plea\u017fure",
+              "\u2581\u017fche",
+              "\u2581Shakspeare",
+              "\u2581my\u017felf",
+              "\u2581it\u017felf",
+              "\u2581purpo\u017fe",
+              "\u2581C\u00e6sar",
+              "\u2581Re\u017f",
+              "\u2581Majefty"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 14120,
+            "pos": 3,
+            "label": "restaurant menus",
+            "frac_nonzero": 0.00452,
+            "promoted_tokens": [
+              "\u00e9lie",
+              "thodoxy",
+              "Vidite",
+              "\u2581referenties",
+              "bleau",
+              "\u2581<=\",",
+              "aarrggbb",
+              "granate",
+              "er\u00e7e",
+              "err\u00e1neo"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 3,
+            "to_feature_idx": 3573,
+            "to_pos": 3,
+            "weight": 21.375,
+            "from_token": " menu"
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 12253,
+            "from_pos": 3,
+            "to_layer": 3,
+            "to_feature_idx": 3573,
+            "to_pos": 3,
+            "weight": -0.8477
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 9012,
+            "from_pos": 3,
+            "to_layer": 3,
+            "to_feature_idx": 3573,
+            "to_pos": 3,
+            "weight": -0.6016
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 12253,
+            "to_pos": 3,
+            "weight": 20.625,
+            "from_token": " menu"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2108,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 12253,
+            "to_pos": 3,
+            "weight": 2.1562
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 1,
+            "to_feature_idx": 12253,
+            "to_pos": 3,
+            "weight": 0.8789,
+            "from_token": " recorded"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 9012,
+            "to_pos": 3,
+            "weight": 12.3125,
+            "from_token": " menu"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2108,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 9012,
+            "to_pos": 3,
+            "weight": 1.0938
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 14120,
+            "from_pos": 3,
+            "to_layer": 2,
+            "to_feature_idx": 9012,
+            "to_pos": 3,
+            "weight": 0.3926
+          }
+        ],
+        "explanation": "Traced the circuit from L3:F3573 (detects \"menu\" in interface context, suppresses menu tokens). The strongest driver is the input token \" menu\" at position 3 (edge_weight 21.375). Interestingly, lower-layer features that detect \"menu\" (L1:F12253 and L2:F9012) have NEGATIVE edge_weights to the L3 feature, meaning they inhibit it. L2:F9012 detects \"not successful\" contexts and is also driven by \" menu\". L1:F12253 is a simple \"menu\" detector driven directly by the \" menu\" token. L1:F14120 detects \"restaurant menus\" and feeds into L2:F9012. The key finding: the L3 feature is strongly driven by the \" menu\" input token but suppresses menu-related outputs, while being inhibited by lower-level menu detectors.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3573
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 3573,
+              "label": "the word \"menu\" often in conjunction with interface elements",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581an\u2581action\u2581recording\u2581for\u2581a\u2581shared\u2581step\u2581in\u2581Microsoft\u2581Test\u2581Manager\u2581that\u2581will\u2581automatically\u2581run\u2581when\u2581the\u2581shared\u2581step\u2581is\u2581included\u2581in\u2581test\u2581cases.\n\nTo\u2581create\u2581an\u2581action\u2581recording\u2581for\u2581shared\u2581steps\u2581in\u2581Microsof",
+                  "max_activation": 40.114,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "5-user\u2581limit,\u2581we\u2581went\u2581with\u2581Team\u2581Foundation\u2581Server\u2581hosting.\u2581As\u2581a\u2581bonus,\u2581TFS\u2581provides\u2581an\u2581agile\u2581task\u2581board,\u2581something\u2581else\u2581we\u2581had\u2581shopped\u2581around\u2581for\u2581a\u2581lot\u2581before\u2581settling\u2581on\u2581Visual\u2581Studio.\n\nYou'll\u2581want\u2581t",
+                  "max_activation": 39.91,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581machines\u2581you\u2581manage.\n\nOne\u2581of\u2581the\u2581applications\u2581you\u2581can\u2581add\u2581to\u2581each\u2581VSA\u2581user's\u2581Single\u2581Sign\u2581On\u2581menu\u2581is\u2581an\u2581app\u2581to\u2581logon\u2581to\u2581the\u2581VSA.\u2581This\u2581means\u2581the\u2581Single\u2581Single\u2581On\u2581menu\u2581provides\u2581immediate,\u2581secure\u2581acc",
+                  "max_activation": 39.858,
+                  "max_token": "\u2581menu"
+                }
+              ],
+              "promoted_tokens": [
+                "}],\r",
+                "\u2581vicini",
+                "\u039f\u03a3",
+                "PRWEB",
+                "protoimpl",
+                "Normalized",
+                "\u2581\u064a\u0644\u064a",
+                "\u2581\u0627\u0644\u0645\u062a\u062d\u062f\u0629",
+                "tivo",
+                "webdriver"
+              ],
+              "suppressed_tokens": [
+                "\u2581menu",
+                "\u2581Menu",
+                "menu",
+                "Menu",
+                "\u2581MENU",
+                "\u2581menus",
+                "MENU",
+                "\u2581Menus",
+                "\u2581men\u00fa",
+                "\u83dc\u5355"
+              ],
+              "frac_nonzero": 0.00205
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3573,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 21.375
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 12253,
+                "pos": 3,
+                "edge_weight": -0.8477
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -0.8086
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 9012,
+                "pos": 3,
+                "edge_weight": -0.6016
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 763,
+                "pos": 3,
+                "edge_weight": -0.4414
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 12253
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 12253,
+              "label": " the word 'menu'",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "(LCD_PROGRESS_BAR)\u2581&&\u2581BOTH(FILAMENT_LCD_DISPLAY,\u2581SDSUPPORT)\n\u2581\u2581#include\u2581\"../../feature/filwidth.h\"\n\u2581\u2581#include\u2581\"../../gcode/parser.h\"\n#endif\n\n#if\u2581ENABLED(AUTO_BED_LEVELING_UBL)\n\u2581\u2581#include\u2581\"../../feature",
+                  "max_activation": 47.274,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "(LCD_PROGRESS_BAR)\u2581&&\u2581BOTH(FILAMENT_LCD_DISPLAY,\u2581SDSUPPORT)\n\u2581\u2581#include\u2581\"../../feature/filwidth.h\"\n\u2581\u2581#include\u2581\"../../gcode/parser.h\"\n#endif\n\n#if\u2581ENABLED(AUTO_BED_LEVELING_UBL)\n\u2581\u2581#include\u2581\"../../feature",
+                  "max_activation": 47.274,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "/MarlinConfigPre.h\"\n\n#if\u2581HAS_UI_320x240\n\n#include\u2581\"ui_320x240.h\"\n\n#include\u2581\"../ultralcd.h\"\n#include\u2581\"../menu/menu.h\"\n#include\u2581\"../../libs/numtostr.h\"\n\n#include\u2581\"../../sd/cardreader.h\"\n#include\u2581\"../../",
+                  "max_activation": 44.793,
+                  "max_token": "menu"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Efq",
+                "\u2581An\u017f",
+                "\u2581my\u017felf",
+                "\u2581Majefty",
+                "\u017felf",
+                "\u2581it\u017felf",
+                "\u2581Re\u017f",
+                "\u2581Jefus",
+                "\u2581Di\u017f",
+                "\u2581E\u017f"
+              ],
+              "suppressed_tokens": [
+                "\n",
+                "\u2581",
+                "'",
+                "Menu",
+                "\n\n",
+                "1",
+                "2",
+                "\u2581A",
+                "menu",
+                "\u2581\u2581"
+              ],
+              "frac_nonzero": 0.00409
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 9012
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 9012,
+              "label": " instances where something was not successful",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u201d\n\nId.\u2581(quoting\u2581Commonwealth\u2581v.\u2581Hoch,\u2581936\u2581A.2d\u2581515,\u2581517-18\u2581(Pa.Super.\n\n2007)).\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581Surratt\u2581claims\u2581that\u2581the\u2581PCRA\u2581court\u2581\u201cwholly\u2581failed\u2581to\u2581consider\u2581[his]\n\nindividual,\u2581juvenile\u2581characteristics\u2581\u2013\u2581focu",
+                  "max_activation": 49.353,
+                  "max_token": "\u2581failed"
+                },
+                {
+                  "text_snippet": ".\u201d\n\nId.\u2581(quoting\u2581Commonwealth\u2581v.\u2581Hoch,\u2581936\u2581A.2d\u2581515,\u2581517-18\u2581(Pa.Super.\n\n2007)).\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581Surratt\u2581claims\u2581that\u2581the\u2581PCRA\u2581court\u2581\u201cwholly\u2581failed\u2581to\u2581consider\u2581[his]\n\nindividual,\u2581juvenile\u2581characteristics\u2581\u2013\u2581focu",
+                  "max_activation": 49.353,
+                  "max_token": "\u2581failed"
+                },
+                {
+                  "text_snippet": "014,\u2581five\u2581of\u2581the\u2581charities\u2581instructed\u2581a\u2581firm\u2581of\u2581solicitors\u2581to\u2581act\u2581for\u2581them\u2581and\u2581they\u2581in\u2581turn\u2581managed\u2581to\u2581contact\u2581Headleys\u2581by\u2581phone,\u2581but\u2581did\u2581not\u2581receive\u2581the\u2581information\u2581they\u2581sought.\n\nAfter\u2581several\u2581more\u2581r",
+                  "max_activation": 49.285,
+                  "max_token": "\u2581failed"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581defStyleAttr",
+                "\u2581propOrder",
+                "MeasureSpec",
+                "\u2581Meteorology",
+                "\u2581virginity",
+                "MLLoader",
+                "\u2581Concerto",
+                "\u2581generales",
+                "VersionUID",
+                "\u2581insured"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581failed",
+                "failed",
+                "\u2581Failed",
+                "Failed",
+                "\u2581FAILED",
+                "\u2581unsuccessful",
+                "\u2581failing",
+                "Nobody",
+                "\u2581successful"
+              ],
+              "frac_nonzero": 0.00783
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 12253,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 20.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2108,
+                "pos": 3,
+                "edge_weight": 2.1562
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 0.8789
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -0.793
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2115,
+                "pos": 3,
+                "edge_weight": 0.7383
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2108
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2108,
+              "label": "the word \"menu\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581by\u2581a\u2581different\u2581gene.<bos>Main\u2581menu\n\nMonthly\u2581Archives:\u2581February\u25812020\n\nAll\u2581month,\u2581I\u2019ve\u2581been\u2581writing\u2581poems\u2581each\u2581morning\u2581to\u2581a\u2581theme\u2581via\u2581CLMOOC\u2019s\u2581Poetry\u2581Port\u2581\u2014\u2581a\u2581project\u2581designed\u2581to\u2581spread\u2581collaboration\u2581a",
+                  "max_activation": 43.865,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": ",\u2581but\u2581left\u2581click\u2581to\u2581call\u2581the\u2581onClick()\u2581on\u2581the\u2581menuitem.\nInspecting\u2581the\u2581contents\u2581of\u2581the\u2581event\u2581parameter\u2581passed\u2581to\u2581the\u2581onClick\u2581function,\u2581there\u2581doesn't\u2581appear\u2581to\u2581be\u2581anything\u2581telling\u2581me\u2581which\u2581mouse\u2581button",
+                  "max_activation": 43.724,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\n\nstruct\u2581Category\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581items:\u2581[Item]\n}\n\nstruct\u2581Restaurant\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581categories:\u2581[Category]\n\n}\n\nA:\n\nIn\u2581this\u2581line\nlet\u2581menuArray\u2581=\u2581[a_w]\n\nyou\u2581are\u2581creating\u2581a",
+                  "max_activation": 43.327,
+                  "max_token": "\u2581menu"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581ProtoMessage",
+                "Personendaten",
+                "Datuak",
+                "ReusableCell",
+                "internalType",
+                "orianCalendar",
+                "enderror",
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "ParallelGroup",
+                "WEBPACK"
+              ],
+              "suppressed_tokens": [
+                "midler",
+                ">[]",
+                "\u2581helft",
+                "\u2581L\u00e1zaro",
+                "\u2581vuur",
+                "\u2581stedet",
+                "entrion",
+                "\u2581sonora",
+                "\u2581Constitucional",
+                "jm\u00e9na"
+              ],
+              "frac_nonzero": 0.00353
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2115
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2115,
+              "label": " data reported as a percentage inside brackets, especially in a laboratory or medical context, and also recognizes countries",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581\\[82%\\]\u2581TE\u2581patients)\u2581and\u2581South\u2581Africa\u2581(275\u2581\\[93%\\]\u2581TE\u2581patients).\u2581The\u2581predominant\u2581subtypes\u2581in\u2581Uganda\u2581were\u2581A/A1\u2581(overall,\u2581324\u2581\\[48%\\]:\u2581285\u2581\\[49%\\]\u2581TN\u2581and\u258139\u2581\\[41%\\]\u2581TE\u2581patients)\u2581and\u2581D\u2581(overall,\u2581203\u2581\\[3",
+                  "max_activation": 57.07,
+                  "max_token": "%\\]"
+                },
+                {
+                  "text_snippet": "\u2581\\[82%\\]\u2581TE\u2581patients)\u2581and\u2581South\u2581Africa\u2581(275\u2581\\[93%\\]\u2581TE\u2581patients).\u2581The\u2581predominant\u2581subtypes\u2581in\u2581Uganda\u2581were\u2581A/A1\u2581(overall,\u2581324\u2581\\[48%\\]:\u2581285\u2581\\[49%\\]\u2581TN\u2581and\u258139\u2581\\[41%\\]\u2581TE\u2581patients)\u2581and\u2581D\u2581(overall,\u2581203\u2581\\[3",
+                  "max_activation": 57.07,
+                  "max_token": "%\\]"
+                },
+                {
+                  "text_snippet": "\u2581\\[82%\\]\u2581TE\u2581patients)\u2581and\u2581South\u2581Africa\u2581(275\u2581\\[93%\\]\u2581TE\u2581patients).\u2581The\u2581predominant\u2581subtypes\u2581in\u2581Uganda\u2581were\u2581A/A1\u2581(overall,\u2581324\u2581\\[48%\\]:\u2581285\u2581\\[49%\\]\u2581TN\u2581and\u258139\u2581\\[41%\\]\u2581TE\u2581patients)\u2581and\u2581D\u2581(overall,\u2581203\u2581\\[3",
+                  "max_activation": 57.07,
+                  "max_token": "%\\]"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581plea\u017fure",
+                "\u2581\u017fche",
+                "\u2581Shakspeare",
+                "\u2581my\u017felf",
+                "\u2581it\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581C\u00e6sar",
+                "\u2581Re\u017f",
+                "\u2581Majefty"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u201c",
+                "\u2581a",
+                "ratulations",
+                "\u2581co",
+                "\u2581an",
+                "\u2581qu",
+                "\u2581la",
+                "\u2581",
+                "\u2581\u2018",
+                "\u2581de"
+              ],
+              "frac_nonzero": 0.33518
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 9012,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 12.3125
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2108,
+                "pos": 3,
+                "edge_weight": 1.0938
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 13134,
+                "pos": 3,
+                "edge_weight": -0.5078
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14120,
+                "pos": 3,
+                "edge_weight": 0.3926
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8537,
+                "pos": 3,
+                "edge_weight": -0.377
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14120
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14120,
+              "label": "restaurant menus",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581but\u2581El\u2581Cerdo's\u2581legion\u2581of\u2581loyal\u2581customers\u2581attest\u2581to\u2581the\u2581quality\u2581of\u2581the\u2581food.\u2581Despite\u2581the\u2581rustic\u2581nature\u2581of\u2581the\u2581menu,\u2581this\u2581is\u2581not\u2581a\u2581cheap...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581El\u2581Cerdo.\n\nQuite\u2581apart\u2581from\u2581having\u2581a\u2581",
+                  "max_activation": 27.406,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\u2581but\u2581El\u2581Cerdo's\u2581legion\u2581of\u2581loyal\u2581customers\u2581attest\u2581to\u2581the\u2581quality\u2581of\u2581the\u2581food.\u2581Despite\u2581the\u2581rustic\u2581nature\u2581of\u2581the\u2581menu,\u2581this\u2581is\u2581not\u2581a\u2581cheap...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581El\u2581Cerdo.\n\nQuite\u2581apart\u2581from\u2581having\u2581a\u2581",
+                  "max_activation": 27.406,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\u2581but\u2581El\u2581Cerdo's\u2581legion\u2581of\u2581loyal\u2581customers\u2581attest\u2581to\u2581the\u2581quality\u2581of\u2581the\u2581food.\u2581Despite\u2581the\u2581rustic\u2581nature\u2581of\u2581the\u2581menu,\u2581this\u2581is\u2581not\u2581a\u2581cheap...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581El\u2581Cerdo.\n\nQuite\u2581apart\u2581from\u2581having\u2581a\u2581",
+                  "max_activation": 27.406,
+                  "max_token": "\u2581menu"
+                }
+              ],
+              "promoted_tokens": [
+                "\u00e9lie",
+                "thodoxy",
+                "Vidite",
+                "\u2581referenties",
+                "bleau",
+                "\u2581<=\",",
+                "aarrggbb",
+                "granate",
+                "er\u00e7e",
+                "err\u00e1neo"
+              ],
+              "suppressed_tokens": [
+                "RenderAtEndOf",
+                "DeleteBehavior",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581convertView",
+                "UVWXYZ",
+                "WaitGroup",
+                "\u2581Death",
+                "\u2581\u05e9\u05d5\u05dc\u05d9\u05d9\u05dd",
+                "TestTools",
+                "\u2581death"
+              ],
+              "frac_nonzero": 0.00452
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace the path from L3:F3573 (word \"menu\" in interface context) - trace upstream to find the input tokens driving this feature.",
+          "input_tokens": 48820,
+          "output_tokens": 2925,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 5440
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 7998,
+        "starting_pos": 3,
+        "objective": "Trace the path from L4:F7998 (telecommunications feature) - trace upstream to find what input tokens drive it.",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 7998,
+            "pos": 3,
+            "label": " words related to telecommunications and telephones",
+            "frac_nonzero": 0.01076,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581callers",
+              "\u2581caller",
+              "\u2581voicemail",
+              "\u2581phone",
+              "$_['",
+              "\u2581Caller",
+              "Caller",
+              "Telefon",
+              "\u2581Phone"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 11170,
+            "pos": 3,
+            "label": "words related to telephones and connecting/disconnecting calls",
+            "frac_nonzero": 0.01319,
+            "promoted_tokens": [
+              "\u2581HasFactory",
+              "\u5e16\u6700\u540e\u7531",
+              "\u0627\u0644\u062d\u064a\u0627\u0647",
+              "\u0422\u0435\u043b\u0435\u0444\u043e\u043d",
+              "\u2581jLabel",
+              "fono",
+              "ContentAlignment",
+              "LookAnd",
+              "\u2581caller",
+              "\u2581num\u00e9"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2108,
+            "pos": 3,
+            "label": "the word \"menu\"",
+            "frac_nonzero": 0.00353,
+            "promoted_tokens": [
+              "\u2581ProtoMessage",
+              "Personendaten",
+              "Datuak",
+              "ReusableCell",
+              "internalType",
+              "orianCalendar",
+              "enderror",
+              "\u2581\u064a\u062a\u064a\u0645\u0647",
+              "ParallelGroup",
+              "WEBPACK"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6649,
+            "pos": 3,
+            "label": " the word \"Title\"",
+            "frac_nonzero": 0.0168,
+            "promoted_tokens": [
+              "\u2581it",
+              "\u2581the",
+              "\u2581in",
+              "\u2581he",
+              "\u2581an",
+              "\u2581a",
+              "\u2581that",
+              "\u2581to",
+              "\u2581for",
+              "\u2581at"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 4,
+            "from_feature_idx": 7998,
+            "from_pos": 3,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": 0
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 11170,
+            "from_pos": 3,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": 2.3594
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2108,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 11170,
+            "to_pos": 3,
+            "weight": -1.8672
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6649,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 11170,
+            "to_pos": 3,
+            "weight": 0.6953
+          },
+          {
+            "from_token": " menu",
+            "from_pos": 3,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": 13.5625
+          },
+          {
+            "from_token": " recorded",
+            "from_pos": 2,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": 10.9375
+          },
+          {
+            "from_token": "<bos>",
+            "from_pos": 0,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": -3.1406
+          },
+          {
+            "from_token": "A",
+            "from_pos": 1,
+            "to_layer": 4,
+            "to_feature_idx": 7998,
+            "to_pos": 3,
+            "weight": -2.2344
+          },
+          {
+            "from_token": " menu",
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 11170,
+            "to_pos": 3,
+            "weight": 8.0625
+          },
+          {
+            "from_token": " recorded",
+            "from_pos": 2,
+            "to_layer": 1,
+            "to_feature_idx": 11170,
+            "to_pos": 3,
+            "weight": 1.9531
+          },
+          {
+            "from_token": "A",
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 11170,
+            "to_pos": 3,
+            "weight": -0.8008
+          },
+          {
+            "from_token": " menu",
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 25.75
+          },
+          {
+            "from_token": " recorded",
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": -0.4766
+          },
+          {
+            "from_token": "<bos>",
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 0.3809
+          },
+          {
+            "from_token": "A",
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 2108,
+            "to_pos": 3,
+            "weight": 0.3789
+          },
+          {
+            "from_token": " menu",
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 6649,
+            "to_pos": 3,
+            "weight": 14.375
+          },
+          {
+            "from_token": "<bos>",
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 6649,
+            "to_pos": 3,
+            "weight": 0.5781
+          },
+          {
+            "from_token": "A",
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 6649,
+            "to_pos": 3,
+            "weight": -0.1689
+          },
+          {
+            "from_token": " recorded",
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 6649,
+            "to_pos": 3,
+            "weight": 0.0574
+          }
+        ],
+        "explanation": "Tracing from L4:F7998 (telecommunications feature) at position 3 reveals a direct connection to specific input tokens. The primary drivers are the token \" menu\" at position 3 (edge_weight: 13.56) and \" recorded\" at position 2 (edge_weight: 10.94), both strongly positive. There's also a weaker positive connection from L1:F11170 (telephone-related feature) with weight 2.36. The L1 feature itself is primarily driven by the same \" menu\" token (weight: 8.06) and secondarily by \" recorded\" (weight: 1.95). At layer 0, we find specialized detectors: F2108 specifically detects \"menu\" (frac_nonzero: 0.00353, very specific) and F6649 detects \"Title\" (frac_nonzero: 0.0168). Both L0 features are primarily driven by the \" menu\" token. The circuit shows that the telecommunications feature at layer 4 responds strongly to the presence of \"menu\" and \" recorded\" tokens in the input, with \" menu\" being the dominant driver throughout all layers.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 7998
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 7998,
+              "label": " words related to telecommunications and telephones",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+                  "max_activation": 72.347,
+                  "max_token": "\u2581ID"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+                  "max_activation": 72.347,
+                  "max_token": "\u2581ID"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581week\u2581they\u2581manually\u2581update\u2581Salesforce\u2581with\u2581the\u2581info\u2581that\u2581they\u2581gathered\u2581from\u2581calls\u2581that\u2581week.\nI\u2581need\u2581to\u2581track\u2581these\u2581things:\n\nLength\u2581of\u2581call\u2581in\u2581seconds\nAudio\u2581recording\u2581to\u2581call\u2581(or\u2581at\u2581least\u2581a\u2581link\u2581to\u2581o",
+                  "max_activation": 72.347,
+                  "max_token": "\u2581ID"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581callers",
+                "\u2581caller",
+                "\u2581voicemail",
+                "\u2581phone",
+                "$_['",
+                "\u2581Caller",
+                "Caller",
+                "Telefon",
+                "\u2581Phone"
+              ],
+              "suppressed_tokens": [
+                "ugais",
+                "SerializeField",
+                "\uffe1",
+                "seers",
+                "\u2581inmigrantes",
+                "Sloth",
+                "ulz",
+                "\u2581\u0627\u0644\u062d\u0631\u0647",
+                "\u2581sauvages",
+                "downe"
+              ],
+              "frac_nonzero": 0.01076
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 7998,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 13.5625
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 10.9375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.1406
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 11170,
+                "pos": 3,
+                "edge_weight": 2.3594
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -2.2344
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 11170
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 11170,
+              "label": "words related to telephones and connecting/disconnecting calls",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581a\u2581mechanical\u2581handset\u2581lift.\nThe\u2581present\u2581invention\u2581relates\u2581to\u2581a\u2581mechanical\u2581handset\u2581lift\u2581device\u2581that\u2581will\u2581enable\u2581the\u2581telephone\u2581user\u2581to\u2581enable\u2581and\u2581disable\u2581the\u2581telephone\"\"s\u2581hook-switch\u2581capabilities\u2581withou",
+                  "max_activation": 44.541,
+                  "max_token": "\u2581rings"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581mechanical\u2581handset\u2581lift.\nThe\u2581present\u2581invention\u2581relates\u2581to\u2581a\u2581mechanical\u2581handset\u2581lift\u2581device\u2581that\u2581will\u2581enable\u2581the\u2581telephone\u2581user\u2581to\u2581enable\u2581and\u2581disable\u2581the\u2581telephone\"\"s\u2581hook-switch\u2581capabilities\u2581withou",
+                  "max_activation": 44.541,
+                  "max_token": "\u2581rings"
+                },
+                {
+                  "text_snippet": "-switching).\n2.\u2581Description\u2581of\u2581the\u2581Prior\u2581Art\nMany\u2581of\u2581the\u2581newest\u2581telephone\u2581systems\u2581that\u2581are\u2581coming\u2581out\u2581on\u2581the\u2581market\u2581have\u2581what\u2581is\u2581called\u2581electronic\u2581hook-switching.\u2581This\u2581is\u2581basically\u2581a\u2581button,\u2581that\u2581when",
+                  "max_activation": 43.979,
+                  "max_token": "\u2581rings"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581HasFactory",
+                "\u5e16\u6700\u540e\u7531",
+                "\u0627\u0644\u062d\u064a\u0627\u0647",
+                "\u0422\u0435\u043b\u0435\u0444\u043e\u043d",
+                "\u2581jLabel",
+                "fono",
+                "ContentAlignment",
+                "LookAnd",
+                "\u2581caller",
+                "\u2581num\u00e9"
+              ],
+              "suppressed_tokens": [
+                "Tikang",
+                "\u2581propOrder",
+                "\"]),",
+                "\u2581\"}\";",
+                "\u2581}),",
+                "amment",
+                "]),\r",
+                "PROMOTED",
+                "\u2581rayures",
+                ">[]"
+              ],
+              "frac_nonzero": 0.01319
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 11170,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 8.0625
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 1.9531
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2108,
+                "pos": 3,
+                "edge_weight": -1.8672
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -0.8008
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6649,
+                "pos": 3,
+                "edge_weight": 0.6953
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2108
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2108,
+              "label": "the word \"menu\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581by\u2581a\u2581different\u2581gene.<bos>Main\u2581menu\n\nMonthly\u2581Archives:\u2581February\u25812020\n\nAll\u2581month,\u2581I\u2019ve\u2581been\u2581writing\u2581poems\u2581each\u2581morning\u2581to\u2581a\u2581theme\u2581via\u2581CLMOOC\u2019s\u2581Poetry\u2581Port\u2581\u2014\u2581a\u2581project\u2581designed\u2581to\u2581spread\u2581collaboration\u2581a",
+                  "max_activation": 43.865,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": ",\u2581but\u2581left\u2581click\u2581to\u2581call\u2581the\u2581onClick()\u2581on\u2581the\u2581menuitem.\nInspecting\u2581the\u2581contents\u2581of\u2581the\u2581event\u2581parameter\u2581passed\u2581to\u2581the\u2581onClick\u2581function,\u2581there\u2581doesn't\u2581appear\u2581to\u2581be\u2581anything\u2581telling\u2581me\u2581which\u2581mouse\u2581button",
+                  "max_activation": 43.724,
+                  "max_token": "\u2581menu"
+                },
+                {
+                  "text_snippet": "\n\nstruct\u2581Category\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581items:\u2581[Item]\n}\n\nstruct\u2581Restaurant\u2581{\n\u2581\u2581\u2581\u2581let\u2581name:\u2581String\n\u2581\u2581\u2581\u2581let\u2581categories:\u2581[Category]\n\n}\n\nA:\n\nIn\u2581this\u2581line\nlet\u2581menuArray\u2581=\u2581[a_w]\n\nyou\u2581are\u2581creating\u2581a",
+                  "max_activation": 43.327,
+                  "max_token": "\u2581menu"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581ProtoMessage",
+                "Personendaten",
+                "Datuak",
+                "ReusableCell",
+                "internalType",
+                "orianCalendar",
+                "enderror",
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "ParallelGroup",
+                "WEBPACK"
+              ],
+              "suppressed_tokens": [
+                "midler",
+                ">[]",
+                "\u2581helft",
+                "\u2581L\u00e1zaro",
+                "\u2581vuur",
+                "\u2581stedet",
+                "entrion",
+                "\u2581sonora",
+                "\u2581Constitucional",
+                "jm\u00e9na"
+              ],
+              "frac_nonzero": 0.00353
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6649
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6649,
+              "label": " the word \"Title\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581\u2581Id.\u2581\u2581Title\u2581VII\u2581is\u2581violated\u2581when\u2581the\u2581workplace\u2581is\u2581permeated\u2581with\u2581discriminatory\u2581intimidation,\u2581ridicule,\r\nand\u2581insult\u2581that\u2581is\u2581sufficiently\u2581severe\u2581or\u2581pervasive\u2581to\u2581create\u2581a\u2581discriminatorily\u2581hostile\u2581or\u2581a",
+                  "max_activation": 36.232,
+                  "max_token": "Title"
+                },
+                {
+                  "text_snippet": ".\u2581\u2581Id.\u2581\u2581Title\u2581VII\u2581is\u2581violated\u2581when\u2581the\u2581workplace\u2581is\u2581permeated\u2581with\u2581discriminatory\u2581intimidation,\u2581ridicule,\r\nand\u2581insult\u2581that\u2581is\u2581sufficiently\u2581severe\u2581or\u2581pervasive\u2581to\u2581create\u2581a\u2581discriminatorily\u2581hostile\u2581or\u2581a",
+                  "max_activation": 36.232,
+                  "max_token": "Title"
+                },
+                {
+                  "text_snippet": "\u2581NULL,\n\u2581\u2581`FeedItem_Date`\u2581datetime\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Title`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Url`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Name`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581PRIMARY\u2581KEY\u2581(`FeedItem_ID`),\n\u2581\u2581",
+                  "max_activation": 36.075,
+                  "max_token": "Title"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581it",
+                "\u2581the",
+                "\u2581in",
+                "\u2581he",
+                "\u2581an",
+                "\u2581a",
+                "\u2581that",
+                "\u2581to",
+                "\u2581for",
+                "\u2581at"
+              ],
+              "suppressed_tokens": [
+                "\u2581The\u017fe",
+                "\u2581it\u017felf",
+                "\u2581them\u017felves",
+                "\u2581my\u017felf",
+                "\u2581Efq",
+                "\u2581Hou\u017fe",
+                "\u2581rai\u017f",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581poffible",
+                "\u2581fa\u017ft"
+              ],
+              "frac_nonzero": 0.0168
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2108,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 25.75
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": -0.4766
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.3809
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": 0.3789
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6649,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " menu",
+                "pos": 3,
+                "edge_weight": 14.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.5781
+              },
+              {
+                "type": "embedding",
+                "token": "A",
+                "pos": 1,
+                "edge_weight": -0.1689
+              },
+              {
+                "type": "embedding",
+                "token": " recorded",
+                "pos": 2,
+                "edge_weight": 0.0574
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace the path from L4:F7998 (telecommunications feature) - trace upstream to find what input tokens drive it.",
+          "input_tokens": 43611,
+          "output_tokens": 2739,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 6649
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 6649,
+        "label": " the word \"Title\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": ".\u2581\u2581Id.\u2581\u2581Title\u2581VII\u2581is\u2581violated\u2581when\u2581the\u2581workplace\u2581is\u2581permeated\u2581with\u2581discriminatory\u2581intimidation,\u2581ridicule,\r\nand\u2581insult\u2581that\u2581is\u2581sufficiently\u2581severe\u2581or\u2581pervasive\u2581to\u2581create\u2581a\u2581discriminatorily\u2581hostile\u2581or\u2581a",
+            "max_activation": 36.232,
+            "max_token": "Title"
+          },
+          {
+            "text_snippet": ".\u2581\u2581Id.\u2581\u2581Title\u2581VII\u2581is\u2581violated\u2581when\u2581the\u2581workplace\u2581is\u2581permeated\u2581with\u2581discriminatory\u2581intimidation,\u2581ridicule,\r\nand\u2581insult\u2581that\u2581is\u2581sufficiently\u2581severe\u2581or\u2581pervasive\u2581to\u2581create\u2581a\u2581discriminatorily\u2581hostile\u2581or\u2581a",
+            "max_activation": 36.232,
+            "max_token": "Title"
+          },
+          {
+            "text_snippet": "\u2581NULL,\n\u2581\u2581`FeedItem_Date`\u2581datetime\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Title`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Url`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581`FeedItem_Name`\u2581varchar(255)\u2581NOT\u2581NULL,\n\u2581\u2581PRIMARY\u2581KEY\u2581(`FeedItem_ID`),\n\u2581\u2581",
+            "max_activation": 36.075,
+            "max_token": "Title"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581it",
+          "\u2581the",
+          "\u2581in",
+          "\u2581he",
+          "\u2581an",
+          "\u2581a",
+          "\u2581that",
+          "\u2581to",
+          "\u2581for",
+          "\u2581at"
+        ],
+        "suppressed_tokens": [
+          "\u2581The\u017fe",
+          "\u2581it\u017felf",
+          "\u2581them\u017felves",
+          "\u2581my\u017felf",
+          "\u2581Efq",
+          "\u2581Hou\u017fe",
+          "\u2581rai\u017f",
+          "\u2581\u2015\u2015\u2015\u2015\u2015",
+          "\u2581poffible",
+          "\u2581fa\u017ft"
+        ],
+        "frac_nonzero": 0.0168
+      }
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 0,
+        "feature_idx": 7404,
+        "pos": 2,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": " recorded",
+          "pos": 2,
+          "edge_weight": 14.25
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": 1.2031
+        },
+        {
+          "type": "embedding",
+          "token": "A",
+          "pos": 1,
+          "edge_weight": 0.9531
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 478,
+          "pos": 1,
+          "edge_weight": 0.0
+        },
+        {
+          "type": "feature",
+          "layer": 0,
+          "feature_idx": 651,
+          "pos": 1,
+          "edge_weight": 0.0
+        }
+      ]
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_recorded",
+            "label": "Emb: ' recorded' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_menu",
+            "label": "Emb: ' menu' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_will",
+            "label": "Emb: ' will' (pos 4)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "emb_A",
+            "label": "Emb: 'A' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_bos",
+            "label": "Emb: '<bos>' (pos 0)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 0
+              }
+            ]
+          },
+          {
+            "id": "lexical_record",
+            "label": "Lexical: 'record' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 7443,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7404,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "lexical_menu",
+            "label": "Lexical: 'menu' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2108,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 6649,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_will",
+            "label": "Lexical: 'will' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 8046,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "recording_detector",
+            "label": "Scientific: 'recording' detector",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 3691,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "menu_telecom",
+            "label": "Menu/Telecom: word detection chain",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 12253,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 11170,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 14120,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "finance_property",
+            "label": "Domain: Finance/Property Law",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 8776,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "menu_interface",
+            "label": "Interface: 'menu' in UI context",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 3573,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "telecom",
+            "label": "Domain: Telecommunications",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 7998,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Output: Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_recorded",
+            "to": "lexical_record",
+            "weight": 22.625
+          },
+          {
+            "from": "emb_recorded",
+            "to": "recording_detector",
+            "weight": 24.75
+          },
+          {
+            "from": "emb_recorded",
+            "to": "finance_property",
+            "weight": 19.5
+          },
+          {
+            "from": "emb_menu",
+            "to": "lexical_menu",
+            "weight": 25.75
+          },
+          {
+            "from": "emb_menu",
+            "to": "menu_telecom",
+            "weight": 20.625
+          },
+          {
+            "from": "emb_menu",
+            "to": "menu_interface",
+            "weight": 21.375
+          },
+          {
+            "from": "emb_menu",
+            "to": "telecom",
+            "weight": 13.56
+          },
+          {
+            "from": "emb_will",
+            "to": "lexical_will",
+            "weight": 36
+          },
+          {
+            "from": "lexical_record",
+            "to": "finance_property",
+            "weight": 0.45
+          },
+          {
+            "from": "recording_detector",
+            "to": "finance_property",
+            "weight": -0.7
+          },
+          {
+            "from": "lexical_menu",
+            "to": "menu_telecom",
+            "weight": 2.16
+          },
+          {
+            "from": "lexical_menu",
+            "to": "menu_interface",
+            "weight": -0.85
+          },
+          {
+            "from": "menu_telecom",
+            "to": "menu_interface",
+            "weight": -0.85
+          },
+          {
+            "from": "menu_telecom",
+            "to": "telecom",
+            "weight": 2.36
+          },
+          {
+            "from": "finance_property",
+            "to": "output_logit",
+            "weight": 0.52
+          },
+          {
+            "from": "lexical_menu",
+            "to": "output_logit",
+            "weight": -0.49
+          },
+          {
+            "from": "menu_telecom",
+            "to": "output_logit",
+            "weight": -0.43
+          },
+          {
+            "from": "lexical_will",
+            "to": "output_logit",
+            "weight": -0.38
+          },
+          {
+            "from": "menu_interface",
+            "to": "output_logit",
+            "weight": -0.29
+          },
+          {
+            "from": "telecom",
+            "to": "output_logit",
+            "weight": -0.24
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_recorded",
+            "label": "Emb: ' recorded' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_menu",
+            "label": "Emb: ' menu' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_will",
+            "label": "Emb: ' will' (pos 4)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "emb_A",
+            "label": "Emb: 'A' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_bos",
+            "label": "Emb: '<bos>' (pos 0)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 0
+              }
+            ]
+          },
+          {
+            "id": "lexical_record",
+            "label": "Lexical: 'record' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 7443,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7404,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "lexical_menu",
+            "label": "Lexical: 'menu' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2108,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 6649,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_will",
+            "label": "Lexical: 'will' word detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 8046,
+                "pos": 4
+              }
+            ]
+          },
+          {
+            "id": "recording_detector",
+            "label": "Scientific: 'recording' detector",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 3691,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "menu_telecom",
+            "label": "Menu/Telecom: word detection chain",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 12253,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 11170,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 14120,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "finance_property",
+            "label": "Domain: Finance/Property Law",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 8776,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "menu_interface",
+            "label": "Interface: 'menu' in UI context",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 3573,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "telecom",
+            "label": "Domain: Telecommunications",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 7998,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Output: Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_recorded",
+            "to": "lexical_record",
+            "weight": 22.625
+          },
+          {
+            "from": "emb_recorded",
+            "to": "recording_detector",
+            "weight": 24.75
+          },
+          {
+            "from": "emb_recorded",
+            "to": "finance_property",
+            "weight": 19.5
+          },
+          {
+            "from": "emb_menu",
+            "to": "lexical_menu",
+            "weight": 25.75
+          },
+          {
+            "from": "emb_menu",
+            "to": "menu_telecom",
+            "weight": 20.625
+          },
+          {
+            "from": "emb_menu",
+            "to": "menu_interface",
+            "weight": 21.375
+          },
+          {
+            "from": "emb_menu",
+            "to": "telecom",
+            "weight": 13.56
+          },
+          {
+            "from": "emb_will",
+            "to": "lexical_will",
+            "weight": 36
+          },
+          {
+            "from": "lexical_record",
+            "to": "finance_property",
+            "weight": 0.45
+          },
+          {
+            "from": "recording_detector",
+            "to": "finance_property",
+            "weight": -0.7
+          },
+          {
+            "from": "lexical_menu",
+            "to": "menu_telecom",
+            "weight": 2.16
+          },
+          {
+            "from": "lexical_menu",
+            "to": "menu_interface",
+            "weight": -0.85
+          },
+          {
+            "from": "menu_telecom",
+            "to": "menu_interface",
+            "weight": -0.85
+          },
+          {
+            "from": "menu_telecom",
+            "to": "telecom",
+            "weight": 2.36
+          },
+          {
+            "from": "finance_property",
+            "to": "output_logit",
+            "weight": 0.52
+          },
+          {
+            "from": "lexical_menu",
+            "to": "output_logit",
+            "weight": -0.49
+          },
+          {
+            "from": "menu_telecom",
+            "to": "output_logit",
+            "weight": -0.43
+          },
+          {
+            "from": "lexical_will",
+            "to": "output_logit",
+            "weight": -0.38
+          },
+          {
+            "from": "menu_interface",
+            "to": "output_logit",
+            "weight": -0.29
+          },
+          {
+            "from": "telecom",
+            "to": "output_logit",
+            "weight": -0.24
+          }
+        ],
+        "status": "circuit_saved",
+        "warning": "Circuit reaches early layers but not token embedding nodes. Consider tracing to embedding nodes to identify which specific input tokens drive the prediction."
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 23484,
+      "output_tokens": 4425,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 74328
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace the path from L0:F2108 (word \"menu\" detection at pos 3) - trace upstream to find what input tokens drive it. The concern is about spurious features.",
+        "input_tokens": 8071,
+        "output_tokens": 1362,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5568
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace the path from L0:F8046 (word \"will\" detection at pos 4) - trace upstream to find what input tokens drive it. Look for whether this is a spurious/lexical feature.",
+        "input_tokens": 18224,
+        "output_tokens": 1505,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace the path from L2:F8776 (finance/property law feature) - what does this feature encode and where does its signal originate? Trace to embedding nodes if possible.",
+        "input_tokens": 55369,
+        "output_tokens": 3058,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3200
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace the path from L4:F7998 (telecommunications feature) - trace upstream to find what input tokens drive it.",
+        "input_tokens": 43611,
+        "output_tokens": 2739,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace the path from L3:F3573 (word \"menu\" in interface context) - trace upstream to find the input tokens driving this feature.",
+        "input_tokens": 48820,
+        "output_tokens": 2925,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5440
+      }
+    ]
+  },
+  "total_cost_usd": 0.064622968,
+  "turns": 9,
+  "elapsed_seconds": 318.75258590327576,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T18-14-37"
+}

@@ -1,0 +1,44 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F6236",
+      "label": "negation feature",
+      "reason": "Detects haven't/isn't contractions; negation-word cue."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F16366",
+      "label": "because token",
+      "reason": "Causal connector relevant to logical relation."
+    },
+    {
+      "id": "L0:F12862",
+      "label": "tournament context",
+      "reason": "Topic/content feature about actual basketball semantics."
+    },
+    {
+      "id": "L0:F8083",
+      "label": "double token",
+      "reason": "Entity/topic content, not a negation detector."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L4:F12126",
+      "label": "well/yeah agreement detector",
+      "reason": "Pure discourse filler; structurally surface-level."
+    },
+    {
+      "id": "L4:F5709",
+      "label": "spurious 'now' pattern",
+      "reason": "Oracle says it inhibits actual semantic meaning."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 3,
+  "n_other": 2,
+  "spurious_fraction": 0.25,
+  "dominant": "causal",
+  "notes": "One true negation cue; strongest cited feature is classified as other, not causal."
+}

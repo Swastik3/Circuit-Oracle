@@ -1,0 +1,84 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F12519",
+      "label": "the pronoun \"she\"",
+      "reason": "Female pronoun marker"
+    },
+    {
+      "id": "L0:F7509",
+      "label": "female pronouns and words like daughter and husband that refer to women",
+      "reason": "Female-gender relational pronouns"
+    },
+    {
+      "id": "L1:F4232",
+      "label": "the possessive pronoun \"her\"",
+      "reason": "Possessive feminine pronoun"
+    },
+    {
+      "id": "L6:F11646",
+      "label": "references to women, potentially triggered by pronouns and titles",
+      "reason": "Women/gender marker"
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F14233",
+      "label": "words that indicate something is undesirable or wrong",
+      "reason": "Negative sentiment supports task signal"
+    },
+    {
+      "id": "L4:F12637",
+      "label": "words that indicate something is undesirable or wrong",
+      "reason": "Negative sentiment supports task signal"
+    },
+    {
+      "id": "L3:F3222",
+      "label": "numerical references, especially those including hyphens, and words ending in \"chain.\"",
+      "reason": "Oracle says side hustle context"
+    },
+    {
+      "id": "L2:F6966",
+      "label": "unknown",
+      "reason": "Oracle says side hustle context"
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' she' (pos 5)",
+      "label": "feminine pronoun",
+      "reason": "Input token only"
+    },
+    {
+      "id": "Emb: ' side' (pos 10)",
+      "label": "",
+      "reason": "Input token only"
+    },
+    {
+      "id": "Emb: ' hustle' (pos 11)",
+      "label": "",
+      "reason": "Input token only"
+    },
+    {
+      "id": "Emb: 'never' (pos 7)",
+      "label": "",
+      "reason": "Input token only"
+    },
+    {
+      "id": "Emb: '.' (pos 12)",
+      "label": "",
+      "reason": "Punctuation only"
+    },
+    {
+      "id": "Probe Classification Score (L22 residual stream)",
+      "label": "",
+      "reason": "Not a feature"
+    }
+  ],
+  "n_spurious": 4,
+  "n_causal": 4,
+  "n_other": 6,
+  "spurious_fraction": 0.5,
+  "dominant": "mixed",
+  "notes": "Both classes present; input embeddings and score are treated as other."
+}

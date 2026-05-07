@@ -1,0 +1,79 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F10682",
+      "label": "Race Token Detection",
+      "reason": "Direct demographic token detector."
+    },
+    {
+      "id": "L1:F13069",
+      "label": "Black Token Detection",
+      "reason": "Direct demographic token detector."
+    },
+    {
+      "id": "L1:F5477",
+      "label": "Mentioning Detection",
+      "reason": "Generic mention marker, not identity or toxicity."
+    },
+    {
+      "id": "L3:F6517",
+      "label": "Mentioning Detection",
+      "reason": "Generic mention marker, not identity or toxicity."
+    },
+    {
+      "id": "L4:F5584",
+      "label": "Race/Ethnicity/Nationality Groups",
+      "reason": "Identity-group signal."
+    },
+    {
+      "id": "L4:F117",
+      "label": "Race/Racism/Social Justice w/ Black Focus",
+      "reason": "Identity-group/race focus."
+    },
+    {
+      "id": "L6:F3902",
+      "label": "Race/Ethnicity Abstracted",
+      "reason": "Abstracted race/ethnicity detector."
+    },
+    {
+      "id": "L5:F12135",
+      "label": "Discrimination Based on Identity",
+      "reason": "Identity-based discrimination signal."
+    },
+    {
+      "id": "L3:F13061",
+      "label": "Race/Gender/Social Issues",
+      "reason": "Identity/social-issues signal."
+    },
+    {
+      "id": "L3:F16373",
+      "label": "Demographic Identity",
+      "reason": "Demographic identity signal."
+    },
+    {
+      "id": "L2:F10509",
+      "label": "Race Anti-Toxicity Suppressor",
+      "reason": "Operates on race identity signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L6:F9228",
+      "label": "Discrimination Language",
+      "reason": "Toxicity-related discriminatory language detector."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L4:F11200",
+      "label": "Authorship/Origination Detection",
+      "reason": "Structural origination cue, not toxicity."
+    }
+  ],
+  "n_spurious": 11,
+  "n_causal": 1,
+  "n_other": 1,
+  "spurious_fraction": 0.9166666666666666,
+  "dominant": "spurious",
+  "notes": "Mentioning features are other; one causal feature. No empty class."
+}

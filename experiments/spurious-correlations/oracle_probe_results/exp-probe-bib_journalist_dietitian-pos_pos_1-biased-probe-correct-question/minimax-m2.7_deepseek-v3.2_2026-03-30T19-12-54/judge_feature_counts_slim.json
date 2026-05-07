@@ -1,0 +1,73 @@
+{
+  "spurious_features": [
+    {
+      "id": "L6:F11646",
+      "label": "references to women / female pronouns",
+      "reason": "Encodes female references, driven by She/she/her"
+    },
+    {
+      "id": "L12:F12940",
+      "label": "references to female pronouns",
+      "reason": "Directly detects female pronoun usage"
+    },
+    {
+      "id": "L18:F14677",
+      "label": "instances of women or girls mentioned",
+      "reason": "Signals women/girls mentions"
+    },
+    {
+      "id": "L0:F12519",
+      "label": "pronoun detector",
+      "reason": "Early female pronoun pathway"
+    },
+    {
+      "id": "L2:F2128",
+      "label": "pronoun detector",
+      "reason": "Continues gender-marker detection"
+    },
+    {
+      "id": "L2:F8966",
+      "label": "pronoun detector",
+      "reason": "Continues gender-marker detection"
+    },
+    {
+      "id": "L4:F15317",
+      "label": "named entities",
+      "reason": "Promotes herself/she/her, not profession"
+    },
+    {
+      "id": "L7:F8644",
+      "label": "woman's name",
+      "reason": "Female-name pathway suppressing pronouns"
+    },
+    {
+      "id": "L0:F7509",
+      "label": "female pronouns",
+      "reason": "Female-pronoun suppressor"
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L0:raw embedding",
+      "label": "She",
+      "reason": "Token trigger only, not a learned feature"
+    },
+    {
+      "id": "L2:verb cue",
+      "label": "loves",
+      "reason": "Generic verb; not profession-specific"
+    },
+    {
+      "id": "code patterns",
+      "label": "unrelated content",
+      "reason": "Oracle says unrelated/dismissed"
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 0,
+  "n_other": 3,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "Oracle attributes prediction to gender markers; no profession indicators are used."
+}

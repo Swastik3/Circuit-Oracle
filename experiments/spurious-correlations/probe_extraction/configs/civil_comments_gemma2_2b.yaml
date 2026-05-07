@@ -1,0 +1,24 @@
+# CivilComments-WILDS: non-toxic (label=0) vs toxic (label=1)
+# Spurious feature: demographic identity mention (0=none, 1=any of 8 WILDS groups)
+# Model: google/gemma-2-2b, layer 22
+
+task_name:   civil_comments
+model_name:  google/gemma-2-2b
+layers_path: model.layers
+layer:       22
+dtype:       bfloat16
+device:      cuda:0
+batch_size:  32
+seed:        42
+lr:          0.01
+epochs:      1
+max_samples: 20000
+output_dir:  .
+
+model_kwargs:
+  attn_implementation: eager            # required for Gemma-2 with nnsight
+
+adapter:
+  type:                 civil_comments
+  activation_dim_value: 2304
+  hf_dataset_name:      google/civil_comments

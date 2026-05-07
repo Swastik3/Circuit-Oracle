@@ -1,0 +1,94 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F13885",
+      "label": "Middle Eastern Names/Places Detector",
+      "reason": "Demographic/region identity signal, not toxicity."
+    },
+    {
+      "id": "L6:F7282",
+      "label": "Islam-Specific Mention Detector",
+      "reason": "Detects Islamic identity mentions."
+    },
+    {
+      "id": "L4:F2405",
+      "label": "Religious Identity/Affiliation Detector",
+      "reason": "Identity/affiliation detector for religion."
+    },
+    {
+      "id": "L8:F13197",
+      "label": "Religion/Faith Terms Detector",
+      "reason": "Religion identity terminology, not toxic content."
+    },
+    {
+      "id": "L7:F14049",
+      "label": "Political Conflict Involving Muslims",
+      "reason": "Muslim-group context signal, identity-linked."
+    },
+    {
+      "id": "L3:F12024",
+      "label": "Islam-Specific Content Suppressor",
+      "reason": "Still an Islam-specific feature; role is identity-linked."
+    },
+    {
+      "id": "L1:F4314",
+      "label": "Muslim Term Suppressor",
+      "reason": "Suppresses Muslim identity terms."
+    },
+    {
+      "id": "L7:F12448",
+      "label": "General Religion Suppressor",
+      "reason": "Religion-related identity signal."
+    },
+    {
+      "id": "L2:F7214",
+      "label": "Islamic Countries/Regions References",
+      "reason": "Geographic identity/affiliation marker."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F13635",
+      "label": "False/Boolean Statement Detector",
+      "reason": "Lexical truth-status, not identity-group."
+    },
+    {
+      "id": "L2:F4053",
+      "label": "False/Boolean Statement Detector",
+      "reason": "Lexical truth-status, not identity-group."
+    },
+    {
+      "id": "L12:F7779",
+      "label": "Group Denigration Detector",
+      "reason": "Detects denigrating language; toxic-content semantics."
+    },
+    {
+      "id": "L4:F15997",
+      "label": "Problem/Disagreement Context",
+      "reason": "Generic dispute/context feature, toxic-adjacent semantics."
+    },
+    {
+      "id": "L3:F14698",
+      "label": "Problem/Disagreement Context",
+      "reason": "Generic dispute/context feature, toxic-adjacent semantics."
+    },
+    {
+      "id": "L3:F1395",
+      "label": "Problem/Disagreement Context",
+      "reason": "Generic dispute/context feature, toxic-adjacent semantics."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F880",
+      "label": "Pronoun 'it' Detector",
+      "reason": "Purely structural pronoun detector."
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 6,
+  "n_other": 1,
+  "spurious_fraction": 0.6,
+  "dominant": "spurious",
+  "notes": "Exhaustive pass completed. False/boolean and problem/disagreement are generic or toxic-adjacent, not identity signals."
+}

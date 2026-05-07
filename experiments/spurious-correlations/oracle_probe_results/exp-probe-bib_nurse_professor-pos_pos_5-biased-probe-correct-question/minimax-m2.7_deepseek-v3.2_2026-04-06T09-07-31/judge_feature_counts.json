@@ -1,0 +1,54 @@
+{
+  "spurious_features": [
+    {
+      "id": "L18:F14677",
+      "label": "instances of women or girls being mentioned",
+      "reason": "Gender mention feature; directly encodes female markers."
+    },
+    {
+      "id": "L19:F9685",
+      "label": "references to women's names and their roles or accomplishments",
+      "reason": "Women-name/role stereotype feature; spurious gender signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F13803",
+      "label": "terms related to obstetrics and gynecology",
+      "reason": "Medical profession vocabulary; genuine task signal."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F7532",
+      "label": "proper nouns",
+      "reason": "Generic name detector; not class-aligned."
+    },
+    {
+      "id": "L12:F14970",
+      "label": "names of people, both first and last names",
+      "reason": "Generic person-name detector; not specifically gendered."
+    },
+    {
+      "id": "L4:F1276",
+      "label": "capitalized names and titles, and names with lowercase letters in the middle of them",
+      "reason": "Structural name/title feature; uninformative here."
+    },
+    {
+      "id": "L7:F8644",
+      "label": "woman's name in a variety of contexts",
+      "reason": "Name-context detector; oracle doesn't tie it to output."
+    },
+    {
+      "id": "L13:F11685",
+      "label": "words related to women",
+      "reason": "Too broad; not explicitly used as output driver."
+    }
+  ],
+  "n_spurious": 2,
+  "n_causal": 1,
+  "n_other": 5,
+  "spurious_fraction": 0.6666666666666666,
+  "dominant": "spurious",
+  "notes": "No other causal features explicitly claimed; ignored token-level embeddings and ungrounded inferences."
+}

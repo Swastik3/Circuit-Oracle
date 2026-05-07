@@ -1,0 +1,58 @@
+{
+  "spurious_features": [
+    {
+      "id": "L1:6639",
+      "label": "gender/mating terms",
+      "reason": "Identity-group syntax, not toxicity content."
+    },
+    {
+      "id": "L4:15899",
+      "label": "LGBTQ identity",
+      "reason": "Identity-group signal for sexual orientation."
+    },
+    {
+      "id": "L6:6085",
+      "label": "homosexuality",
+      "reason": "Detects sexual-orientation term, spurious here."
+    },
+    {
+      "id": "L8:15771",
+      "label": "LGBTQ+ discussions",
+      "reason": "Identity-topic detector, not harmful semantics."
+    },
+    {
+      "id": "L2:13158",
+      "label": "race/ethnicity",
+      "reason": "Demographic-token feature, not toxic content."
+    },
+    {
+      "id": "L1:9113",
+      "label": "race/slavery discussions",
+      "reason": "Race-related identity signal, spurious for toxicity."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "token:Gay",
+      "label": "Gay",
+      "reason": "Raw token trigger, classified by semantic role."
+    },
+    {
+      "id": "token:White",
+      "label": "White",
+      "reason": "Raw token trigger, classified by semantic role."
+    },
+    {
+      "id": "token:Black",
+      "label": "Black",
+      "reason": "Raw token trigger, classified by semantic role."
+    }
+  ],
+  "n_spurious": 6,
+  "n_causal": 0,
+  "n_other": 3,
+  "spurious_fraction": 1,
+  "dominant": "spurious",
+  "notes": "Oracle describes identity-group reliance; no toxic-content or structure features claimed."
+}

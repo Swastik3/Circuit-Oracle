@@ -1,0 +1,4817 @@
+{
+  "prompt_name": "civil_comments-pos_pos_1-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: civil_comments-pos_pos_1 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": "The circuit use spurious features (e.g.,\"an identity group\" signals) rather than actual prompt content (lexical or semaintical) to predict toxicity.",
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification score is driven by a shallow circuit that primarily detects linguistic intensity markers (adverbs like \"clearly\") and political figure references (Trump, Obama), rather than spurious identity-group signals. The circuit is heavily dominated by layer-0 lexical features that directly map from input token embeddings, with only one multi-layer processing path (political names \u2192 White House detection at L4:14582). Identity-related tokens (\"white\", \"nonwhites\") appear only as weak secondary inputs to the \"again\" feature with negligible circuit weight (0.793) and a negative contribution direction.\n\n**Confidence:** 8/10\n\n**Reasoning:** The circuit was traced comprehensively across all top-10 features by direct effect. Key evidence:\n\n1. **No spurious identity features:** The only appearance of \"white\" is in `lexical_again` (L0:15831) as a secondary input with weight 0.793 \u2014 far below the primary input from \"again\" token (weight 43.5). This feature has a *negative* direct effect (-0.125), actually suppressing the toxic classification.\n\n2. **Shallow lexical processing:** 9 of 10 top features are direct layer-0 features receiving from single token embeddings. These detect linguistic content (adverbs, copula, demonstratives, document structure) rather than identity semantics.\n\n3. **One multi-layer political path:** L4:14582 (\"White House/US Government References\") with frac_nonzero=0.00787 shows genuine multi-layer processing: L2:14301 (political names, weight 2.42) \u2192 L3:3136 (Trump administration, inhibitory -0.92) \u2192 L4:14582. This encodes *actual political content* (Trump, Obama mentions) rather than generic identity signals.\n\n4. **Low frac_nonzero values** (0.00278-0.0428) across all features indicate specificity \u2014 the probe is not using generic toxic-pattern matchers but specific linguistic/political content detectors.\n\n5. **Lexical \"clearly\" dominance:** Four separate features (L0:12866, 7621, 4422, 7142) all respond to \"clearly\" at pos 2, with combined direct effects of +0.085. The adverb appears to be the primary toxicity signal the probe learned.\n\nThe concern about spurious identity signals is **not supported** by this circuit. The probe's classification appears to be based on legitimate content features (political figure names, intensifying language) rather than demographic identity mentions. The \"white\", \"nonwhites\" tokens in the prompt are essentially invisible to the attribution circuit.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 0,
+          "feature_idx": 12866,
+          "pos": 2,
+          "activation": 12.25,
+          "direct_effect": -0.207
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7621,
+          "pos": 2,
+          "activation": 13.6875,
+          "direct_effect": 0.1953
+        },
+        {
+          "layer": 4,
+          "feature_idx": 14582,
+          "pos": 5,
+          "activation": 14.0625,
+          "direct_effect": 0.1562
+        },
+        {
+          "layer": 0,
+          "feature_idx": 4422,
+          "pos": 2,
+          "activation": 9.125,
+          "direct_effect": 0.1377
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11375,
+          "pos": 6,
+          "activation": 33.5,
+          "direct_effect": 0.1299
+        },
+        {
+          "layer": 0,
+          "feature_idx": 15831,
+          "pos": 26,
+          "activation": 39.0,
+          "direct_effect": -0.125
+        },
+        {
+          "layer": 0,
+          "feature_idx": 164,
+          "pos": 3,
+          "activation": 14.9375,
+          "direct_effect": -0.1221
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7142,
+          "pos": 2,
+          "activation": 10.625,
+          "direct_effect": -0.1216
+        },
+        {
+          "layer": 0,
+          "feature_idx": 3916,
+          "pos": 1,
+          "activation": 7.75,
+          "direct_effect": 0.1182
+        },
+        {
+          "layer": 2,
+          "feature_idx": 9199,
+          "pos": 9,
+          "activation": 15.0625,
+          "direct_effect": -0.1152
+        }
+      ]
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 4,
+        "starting_feature_idx": 14582,
+        "starting_pos": 5,
+        "objective": "Trace L4:14582 (pos 5, direct_effect +0.156) upstream to understand what semantic content drives this feature and whether it relies on spurious identity group signals or actual toxic content from the prompt.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 4,
+            "feature_idx": 14582,
+            "pos": 5,
+            "label": " references to the White House and the US government",
+            "frac_nonzero": 0.00787,
+            "promoted_tokens": [
+              "\u2581Presidential",
+              "Presidential",
+              "\u2581presidential",
+              "\u2581Biden",
+              "\u2581presidencial",
+              "\u2581Trump",
+              "\u2581Obama",
+              "Trump",
+              "Obama",
+              "\u2581President"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 3136,
+            "pos": 5,
+            "label": " names of people involved in the Trump administration",
+            "frac_nonzero": 0.008020000000000001,
+            "promoted_tokens": [
+              "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+              "\u2581Wiktionnaire",
+              "protoimpl",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "ttemberg",
+              "<bos>",
+              "\u041f\u0440\u0435\u043c\u0430",
+              "nictwa",
+              "\u2581pinulongan",
+              "Personendaten"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 14301,
+            "pos": 5,
+            "label": " names of people and organizations involved in politics, finance, and national security",
+            "frac_nonzero": 0.006770000000000001,
+            "promoted_tokens": [
+              "\u2581Khrushchev",
+              "remoto",
+              "gorm",
+              "Messi",
+              "\u0420\u0435\u0448\u0435\u043d\u0438\u0435",
+              "KURZBESCHREIBUNG",
+              "\u2581accompli",
+              "\u2581&___",
+              "\u2581aikana",
+              "\u2581balancer"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 13271,
+            "pos": 5,
+            "label": " two distinct topics: One is terminology related to knitting and the other is terminology related to sports and contest",
+            "frac_nonzero": 0.00951,
+            "promoted_tokens": [
+              "GEBURTSDATUM",
+              "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+              "\u2581rai\u017f",
+              "ConstraintMaker",
+              "\u2581ModelExpression",
+              "\u2581Shakspeare",
+              "\u2581Hote",
+              "Kapcsol\u00f3d\u00f3",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "\u2581\u25c4"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 1239,
+            "pos": 5,
+            "label": " proper nouns, especially political figures",
+            "frac_nonzero": 0.01148,
+            "promoted_tokens": [
+              "de",
+              "imab",
+              "\u2581was",
+              "za",
+              "la",
+              "las",
+              "\u2581his",
+              "\u2581",
+              "\u2581Amts",
+              "\u2581\u0627\u0644\u0645\u0639\u0631\u0641"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 7815,
+            "pos": 5,
+            "label": " references to contacting or communicating with someone, including job titles related to communication.",
+            "frac_nonzero": 0.00278,
+            "promoted_tokens": [
+              "\u2581BoxFit",
+              "\u2581im",
+              "listFiles",
+              "ContentAlignment",
+              "\u2581mesure",
+              "\u201d",
+              "\u2581",
+              "dott",
+              "Do",
+              "\u2581Do"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 1808,
+            "pos": 5,
+            "label": " mentions of economics between the US and Canada",
+            "frac_nonzero": 0.01601,
+            "promoted_tokens": [
+              "\u2581NAFTA",
+              "\u2581beginnetje",
+              "ibolana",
+              "IndentedString",
+              "SBATCH",
+              "\u2581XCTest",
+              "moiselle",
+              "CodedInputStream",
+              "\u055a",
+              "vereignty"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 10801,
+            "pos": 5,
+            "label": "code snippets related to drawing shapes",
+            "frac_nonzero": 0.007079999999999999,
+            "promoted_tokens": [
+              "oredCriteria",
+              "AndEndTag",
+              "SharedCtor",
+              "tvguidetime",
+              "\u2581\u00e9toit",
+              "\u2581\u043c\u04d9\u043a\u0430\u043b",
+              "Viited",
+              "\u2581\u0412\u0456\u043a\u0456",
+              "\u2581AssemblyCulture",
+              ")$_"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 3635,
+            "pos": 4,
+            "label": "the word \"that\"",
+            "frac_nonzero": 0.0428,
+            "promoted_tokens": [
+              "\u201c",
+              "1",
+              "<strong>",
+              "\u2018",
+              "\n",
+              "\u2019",
+              "\"",
+              "\n\n",
+              "2",
+              "</strong>"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8567,
+            "pos": 4,
+            "label": " the word \"that\"",
+            "frac_nonzero": 0.00609,
+            "promoted_tokens": [
+              "\n\n",
+              "\n",
+              "<bos>",
+              "{",
+              "\u25cf",
+              "\\",
+              "\u2581Maggiore",
+              "Abstract",
+              "]",
+              "\u2581Puoi"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 2,
+            "from_feature_idx": 14301,
+            "from_pos": 5,
+            "to_layer": 4,
+            "to_feature_idx": 14582,
+            "to_pos": 5,
+            "weight": 2.4219
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 3635,
+            "from_pos": 4,
+            "to_layer": 4,
+            "to_feature_idx": 14582,
+            "to_pos": 5,
+            "weight": -1.3516
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 3136,
+            "from_pos": 5,
+            "to_layer": 4,
+            "to_feature_idx": 14582,
+            "to_pos": 5,
+            "weight": -0.9219
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 13271,
+            "from_pos": 5,
+            "to_layer": 4,
+            "to_feature_idx": 14582,
+            "to_pos": 5,
+            "weight": -0.7031
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 7815,
+            "from_pos": 5,
+            "to_layer": 4,
+            "to_feature_idx": 14582,
+            "to_pos": 5,
+            "weight": 0.6133
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 14301,
+            "from_pos": 5,
+            "to_layer": 3,
+            "to_feature_idx": 3136,
+            "to_pos": 5,
+            "weight": 0.5586
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 1239,
+            "from_pos": 5,
+            "to_layer": 3,
+            "to_feature_idx": 3136,
+            "to_pos": 5,
+            "weight": 0.5391
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 1808,
+            "from_pos": 5,
+            "to_layer": 2,
+            "to_feature_idx": 1239,
+            "to_pos": 5,
+            "weight": 0.5508
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 10801,
+            "from_pos": 5,
+            "to_layer": 2,
+            "to_feature_idx": 1239,
+            "to_pos": 5,
+            "weight": -0.4238
+          }
+        ],
+        "explanation": "Tracing L4:F14582 (White House/US government detection) upstream revealed a circuit primarily driven by the raw \\\" trump\\\" token embedding. Key findings:\n\n1. The strongest influence is direct from the \\\" trump\\\" token embedding (weight 18.0) with additional processing through political name detection features at layers 1-2.\n\n2. L2:F14301 (political/organizational names) feeds positively into the target feature (weight 2.4219).\n\n3. L3:F3136 (Trump administration names) provides NEGATIVE inhibition (-0.9219) to the White House feature - an interesting regulatory mechanism.\n\n4. All discovered features focus on political terminology, proper nouns, and government references. NO identity group signals or toxic content detectors were found in the circuit.\n\n5. Features have low frac_nonzero (0.00278-0.0428), indicating specificity rather than generic pattern matching.\n\nConclusion: L4:F14582 relies on actual political content detection from the prompt (\\\"trump\\\") rather than spurious identity signals or toxic content. The circuit shows specialized political/government knowledge processing with regulatory inhibition between related concepts.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 14582
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 14582,
+              "label": " references to the White House and the US government",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581been\u2581trying\u2581to\u2581find\u2581a\u2581way\u2581to\u2581satisfy\u2581the\u2581first\u2581lady's\u2581stylistic\u2581requirements,\u2581and\u2581it\u2581has\u2581been\u2581difficult.\u2581Basically,\u2581I\u2581was\u2581not\u2581successful\u2581in\u2581my\u2581attempt,\"\u2581Walter\u2581Scheib\u2581III\u2581was\u2581quoted\u2581as\u2581saying,\u2581snooti",
+                  "max_activation": 73.115,
+                  "max_token": "\u2581House"
+                },
+                {
+                  "text_snippet": "\u2581celebrity\u2581chefs\u2581with\u2581books\u2581or\u2581television\u2581shows\u2581will\u2581be\u2581interested\u2581in\u2581becoming\u2581head\u2581chef\u2581at\u2581the\u2581presidential\u2581home.\u2581But\u2581she's\u2581looking\u2581to\u2581fill\u2581the\u2581job\u2581with\u2581someone\u2581who\u2581\"can\u2581really\u2581showcase\u2581American\u2581food",
+                  "max_activation": 70.002,
+                  "max_token": "\u2581House"
+                },
+                {
+                  "text_snippet": "\u2581celebrity\u2581chefs\u2581with\u2581books\u2581or\u2581television\u2581shows\u2581will\u2581be\u2581interested\u2581in\u2581becoming\u2581head\u2581chef\u2581at\u2581the\u2581presidential\u2581home.\u2581But\u2581she's\u2581looking\u2581to\u2581fill\u2581the\u2581job\u2581with\u2581someone\u2581who\u2581\"can\u2581really\u2581showcase\u2581American\u2581food",
+                  "max_activation": 70.002,
+                  "max_token": "\u2581House"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Presidential",
+                "Presidential",
+                "\u2581presidential",
+                "\u2581Biden",
+                "\u2581presidencial",
+                "\u2581Trump",
+                "\u2581Obama",
+                "Trump",
+                "Obama",
+                "\u2581President"
+              ],
+              "suppressed_tokens": [
+                "PathVariable",
+                "siella",
+                "displayquote",
+                "alit\u00e9",
+                "\u2581chuy\u1ec1n",
+                "pora",
+                "triangleright",
+                "\u0446\u0435\u043d\u0438",
+                "GIVEREF",
+                "enius"
+              ],
+              "frac_nonzero": 0.00787
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 14582,
+              "pos": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 18.0
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 3.0938
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 14301,
+                "pos": 5,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9297
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3635,
+                "pos": 4,
+                "edge_weight": -1.3516
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 14301
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 14301,
+              "label": " names of people and organizations involved in politics, finance, and national security",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581would\u2581cause\u2581big\u2581corporations\u2581to\u2581invest\u2581in\u2581businesses\u2581and\u2581hire\u2581more\u2581workers.\u2581Instead,\u2581corporations\u2581are\u2581sheltering\u2581more\u2581and\u2581more\u2581of\u2581their\u2581money\u2581or\u2581buying\u2581back\u2581ownership\u2581in\u2581their\u2581companies,\u2581an\u2581action\u2581th",
+                  "max_activation": 37.281,
+                  "max_token": "ellen"
+                },
+                {
+                  "text_snippet": "\u2581would\u2581cause\u2581big\u2581corporations\u2581to\u2581invest\u2581in\u2581businesses\u2581and\u2581hire\u2581more\u2581workers.\u2581Instead,\u2581corporations\u2581are\u2581sheltering\u2581more\u2581and\u2581more\u2581of\u2581their\u2581money\u2581or\u2581buying\u2581back\u2581ownership\u2581in\u2581their\u2581companies,\u2581an\u2581action\u2581th",
+                  "max_activation": 37.281,
+                  "max_token": "ellen"
+                },
+                {
+                  "text_snippet": "\u2581would\u2581cause\u2581big\u2581corporations\u2581to\u2581invest\u2581in\u2581businesses\u2581and\u2581hire\u2581more\u2581workers.\u2581Instead,\u2581corporations\u2581are\u2581sheltering\u2581more\u2581and\u2581more\u2581of\u2581their\u2581money\u2581or\u2581buying\u2581back\u2581ownership\u2581in\u2581their\u2581companies,\u2581an\u2581action\u2581th",
+                  "max_activation": 37.281,
+                  "max_token": "ellen"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Khrushchev",
+                "remoto",
+                "gorm",
+                "Messi",
+                "\u0420\u0435\u0448\u0435\u043d\u0438\u0435",
+                "KURZBESCHREIBUNG",
+                "\u2581accompli",
+                "\u2581&___",
+                "\u2581aikana",
+                "\u2581balancer"
+              ],
+              "suppressed_tokens": [
+                "\u017byciorys",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581$_\"",
+                "\u5e16\u6700\u540e\u7531",
+                "\u2581\"..\\..\\",
+                "entieth",
+                "cyklopedia",
+                "\u2581knocked",
+                "'],\r",
+                "\u2581setContent"
+              ],
+              "frac_nonzero": 0.006770000000000001
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 14301,
+              "pos": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 9.5
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 2.5469
+              },
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 1.7578
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": -1.6562
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8567,
+                "pos": 4,
+                "edge_weight": -0.7305
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8567
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8567,
+              "label": " the word \"that\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581tells\u2581us\u2581that\u2581$Q(\\Phi\u2581,{\\mkern2mu\\underline{\\mkern-2mu\\smash{\\phi\u2581\n}\\mkern-2mu}\\mkern2mu\u2581},K)$\u2581is\u2581invariant\u2581under\u2581background\u2581transformations.\u2581Since\u2581$\\Phi\u2581^{\\alpha\u2581}$\u2581and\u2581$K_{\\beta\u2581}$\u2581transform\u2581as\u2581mat",
+                  "max_activation": 30.204,
+                  "max_token": "\u2581that"
+                },
+                {
+                  "text_snippet": "\u2581We\u2581suggest\u2581that\u2581ULXs\u2581must\u2581be\u2581luminous\u2581EUV\u2581sources\u2581as\u2581well\u2581in\u2581some\u2581cases,\u2581and\u2581may\u2581be\u2581also\u2581luminous\u2581UV\u2581sources.\n\nThis\u2581work\u2581was\u2581supported\u2581by\u2581the\u2581RFBR\u2581grants\u2581NN\u258105-02-19710,\u258104-02-16349,\u258106-02-16855.\n\nAb",
+                  "max_activation": 30.174,
+                  "max_token": "\u2581that"
+                },
+                {
+                  "text_snippet": "\u2581it\u2581has\u2581been\u2581found\u2581that\u2581the\u2581incorporation\u2581of\u2581a\u2581minimum\u2581of\u2581about\u258115\u2581wt.\u2581%\u2581(based\u2581on\u2581total\u2581oxidizer\u2581content)\u2581of\u2581a\u2581transition\u2581metal\u2581diammine\u2581dinitrate\u2581such\u2581as\u2581copper\u2581diammine\u2581dinitrate,\u2581nickel\u2581diammine\u2581d",
+                  "max_activation": 29.4,
+                  "max_token": "\u2581that"
+                }
+              ],
+              "promoted_tokens": [
+                "\n\n",
+                "\n",
+                "<bos>",
+                "{",
+                "\u25cf",
+                "\\",
+                "\u2581Maggiore",
+                "Abstract",
+                "]",
+                "\u2581Puoi"
+              ],
+              "suppressed_tokens": [
+                "tvguidetime",
+                "NameInMap",
+                "\u2581InputDecoration",
+                "Demograf\u00eda",
+                "\u2581NSCoder",
+                ")_/\u00af",
+                "\u2581referenties",
+                "+#+#",
+                "ArgsConstructor",
+                "IsMutable"
+              ],
+              "frac_nonzero": 0.00609
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3635
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 3635,
+              "label": "the word \"that\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581and\u2581she\u2581convinces\u2581her\u2581that\u2581bigger\u2581is\u2581better.\u2581Baileywick\u2581gives\u2581Sofia\u2581a\u2581planer\u2581to\u2581plan\u2581her\u2581party.\u2581Sofia\u2581decides\u2581on\u2581a\u2581swan\u2581themed\u2581tea\u2581party\u2581with\u2581swan\u2581shaped\u2581cookies\u2581and\u2581cakes.\u2581Ruby\u2581and\u2581Jade\u2581come\u2581over\u2581to",
+                  "max_activation": 69.28,
+                  "max_token": "\u2581that"
+                },
+                {
+                  "text_snippet": "\u2581is\u2581sufficient\u2581that\u2581a\u2581jury\u2581can\u2581reasonably\u2581find\u2581the\n\ndefendant\u2581guilty\u2581of\u2581the\u2581charge.\"\u2581\u00a0The\u2581trial\u2581court\u2581then\u2581discussed\n\ndefendant's\u2581motion\u2581to\u2581dismiss\u2581and\u2581determined\u2581that\u2581dismissal\u2581should\n\nbe\u2581granted\u2581bec",
+                  "max_activation": 68.914,
+                  "max_token": "\u2581that"
+                },
+                {
+                  "text_snippet": "\u2581so\u2581that\u2581we\u2581can\u2581choose\u2581$\\varepsilon_m\u2581=\u2581m^{-2}$.\u2581Letting\u2581$\\Delta_n\u2581=\u2581n^{-\\beta}$,\u2581$0\u2581<\u2581\\beta\u2581<\u25811$,\u2581and\u2581$m\u2581=\u2581n^\\delta$,\u2581an\u2581optimal\u2581choice\u2581is\u2581$\\delta\u2581=\u2581\\frac{1-\\beta}{3}$,\u2581giving\u2581$$\\Delta({\\ensuremath\u2581{",
+                  "max_activation": 68.744,
+                  "max_token": "\u2581that"
+                }
+              ],
+              "promoted_tokens": [
+                "\u201c",
+                "1",
+                "<strong>",
+                "\u2018",
+                "\n",
+                "\u2019",
+                "\"",
+                "\n\n",
+                "2",
+                "</strong>"
+              ],
+              "suppressed_tokens": [
+                "\u2581that",
+                "that",
+                "\u2581r\u1eb1ng",
+                "\u2581bahwa",
+                "\u2581kwamba",
+                "\u2581dass",
+                "\u2581propOrder",
+                "\u2581bahawa",
+                "\u2581\u03cc\u03c4\u03b9",
+                "\u2581thats"
+              ],
+              "frac_nonzero": 0.0428
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 14582,
+              "pos": 5,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 18.0
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 3.0938
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 14301,
+                "pos": 5,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.9297
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 3635,
+                "pos": 4,
+                "edge_weight": -1.3516
+              },
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 1.2188
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 3136,
+                "pos": 5,
+                "edge_weight": -0.9219
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 13271,
+                "pos": 5,
+                "edge_weight": -0.7031
+              },
+              {
+                "type": "embedding",
+                "token": " shows",
+                "pos": 3,
+                "edge_weight": -0.6445
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 7815,
+                "pos": 5,
+                "edge_weight": 0.6133
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3136
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 3136,
+              "label": " names of people involved in the Trump administration",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581\u201cGames\u2581will\u2581be\u2581the\u2581main\u2581activity\u2581for\u2581filming,\u201d\u2581and\u2581equipment\u2581listed\u2581\u201ctwo\u2581tables,\u2581two\u2581bikes,\u2581and\u2581jump\u2581ropes.\u201d\u2581March\u2581for\u2581Our\u2581Lives\u2581organizers\u2581planned\u2581their\u2581rally\u2581away\u2581from\u2581federal\u2581land\u2581and\u2581in\u2581D.C.,\u2581on\u2581",
+                  "max_activation": 29.351,
+                  "max_token": "\u2581Trump"
+                },
+                {
+                  "text_snippet": "\u2581\u201cGames\u2581will\u2581be\u2581the\u2581main\u2581activity\u2581for\u2581filming,\u201d\u2581and\u2581equipment\u2581listed\u2581\u201ctwo\u2581tables,\u2581two\u2581bikes,\u2581and\u2581jump\u2581ropes.\u201d\u2581March\u2581for\u2581Our\u2581Lives\u2581organizers\u2581planned\u2581their\u2581rally\u2581away\u2581from\u2581federal\u2581land\u2581and\u2581in\u2581D.C.,\u2581on\u2581",
+                  "max_activation": 29.351,
+                  "max_token": "\u2581Trump"
+                },
+                {
+                  "text_snippet": "indispensable\u201d\u2581documents\u2581that\u2581directly\u2581connect\u2581to\u2581Russian\u2581election\u2581interference.\u2581Fifteen\u2581other\u2581people\u2581and\u2581entities\u2581that\u2581should\u2581appear\u2581and/or\u2581present\u2581documents\u2581are\u2581in\u2581Appendix\u2581D.\u2581This\u2581list\u2581includes\u2581DDT",
+                  "max_activation": 28.724,
+                  "max_token": "\u2581Trump"
+                }
+              ],
+              "promoted_tokens": [
+                "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+                "\u2581Wiktionnaire",
+                "protoimpl",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "ttemberg",
+                "<bos>",
+                "\u041f\u0440\u0435\u043c\u0430",
+                "nictwa",
+                "\u2581pinulongan",
+                "Personendaten"
+              ],
+              "suppressed_tokens": [
+                "\u2581Trump",
+                "Trump",
+                "\u2581Biden",
+                "trump",
+                "\u2581trump",
+                "\u7279\u6717\u666e",
+                "\u2581Obama",
+                "Biden",
+                "\u2581Donald",
+                "\u2581Duterte"
+              ],
+              "frac_nonzero": 0.008020000000000001
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 13271
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 13271,
+              "label": " two distinct topics: One is terminology related to knitting and the other is terminology related to sports and contest",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Most\u2581releveant\u2581HD\u2581Porn\u2581by\u2581Pornblade.com<bos>addi\u2581Click\u2581by\u2581Woolly\u2581Hugs\u2581Interchangeable\u2581Knitting\u2581System\n\n$15000$150.00\n\nSave\u2581$50\n\nThe\u2581new,\u2581very\u2581extensive\u2581addiClick\u2581case\u2581addiClick\u2581by\u2581Woolly\u2581Hugs,\u2581will\u2581ma",
+                  "max_activation": 48.707,
+                  "max_token": "\u2581needles"
+                },
+                {
+                  "text_snippet": "Most\u2581releveant\u2581HD\u2581Porn\u2581by\u2581Pornblade.com<bos>addi\u2581Click\u2581by\u2581Woolly\u2581Hugs\u2581Interchangeable\u2581Knitting\u2581System\n\n$15000$150.00\n\nSave\u2581$50\n\nThe\u2581new,\u2581very\u2581extensive\u2581addiClick\u2581case\u2581addiClick\u2581by\u2581Woolly\u2581Hugs,\u2581will\u2581ma",
+                  "max_activation": 48.707,
+                  "max_token": "\u2581needles"
+                },
+                {
+                  "text_snippet": "Most\u2581releveant\u2581HD\u2581Porn\u2581by\u2581Pornblade.com<bos>addi\u2581Click\u2581by\u2581Woolly\u2581Hugs\u2581Interchangeable\u2581Knitting\u2581System\n\n$15000$150.00\n\nSave\u2581$50\n\nThe\u2581new,\u2581very\u2581extensive\u2581addiClick\u2581case\u2581addiClick\u2581by\u2581Woolly\u2581Hugs,\u2581will\u2581ma",
+                  "max_activation": 48.707,
+                  "max_token": "\u2581needles"
+                }
+              ],
+              "promoted_tokens": [
+                "GEBURTSDATUM",
+                "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+                "\u2581rai\u017f",
+                "ConstraintMaker",
+                "\u2581ModelExpression",
+                "\u2581Shakspeare",
+                "\u2581Hote",
+                "Kapcsol\u00f3d\u00f3",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581\u25c4"
+              ],
+              "suppressed_tokens": [
+                "herzog",
+                "\u2581van",
+                "</thead>",
+                "xaml",
+                "\u2581results",
+                "\u2581>=\",",
+                "\u2581pairs",
+                "getContentPane",
+                "ilija",
+                "AFX"
+              ],
+              "frac_nonzero": 0.00951
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 7815
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 7815,
+              "label": " references to contacting or communicating with someone, including job titles related to communication.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581Joseph\u2581Sanders\u2581through\u2581son\u2581Henry.\u2581I\u2581am\u2581truly\u2581interested\u2581in\u2581my\u2581southern\u2581history\u2581as\u2581I\u2581grew\u2581up\u2581in\u2581Seattle\u2581WA\u2581thinking\u2581I\u2581was\u2581Italian\u2581not\u2581a\u2581Sanders.\u2581Apparently\u2581my\u2581father\u2581had\u2581a\u2581falling\u2581out\u2581with\u2581family\u2581and\u2581",
+                  "max_activation": 33.975,
+                  "max_token": "\u2581contact"
+                },
+                {
+                  "text_snippet": "\u2581A\u2581quick\u2581Google\u2581search\u2581appears\u2581to\u2581show\u2581that\u2581it\u2581was\u2581acquired\u2581by\u2581the\u2581Southeastern\u2581Cave\u2581Conservancy\u2581in\u2581January\u25812008.\u2581Is\u2581this\u2581correct?\u2581At\u2581any\u2581rate,\u2581I\u2581would\u2581be\u2581very\u2581interested\u2581in\u2581exchanging\u2581information\u2581wit",
+                  "max_activation": 32.686,
+                  "max_token": "\u2581contact"
+                },
+                {
+                  "text_snippet": "\u2581money\u2581market\u2581funds\u2581available\u2581for\u2581this\u2581purpose\u2581to\u2581ten.\u2581Second,\u2581the\u2581Board\u2581will\u2581require\u2581that\u2581henceforth\u2581each\u2581fund\u2581applying\u2581for\u2581such\u2581status\u2581must\u2581have\u2581a\u2581minimum\u2581value\u2581of\u2581$5\u2581billion.\u2581\u2581Finally,\u2581each\u2581fund\u2581fu",
+                  "max_activation": 32.676,
+                  "max_token": "\u2581contact"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581BoxFit",
+                "\u2581im",
+                "listFiles",
+                "ContentAlignment",
+                "\u2581mesure",
+                "\u201d",
+                "\u2581",
+                "dott",
+                "Do",
+                "\u2581Do"
+              ],
+              "suppressed_tokens": [
+                "tvguidetime",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581betweenstory",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581\u062a\u0627\u0646\u064a\u0647",
+                "IonicModule",
+                "InitVars",
+                "InjectAttribute",
+                "RTEE",
+                "WithIOException"
+              ],
+              "frac_nonzero": 0.00278
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 3,
+              "feature_idx": 3136,
+              "pos": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 10.625
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 14301,
+                "pos": 5,
+                "edge_weight": 0.5586
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 1239,
+                "pos": 5,
+                "edge_weight": 0.5391
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 0.4805
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.3633
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 1239
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 1239,
+              "label": " proper nouns, especially political figures",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581but\u2581doesn\u2019t\u2581have\u2581much\u2581impact\u2581on\u2581those\u2581who\u2581don\u2019t.\u201d\n\nJacob\u2581Weisberg,\u2581writing\u2581in\u2581Slate\u2581magazine,\u2581effectively\u2581deconstructs\u2581the\u2581Romney\u2581campaign\u2019s\u2581attempts\u2581to\u2581smear\u2581President\u2581Obama\u2581with\u2581the\u2581\u201cChicago\u2581machin",
+                  "max_activation": 32.969,
+                  "max_token": "\u2581Obama"
+                },
+                {
+                  "text_snippet": "\u2581aware.)\n\n\u201cProtesting\u2581the\u2581maneuvers\u2581by\u2581Republican\u2581senators,\u2581Sen.\u2581Patrick\u2581Leahy,\u2581D-Vt.,\u2581told\u2581the\u2581Senate\u2581on\u2581March\u25819,\u25812000,\u2581\u201cWhoever\u2581the\u2581next\u2581president\u2581might\u2581be,\u2581if\u2581it\u2581is\u2581a\u2581Republican\u2581president,\u2581do\u2581we\u2581st",
+                  "max_activation": 31.884,
+                  "max_token": "\u2581Bush"
+                },
+                {
+                  "text_snippet": "\u2581aware.)\n\n\u201cProtesting\u2581the\u2581maneuvers\u2581by\u2581Republican\u2581senators,\u2581Sen.\u2581Patrick\u2581Leahy,\u2581D-Vt.,\u2581told\u2581the\u2581Senate\u2581on\u2581March\u25819,\u25812000,\u2581\u201cWhoever\u2581the\u2581next\u2581president\u2581might\u2581be,\u2581if\u2581it\u2581is\u2581a\u2581Republican\u2581president,\u2581do\u2581we\u2581st",
+                  "max_activation": 31.884,
+                  "max_token": "\u2581Bush"
+                }
+              ],
+              "promoted_tokens": [
+                "de",
+                "imab",
+                "\u2581was",
+                "za",
+                "la",
+                "las",
+                "\u2581his",
+                "\u2581",
+                "\u2581Amts",
+                "\u2581\u0627\u0644\u0645\u0639\u0631\u0641"
+              ],
+              "suppressed_tokens": [
+                "DockStyle",
+                "\u2581BoxFit",
+                "AndEndTag",
+                "ghijklmnop",
+                "SharedCtor",
+                "\u2581muualla",
+                "RenderAtEndOf",
+                "esterday",
+                "(;;)",
+                "le\u017fs"
+              ],
+              "frac_nonzero": 0.01148
+            }
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 1239,
+              "pos": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 7.9688
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": -1.0156
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 0.707
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1808,
+                "pos": 5,
+                "edge_weight": 0.5508
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 10801,
+                "pos": 5,
+                "edge_weight": -0.4238
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 1808
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 1808,
+              "label": " mentions of economics between the US and Canada",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581to\u2581replace\u2581a\u2581three-nation\u2581trade\u2581pact,\u2581and\u2581Congress\u2581must\u2581agree.\n\nCanada\u2581has\u2581been\u2581more\u2581reluctant,\u2581especially\u2581after\u2581DDT\u2581disparaged\u2581Canada\u2581and\u2581threatened\u2581the\u2581country\u2581with\u258125\u2581percent\u2581tariffs\u2581on\u2581cars\u2581and\u2581a",
+                  "max_activation": 28.002,
+                  "max_token": "\u2581jobs"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581replace\u2581a\u2581three-nation\u2581trade\u2581pact,\u2581and\u2581Congress\u2581must\u2581agree.\n\nCanada\u2581has\u2581been\u2581more\u2581reluctant,\u2581especially\u2581after\u2581DDT\u2581disparaged\u2581Canada\u2581and\u2581threatened\u2581the\u2581country\u2581with\u258125\u2581percent\u2581tariffs\u2581on\u2581cars\u2581and\u2581a",
+                  "max_activation": 28.002,
+                  "max_token": "\u2581jobs"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581replace\u2581a\u2581three-nation\u2581trade\u2581pact,\u2581and\u2581Congress\u2581must\u2581agree.\n\nCanada\u2581has\u2581been\u2581more\u2581reluctant,\u2581especially\u2581after\u2581DDT\u2581disparaged\u2581Canada\u2581and\u2581threatened\u2581the\u2581country\u2581with\u258125\u2581percent\u2581tariffs\u2581on\u2581cars\u2581and\u2581a",
+                  "max_activation": 28.002,
+                  "max_token": "\u2581jobs"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581NAFTA",
+                "\u2581beginnetje",
+                "tanleria",
+                "IndentedString",
+                "SBATCH",
+                "\u2581XCTest",
+                "moiselle",
+                "CodedInputStream",
+                "\u055a",
+                "vereignty"
+              ],
+              "suppressed_tokens": [
+                "\u2581amongst",
+                "ser",
+                "\u2581saluto",
+                "ginous",
+                "\u2581\u05d0\u05e1",
+                "\u2581equipes",
+                "\u2581diha",
+                "Fig",
+                "\u2581contacto",
+                "\u2581intervenciones"
+              ],
+              "frac_nonzero": 0.01601
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 10801
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 10801,
+              "label": "code snippets related to drawing shapes",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u258150);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100]),\u258120);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100],\u2581true),\u258120);\n\t\t\t\tdrawCurve(p,\u2581200,\u2581\"pixel\");\n\n\t\t\t\t//drawCurve(new\u2581c.Line([0,250],\u2581[800,250]),\u258150,\u2581\"pixel\u2581red\");\n\t",
+                  "max_activation": 37.744,
+                  "max_token": "draw"
+                },
+                {
+                  "text_snippet": "\u258150);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100]),\u258120);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100],\u2581true),\u258120);\n\t\t\t\tdrawCurve(p,\u2581200,\u2581\"pixel\");\n\n\t\t\t\t//drawCurve(new\u2581c.Line([0,250],\u2581[800,250]),\u258150,\u2581\"pixel\u2581red\");\n\t",
+                  "max_activation": 37.744,
+                  "max_token": "draw"
+                },
+                {
+                  "text_snippet": "\u258150);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100]),\u258120);\n\t\t\t\tp.add(new\u2581c.Arc([0,0],\u2581[100,100],\u2581true),\u258120);\n\t\t\t\tdrawCurve(p,\u2581200,\u2581\"pixel\");\n\n\t\t\t\t//drawCurve(new\u2581c.Line([0,250],\u2581[800,250]),\u258150,\u2581\"pixel\u2581red\");\n\t",
+                  "max_activation": 37.744,
+                  "max_token": "draw"
+                }
+              ],
+              "promoted_tokens": [
+                "oredCriteria",
+                "AndEndTag",
+                "SharedCtor",
+                "tvguidetime",
+                "\u2581\u00e9toit",
+                "\u2581\u043c\u04d9\u043a\u0430\u043b",
+                "Viited",
+                "\u2581\u0412\u0456\u043a\u0456",
+                "\u2581AssemblyCulture",
+                ")$_"
+              ],
+              "suppressed_tokens": [
+                "draw",
+                "getSystemService",
+                "\u2581draw",
+                "Draw",
+                "\u2581Draw",
+                "urfs",
+                "draws",
+                "drawing",
+                "complexType",
+                "cible"
+              ],
+              "frac_nonzero": 0.007079999999999999
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace L4:14582 (pos 5, direct_effect +0.156) upstream to understand what semantic content drives this feature and whether it relies on spurious identity group signals or actual toxic content from the prompt.",
+          "input_tokens": 99429,
+          "output_tokens": 4342,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 29760
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 2,
+        "starting_feature_idx": 9199,
+        "starting_pos": 9,
+        "objective": "Trace L2:9199 (pos 9, direct_effect -0.115) upstream to understand what semantic content drives this negative contribution and whether it encodes spurious identity signals or contextual features.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 2,
+            "feature_idx": 9199,
+            "pos": 9,
+            "label": " instances of \"ot\" in code",
+            "frac_nonzero": 0.00887,
+            "promoted_tokens": [
+              "\u5e16\u6700\u540e\u7531",
+              "tabak",
+              "ast\u00e9ro",
+              "oa\u030dt",
+              "\u00e4dig",
+              "Horizon",
+              "\u2581Horizon",
+              "EventQueue",
+              "\u00e9drale",
+              "binaan"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 6042,
+            "pos": 9,
+            "label": "the string \"ot\"",
+            "frac_nonzero": 0.0013,
+            "promoted_tokens": [
+              "antaranya",
+              "\u2581quiver",
+              "\u2581JAXBElement",
+              "Erfolge",
+              "\u0113j\u0101s",
+              "Pratique",
+              "\u2581antaranya",
+              "willReturn",
+              "intenant",
+              "Portale"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 12712,
+            "pos": 9,
+            "label": " words, suffixes, or phrases that could indicate quality and the people/things which are described",
+            "frac_nonzero": 0.01924,
+            "promoted_tokens": [
+              "\u5e16\u6700\u540e\u7531",
+              "\u2581\u0635\u0648\u062a\u064a\u0647",
+              "<bos>",
+              "styleType",
+              "\u2581freakin",
+              "\u2581outta",
+              "\u6700\u5feb\u66f4\u65b0",
+              "bootstrapcdn",
+              "DockStyle",
+              "zA"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 11,
+            "pos": 9,
+            "label": " the string \"ot\"",
+            "frac_nonzero": 0.01128,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "'",
+              "\n",
+              "<em>",
+              "\u2581",
+              "The",
+              "\u2019",
+              "I",
+              "\u2581the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 865,
+            "pos": 9,
+            "label": " text related to well-being",
+            "frac_nonzero": 0.01494,
+            "promoted_tokens": [
+              ")++;",
+              "Portail",
+              "\u2581PeEnEo",
+              "\u2581\"}\";",
+              "\u2581\u2015\u2015\u2015\u2015\u2015",
+              "tvguidetime",
+              "Portale",
+              "UserScript",
+              "\u2581AssemblyCompany",
+              "\u2581okuyay\u0131m"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 1,
+            "from_feature_idx": 6042,
+            "from_pos": 9,
+            "to_layer": 2,
+            "to_feature_idx": 9199,
+            "to_pos": 9,
+            "weight": -1.9297
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 12712,
+            "from_pos": 9,
+            "to_layer": 2,
+            "to_feature_idx": 9199,
+            "to_pos": 9,
+            "weight": 0.3457
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11,
+            "from_pos": 9,
+            "to_layer": 1,
+            "to_feature_idx": 6042,
+            "to_pos": 9,
+            "weight": 1.0078
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 865,
+            "from_pos": 9,
+            "to_layer": 1,
+            "to_feature_idx": 6042,
+            "to_pos": 9,
+            "weight": -0.5156
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 11,
+            "from_pos": 9,
+            "to_layer": 1,
+            "to_feature_idx": 6042,
+            "to_pos": 9,
+            "weight": 1.0078
+          }
+        ],
+        "explanation": "Tracing L2:F9199 (pos 9, direct_effect -0.115) upstream reveals a circuit that detects the string \"ot\". The negative contribution comes from a feature that suppresses tokens like \"ot\", \"OT\", \"ots\", etc. The circuit originates from the raw token embedding \"ot\" at position 9, which feeds into L0:F11 (detects \"ot\") and then into L1:F6042 (also detects \"ot\"). L2:F9199 represents \"instances of \\\"ot\\\" in code\" and shows specialization for code contexts. The negative edge from L1:F6042 to L2:F9199 (weight -1.93) indicates inhibitory signaling - the more basic \"ot\" detection suppresses the more specialized \"ot in code\" detection. This appears to be a contextual feature rather than spurious identity signals.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 9199
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 9199,
+              "label": " instances of \"ot\" in code",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "define\u2581S_HASHTYPE\u258122\n#define\u2581M_HASHTYPE\u25810x3\n#define\u2581G_HASHTYPE(x)\u2581(((x)\u2581>>\u2581S_HASHTYPE)\u2581&\u2581M_HASHTYPE)\n\n/*\u2581tid\u2581is\u2581assumed\u2581to\u2581be\u258124-bits\u2581*/\n#define\u2581MK_OPCODE_TID(opcode,\u2581tid)\u2581(V_OPCODE(opcode)\u2581|\u2581(tid))\n\n",
+                  "max_activation": 39.628,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "luatex/luaotfload/fontloader-util-str.lua\nshare/texmf-dist/tex/luatex/luaotfload/luaotfload-auxiliary.lua\nshare/texmf-dist/tex/luatex/luaotfload/luaotfload-blacklist.cnf\nshare/texmf-dist/tex/luatex/lu",
+                  "max_activation": 38.687,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "luatex/luaotfload/fontloader-util-str.lua\nshare/texmf-dist/tex/luatex/luaotfload/luaotfload-auxiliary.lua\nshare/texmf-dist/tex/luatex/luaotfload/luaotfload-blacklist.cnf\nshare/texmf-dist/tex/luatex/lu",
+                  "max_activation": 38.687,
+                  "max_token": "ot"
+                }
+              ],
+              "promoted_tokens": [
+                "\u5e16\u6700\u540e\u7531",
+                "tabak",
+                "ast\u00e9ro",
+                "oa\u030dt",
+                "\u00e4dig",
+                "Horizon",
+                "\u2581Horizon",
+                "EventQueue",
+                "\u00e9drale",
+                "binaan"
+              ],
+              "suppressed_tokens": [
+                "ot",
+                "OT",
+                "ots",
+                "otin",
+                "oting",
+                "oted",
+                "ott",
+                "oty",
+                "OTS",
+                "ote"
+              ],
+              "frac_nonzero": 0.00887
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 9199,
+              "pos": 9,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "ot",
+                "pos": 9,
+                "edge_weight": 23.875
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 6042,
+                "pos": 9,
+                "edge_weight": -1.9297
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 7,
+                "edge_weight": 0.5156
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.418
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12712,
+                "pos": 9,
+                "edge_weight": 0.3457
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6042
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 6042,
+              "label": "the string \"ot\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581bigot.\n\nPelagian\n\nIs\u2581there\u2581a\u2581good\u2581history\u2581of\u2581slavery\u2581going\u2581back\u2581to\u2581biblical\u2581times\u2581that\u2581offers\u2581a\u2581defense\u2581of\u258119th\u2581century\u2581American\u2581slavery?\u2581Or\u2581at\u2581least\u2581a\u2581good\u2581contextualization\u2581of\u2581it?\u2581I\u2581want\u2581to\u2581read-up",
+                  "max_activation": 31.723,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "define\u2581S_HASHTYPE\u258122\n#define\u2581M_HASHTYPE\u25810x3\n#define\u2581G_HASHTYPE(x)\u2581(((x)\u2581>>\u2581S_HASHTYPE)\u2581&\u2581M_HASHTYPE)\n\n/*\u2581tid\u2581is\u2581assumed\u2581to\u2581be\u258124-bits\u2581*/\n#define\u2581MK_OPCODE_TID(opcode,\u2581tid)\u2581(V_OPCODE(opcode)\u2581|\u2581(tid))\n\n",
+                  "max_activation": 30.606,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "/luatex/luaotfload/fontloader-l-file.lua\nshare/texmf-dist/tex/luatex/luaotfload/fontloader-l-function.lua\nshare/texmf-dist/tex/luatex/luaotfload/fontloader-l-io.lua\nshare/texmf-dist/tex/luatex/luaotfl",
+                  "max_activation": 30.134,
+                  "max_token": "ot"
+                }
+              ],
+              "promoted_tokens": [
+                "antaranya",
+                "\u2581quiver",
+                "\u2581JAXBElement",
+                "Erfolge",
+                "\u0113j\u0101s",
+                "Pratique",
+                "\u2581antaranya",
+                "willReturn",
+                "intenant",
+                "Portale"
+              ],
+              "suppressed_tokens": [
+                "ot",
+                "OT",
+                "ots",
+                "ott",
+                "otin",
+                "\u2581ot",
+                "otte",
+                "Ot",
+                "OTS",
+                "oting"
+              ],
+              "frac_nonzero": 0.0013
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12712
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 12712,
+              "label": " words, suffixes, or phrases that could indicate quality and the people/things which are described",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581zone\u2581size\u2581is\u2581double\u2581or\u2581more.\nDOF\u2581is\u2581rather\u2581vague,\u2581and\u2581is\u2581NOT\u2581a\u2581critically\u2581precise\u2581number.\u2581\u2581If\u2581the\u2581calculator\u2581say\u2581DOF\u2581is\u25815\u2581to\u25817\u2581feet,\u2581then\u25817.02\u2581feet\u2581is\u2581no\u2581different\u2581than\u25816.98\u2581feet,\u2581both\u2581are\u2581at\u2581the",
+                  "max_activation": 21.83,
+                  "max_token": "est"
+                },
+                {
+                  "text_snippet": "\u2581White\u2581child.\u2581Even\u2581if\u2581the\u2581White\u2581parent\u2581is\u2581not\u2581the\u2581sharpest\u2581tool\u2581in\u2581the\u2581shed,\u2581the\u2581roll\u2581of\u2581the\u2581dice\u2581of\u2581genetics\u2581means\u2581that\u2581the\u2581odds\u2581are\u2581against\u2581the\u2581Mulatto\u2581having\u2581a\u2581stronger\u2581intellect.\u2581This\u2581is\u2581why\u2581misce",
+                  "max_activation": 21.808,
+                  "max_token": "est"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581bring\u2581back\u2581\u201ccivil\u2581discourse.\u201d\u2581Not\u2581even\u2581because\u2581I\u2019m\u2581a\u2581huge\u2581fan\u2581of\u2581either\u2581author\u2014although\u2581I\u2581think\u2581it\u2019s\u2581bad-ass\u2581that\u2581McCain\u2581has\u2581been\u2581on\u2581Maddow\u2581a\u2581few\u2581times,\u2581and\u2581I\u2581did\u2581love\u2581Black\u2581on\u2581\u201cAdult\u2581Swim.\u201d\n\nIt\u2019s",
+                  "max_activation": 21.167,
+                  "max_token": "ass"
+                }
+              ],
+              "promoted_tokens": [
+                "\u5e16\u6700\u540e\u7531",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "<bos>",
+                "styleType",
+                "\u2581freakin",
+                "\u2581outta",
+                "\u6700\u5feb\u66f4\u65b0",
+                "bootstrapcdn",
+                "DockStyle",
+                "zA"
+              ],
+              "suppressed_tokens": [
+                "n\u011b\u017e",
+                "\u2581insuffisamment",
+                "\u2581\u05d4\u05d9\u05ea\u05d4",
+                "\u2581\u043d\u0435\u044f",
+                "UMNS",
+                "']>;",
+                "\u2581Ebenso",
+                "\uc804\ud788",
+                "Dado",
+                "PAIR"
+              ],
+              "frac_nonzero": 0.01924
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 6042,
+              "pos": 9,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "ot",
+                "pos": 9,
+                "edge_weight": 19.625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 11,
+                "pos": 9,
+                "edge_weight": 1.0078
+              },
+              {
+                "type": "embedding",
+                "token": " big",
+                "pos": 8,
+                "edge_weight": 0.6289
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.5391
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 865,
+                "pos": 9,
+                "edge_weight": -0.5156
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11,
+              "label": " the string \"ot\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 29.88,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "\nusing\u2581System;\nusing\u2581System.Collections.Generic;\n\nusing\u2581Aliyun.Acs.Core.Transform;\nusing\u2581Aliyun.Acs.Iot.Model.V20180120;\n\nnamespace\u2581Aliyun.Acs.Iot.Transform.V20180120\n{\n\u2581\u2581\u2581\u2581public\u2581class\u2581CreateProductT",
+                  "max_activation": 29.88,
+                  "max_token": "ot"
+                },
+                {
+                  "text_snippet": "\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 29.668,
+                  "max_token": "ot"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "'",
+                "\n",
+                "<em>",
+                "\u2581",
+                "The",
+                "\u2019",
+                "I",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581CreateTagHelper",
+                "StoryboardSegue",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "bootstrapcdn",
+                "AndEndTag",
+                "tvguidetime",
+                "\u2581HasFactory",
+                "\u2581MainAxisSize",
+                "\u51fa\u7248\u5e74"
+              ],
+              "frac_nonzero": 0.01128
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 865
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 865,
+              "label": " text related to well-being",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581focus\u2581on\u2581mental\u2581well-being\u2581and\u2581target\u2581health-related\u2581behaviors\u2581such\u2581as\u2581physical\u2581activity\u2581and\u2581smoking.\u2581Preferably,\u2581these\u2581should\u2581be\u2581implemented\u2581as\u2581health\u2581education\u2581programs\u2581in\u2581schools\u2581to\u2581help\u2581prevent\u2581t",
+                  "max_activation": 24.231,
+                  "max_token": "being"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581little\u2581baby\u2581bird\u2581of\u2581a\u2581film\u2581festival.\u201d\n\nThe\u2581metaphor\u2581was\u2581apt.\u2581Opening\u2581on\u2581the\u2581very\u2581day\u2581the\u2581well-known\u258111th\u2581Tribeca\u2581Film\u2581Festival\u2581wrapped,\u2581the\u2581fledgling\u2581Montclair\u2581Film\u2581Festival,\u2581which\u2581has\u2581been\u2581discuss",
+                  "max_activation": 24.108,
+                  "max_token": "\u2581job"
+                },
+                {
+                  "text_snippet": "\u2581implement,\u201d\u2581says\u2581Kidder.\n\nShe\u2581cited\u2581\u201cinitiative\u2581exhaustion\u201d\u2581among\u2581teachers\u2581and\u2581administrators\u2581following\u2581a\u2581stream\u2581of\u2581new\u2581education\u2581strategies\u2581ranging\u2581from\u2581math\u2581to\u2581well-being\u2581to\u2581experiential\u2581learning,\u2581",
+                  "max_activation": 23.983,
+                  "max_token": "being"
+                }
+              ],
+              "promoted_tokens": [
+                ")++;",
+                "Portail",
+                "\u2581PeEnEo",
+                "\u2581\"}\";",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "tvguidetime",
+                "Portale",
+                "UserScript",
+                "\u2581AssemblyCompany",
+                "\u2581okuyay\u0131m"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\n\n",
+                "\u2581k\u00e9sz\u00fclt",
+                "\u2581tilgjenge",
+                "\u2581l\u00e1ny",
+                "\u2581helyez",
+                "Whilst",
+                "\u2581mag\u00e1t",
+                "\u2581",
+                "\u2581bahawa"
+              ],
+              "frac_nonzero": 0.01494
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11,
+              "pos": 9,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "ot",
+                "pos": 9,
+                "edge_weight": 20.0
+              },
+              {
+                "type": "embedding",
+                "token": " big",
+                "pos": 8,
+                "edge_weight": -0.0952
+              },
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 0.0547
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 7,
+                "edge_weight": 0.0415
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.04
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12712,
+              "pos": 9,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " big",
+                "pos": 8,
+                "edge_weight": 12.4375
+              },
+              {
+                "type": "embedding",
+                "token": "ot",
+                "pos": 9,
+                "edge_weight": -0.8281
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.3965
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 7,
+                "edge_weight": 0.1875
+              },
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 0.1035
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace L2:9199 (pos 9, direct_effect -0.115) upstream to understand what semantic content drives this negative contribution and whether it encodes spurious identity signals or contextual features.",
+          "input_tokens": 59578,
+          "output_tokens": 2148,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 11375,
+        "starting_pos": 6,
+        "objective": "Trace L0:11375 (pos 6, direct_effect +0.130) upstream to its embedding source. Determine what input token fires this feature and whether it represents a spurious identity signal (like \"black\", \"white\", \"nonwhites\") or actual toxic content encoding.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 11375,
+            "pos": 6,
+            "label": " the word \"is\"",
+            "frac_nonzero": 0.00964,
+            "promoted_tokens": [
+              "\u2581Monfieur",
+              "\u2581my\u017felf",
+              "\u2581Di\u017f",
+              "\u2581Majefty",
+              "\u2581them\u017felves",
+              "\u2581u\u017fe",
+              "\u2581Re\u017f",
+              "\u2581An\u017f",
+              "\u2581Hou\u017fe",
+              "\u2581Efq"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 11375,
+            "to_pos": 6,
+            "weight": 31.25,
+            "from_token": " is"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 11375,
+            "to_pos": 6,
+            "weight": 4.4062,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 11375,
+            "to_pos": 6,
+            "weight": 3.0781,
+            "from_token": " trump"
+          }
+        ],
+        "explanation": "Tracing from L0:F11375 at position 6 (direct_effect +0.130) reveals it's a layer 0 feature that detects the word \\\"is\\\" but suppresses it in favor of more formal/archaic alternatives. The primary embedding source is token \\\" is\\\" at position 6 with strong weight 31.25. Secondary connections come from \\\"<bos>\\\" at position 0 (weight 4.4) and \\\" trump\\\" at position 5 (weight 3.1). This is NOT a spurious identity signal about race/ethnicity - it's simply a feature that responds to the common word \\\"is\\\" but promotes alternative formal vocabulary. The feature fires on about 1% of tokens (frac_nonzero=0.00964).",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11375
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11375,
+              "label": " the word \"is\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\nBombay\u2581Palace\u2581is\u2581at\u2581215\u2581Jalan\u2581Tun\u2581Razak,\u2581just\u2581to\u2581the\u2581north\u2581of\u2581the\u2581Royal...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Bombay\u2581Palace.\n\nNagasari\u2581is\u2581a\u2581bit\u2581unusual\u2581in\u2581other\u2581ways\u2581too.\u2581Although\u2581it\u2581looks\u2581like\u2581a\u2581Mamak\u2581shop,\u2581an",
+                  "max_activation": 58.55,
+                  "max_token": "\u2581is"
+                },
+                {
+                  "text_snippet": "\u2581located\u2581in\u2581her\u2581west\u2581San\u2581Fernando\u2581Valley\u2581district.\u2581Her\u2581office\u2581is\u2581also\u2581next\u2581door\u2581to\u2581the\u2581shuttered\u2581West\u2581Valley\u2581Special\u2581Ed\u2581Center,\u2581a\u2581building\u2581that\u2581now\u2581houses\u2581Daniel\u2581Pearl\u2581High.\u2581Protesters\u2581complained\u2581that",
+                  "max_activation": 58.44,
+                  "max_token": "\u2581is"
+                },
+                {
+                  "text_snippet": "liet.\u2581It\u2581occupies\u2581an\u2581abandoned\u2581Elgin,\u2581Joliet\u2581and\u2581Eastern\u2581Railway\u2581corridor\u2581that\u2581in\u2581its\u2581last\u2581years\u2581was\u2581known...\n\nThe\u2581KR\u2581Trail\u2581is\u2581a\u2581new\u2581addition\u2581to\u2581Kenosha\u2581County\u2019s\u2581growing\u2581bike-ped\u2581network.\u2581The\u2581trail\u2581pi",
+                  "max_activation": 58.321,
+                  "max_token": "\u2581is"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581my\u017felf",
+                "\u2581Di\u017f",
+                "\u2581Majefty",
+                "\u2581them\u017felves",
+                "\u2581u\u017fe",
+                "\u2581Re\u017f",
+                "\u2581An\u017f",
+                "\u2581Hou\u017fe",
+                "\u2581Efq"
+              ],
+              "suppressed_tokens": [
+                "\u2581is",
+                "\u2581has",
+                "\u2581Is",
+                "\u2581\u044f\u0432\u043b\u044f\u0435\u0442\u0441\u044f",
+                "\u2581was",
+                "\u2581isn",
+                "\u2581can",
+                "\u2581may",
+                "is",
+                "\u2581does"
+              ],
+              "frac_nonzero": 0.00964
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11375,
+              "pos": 6,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 6,
+                "edge_weight": 31.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 4.4062
+              },
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 3.0781
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 0.6875
+              },
+              {
+                "type": "embedding",
+                "token": " shows",
+                "pos": 3,
+                "edge_weight": 0.2676
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11375,
+              "pos": 6,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " is",
+                "pos": 6,
+                "edge_weight": 31.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 4.4062
+              },
+              {
+                "type": "embedding",
+                "token": " trump",
+                "pos": 5,
+                "edge_weight": 3.0781
+              },
+              {
+                "type": "embedding",
+                "token": " that",
+                "pos": 4,
+                "edge_weight": 0.6875
+              },
+              {
+                "type": "embedding",
+                "token": " shows",
+                "pos": 3,
+                "edge_weight": 0.2676
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.1543
+              },
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 0.1465
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1325,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace L0:11375 (pos 6, direct_effect +0.130) upstream to its embedding source. Determine what input token fires this feature and whether it represents a spurious identity signal (like \"black\", \"white\", \"nonwhites\") or actual toxic content encoding.",
+          "input_tokens": 13894,
+          "output_tokens": 1561,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 7621,
+        "starting_pos": 2,
+        "objective": "Trace L0:7621 (pos 2, direct_effect +0.195) upstream to its embedding source. Determine what input token fires this feature and whether it encodes a spurious identity group signal or legitimate toxic content marker.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 7621,
+            "pos": 2,
+            "label": " the word \"clearly\", and to a lesser extent words associated with amounts of things",
+            "frac_nonzero": 0.01586,
+            "promoted_tokens": [
+              "\u2581instructive",
+              "Recently",
+              "rogels",
+              "byshev",
+              "\u2581Recently",
+              "eg",
+              "craper",
+              "IOL",
+              "rishnan",
+              "\u2581\u00ab"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 7621,
+            "to_pos": 2,
+            "weight": 17.75,
+            "token": " clearly"
+          }
+        ],
+        "explanation": "L0:7621 at position 2 is directly triggered by the input token \\\" clearly\\\" at position 2 with a strong edge weight of 17.75. This feature specifically detects the word \\\"clearly\\\" as indicated by its label and top activating examples. With a frac_nonzero of 0.01586, it's moderately specific. The promoted tokens (\\\"instructive\\\", \\\"Recently\\\", etc.) suggest it's a discourse/linguistic feature rather than encoding toxic content or identity group signals. This appears to be a legitimate linguistic feature for detecting the word \\\"clearly\\\" in context.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7621
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7621,
+              "label": " the word \"clearly\", and to a lesser extent words associated with amounts of things",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u25811998\u2581-\u2581Futurewise\n\nEver\u2581present\u2581video\u2581cameras\u2581will\u2581make\u2581large-scale\u2581traditional\u2581wars\u2581harder\u2581to\u2581fight,\u2581because\u2581horrors\u2581will\u2581be\u2581seen\u2581very\u2581clearly.\u25811998\u2581\u2013\u2581Futurewise\n\nWorld\u2581military\u2581spending\u2581will\u2581fall\u2581a",
+                  "max_activation": 32.744,
+                  "max_token": "\u2581clearly"
+                },
+                {
+                  "text_snippet": "\u2581more\u2581who\u2581have\u2581received\u2581some\u2581form\u2581of\u2581understanding,\u2581in\u2581many\u2581groups\u2581that\u2581were\u2581founded\u2581by\u2581an\u2581individual\u2581or\u2581a\u2581group\u2581of\u2581individuals\u2581because\u2581of\u2581such\u2581ideas,\u2581like\u2581the\u2581Lutheran\u2581church\u2581or\u2581the\u2581many\u2581Calvinist\u2581ch",
+                  "max_activation": 32.166,
+                  "max_token": "\u2581clearly"
+                },
+                {
+                  "text_snippet": "\u2581for\u2581years,\u2581in\u2581every\u2581category.\u2581You\u2581could\u2581do\u2581worse\u2581than\u2581getting\u2581hold\u2581of\u2581everything\u2581on\u2581this\u2581list\u2581(and\u2581anything\u2581on\u2581the\u2581Aurealis\u2581Awards\u2581list\u2581from\u2581last\u2581month)\u2581and\u2581you\u2019d\u2581be\u2581set\u2581up\u2581with\u2581some\u2581fantastic\u2581readin",
+                  "max_activation": 32.147,
+                  "max_token": "\u2581clearly"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581instructive",
+                "Recently",
+                "rogels",
+                "byshev",
+                "\u2581Recently",
+                "eg",
+                "craper",
+                "IOL",
+                "rishnan",
+                "\u2581\u00ab"
+              ],
+              "suppressed_tokens": [
+                "\u2581Monfieur",
+                "\u2581d\u00e9velo",
+                "\u2581religieuses",
+                "\u2581secondaires",
+                "\u2581Efq",
+                "\u2581num\u00e9ros",
+                "\u2581compr\u00e9hen",
+                "\u2581dedans",
+                "\u2581d\u00e9gust",
+                "\u2581chr\u00e9"
+              ],
+              "frac_nonzero": 0.01586
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7621,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 17.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6016
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.0952
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7621,
+              "pos": 2,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 17.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6016
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.0952
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1325,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1052,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 988,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 253,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace L0:7621 (pos 2, direct_effect +0.195) upstream to its embedding source. Determine what input token fires this feature and whether it encodes a spurious identity group signal or legitimate toxic content marker.",
+          "input_tokens": 13212,
+          "output_tokens": 936,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 12866,
+        "starting_pos": 2,
+        "objective": "Trace L0:12866 (pos 2, direct_effect -0.207) upstream to its embedding source. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 12866,
+            "pos": 2,
+            "label": " adverbs such as \"clearly,\" \"plainly,\" and \"as\"",
+            "frac_nonzero": 0.00728,
+            "promoted_tokens": [
+              "idade",
+              "\u2581mu",
+              "ukone",
+              "\u2581pen",
+              "\u2581basis",
+              "\u2581\u2014",
+              "\u5904",
+              "\u2581les",
+              "\u2581le",
+              "idades"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 12866,
+            "to_pos": 2,
+            "weight": 17.375,
+            "token": " clearly"
+          }
+        ],
+        "explanation": "Tracing L0:12866 at position 2 reveals it's a feature that detects adverbs like \"clearly\", \"plainly\", and \"as\" (frac_nonzero=0.00728, quite sparse/specific). The feature is directly fed by the embedding of token \" clearly\" at position 2 with a very strong edge weight of 17.375. This is a legitimate content feature that encodes linguistic structure (adverb detection) rather than spurious identity group signals. The circuit is simple: input token \"clearly\" \u2192 L0 adverb detection feature. No upstream processing needed as this is a direct lexical mapping.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12866
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 12866,
+              "label": " adverbs such as \"clearly,\" \"plainly,\" and \"as\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581his\u2581lie\u2581about\u2581the\u2581memo\u2581vindicating\u2581him,\u2581DDT\u2581grew\u2581more\u2581desperate\u2581last\u2581Monday\u2581morning\u2581with\u2581a\u2581smear\u2581tweet\u2581about\u2581the\u2581Democratic\u2581senator\u2581from\u2581California\u2581with\u2581fake\u2581stories\u2581about\u2581his\u2581leaking\u2581information,\u2581\u201cL",
+                  "max_activation": 30.251,
+                  "max_token": "\u2581clearly"
+                },
+                {
+                  "text_snippet": "\u2581(Id.\u2581\u00b6\u258145.)\u2581He\u2581also\u2581seeks\u2581an\u2581injunction\u2581barring\u2581GE\u2581from\u2581issuing\u2581\"any\u2581further\u2581correspondence\u2581which\u2581fails\u2581to\u2581clearly\u2581and\u2581conspicuously\u2581reveal\u2581the\u2581disclosure\u2581language\"\u2581at\u2581issue,\u2581punitive\u2581damages,\u2581and\u2581co",
+                  "max_activation": 30.247,
+                  "max_token": "\u2581clearly"
+                },
+                {
+                  "text_snippet": "\u2581the\nplaintiff\u2019s\u2581allegations\u2581state\u2581a\u2581claim\u2581of\u2581violation\u2581of\u2581clearly\u2581established\u2581law,\u2581a\u2581defendant\npleading\u2581qualified\u2581immunity\u2581is\u2581entitled\u2581to\u2581dismissal\u2581before\u2581the\u2581commencement\u2581of\ndiscovery.\u201d).\u2581A\u2581court\u2581co",
+                  "max_activation": 30.207,
+                  "max_token": "\u2581clearly"
+                }
+              ],
+              "promoted_tokens": [
+                "idade",
+                "\u2581mu",
+                "ukone",
+                "\u2581pen",
+                "\u2581basis",
+                "\u2581\u2014",
+                "\u5904",
+                "\u2581les",
+                "\u2581le",
+                "idades"
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581impunity",
+                "ReusableCell",
+                "\u2581Efq",
+                "\u2581poetical",
+                "\u2581ancients",
+                "anskje",
+                "apatalk",
+                "\u2581\u017fever"
+              ],
+              "frac_nonzero": 0.00728
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12866,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 17.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.0703
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.1426
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace L0:12866 (pos 2, direct_effect -0.207) upstream to its embedding source. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+          "input_tokens": 12835,
+          "output_tokens": 904,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 15831,
+        "starting_pos": 26,
+        "objective": "Trace L0:15831 (pos 26, direct_effect -0.125) upstream. Position 26 is near the end of the prompt - determine what token fires this feature and whether it encodes spurious identity signals.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 15831,
+            "pos": 26,
+            "label": "the word \"again\" and words associated with time",
+            "frac_nonzero": 0.02847,
+            "promoted_tokens": [
+              "\u2581Gemein",
+              "\u2581Bhd",
+              "ArgsConstructor",
+              "ngoing",
+              "tableFuture",
+              "\u2581AssemblyTitle",
+              "\u2581\"..\\..\\",
+              "phrag",
+              "corde",
+              "\u2581onAnimation"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 26,
+            "to_layer": 0,
+            "to_feature_idx": 15831,
+            "to_pos": 26,
+            "weight": 43.5,
+            "from_token": " again"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 25,
+            "to_layer": 0,
+            "to_feature_idx": 15831,
+            "to_pos": 26,
+            "weight": 0.793,
+            "from_token": " white"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 15831,
+            "to_pos": 26,
+            "weight": 1.7109,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 23,
+            "to_layer": 0,
+            "to_feature_idx": 15831,
+            "to_pos": 26,
+            "weight": 0.6094,
+            "from_token": " make"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 21,
+            "to_layer": 0,
+            "to_feature_idx": 15831,
+            "to_pos": 26,
+            "weight": 0.3066,
+            "from_token": " want"
+          }
+        ],
+        "explanation": "The feature L0:15831 at position 26 detects the word \\\"again\\\" and words associated with time. It has a negative direct effect of -0.125, suggesting it suppresses some output. The main upstream connection is directly from the \\\" again\\\" token at position 26 itself (edge weight 43.5), with secondary connections from \\\" white\\\" at position 25 (edge weight 0.793), \\\"<bos>\\\" at position 0 (1.71), \\\" make\\\" at position 23 (0.609), and \\\" want\\\" at position 21 (0.307). The feature has low sparsity (frac_nonzero=0.0285) and suppresses tokens like \\\"again\\\", \\\"Again\\\", etc. in its promoted/suppressed tokens list. The presence of \\\"white\\\" at position 25 suggests the prompt may contain \\\"white again\\\" or similar phrase, potentially related to identity signals.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15831
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15831,
+              "label": "the word \"again\" and words associated with time",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581I\u2581would\u2581have\u2581liked\u2581to\u2581see\u2581them\u2581again,\u2581they\u2581were\u2581gone.\u2581I\u2581was\u2581told\u2581they\u2581sold\u2581the\u2581farm\u2581and\u2581nobody\u2581knew\u2581where\u2581they\u2581went\u2581from\u2581there.\n\nI\u2581have\u2581often\u2581wondered\u2581if\u2581they\u2581are\u2581still\u2581alive.\u2581I\u2581wonder\u2581if\u2581they\u2581think\u2581",
+                  "max_activation": 81.786,
+                  "max_token": "\u2581again"
+                },
+                {
+                  "text_snippet": "9)\u2581used\u2581to\u2581sew\u2581a\u2581lot\u2581when\u2581we\u2581were\u2581little.\u2581For\u2581herself,\u2581for\u2581us,\u2581for\u2581my\u2581father.\u2581But\u2581she\u2581doesn't\u2581anymore.\u2581She\u2581found\u2581a\u2581job\u2581when\u2581we\u2581were\u2581getting\u2581a\u2581little\u2581older\u2581and\u2581says\u2581she\u2581doesn't\u2581have\u2581the\u2581patience\u2581anymor",
+                  "max_activation": 81.061,
+                  "max_token": "\u2581again"
+                },
+                {
+                  "text_snippet": "\u2581Daly,\u2581maybe\u2581I\u2581would\u2581watch\u2581again.\u2581Also\u2581replace\u2581Hall\u2581in\u2581the\u25819\u2581o\u2019clock\u2581hour.\u2581She\u2581is\u2581awful.\u2581GIVE\u2581ME\u2581MY\u2581GEIST\u2581BACK\n\nB\u2581stock\u2581\u2022\u2581on\u2581Apr\u258117,\u25812014\u25818:54\u2581am\n\nI\u2581love\u2581GMA\u2581but\u2581they\u2581really\u2581need\u2581to\u2581get\u2581rid\u2581of\u2581the\u2581mus",
+                  "max_activation": 81.004,
+                  "max_token": "\u2581again"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Gemein",
+                "\u2581Bhd",
+                "ArgsConstructor",
+                "ngoing",
+                "tableFuture",
+                "\u2581AssemblyTitle",
+                "\u2581\"..\\..\\",
+                "phrag",
+                "corde",
+                "\u2581onAnimation"
+              ],
+              "suppressed_tokens": [
+                "\u2581again",
+                "again",
+                "Again",
+                "\u2581Again",
+                "\u2581novamente",
+                "\u2581AGAIN",
+                "\u2581nuevamente",
+                "\u2581\u043e\u043f\u044f\u0442\u044c",
+                "\u2581op\u011bt",
+                "\u2581\u0441\u043d\u043e\u0432\u0430"
+              ],
+              "frac_nonzero": 0.02847
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15831,
+              "pos": 26,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " again",
+                "pos": 26,
+                "edge_weight": 43.5
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.7109
+              },
+              {
+                "type": "embedding",
+                "token": " white",
+                "pos": 25,
+                "edge_weight": 0.793
+              },
+              {
+                "type": "embedding",
+                "token": " make",
+                "pos": 23,
+                "edge_weight": 0.6094
+              },
+              {
+                "type": "embedding",
+                "token": " want",
+                "pos": 21,
+                "edge_weight": 0.3066
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-6",
+          "objective": "Trace L0:15831 (pos 26, direct_effect -0.125) upstream. Position 26 is near the end of the prompt - determine what token fires this feature and whether it encodes spurious identity signals.",
+          "input_tokens": 13034,
+          "output_tokens": 1569,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-6"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 164,
+        "starting_pos": 3,
+        "objective": "Trace L0:164 (pos 3, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes identity-related content or spurious signals.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 164,
+            "pos": 3,
+            "label": "the words \"show\" and \"your\", particularly when talking about presenting something",
+            "frac_nonzero": 0.02225,
+            "promoted_tokens": [
+              "\u2581pr\u00e9s",
+              "\u1ed9",
+              "ized",
+              "igans",
+              "\u2581Pon",
+              "ificance",
+              "\u2581quanto",
+              "\u2581pon",
+              "\u01b0\u1ee3c",
+              "CUSS"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 478,
+            "pos": 1,
+            "label": "various kinds of brackets and parentheses followed by a period",
+            "frac_nonzero": 0.10684,
+            "promoted_tokens": [
+              "\u2581the",
+              "\u2581in",
+              "\u2581for",
+              "\u2581to",
+              "\u2581M",
+              "\u2581I",
+              "\u2581of",
+              "\u2581at",
+              "\u2581on",
+              ","
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 1165,
+            "pos": 1,
+            "label": "words relating to abstract concepts, like properties, associations or figures of speech",
+            "frac_nonzero": 0.01673,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "\u2581the",
+              "'",
+              "\u2581to",
+              ",",
+              "\u2019",
+              "\n",
+              "\\",
+              "-"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 164,
+            "to_pos": 3,
+            "weight": 19.375
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 164,
+            "to_pos": 3,
+            "weight": 0.8984
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 164,
+            "to_pos": 3,
+            "weight": 0.4805
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 164,
+            "to_pos": 3,
+            "weight": 0.165
+          }
+        ],
+        "explanation": "L0:164 (pos 3) is primarily triggered by the input token \" shows\" at position 3 with a very strong edge weight of 19.375. This feature detects words like \"show\" and \"your\" when talking about presenting something. It has a direct_effect of -0.122, meaning it pushes away from some output. The feature appears to be a simple lexical detector for the word \"show\" and related words, not encoding identity-related content or spurious signals. It's a straightforward language feature that responds to the token \"shows\" in the input text. Other weaker connections include embeddings at positions 0, 1, and 2, but they have minimal influence compared to the token \" shows\" at position 3.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 164
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 164,
+              "label": "the words \"show\" and \"your\", particularly when talking about presenting something",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581want\u2581to\u2581hide\u2581the\u2581div\u2581panel.\u2581\u2581Let's\u2581call\u2581this\u2581\"myPanel\".\u2581\u2581Clicking\u2581on\u2581the\u2581button/image\u2581or\u2581text\u2581once\u2581more\u2581will\u2581then\u2581show\u2581it\u2581again.\u2581\u2581Now\u2581I\u2581have\u2581a\u2581solution\u2581in\u2581JavaScript\u2581below,\u2581but\u2581my\u2581question\u2581is\u2581how\u2581can",
+                  "max_activation": 38.628,
+                  "max_token": "\u2581show"
+                },
+                {
+                  "text_snippet": "s\u2581tweets).\u2581Rudy\u2581Giuliani\u2019s\u2581craziness\u2581continues\u2581with\u2581his\u2581invented\u2581DOJ\u2581\u201c60-day\u2581rule\u201d\u2581preventing\u2581Mueller\u2581from\u2581DDT\u2019s\u2581investigation\u2581in\u2581the\u2581two\u2581months\u2581preceding\u2581the\u2581election\u2581and\u2581announcing\u2581that\u2581Mueller\u2581must",
+                  "max_activation": 38.35,
+                  "max_token": "\u2581show"
+                },
+                {
+                  "text_snippet": ",\u2581should\u2581they\u2581exist.\u2581This\u2581has\u2581quite\u2581a\u2581negative\nimpact\u2581on\u2581bit\u2581rate,\u2581size\u2581and\u2581overall\u2581picture\u2581quality.\u2581If\u2581you\u2581really\nwant\u2581a\u2581high-quality,\u2581small-size\u2581MPEG-4,\u2581you\u2581should\u2581back\u2581it\u2581up\u2581manually.\nThe\u2581improved\u2581",
+                  "max_activation": 38.011,
+                  "max_token": "\u2581show"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581pr\u00e9s",
+                "\u1ed9",
+                "ized",
+                "igans",
+                "\u2581Pon",
+                "ificance",
+                "\u2581quanto",
+                "\u2581pon",
+                "\u01b0\u1ee3c",
+                "CUSS"
+              ],
+              "suppressed_tokens": [
+                ")}</",
+                "}\")]",
+                "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+                "%</",
+                "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+                "\u2581}),",
+                "\u2581}</",
+                "\u2581AssemblyProduct",
+                "'}>",
+                "]</"
+              ],
+              "frac_nonzero": 0.02225
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 164,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " shows",
+                "pos": 3,
+                "edge_weight": 19.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.8984
+              },
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 0.4805
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.165
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 164,
+              "pos": 3,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " shows",
+                "pos": 3,
+                "edge_weight": 19.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.8984
+              },
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 0.4805
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 0.165
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1325,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1052,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 988,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 478
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 478,
+              "label": "various kinds of brackets and parentheses followed by a period",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "}).\u2581The\u2581number\u2581of\u2581apoptotic\u2581bodies\u2581per\u2581frame\u2581reached\u2581its\u2581maxima\u2581within\u25816\u2009h\u2581of\u2581TRAIL\u2581treatment\u2581in\u2581shKDM2B\u2581cells,\u2581earlier\u2581and\u2581significantly\u2581in\u2581higher\u2581numbers\u2581than\u2581shControl\u2581cells.\u2581To\u2581examine\u2581whether\u2581KDM",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).$\u2581As\u2581we\u2581will\u2581further\u2581discuss,\u2581$\\psi(z,\\beta,\\gamma,\\lambda)$\u2581being\u2581LR\u2581will\u2581mean\u2581that\u2581the\u2581estimation\u2581of\u2581$\\gamma$\u2581and\u2581$\\lambda$\u2581does\u2581not\u2581affect\u2581$\\Omega$,\u2581so\u2581that\u2581$\\Omega=E[\\psi(z_{i},\\beta_{0},\\gamma",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).\u2581EcR\u2581function\u2581in\u2581the\u2581regulation\u2581of\u2581hemocyte\u2581motility\u2581was\u2581further\u2581confirmed\u2581by\u2581RNAi\u2581([Fig.\u25811K](#ppat-1003720-g001){ref-type=\"fig\"}).\u2581Last,\u2581the\u2581expression\u2581of\u2581*USP*\u2581RNAi\u2581in\u2581the\u2581hemocytes\u2581led\u2581to\u2581a\u2581simi",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "\u2581in",
+                "\u2581for",
+                "\u2581to",
+                "\u2581M",
+                "\u2581I",
+                "\u2581of",
+                "\u2581at",
+                "\u2581on",
+                ","
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "DockStyle",
+                "\u2581hou\u017fe",
+                "\u2581it\u017felf",
+                "\u2581doubtnut",
+                "\u2581auffi",
+                "\u2581\u017fmall",
+                "\u2581plea\u017fure",
+                "\u2581\u017ftate",
+                "\u2581\u017fche"
+              ],
+              "frac_nonzero": 0.10684
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1165
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1165,
+              "label": "words relating to abstract concepts, like properties, associations or figures of speech",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581organization\u2581that\u2581is\u2581remarkable.\n\nIf\u2581you\u2581don\u2019t\u2581opt\u2581for\u2581the\u2581proper\u2581mobile\u2581app\u2581development\u2581company\u2581then\u2581you\u2019ll\u2581unable\u2581to\u2581fulfill\u2581your\u2581plans.\u2581Possessing\u2581a\u2581seasoned\u2581group\u2581of\u2581professionals\u2581makes\u2581it\u2581straig",
+                  "max_activation": 37.496,
+                  "max_token": "\u2581organization"
+                },
+                {
+                  "text_snippet": "\u2581behalf\u2581as\u2581well.\u2581She\u2581also\u2581testified\u2581that\n\nthe\u2581digital\u2581scales\u2581belonged\u2581to\u2581McDougald\u2581and,\u2581although\u2581the\u2581pistol\u2581belonged\u2581to\u2581her\u2581ex-\n\nboyfriend,\u2581Benny\u2581Simpson\u2581(who\u2581was\u2581then\u2581incarcerated),\u2581McDougald\u2581asked\u2581h",
+                  "max_activation": 37.021,
+                  "max_token": "\u2581behalf"
+                },
+                {
+                  "text_snippet": "\u2581move\u2581....\nResponse.Redirect(\"~/Membership/UserRegistration.aspx\");\n\n...\u2581outside\u2581of\u2581the\u2581Try\u2581/\u2581Catch\u2581block\u2581or\u2581you\u2581can\u2581try\u2581John\u2581S.\u2581Reid's\u2581newer\u2581solution\u2581below\u2581:\n\nResponse.Redirect(url)\u2581ThreadAbortExcept",
+                  "max_activation": 36.895,
+                  "max_token": "\u2581move"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "\u2581the",
+                "'",
+                "\u2581to",
+                ",",
+                "\u2019",
+                "\n",
+                "\\",
+                "-"
+              ],
+              "suppressed_tokens": [
+                "UserScript",
+                ":\u2728",
+                "\u2581Mahomet",
+                "\u2581greate\u017ft",
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "^(@)",
+                "ToBounds",
+                "\u2581Majefty",
+                "\u2581C\u00e6sar"
+              ],
+              "frac_nonzero": 0.01673
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-7",
+          "objective": "Trace L0:164 (pos 3, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes identity-related content or spurious signals.",
+          "input_tokens": 24261,
+          "output_tokens": 1813,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-7"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 3916,
+        "starting_pos": 1,
+        "objective": "Trace L0:3916 (pos 1, direct_effect +0.118) upstream. Position 1 is near the beginning - determine what token fires this feature and whether it encodes spurious identity signals.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 3916,
+            "pos": 1,
+            "label": "common short words in legal documents",
+            "frac_nonzero": 0.02156,
+            "promoted_tokens": [
+              "<bos>",
+              "\n\n",
+              "'",
+              "\u2019",
+              "\n",
+              "<eos>",
+              "\n\n\n",
+              "<strong>",
+              "\u2581the",
+              "-"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 478,
+            "pos": 1,
+            "label": "various kinds of brackets and parentheses followed by a period",
+            "frac_nonzero": 0.10684,
+            "promoted_tokens": [
+              "\u2581the",
+              "\u2581in",
+              "\u2581for",
+              "\u2581to",
+              "\u2581M",
+              "\u2581I",
+              "\u2581of",
+              "\u2581at",
+              "\u2581on",
+              ","
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 3916,
+            "to_pos": 1,
+            "weight": 8.875
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 3916,
+            "to_pos": 1,
+            "weight": 1.5625
+          }
+        ],
+        "explanation": "Tracing L0:3916 at position 1 (direct_effect +0.118) upstream reveals it's primarily fed by two embedding nodes: 1) The <bos> token at position 0 with strong weight 8.875, and 2) The token \"tie\" at position 1 with weight 1.5625. The feature's label \"common short words in legal documents\" and its promoted tokens (<bos>, newlines, punctuation) suggest it's a formatting/structural feature triggered by sequence beginnings in legal contexts. The feature has low sparsity (frac_nonzero=0.02156), indicating it's somewhat selective but not highly specific. No spurious identity signals were detected - the feature appears to encode document structure cues rather than identity information. Since L0 features receive input directly from embeddings, this is the bottom of the circuit.\"",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3916
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 3916,
+              "label": " common short words in legal documents",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nwitness\u2581is\u2581too\u2581unreliable\u2581to\u2581be\u2581believed\u2581on\u2581important\u2581matters.\u2581See\u2581United\u2581States\u2581v.\u2581Graham,\u2581858\u2581F.2d\u2581986,\n\n990\u2581n.\u25815\u2581(5th\u2581Cir.1988)\u2581(\"[T]he\u2581hallmark\u2581of\u2581an\u2581inconsistent\u2581statement\u2581offered\u2581to\u2581impeach\u2581a\u2581",
+                  "max_activation": 29.569,
+                  "max_token": "witness"
+                },
+                {
+                  "text_snippet": "\n\nwere\u2581permitted\u2581to\u2581do\u2581so\u2581on\u2581her\u2581behalf.\u2581Against\u2581the\u2581underinclusiveness\n\nargument,\u2581the\u2581United\u2581States\u2581Supreme\u2581Court\u2581noted:\u2581\"A\u2581State\u2581need\u2581not\u2581address\n\nall\u2581aspects\u2581of\u2581a\u2581problem\u2581in\u2581one\u2581fell\u2581swoop;\u2581policym",
+                  "max_activation": 27.534,
+                  "max_token": "were"
+                },
+                {
+                  "text_snippet": "\u2581there).\n\nthus\u2581my\u2581astonishment\u2581and\u2581my\u2581anger\u2581when\u2581i\u2581read\u2581the\u2581various\u2581comments\u2581i\u2581listed\u2581in\u2581my\u2581post.\u2581i\u2581simply\u2581cannot\u2581understand\u2581the\u2581kinds\u2581of\u2581attitudes\u2581that\u2581cannot\u2581recognize\u2581that\u2581in\u2581the\u2581absence\u2581of\u2581the\u2581ide",
+                  "max_activation": 26.449,
+                  "max_token": "thus"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\n\n",
+                "'",
+                "\u2019",
+                "\n",
+                "<eos>",
+                "\n\n\n",
+                "<strong>",
+                "\u2581the",
+                "-"
+              ],
+              "suppressed_tokens": [
+                "^(@)",
+                "\u2581Efq",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581my\u017felf",
+                "BibitemShut",
+                "\u2581Jefus",
+                "\u2581The\u017fe",
+                "TagMode",
+                "\u2581hou\u017fe",
+                "\u2581purpo\u017fe"
+              ],
+              "frac_nonzero": 0.02156
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3916,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 8.875
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 1.5625
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 253,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 478
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 478,
+              "label": "various kinds of brackets and parentheses followed by a period",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "}).\u2581The\u2581number\u2581of\u2581apoptotic\u2581bodies\u2581per\u2581frame\u2581reached\u2581its\u2581maxima\u2581within\u25816\u2009h\u2581of\u2581TRAIL\u2581treatment\u2581in\u2581shKDM2B\u2581cells,\u2581earlier\u2581and\u2581significantly\u2581in\u2581higher\u2581numbers\u2581than\u2581shControl\u2581cells.\u2581To\u2581examine\u2581whether\u2581KDM",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).$\u2581As\u2581we\u2581will\u2581further\u2581discuss,\u2581$\\psi(z,\\beta,\\gamma,\\lambda)$\u2581being\u2581LR\u2581will\u2581mean\u2581that\u2581the\u2581estimation\u2581of\u2581$\\gamma$\u2581and\u2581$\\lambda$\u2581does\u2581not\u2581affect\u2581$\\Omega$,\u2581so\u2581that\u2581$\\Omega=E[\\psi(z_{i},\\beta_{0},\\gamma",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).\u2581EcR\u2581function\u2581in\u2581the\u2581regulation\u2581of\u2581hemocyte\u2581motility\u2581was\u2581further\u2581confirmed\u2581by\u2581RNAi\u2581([Fig.\u25811K](#ppat-1003720-g001){ref-type=\"fig\"}).\u2581Last,\u2581the\u2581expression\u2581of\u2581*USP*\u2581RNAi\u2581in\u2581the\u2581hemocytes\u2581led\u2581to\u2581a\u2581simi",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "\u2581in",
+                "\u2581for",
+                "\u2581to",
+                "\u2581M",
+                "\u2581I",
+                "\u2581of",
+                "\u2581at",
+                "\u2581on",
+                ","
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "DockStyle",
+                "\u2581hou\u017fe",
+                "\u2581it\u017felf",
+                "\u2581doubtnut",
+                "\u2581auffi",
+                "\u2581\u017fmall",
+                "\u2581plea\u017fure",
+                "\u2581\u017ftate",
+                "\u2581\u017fche"
+              ],
+              "frac_nonzero": 0.10684
+            }
+          },
+          {
+            "tool": "get_top_features",
+            "input": {
+              "token": "tie",
+              "k": 10
+            },
+            "output": {
+              "error": "Token 'tie' not found in top logits. Available: ['']"
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-8",
+          "objective": "Trace L0:3916 (pos 1, direct_effect +0.118) upstream. Position 1 is near the beginning - determine what token fires this feature and whether it encodes spurious identity signals.",
+          "input_tokens": 22264,
+          "output_tokens": 1558,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-8"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 4422,
+        "starting_pos": 2,
+        "objective": "Trace L0:4422 (pos 2) upstream. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 4422,
+            "pos": 2,
+            "label": "the word \"seriously\"",
+            "frac_nonzero": 0.00922,
+            "promoted_tokens": [
+              "templateUrl",
+              "\ufeff/*",
+              "richTextPanel",
+              "\u2581resourceCulture",
+              "\u2581Gruber",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              "\u2581k\u0131l\u0131f",
+              "\u2581fr\u00e8res",
+              "\u2581popolari",
+              "\u2581giapp"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 478,
+            "pos": 1,
+            "label": "various kinds of brackets and parentheses followed by a period",
+            "frac_nonzero": 0.10684,
+            "promoted_tokens": [
+              "\u2581the",
+              "\u2581in",
+              "\u2581for",
+              "\u2581to",
+              "\u2581M",
+              "\u2581I",
+              "\u2581of",
+              "\u2581at",
+              "\u2581on",
+              ","
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 553,
+            "pos": 1,
+            "label": "words related to chemical reactions or physical states in a scientific context",
+            "frac_nonzero": 0.00432,
+            "promoted_tokens": [
+              "\u2581actionMode",
+              "othesis",
+              "\u2581kereszt",
+              "unnitel",
+              "mereka",
+              "\u2581tartalomaj\u00e1nl\u00f3",
+              "\u2581Wikimedijinoj",
+              "\u03c1\u03b3\u03bf",
+              "specialchars",
+              "\u2581lehe"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 4422,
+            "to_pos": 2,
+            "weight": 12.625,
+            "from_token": "clearly"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 4422,
+            "to_pos": 2,
+            "weight": 0.9805,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 4422,
+            "to_pos": 2,
+            "weight": -0.1787,
+            "from_token": "tie"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 478,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 4422,
+            "to_pos": 2,
+            "weight": 0
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 553,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 4422,
+            "to_pos": 2,
+            "weight": 0
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 478,
+            "to_pos": 1,
+            "weight": 7,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 478,
+            "to_pos": 1,
+            "weight": -1.2422,
+            "from_token": "tie"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 553,
+            "to_pos": 1,
+            "weight": 4.3438,
+            "from_token": "tie"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 553,
+            "to_pos": 1,
+            "weight": 3.4062,
+            "from_token": "<bos>"
+          }
+        ],
+        "explanation": "Tracing L0:4422 at position 2 reveals it is primarily activated by the input token \"clearly\" at position 2 with a strong edge weight of 12.625. The feature is labeled \"the word 'seriously'\" but actually fires on \"clearly\" in this context. The feature has a low frac_nonzero (0.00922) indicating high specificity, and its promoted tokens are technical/multilingual terms rather than identity-related content. Other upstream connections include weak positive influence from <bos> token and weak negative influence from \"tie\". The feature does NOT encode spurious identity group signals; it appears to be a legitimate language feature detecting adverbs or discourse markers, with promoted tokens suggesting it may be involved in technical/code generation contexts rather than social identity content.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 4422
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 4422,
+              "label": "the word \"seriously\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581we\u2581have\u2581a\ncourt\u2581system\u2581and\u2581Congress\u2581that\u2581were\u2581created\u2581to\u2581check\u2581and\u2581balance\u2581one\nanother.\u2581You\u2581know\u2581that.\u201d\n\n\u201cIt\u2581doesn\u2019t\nmatter.\u2581It\u2019s\u2581the\u2581state\u2581of\u2581the\u2581union.\u2581And\u2581unless\u2581this\u2581President\u2581addresses\u2581this\nfear",
+                  "max_activation": 36.978,
+                  "max_token": "\u2581seriously"
+                },
+                {
+                  "text_snippet": "\u2581synchronization\u2581and\u2581during\u2581cell\u2581ranking.\u2581The\u2581mobile\u2581station\u2581ranks\u2581cells\u2581by\u2581measuring\u2581the\u2581received\u2581signal\u2581strength\u2581and\u2581then\u2581uses\u2581the\u2581ranking\u2581to\u2581facilitate\u2581handover\u2581and\u2581reselection.\u2581If\u2581a\u2581PCID\u2581is\u2581not\u2581gu",
+                  "max_activation": 36.788,
+                  "max_token": "\u2581seriously"
+                },
+                {
+                  "text_snippet": "\u2581exercise\u2581of\u2581powers\u2581and\u2581discretions,\u2581and\u2581legal\u2581advice\u2581obtained\u2581by\u2581the\u2581trustees,\u2581generally\u2581need\u2581not\u2581be\u2581disclosed.\n\nIf\u2581trustees\u2581receive\u2581a\u2581request\u2581for\u2581information\u2581from\u2581a\u2581beneficiary,\u2581they\u2581need\u2581to\u2581conside",
+                  "max_activation": 36.174,
+                  "max_token": "\u2581seriously"
+                }
+              ],
+              "promoted_tokens": [
+                "templateUrl",
+                "\ufeff/*",
+                "richTextPanel",
+                "\u2581resourceCulture",
+                "\u2581Gruber",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581k\u0131l\u0131f",
+                "\u2581fr\u00e8res",
+                "\u2581popolari",
+                "\u2581giapp"
+              ],
+              "suppressed_tokens": [
+                "...',",
+                "'",
+                "\u2019",
+                ")\uff0c",
+                "\u2581run",
+                ".)}",
+                "ClientRect",
+                "''',",
+                "`;\r",
+                "*',"
+              ],
+              "frac_nonzero": 0.00922
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 4422,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 12.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.9805
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": -0.1787
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 478
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 478,
+              "label": "various kinds of brackets and parentheses followed by a period",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "}).\u2581The\u2581number\u2581of\u2581apoptotic\u2581bodies\u2581per\u2581frame\u2581reached\u2581its\u2581maxima\u2581within\u25816\u2009h\u2581of\u2581TRAIL\u2581treatment\u2581in\u2581shKDM2B\u2581cells,\u2581earlier\u2581and\u2581significantly\u2581in\u2581higher\u2581numbers\u2581than\u2581shControl\u2581cells.\u2581To\u2581examine\u2581whether\u2581KDM",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).$\u2581As\u2581we\u2581will\u2581further\u2581discuss,\u2581$\\psi(z,\\beta,\\gamma,\\lambda)$\u2581being\u2581LR\u2581will\u2581mean\u2581that\u2581the\u2581estimation\u2581of\u2581$\\gamma$\u2581and\u2581$\\lambda$\u2581does\u2581not\u2581affect\u2581$\\Omega$,\u2581so\u2581that\u2581$\\Omega=E[\\psi(z_{i},\\beta_{0},\\gamma",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                },
+                {
+                  "text_snippet": "}).\u2581EcR\u2581function\u2581in\u2581the\u2581regulation\u2581of\u2581hemocyte\u2581motility\u2581was\u2581further\u2581confirmed\u2581by\u2581RNAi\u2581([Fig.\u25811K](#ppat-1003720-g001){ref-type=\"fig\"}).\u2581Last,\u2581the\u2581expression\u2581of\u2581*USP*\u2581RNAi\u2581in\u2581the\u2581hemocytes\u2581led\u2581to\u2581a\u2581simi",
+                  "max_activation": 29.672,
+                  "max_token": "})."
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581the",
+                "\u2581in",
+                "\u2581for",
+                "\u2581to",
+                "\u2581M",
+                "\u2581I",
+                "\u2581of",
+                "\u2581at",
+                "\u2581on",
+                ","
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "DockStyle",
+                "\u2581hou\u017fe",
+                "\u2581it\u017felf",
+                "\u2581doubtnut",
+                "\u2581auffi",
+                "\u2581\u017fmall",
+                "\u2581plea\u017fure",
+                "\u2581\u017ftate",
+                "\u2581\u017fche"
+              ],
+              "frac_nonzero": 0.10684
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 553
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 553,
+              "label": "words related to chemical reactions or physical states in a scientific context",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "55\u2581nm\u2581or\u2581with\u2581solid\u2581state\u2581lasers\u2581emitting\u2581in\u2581this\u2581spectral\u2581band\u2581region).\u2581Solar\u2581radiation\u2581is\u2581minimal\u2581in\u2581the\u2581UVA\u2581band\u2581and\u2581can\u2581be\u2581significantly\u2581further\u2581reduced\u2581by\u2581use\u2581of\u2581appropriate\u2581band\u2581pass\u2581or\u2581short\u2581pa",
+                  "max_activation": 24.716,
+                  "max_token": "\u2581state"
+                },
+                {
+                  "text_snippet": "55\u2581nm\u2581or\u2581with\u2581solid\u2581state\u2581lasers\u2581emitting\u2581in\u2581this\u2581spectral\u2581band\u2581region).\u2581Solar\u2581radiation\u2581is\u2581minimal\u2581in\u2581the\u2581UVA\u2581band\u2581and\u2581can\u2581be\u2581significantly\u2581further\u2581reduced\u2581by\u2581use\u2581of\u2581appropriate\u2581band\u2581pass\u2581or\u2581short\u2581pa",
+                  "max_activation": 24.716,
+                  "max_token": "\u2581state"
+                },
+                {
+                  "text_snippet": "2x86x92Cu(NH3)2(NO3)2+H2Oxe2x80x83xe2x80x83(1)\nThis\u2581reaction\u2581occurs\u2581at\u2581elevated\u2581temperatures\u2581(e.g.,\u2581in\u2581excess\u2581of\u2581140xc2x0\u2581C.)\u2581in\u2581either\u2581a\u2581solid\u2581state\u2581reaction\u2581or\u2581in\u2581an\u2581ammonium\u2581nitrate\u2581melt.\u2581The\u2581rate\u2581",
+                  "max_activation": 23.242,
+                  "max_token": "\u2581state"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581actionMode",
+                "othesis",
+                "\u2581kereszt",
+                "unnitel",
+                "mereka",
+                "\u2581tartalomaj\u00e1nl\u00f3",
+                "\u2581Wikimedijinoj",
+                "\u03c1\u03b3\u03bf",
+                "specialchars",
+                "\u2581lehe"
+              ],
+              "suppressed_tokens": [
+                "\u24e7",
+                "\u2581AssemblyTitle",
+                "\u5411",
+                "\u4e0d",
+                "\u8981",
+                "\u2581Gattung",
+                "ParallelGroup",
+                "\u2581\u05d7\u05d9\u05e6\u05d5\u05e0\u05d9\u05d9\u05dd",
+                "nmgp",
+                "\u5f00"
+              ],
+              "frac_nonzero": 0.00432
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 478,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 7.0
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": -1.2422
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 253,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 553,
+              "pos": 1,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": 4.3438
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 3.4062
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 253,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-9",
+          "objective": "Trace L0:4422 (pos 2) upstream. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+          "input_tokens": 30417,
+          "output_tokens": 2111,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-9"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 7142,
+        "starting_pos": 2,
+        "objective": "Trace L0:7142 (pos 2, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes spurious identity signals.",
+        "max_hops": 3
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 7142,
+            "pos": 2,
+            "label": " the word \"axis\" and its plural form, often in the context of scientific or technical documents",
+            "frac_nonzero": 0.02182,
+            "promoted_tokens": [
+              "\u2581(",
+              ",",
+              ".",
+              "\u2581is",
+              "\u2581A",
+              "-",
+              "\u2581",
+              "\u2581-",
+              "\u2581I",
+              "\u2581M"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 7142,
+            "to_pos": 2,
+            "weight": 14.625,
+            "from_token": " clearly"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7142,
+            "to_pos": 2,
+            "weight": 1.2344,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7142,
+            "to_pos": 2,
+            "weight": -0.1104,
+            "from_token": "tie"
+          }
+        ],
+        "explanation": "The circuit tracing reveals that L0:7142 at position 2 is directly fired by the input token \\\" clearly\\\" at the same position (position 2). The edge weight from \\\" clearly\\\" to this feature is very strong (14.625), indicating this token strongly activates the feature. The feature itself encodes \\\"the word 'axis' and its plural form, often in the context of scientific or technical documents\\\" (frac_nonzero=0.02182, relatively specific). However, the feature fires on \\\" clearly\\\" rather than \\\"axis\\\", suggesting a spurious correlation. The feature has a negative direct effect (-0.122) on the output token, meaning it pushes against the model's prediction. The promoted tokens are mostly punctuation and common words (parentheses, commas, periods, \\\"is\\\", \\\"A\\\"), not identity-related terms. There's no evidence of identity signal encoding in this feature - it appears to be a technical/scientific vocabulary feature that happens to be spuriously activated by \\\" clearly\\\".",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7142
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7142,
+              "label": " the word \"axis\" and its plural form, often in the context of scientific or technical documents",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581and\u2581L2\u2581are\u2581the\u2581left\u2581axes.\u2581R1\u2581is\u2581the\u2581right\u2581axis,\u2581T1\u2581is\u2581the\u2581top\u2581axis\u2581and\n\t\t\t//\u2581B1\u2581is\u2581the\u2581bottom\u2581axis\n\t\t\t//\u2581There\u2581are\u2581also\u25814\u2581quadrant-like\u2581locations\u2581(left\u2581to\u2581right\u2581instead\u2581of\u2581clockwise)\u2581reserved\u2581for\u2581cha",
+                  "max_activation": 33.582,
+                  "max_token": "\u2581axis"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581L2\u2581are\u2581the\u2581left\u2581axes.\u2581R1\u2581is\u2581the\u2581right\u2581axis,\u2581T1\u2581is\u2581the\u2581top\u2581axis\u2581and\n\t\t\t//\u2581B1\u2581is\u2581the\u2581bottom\u2581axis\n\t\t\t//\u2581There\u2581are\u2581also\u25814\u2581quadrant-like\u2581locations\u2581(left\u2581to\u2581right\u2581instead\u2581of\u2581clockwise)\u2581reserved\u2581for\u2581cha",
+                  "max_activation": 33.582,
+                  "max_token": "\u2581axis"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581L2\u2581are\u2581the\u2581left\u2581axes.\u2581R1\u2581is\u2581the\u2581right\u2581axis,\u2581T1\u2581is\u2581the\u2581top\u2581axis\u2581and\n\t\t\t//\u2581B1\u2581is\u2581the\u2581bottom\u2581axis\n\t\t\t//\u2581There\u2581are\u2581also\u25814\u2581quadrant-like\u2581locations\u2581(left\u2581to\u2581right\u2581instead\u2581of\u2581clockwise)\u2581reserved\u2581for\u2581cha",
+                  "max_activation": 33.582,
+                  "max_token": "\u2581axis"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581(",
+                ",",
+                ".",
+                "\u2581is",
+                "\u2581A",
+                "-",
+                "\u2581",
+                "\u2581-",
+                "\u2581I",
+                "\u2581M"
+              ],
+              "suppressed_tokens": [
+                "\u2581my\u017felf",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581\u0f0b\u0f0b",
+                "\u2581it\u017felf",
+                "\u2581Efq",
+                "\u2581An\u017f",
+                "\u2581\u017find",
+                "\u2581The\u017fe",
+                "\u2581Monfieur",
+                "\u2581Re\u017f"
+              ],
+              "frac_nonzero": 0.02182
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7142,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " clearly",
+                "pos": 2,
+                "edge_weight": 14.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.2344
+              },
+              {
+                "type": "embedding",
+                "token": "tie",
+                "pos": 1,
+                "edge_weight": -0.1104
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 553,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_features",
+            "input": {
+              "token": "",
+              "k": 10
+            },
+            "output": [
+              {
+                "layer": 0,
+                "feature_idx": 12866,
+                "pos": 2,
+                "activation": 12.25,
+                "direct_effect": -0.207
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7621,
+                "pos": 2,
+                "activation": 13.6875,
+                "direct_effect": 0.1953
+              },
+              {
+                "layer": 4,
+                "feature_idx": 14582,
+                "pos": 5,
+                "activation": 14.0625,
+                "direct_effect": 0.1562
+              },
+              {
+                "layer": 0,
+                "feature_idx": 4422,
+                "pos": 2,
+                "activation": 9.125,
+                "direct_effect": 0.1377
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11375,
+                "pos": 6,
+                "activation": 33.5,
+                "direct_effect": 0.1299
+              },
+              {
+                "layer": 0,
+                "feature_idx": 15831,
+                "pos": 26,
+                "activation": 39.0,
+                "direct_effect": -0.125
+              },
+              {
+                "layer": 0,
+                "feature_idx": 164,
+                "pos": 3,
+                "activation": 14.9375,
+                "direct_effect": -0.1221
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7142,
+                "pos": 2,
+                "activation": 10.625,
+                "direct_effect": -0.1216
+              },
+              {
+                "layer": 0,
+                "feature_idx": 3916,
+                "pos": 1,
+                "activation": 7.75,
+                "direct_effect": 0.1182
+              },
+              {
+                "layer": 2,
+                "feature_idx": 9199,
+                "pos": 9,
+                "activation": 15.0625,
+                "direct_effect": -0.1152
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-10",
+          "objective": "Trace L0:7142 (pos 2, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes spurious identity signals.",
+          "input_tokens": 17283,
+          "output_tokens": 1117,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-10"
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_clarly",
+            "label": "Emb: ' clearly' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_trump",
+            "label": "Emb: ' trump' (pos 5)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "emb_is",
+            "label": "Emb: ' is' (pos 6)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 6
+              }
+            ]
+          },
+          {
+            "id": "emb_again",
+            "label": "Emb: ' again' (pos 26)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 26
+              }
+            ]
+          },
+          {
+            "id": "emb_bos",
+            "label": "Emb: '<bos>' (pos 0)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 0
+              }
+            ]
+          },
+          {
+            "id": "emb_tie",
+            "label": "Emb: 'tie' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_shows",
+            "label": "Emb: ' shows' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_adverb",
+            "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 12866,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7621,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 4422,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7142,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "lexical_is",
+            "label": "Copula/Linking Verb Detector (is)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11375,
+                "pos": 6
+              }
+            ]
+          },
+          {
+            "id": "lexical_again",
+            "label": "Temporal/Iterative Marker (again)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 15831,
+                "pos": 26
+              }
+            ]
+          },
+          {
+            "id": "lexical_shows",
+            "label": "Demonstrative/Show Marker (shows)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 164,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_bos_tie",
+            "label": "Document Structure/BOS Features",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 3916,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "lexical_ot_code",
+            "label": "Code Fragment Detector ('ot')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11,
+                "pos": 9
+              },
+              {
+                "layer": 0,
+                "feature_idx": 12712,
+                "pos": 9
+              },
+              {
+                "layer": 0,
+                "feature_idx": 865,
+                "pos": 9
+              }
+            ]
+          },
+          {
+            "id": "political_names",
+            "label": "Political Figure/Organization Names",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 14301,
+                "pos": 5
+              },
+              {
+                "layer": 2,
+                "feature_idx": 1239,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "political_enhanced",
+            "label": "Trump Administration/Government Detection",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 3136,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "wh_gov_refs",
+            "label": "White House/US Government References",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 14582,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "output_node",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_clarly",
+            "to": "lexical_adverb"
+          },
+          {
+            "from": "emb_is",
+            "to": "lexical_is"
+          },
+          {
+            "from": "emb_again",
+            "to": "lexical_again"
+          },
+          {
+            "from": "emb_bos",
+            "to": "lexical_bos_tie"
+          },
+          {
+            "from": "emb_tie",
+            "to": "lexical_bos_tie"
+          },
+          {
+            "from": "emb_shows",
+            "to": "lexical_shows"
+          },
+          {
+            "from": "emb_trump",
+            "to": "political_names"
+          },
+          {
+            "from": "political_names",
+            "to": "political_enhanced"
+          },
+          {
+            "from": "political_names",
+            "to": "wh_gov_refs"
+          },
+          {
+            "from": "political_enhanced",
+            "to": "wh_gov_refs"
+          },
+          {
+            "from": "lexical_again",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_is",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_adverb",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_shows",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_bos_tie",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_ot_code",
+            "to": "output_node"
+          },
+          {
+            "from": "wh_gov_refs",
+            "to": "output_node"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_clarly",
+            "label": "Emb: ' clearly' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_trump",
+            "label": "Emb: ' trump' (pos 5)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "emb_is",
+            "label": "Emb: ' is' (pos 6)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 6
+              }
+            ]
+          },
+          {
+            "id": "emb_again",
+            "label": "Emb: ' again' (pos 26)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 26
+              }
+            ]
+          },
+          {
+            "id": "emb_bos",
+            "label": "Emb: '<bos>' (pos 0)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 0
+              }
+            ]
+          },
+          {
+            "id": "emb_tie",
+            "label": "Emb: 'tie' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_shows",
+            "label": "Emb: ' shows' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": -1,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_adverb",
+            "label": "Adverb/Linguistic Intensity Detectors (clearly)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 12866,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7621,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 4422,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 7142,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "lexical_is",
+            "label": "Copula/Linking Verb Detector (is)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11375,
+                "pos": 6
+              }
+            ]
+          },
+          {
+            "id": "lexical_again",
+            "label": "Temporal/Iterative Marker (again)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 15831,
+                "pos": 26
+              }
+            ]
+          },
+          {
+            "id": "lexical_shows",
+            "label": "Demonstrative/Show Marker (shows)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 164,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "lexical_bos_tie",
+            "label": "Document Structure/BOS Features",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 3916,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 1165,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "lexical_ot_code",
+            "label": "Code Fragment Detector ('ot')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11,
+                "pos": 9
+              },
+              {
+                "layer": 0,
+                "feature_idx": 12712,
+                "pos": 9
+              },
+              {
+                "layer": 0,
+                "feature_idx": 865,
+                "pos": 9
+              }
+            ]
+          },
+          {
+            "id": "political_names",
+            "label": "Political Figure/Organization Names",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 14301,
+                "pos": 5
+              },
+              {
+                "layer": 2,
+                "feature_idx": 1239,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "political_enhanced",
+            "label": "Trump Administration/Government Detection",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 3136,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "wh_gov_refs",
+            "label": "White House/US Government References",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 14582,
+                "pos": 5
+              }
+            ]
+          },
+          {
+            "id": "output_node",
+            "label": "Probe Classification Score",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_clarly",
+            "to": "lexical_adverb"
+          },
+          {
+            "from": "emb_is",
+            "to": "lexical_is"
+          },
+          {
+            "from": "emb_again",
+            "to": "lexical_again"
+          },
+          {
+            "from": "emb_bos",
+            "to": "lexical_bos_tie"
+          },
+          {
+            "from": "emb_tie",
+            "to": "lexical_bos_tie"
+          },
+          {
+            "from": "emb_shows",
+            "to": "lexical_shows"
+          },
+          {
+            "from": "emb_trump",
+            "to": "political_names"
+          },
+          {
+            "from": "political_names",
+            "to": "political_enhanced"
+          },
+          {
+            "from": "political_names",
+            "to": "wh_gov_refs"
+          },
+          {
+            "from": "political_enhanced",
+            "to": "wh_gov_refs"
+          },
+          {
+            "from": "lexical_again",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_is",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_adverb",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_shows",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_bos_tie",
+            "to": "output_node"
+          },
+          {
+            "from": "lexical_ot_code",
+            "to": "output_node"
+          },
+          {
+            "from": "wh_gov_refs",
+            "to": "output_node"
+          }
+        ],
+        "status": "circuit_saved"
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 21462,
+      "output_tokens": 4320,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 37617
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace L0:7621 (pos 2, direct_effect +0.195) upstream to its embedding source. Determine what input token fires this feature and whether it encodes a spurious identity group signal or legitimate toxic content marker.",
+        "input_tokens": 13212,
+        "output_tokens": 936,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace L0:11375 (pos 6, direct_effect +0.130) upstream to its embedding source. Determine what input token fires this feature and whether it represents a spurious identity signal (like \"black\", \"white\", \"nonwhites\") or actual toxic content encoding.",
+        "input_tokens": 13894,
+        "output_tokens": 1561,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace L2:9199 (pos 9, direct_effect -0.115) upstream to understand what semantic content drives this negative contribution and whether it encodes spurious identity signals or contextual features.",
+        "input_tokens": 59578,
+        "output_tokens": 2148,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace L4:14582 (pos 5, direct_effect +0.156) upstream to understand what semantic content drives this feature and whether it relies on spurious identity group signals or actual toxic content from the prompt.",
+        "input_tokens": 99429,
+        "output_tokens": 4342,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 29760
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace L0:12866 (pos 2, direct_effect -0.207) upstream to its embedding source. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+        "input_tokens": 12835,
+        "output_tokens": 904,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-6",
+        "objective": "Trace L0:15831 (pos 26, direct_effect -0.125) upstream. Position 26 is near the end of the prompt - determine what token fires this feature and whether it encodes spurious identity signals.",
+        "input_tokens": 13034,
+        "output_tokens": 1569,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-8",
+        "objective": "Trace L0:3916 (pos 1, direct_effect +0.118) upstream. Position 1 is near the beginning - determine what token fires this feature and whether it encodes spurious identity signals.",
+        "input_tokens": 22264,
+        "output_tokens": 1558,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-7",
+        "objective": "Trace L0:164 (pos 3, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes identity-related content or spurious signals.",
+        "input_tokens": 24261,
+        "output_tokens": 1813,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-10",
+        "objective": "Trace L0:7142 (pos 2, direct_effect -0.122) upstream. Determine what input token fires this feature and whether it encodes spurious identity signals.",
+        "input_tokens": 17283,
+        "output_tokens": 1117,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-9",
+        "objective": "Trace L0:4422 (pos 2) upstream. Determine what input token fires this feature and whether it encodes spurious identity group signals or legitimate content.",
+        "input_tokens": 30417,
+        "output_tokens": 2111,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": null,
+  "turns": 7,
+  "elapsed_seconds": 516.1435248800553,
+  "control_response": "",
+  "control_usage": null,
+  "control_cost_usd": null,
+  "naive_response": "",
+  "naive_followup_response": "",
+  "naive_usage": null,
+  "naive_cost_usd": null,
+  "timestamp": "2026-04-03T09-00-05"
+}

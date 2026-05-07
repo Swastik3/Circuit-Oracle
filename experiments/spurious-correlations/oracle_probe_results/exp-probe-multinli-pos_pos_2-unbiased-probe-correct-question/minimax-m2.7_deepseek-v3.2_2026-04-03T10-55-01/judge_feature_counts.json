@@ -1,0 +1,44 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F6236",
+      "label": "negation feature (\"t\" in contractions like \"haven't\")",
+      "reason": "Detects negation contractions in the hypothesis."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F12126",
+      "label": "expressions of agreement or acknowledgement, particularly 'well' and 'yeah'",
+      "reason": "Surface filler words, not task-relevant semantics."
+    },
+    {
+      "id": "L0:F16366",
+      "label": "\"because\" token",
+      "reason": "Causal connector supporting semantic relation."
+    },
+    {
+      "id": "L0:F12862",
+      "label": "\"tournament\" context",
+      "reason": "Topic/content feature tied to meaning."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L4:F5709",
+      "label": "astronomy terms / uses \"now\" pattern",
+      "reason": "Unclear or inconsistent semantic role."
+    },
+    {
+      "id": "L0:F8083",
+      "label": "\"double\" token",
+      "reason": "Generic lexical content; not clearly causal or spurious."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 3,
+  "n_other": 2,
+  "spurious_fraction": 0.25,
+  "dominant": "causal",
+  "notes": "One negation feature is spurious; filler words and content cues are causal by oracle's stated analysis."
+}

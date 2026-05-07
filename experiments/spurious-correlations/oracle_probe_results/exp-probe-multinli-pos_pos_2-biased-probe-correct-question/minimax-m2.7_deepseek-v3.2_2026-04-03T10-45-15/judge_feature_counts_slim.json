@@ -1,0 +1,64 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F6236",
+      "label": "Negation Pattern (haven't)",
+      "reason": "Detects negation contraction; directly promotes contradiction-relevant negation signals."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F5201",
+      "label": "Sports Tournament Context",
+      "reason": "Encodes actual sports-tournament content."
+    },
+    {
+      "id": "L0:F16366",
+      "label": "Causal Connector",
+      "reason": "Tracks semantic relation via because."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F8352",
+      "label": "Lexical 'well' Detection",
+      "reason": "Pure token detector; structural/lexical only."
+    },
+    {
+      "id": "L0:F3820",
+      "label": "Lexical 'the' Detection",
+      "reason": "Generic word detector, not semantic."
+    },
+    {
+      "id": "L0:F4541",
+      "label": "Affirmation Adverb Pattern",
+      "reason": "Pattern/lexical detector without task semantics."
+    },
+    {
+      "id": "L0:F10780",
+      "label": "Polysemous 'double'",
+      "reason": "Oracle treats as misparsed token-level pattern."
+    },
+    {
+      "id": "L4:F9602",
+      "label": "Filler Word Detection",
+      "reason": "Filler-word detector; not task-relevant semantics."
+    },
+    {
+      "id": "L4:F12126",
+      "label": "Agreement Expressions",
+      "reason": "Conversational marker, not NLI semantics."
+    },
+    {
+      "id": "L1:F177",
+      "label": "'double' in NC Double A",
+      "reason": "Contextual token association, not NLI causality."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 2,
+  "n_other": 7,
+  "spurious_fraction": 0.3333333333333333,
+  "dominant": "mixed",
+  "notes": "Only one feature is true negation-pattern spurious; most others are generic or non-causal."
+}

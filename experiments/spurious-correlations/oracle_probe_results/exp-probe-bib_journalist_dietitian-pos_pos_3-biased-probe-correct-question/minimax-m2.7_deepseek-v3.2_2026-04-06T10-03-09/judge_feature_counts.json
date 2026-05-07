@@ -1,0 +1,78 @@
+{
+  "spurious_features": [
+    {
+      "id": "Emb: 'her' (pos 12)",
+      "label": "Embedding/output token 'her'",
+      "reason": "Female pronoun; explicit gender marker."
+    },
+    {
+      "id": "Emb: 'She' (pos 18)",
+      "label": "Embedding/output token 'She'",
+      "reason": "Female pronoun; explicit gender marker."
+    },
+    {
+      "id": "L0:F7509",
+      "label": "Female Pronoun Detection",
+      "reason": "Detects female pronouns; gender marker."
+    },
+    {
+      "id": "L4:F7864",
+      "label": "Gender Processing",
+      "reason": "Processes gendered reference signals."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "references to women, potentially triggered by pronouns and titles",
+      "reason": "Explicitly women-reference detection."
+    },
+    {
+      "id": "L10:F14965",
+      "label": "Female Reference Aggregation",
+      "reason": "Aggregates female-reference features."
+    },
+    {
+      "id": "L12:F12940",
+      "label": "references to female pronouns and possessive pronouns",
+      "reason": "Explicit female pronoun/possessive detection."
+    },
+    {
+      "id": "L16:F11609",
+      "label": "Women/Girls Detection",
+      "reason": "Detects women/girls mentions."
+    },
+    {
+      "id": "L18:F14677",
+      "label": "instances of women or girls being mentioned",
+      "reason": "Detects women/girls mentions."
+    },
+    {
+      "id": "Output Logit (Probe Direction)",
+      "label": "Output Logit (Probe Direction)",
+      "reason": "Probe output; no profession signal."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "Emb: 'her' (pos 12)",
+      "label": "Embedding/output token 'her'",
+      "reason": "Token only; counted as spurious via oracle role."
+    },
+    {
+      "id": "Emb: 'She' (pos 18)",
+      "label": "Embedding/output token 'She'",
+      "reason": "Token only; counted as spurious via oracle role."
+    },
+    {
+      "id": "Output Logit (Probe Direction)",
+      "label": "Output Logit (Probe Direction)",
+      "reason": "Structural probe output feature."
+    }
+  ],
+  "n_spurious": 10,
+  "n_causal": 0,
+  "n_other": 3,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal profession indicators were claimed; all meaningful features are gender-related."
+}

@@ -1,0 +1,69 @@
+{
+  "spurious_features": [
+    {
+      "id": "L6:F648",
+      "label": "words related to discrimination against particular religious or ethnic groups",
+      "reason": "Identity-group cascade centered on 'Jew'."
+    },
+    {
+      "id": "L3:F12151",
+      "label": "jew letter sequence",
+      "reason": "Detects ethnic/religious identity token pattern."
+    },
+    {
+      "id": "L4:F2405",
+      "label": "religious identity",
+      "reason": "Explicit Jewish religious identity detector."
+    },
+    {
+      "id": "L4:F14733",
+      "label": "Israel-Palestine content",
+      "reason": "Identity-linked geopolitical mention."
+    },
+    {
+      "id": "L2:F13158",
+      "label": "race/ethnicity",
+      "reason": "Identity-group signal, not toxicity."
+    },
+    {
+      "id": "L1:F15359",
+      "label": "Jewish mentions",
+      "reason": "Direct demographic mention detector."
+    },
+    {
+      "id": "L0:F11290",
+      "label": "Jewish/Christian/Israel",
+      "reason": "Identity/religion mention feature."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L8:F13875",
+      "label": "negative sentiment related to reputation and betrayal of trust",
+      "reason": "Captures insulting reputation-damage semantics."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L3:F592",
+      "label": "love/hate substring detector",
+      "reason": "Substring-based structural cue."
+    },
+    {
+      "id": "L2:F3983",
+      "label": "hat suppression mechanism",
+      "reason": "Structural suppression, not toxic semantics."
+    },
+    {
+      "id": "L1:F1774",
+      "label": "hat suppression mechanism",
+      "reason": "Structural suppression, not toxic semantics."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 1,
+  "n_other": 3,
+  "spurious_fraction": 0.875,
+  "dominant": "spurious",
+  "notes": "Oracle says identity cascade dominates; toxic semantics are secondary."
+}

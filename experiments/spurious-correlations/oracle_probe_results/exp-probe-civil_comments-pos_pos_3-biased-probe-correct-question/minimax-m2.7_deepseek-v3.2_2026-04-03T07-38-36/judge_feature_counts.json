@@ -1,0 +1,89 @@
+{
+  "spurious_features": [
+    {
+      "id": "L1:F15359",
+      "label": "Jewish/Christian/Israel mentions",
+      "reason": "Identity-group mention detector."
+    },
+    {
+      "id": "L3:F12151",
+      "label": "'jew' letter sequence detector",
+      "reason": "Matches ethnic token sequence."
+    },
+    {
+      "id": "L4:F2405",
+      "label": "Religious identity/affiliation",
+      "reason": "Detects religious identity content."
+    },
+    {
+      "id": "L2:F13158",
+      "label": "Race and ethnicity",
+      "reason": "Generic ethnicity detector."
+    },
+    {
+      "id": "L6:F648",
+      "label": "DISCRIMINATION of religious/ethnic groups (PRIMARY DRIVER)",
+      "reason": "Identity-targeted discrimination signal."
+    },
+    {
+      "id": "L8:F13875",
+      "label": "Negative reputation/betrayal sentiment ('stain on...')",
+      "reason": "Not toxic content; reputation/identity framing."
+    },
+    {
+      "id": "L6:F1561",
+      "label": "Dignity/pride (positive/negative)",
+      "reason": "Identity-linked dignity/pride signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F592",
+      "label": "Love/hate sentiment (substring 'hat')",
+      "reason": "Hate sentiment is toxicity-relevant."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'Jew' (pos 6)",
+      "label": "Emb: 'Jew' (pos 6)",
+      "reason": "Input token embedding only."
+    },
+    {
+      "id": "Emb: 'liberal' (pos 5)",
+      "label": "Emb: 'liberal' (pos 5)",
+      "reason": "Input token embedding only."
+    },
+    {
+      "id": "Emb: 'hat' (pos 3)",
+      "label": "Emb: 'hat' (pos 3)",
+      "reason": "Input token embedding only."
+    },
+    {
+      "id": "Emb: 'stain' (pos 9)",
+      "label": "Emb: 'stain' (pos 9)",
+      "reason": "Input token embedding only."
+    },
+    {
+      "id": "L2:F3983",
+      "label": "'hat' word suppression",
+      "reason": "Structural suppression feature."
+    },
+    {
+      "id": "L1:F1774",
+      "label": "Latex/technical detection",
+      "reason": "Unrelated structural/technical detector."
+    },
+    {
+      "id": "OUTPUT",
+      "label": "Layer-22 Probe Direction",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 1,
+  "n_other": 7,
+  "spurious_fraction": 0.875,
+  "dominant": "spurious",
+  "notes": "Identity detectors dominate; one causal hate-sentiment feature. Output node and embeddings are other."
+}

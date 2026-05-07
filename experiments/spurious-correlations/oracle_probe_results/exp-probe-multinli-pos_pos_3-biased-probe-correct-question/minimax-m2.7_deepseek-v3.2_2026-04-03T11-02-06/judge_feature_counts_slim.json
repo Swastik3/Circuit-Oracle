@@ -1,0 +1,59 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F4958",
+      "label": "word \"not\"",
+      "reason": "Direct negation-word detector in hypothesis."
+    },
+    {
+      "id": "L3:F8011",
+      "label": "multilingual negation words",
+      "reason": "Detects negation tokens like not/no/n't."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "negations in various languages",
+      "reason": "Another negation-token detector."
+    },
+    {
+      "id": "L16:F6800",
+      "label": "negations \"not\", \"no\", \"n't\"",
+      "reason": "Explicit negation-word feature."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F?",
+      "label": "castle/historical building semantic concepts",
+      "reason": "Encodes castle-related meaning."
+    },
+    {
+      "id": "L4:F13244",
+      "label": "land ownership / feudal terms",
+      "reason": "Semantic concepts about property and castles."
+    },
+    {
+      "id": "L7:F13215",
+      "label": "military / fortification concepts",
+      "reason": "Genuine castle-architecture semantics."
+    },
+    {
+      "id": "L3:F232",
+      "label": "reflexive pronoun circuit",
+      "reason": "Content-based structural distinction, not generic token spotting."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "temporal reference features",
+      "label": "17th-century mentions",
+      "reason": "Oracle says temporal references, but no specific feature IDs given."
+    }
+  ],
+  "n_spurious": 4,
+  "n_causal": 4,
+  "n_other": 1,
+  "spurious_fraction": 0.5,
+  "dominant": "mixed",
+  "notes": "Negation detectors are spurious by task definition; semantic castle features are causal."
+}

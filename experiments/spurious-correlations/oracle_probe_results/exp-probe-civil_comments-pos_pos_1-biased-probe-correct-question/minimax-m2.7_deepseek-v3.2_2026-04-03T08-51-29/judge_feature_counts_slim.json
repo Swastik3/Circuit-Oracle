@@ -1,0 +1,49 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F13158",
+      "label": "words about race and ethnicity",
+      "reason": "Direct race/ethnicity vocabulary selector"
+    },
+    {
+      "id": "L6:F3902",
+      "label": "terms referring to race and ethnicity",
+      "reason": "Identity-group word detector via \"white\""
+    },
+    {
+      "id": "L1:F13646",
+      "label": "social justice issues",
+      "reason": "Aggregates race/gender/religion identity mentions"
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F5707",
+      "label": "clearly",
+      "reason": "Generic argumentative marker, not toxicity-specific"
+    },
+    {
+      "id": "L0:F6154",
+      "label": "clearly",
+      "reason": "Generic argumentative marker, not toxicity-specific"
+    },
+    {
+      "id": "L1:F2407",
+      "label": "clearly",
+      "reason": "Generic argumentative marker, not toxicity-specific"
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F7969",
+      "label": "other",
+      "reason": "Purely lexical word detector dismissed by oracle"
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 3,
+  "n_other": 1,
+  "spurious_fraction": 0.5,
+  "dominant": "mixed",
+  "notes": "Oracle emphasizes identity-group detectors, but also mentions generic structural markers."
+}

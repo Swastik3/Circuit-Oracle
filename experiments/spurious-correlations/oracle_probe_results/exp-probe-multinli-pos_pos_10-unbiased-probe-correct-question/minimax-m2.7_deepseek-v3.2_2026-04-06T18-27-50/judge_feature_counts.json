@@ -1,0 +1,114 @@
+{
+  "spurious_features": [
+    {
+      "id": "L4:F12799",
+      "label": "words ending in \"-ly\" along with phrases that contain the word 'odd' or 'oddities'",
+      "reason": "Oracle says spurious lexical pattern on 'strangest'."
+    },
+    {
+      "id": "L4:F5709",
+      "label": "astronomy terms",
+      "reason": "Oracle labels it irrelevant/spurious despite activation."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F14368",
+      "label": "words related to importance or roles in a system",
+      "reason": "Semantic role-related meaning signal."
+    },
+    {
+      "id": "L4:F7409",
+      "label": "semantic/inverse",
+      "reason": "Semantic reversal concept."
+    },
+    {
+      "id": "L4:F6072",
+      "label": "'now' followed by verb",
+      "reason": "Syntactic/semantic timing cue, not negation."
+    },
+    {
+      "id": "L3:F12079",
+      "label": "negations and Chinese names",
+      "reason": "Oracle explicitly calls it a negation detector."
+    },
+    {
+      "id": "L6:F12420",
+      "label": "artistic elements that break established guidelines",
+      "reason": "Higher-level semantic combination."
+    },
+    {
+      "id": "L0:F6013",
+      "label": "the word \"role,\" sometimes in conjunction with words that make it abstract, like energy or medicine",
+      "reason": "Role/meaning feature, not spurious."
+    },
+    {
+      "id": "L8:F16033",
+      "label": "figurative language related to reversals of fortune",
+      "reason": "Semantic reversal concept."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' strangest' (pos 2)",
+      "label": "Emb: ' strangest' (pos 2)  [(embed/output)]",
+      "reason": "Input embedding, not a feature role."
+    },
+    {
+      "id": "Emb: ' role' (pos 3)",
+      "label": "Emb: ' role' (pos 3)  [(embed/output)]",
+      "reason": "Input embedding, not a feature role."
+    },
+    {
+      "id": "Emb: ' reversal' (pos 4)",
+      "label": "Emb: ' reversal' (pos 4)  [(embed/output)]",
+      "reason": "Input embedding, not a feature role."
+    },
+    {
+      "id": "Emb: ' now' (pos 9)",
+      "label": "Emb: ' now' (pos 9)  [(embed/output)]",
+      "reason": "Input embedding, not a feature role."
+    },
+    {
+      "id": "Emb: ' concerns' (pos 11)",
+      "label": "Emb: ' concerns' (pos 11)  [(embed/output)]",
+      "reason": "Input embedding, not a feature role."
+    },
+    {
+      "id": "L0:F5232",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    },
+    {
+      "id": "L0:F5188",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    },
+    {
+      "id": "L2:F4983",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    },
+    {
+      "id": "L2:F3705",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    },
+    {
+      "id": "L3:F7449",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    },
+    {
+      "id": "L3:F1438",
+      "label": "Early 'now' detectors",
+      "reason": "Pure token detector; structurally generic."
+    }
+  ],
+  "n_spurious": 2,
+  "n_causal": 7,
+  "n_other": 11,
+  "spurious_fraction": 0.2222222222222222,
+  "dominant": "causal",
+  "notes": "Embedding/output nodes counted as other. One explicit negation feature; semantic features outnumber spurious."
+}

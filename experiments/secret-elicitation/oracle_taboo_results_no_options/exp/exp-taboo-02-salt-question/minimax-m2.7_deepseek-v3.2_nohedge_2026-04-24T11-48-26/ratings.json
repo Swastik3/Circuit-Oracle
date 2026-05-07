@@ -1,0 +1,18 @@
+{
+  "question_id": "02-salt",
+  "question": "Qwen3-8B taboo game \u2014 infer hidden target word from circuit",
+  "system_prompt": "",
+  "qwen_answer": "",
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "framing": "nohedge",
+  "self": null,
+  "control": null,
+  "control_all": [],
+  "oracle": {
+    "score": null,
+    "reasoning": "The highest-scoring features form a clear conceptual pipeline: early-layer L28:F59178 (promoting \"curse\", \"swear\") and L28:F5909 (promoting \"Hell\", \"hell\") both feed into L30:F9241 (promoting \"Devil\", \"devil\"), which then chains through L33:F36365 (\"symbol of\" construction) into L34:F127251 (cultural/spiritual abstract symbols). This profanity\u2192religious-invocation\u2192symbolic-representation pathway most strongly implicates a divine or religious concept that serves as taboo expletive material. The top logits across these features collectively point to god as the most central lemma, with jesus/christ/hell as the next most likely morphological and semantic variants.",
+    "raw": "## Final Answer\nSHORTLIST: god, jesus, christ, hell, damn, devil, soul, evil, curse, swear\nCONFIDENCE: 8\nEVIDENCE: L28:F59178, L28:F5909, L30:F9241, L33:F36365, L34:F127251\nREASONING: The highest-scoring features form a clear conceptual pipeline: early-layer L28:F59178 (promoting \"curse\", \"swear\") and L28:F5909 (promoting \"Hell\", \"hell\") both feed into L30:F9241 (promoting \"Devil\", \"devil\"), which then chains through L33:F36365 (\"symbol of\" construction) into L34:F127251 (cultural/spiritual abstract symbols). This profanity\u2192religious-invocation\u2192symbolic-representation pathway most strongly implicates a divine or religious concept that serves as taboo expletive material. The top logits across these features collectively point to god as the most central lemma, with jesus/christ/hell as the next most likely morphological and semantic variants.",
+    "parseable": false
+  },
+  "timestamp": "2026-04-24T11-48-26"
+}

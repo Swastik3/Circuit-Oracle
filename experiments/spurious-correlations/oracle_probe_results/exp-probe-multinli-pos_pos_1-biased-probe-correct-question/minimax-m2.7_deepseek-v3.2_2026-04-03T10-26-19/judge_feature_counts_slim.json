@@ -1,0 +1,99 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F1143",
+      "label": "negation detector",
+      "reason": "Detects 'No' in hypothesis; negation-word cue."
+    },
+    {
+      "id": "L2:F2771",
+      "label": "negation detector",
+      "reason": "Part of negation cascade from 'No one' pattern."
+    },
+    {
+      "id": "L6:F15886",
+      "label": "negation detector",
+      "reason": "Continues negation-pattern cascade; surface cue only."
+    },
+    {
+      "id": "L12:F8719",
+      "label": "negation detector",
+      "reason": "Negation-feature chain, not semantic relation."
+    },
+    {
+      "id": "L14:F336",
+      "label": "negation detector",
+      "reason": "Negation cascade feature triggered by 'No'."
+    },
+    {
+      "id": "L15:F13061",
+      "label": "negation detector",
+      "reason": "Negation cascade feature triggered by 'No'."
+    },
+    {
+      "id": "L16:F11298",
+      "label": "negation detector",
+      "reason": "Final negation-pattern feature with direct effect."
+    },
+    {
+      "id": "L4:F15764",
+      "label": "no one phrase detector",
+      "reason": "Surface pattern matching 'no' plus pronoun/one."
+    },
+    {
+      "id": "L2:F8837",
+      "label": "nobody/nothing pattern detector",
+      "reason": "Spurious negation-word pattern detector."
+    },
+    {
+      "id": "L2:F8142",
+      "label": "nobody/nothing pattern detector",
+      "reason": "Spurious negation-word pattern detector."
+    },
+    {
+      "id": "L2:F13586",
+      "label": "anyone pattern detector",
+      "reason": "Spurious negation-word pattern detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L5:F559",
+      "label": "conspiracy-related word detector",
+      "reason": "Content feature about prompt semantics."
+    },
+    {
+      "id": "L3:F9739",
+      "label": "collaboration/alliance word detector",
+      "reason": "Content feature about meaning overlap."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F3635",
+      "label": "that token detector",
+      "reason": "Generic lexical/grammatical token detector."
+    },
+    {
+      "id": "L0:F11375",
+      "label": "is token detector",
+      "reason": "Generic grammatical token detector."
+    },
+    {
+      "id": "L0:F44",
+      "label": "Cons token detector",
+      "reason": "Content token detector, but oracle says suppresses prediction."
+    },
+    {
+      "id": "L0:F14574",
+      "label": "your token detector",
+      "reason": "Content token detector, but oracle says suppresses prediction."
+    }
+  ],
+  "n_spurious": 11,
+  "n_causal": 2,
+  "n_other": 4,
+  "spurious_fraction": 0.8461538461538461,
+  "dominant": "spurious",
+  "notes": "Oracle\u2019s top evidence is negation-pattern reliance; semantic-content features are weak or suppressive."
+}

@@ -1,0 +1,109 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F6236",
+      "label": "Negation Pattern (haven't)",
+      "reason": "Detects negation pattern; directly used as contradiction shortcut."
+    },
+    {
+      "id": "L0:F8352",
+      "label": "Lexical 'well' Detection",
+      "reason": "Pure lexical detector with no semantic role."
+    },
+    {
+      "id": "L0:F3820",
+      "label": "Lexical 'the' Detection",
+      "reason": "Pure article detector; structural only."
+    },
+    {
+      "id": "L0:F4541",
+      "label": "Affirmation Adverb Pattern (yeah)",
+      "reason": "Pattern matcher on conversational token, not meaning."
+    },
+    {
+      "id": "L0:F10780",
+      "label": "Polysemous 'double' (LaTeX)",
+      "reason": "Misfires on token-specific polysemy, not task semantics."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F9602",
+      "label": "Filler Word Detection (uh)",
+      "reason": "Oracle treats it as semantic filler-word handling."
+    },
+    {
+      "id": "L4:F12126",
+      "label": "Agreement Expressions (well/yeah)",
+      "reason": "Encodes agreement semantics, not mere token spotting."
+    },
+    {
+      "id": "L2:F5201",
+      "label": "Sports Tournament Context",
+      "reason": "Task-relevant contextual semantics from prompt content."
+    },
+    {
+      "id": "L0:F16366",
+      "label": "Causal Connector (because)",
+      "reason": "Semantic connector relevant to relation inference."
+    },
+    {
+      "id": "L1:F177",
+      "label": "'double' in NC Double A",
+      "reason": "Contextual organization-name semantics, task-relevant."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Probe Classification Score",
+      "label": "Probe Classification Score",
+      "reason": "Output node, not a feature."
+    },
+    {
+      "id": "Emb: ' uh' (pos 4)",
+      "label": "Emb: ' uh' (pos 4)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: ' well' (pos 2)",
+      "label": "Emb: ' well' (pos 2)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: ' the' (pos 3)",
+      "label": "Emb: ' the' (pos 3)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'yeah' (pos 1)",
+      "label": "Emb: 'yeah' (pos 1)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'double' (pos 6)",
+      "label": "Emb: 'double' (pos 6)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: 't' after 'haven' (pos 37)",
+      "label": "Emb: 't' after 'haven' (pos 37)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'tournament' (pos 8)",
+      "label": "Emb: 'tournament' (pos 8)",
+      "reason": "Embedding node, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'because' (pos 25)",
+      "label": "Emb: 'because' (pos 25)",
+      "reason": "Embedding node, not a circuit feature."
+    }
+  ],
+  "n_spurious": 5,
+  "n_causal": 5,
+  "n_other": 9,
+  "spurious_fraction": 0.5,
+  "dominant": "mixed",
+  "notes": "Both classes present; embeddings/output excluded as other."
+}

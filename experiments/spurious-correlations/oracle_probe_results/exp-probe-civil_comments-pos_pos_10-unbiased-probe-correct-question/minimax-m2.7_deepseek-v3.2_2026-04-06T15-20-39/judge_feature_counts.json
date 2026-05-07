@@ -1,0 +1,64 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F10682",
+      "label": "the word \"race\"",
+      "reason": "Identity-group token detector."
+    },
+    {
+      "id": "L2:F10509",
+      "label": "the word \"race.\"",
+      "reason": "Identity-group token detector."
+    },
+    {
+      "id": "L3:F5475",
+      "label": "occurrences of the word \"race\" in different contexts",
+      "reason": "Race-term detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F4958",
+      "label": "Negation Detector ('not')",
+      "reason": "Negation structures affect toxicity meaning."
+    },
+    {
+      "id": "L2:F11639",
+      "label": "Mention/Discussing Detectors",
+      "reason": "Tracks discussing/mentioning content semantically."
+    },
+    {
+      "id": "L4:F15173",
+      "label": "statements about mentioning or discussing something",
+      "reason": "Semantic discussion detector."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L3:F12410",
+      "label": "Sentence Structure Detectors",
+      "reason": "Purely structural sentence-start feature."
+    },
+    {
+      "id": "L0:F1903",
+      "label": "Sentence Structure Detectors",
+      "reason": "Purely structural sentence-start feature."
+    },
+    {
+      "id": "L3:F672",
+      "label": "Question/In-Question Detectors",
+      "reason": "Question-form structure only."
+    },
+    {
+      "id": "L0:F819",
+      "label": "Question/In-Question Detectors",
+      "reason": "Question-form structure only."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 3,
+  "n_other": 4,
+  "spurious_fraction": 0.5,
+  "dominant": "mixed",
+  "notes": "Both classes present. Structure-only detectors are other."
+}

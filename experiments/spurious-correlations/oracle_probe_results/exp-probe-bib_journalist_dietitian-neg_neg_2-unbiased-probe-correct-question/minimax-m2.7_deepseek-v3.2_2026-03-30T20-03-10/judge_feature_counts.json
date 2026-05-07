@@ -1,0 +1,114 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F8964",
+      "label": "Pronoun/Token Detection Layer",
+      "reason": "Detects 'His', a gender marker shortcut."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F14511",
+      "label": "Early 'Report' Detection (L1-L4)",
+      "reason": "Detects profession indicator 'report'."
+    },
+    {
+      "id": "L2:F11175",
+      "label": "Early 'Report' Detection (L1-L4)",
+      "reason": "Detects profession indicator 'report'."
+    },
+    {
+      "id": "L3:F10846",
+      "label": "Early 'Report' Detection (L1-L4)",
+      "reason": "Detects profession indicator 'report'."
+    },
+    {
+      "id": "L4:F661",
+      "label": "Early 'Report' Detection (L1-L4)",
+      "reason": "Detects profession indicator 'report'."
+    },
+    {
+      "id": "L7:F13646",
+      "label": "Mid-Layer Journalism Features (L7-L9)",
+      "reason": "Journalism-specific profession feature."
+    },
+    {
+      "id": "L8:F8855",
+      "label": "Mid-Layer Journalism Features (L7-L9)",
+      "reason": "Journalism-specific profession feature."
+    },
+    {
+      "id": "L8:F8437",
+      "label": "Mid-Layer Journalism Features (L7-L9)",
+      "reason": "Journalism-specific profession feature."
+    },
+    {
+      "id": "L14:F4420",
+      "label": "Specialized Journalism (L14-L16)",
+      "reason": "Detects journalism and newspapers."
+    },
+    {
+      "id": "L16:F8642",
+      "label": "Specialized Journalism (L14-L16)",
+      "reason": "Journalism-specific profession feature."
+    },
+    {
+      "id": "L16:F15046",
+      "label": "Specialized Journalism (L14-L16)",
+      "reason": "Journalism-specific profession feature."
+    },
+    {
+      "id": "L17:F5218",
+      "label": "Late-Layer News/Journalism (L17-L20)",
+      "reason": "News/journalism feature."
+    },
+    {
+      "id": "L19:F2486",
+      "label": "Late-Layer News/Journalism (L17-L20)",
+      "reason": "Journalistic sources and news outlets."
+    },
+    {
+      "id": "L20:F8433",
+      "label": "Late-Layer News/Journalism (L17-L20)",
+      "reason": "News broadcasting and journalism."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'His' (pos 1)",
+      "label": "Emb: 'His' (pos 1)",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'to' (pos 3)",
+      "label": "Emb: 'to' (pos 3)",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'see' (pos 4)",
+      "label": "Emb: 'see' (pos 4)",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'report' (pos 21)",
+      "label": "Emb: 'report' (pos 21)",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "L0:F8444",
+      "label": "Pronoun/Token Detection Layer",
+      "reason": "Generic token detector; uninformative."
+    },
+    {
+      "id": "L0:F14287",
+      "label": "Pronoun/Token Detection Layer",
+      "reason": "Detects 'see'; generic lexical feature."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 13,
+  "n_other": 6,
+  "spurious_fraction": 0.07142857142857142,
+  "dominant": "causal",
+  "notes": "Only L0:F8964 is spurious; input embeddings and generic token detectors are other."
+}

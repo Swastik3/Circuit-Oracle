@@ -1,0 +1,114 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F13158",
+      "label": "Race/Ethnicity Detection (Early)",
+      "reason": "Detects race/ethnicity identity signals."
+    },
+    {
+      "id": "L2:F15317",
+      "label": "Gendered Words Detection",
+      "reason": "Detects gendered identity terms."
+    },
+    {
+      "id": "L1:F9113",
+      "label": "Race/Slavery Discussion (Negative)",
+      "reason": "Race-related discussion, not toxicity semantics."
+    },
+    {
+      "id": "L0:F3436",
+      "label": "White Color/Race Detector",
+      "reason": "Triggers on racial identity term 'white'."
+    },
+    {
+      "id": "L4:F117",
+      "label": "Race/Racism/Social Justice Terms",
+      "reason": "Identity/social-justice vocabulary signal."
+    },
+    {
+      "id": "L3:F13061",
+      "label": "Race/Gender/Social Issues Words",
+      "reason": "Identity-group and social-issue terms."
+    },
+    {
+      "id": "L3:F16373",
+      "label": "Race/Gender/Social Issues Words",
+      "reason": "Identity-group and social-issue terms."
+    },
+    {
+      "id": "L6:F3902",
+      "label": "Race/Ethnicity Terms (Late)",
+      "reason": "Late race/ethnicity term detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F4512",
+      "label": "Name Detection ('last name')",
+      "reason": "Pure identity-independent name-mention structure."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' white' (pos 9)",
+      "label": "Embedding: ' white'",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' guy' (pos 10)",
+      "label": "Embedding: ' guy'",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' author' (pos 2)",
+      "label": "Embedding: ' author'",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' appears' (pos 3)",
+      "label": "Embedding: ' appears'",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: ' last name' (pos 14-15)",
+      "label": "Embedding: ' last name'",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "L0:F753",
+      "label": "Authorship/Linguistic Features",
+      "reason": "Structural authorship cue; not toxic or identity-based."
+    },
+    {
+      "id": "L0:F3612",
+      "label": "Authorship/Linguistic Features",
+      "reason": "Structural authorship cue; not toxic or identity-based."
+    },
+    {
+      "id": "L0:F11009",
+      "label": "Authorship/Linguistic Features",
+      "reason": "Structural authorship cue; not toxic or identity-based."
+    },
+    {
+      "id": "L1:F384",
+      "label": "Authorship/Linguistic Features",
+      "reason": "Structural authorship cue; not toxic or identity-based."
+    },
+    {
+      "id": "L1:F6576",
+      "label": "Sentence Structure: 'appears'",
+      "reason": "Generic sentence-structure feature."
+    },
+    {
+      "id": "L1:F5220",
+      "label": "Author Reference Feature",
+      "reason": "Explicitly non-toxic authorship reference."
+    }
+  ],
+  "n_spurious": 8,
+  "n_causal": 1,
+  "n_other": 11,
+  "spurious_fraction": 0.8888888888888888,
+  "dominant": "spurious",
+  "notes": "No toxic-content features were claimed. Structural/authorship features go to other."
+}

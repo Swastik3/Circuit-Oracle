@@ -1,0 +1,78 @@
+{
+  "spurious_features": [
+    {
+      "id": "L4:F15899",
+      "label": "LQBTQ language feature",
+      "reason": "Identity-group LGBTQ wording; spurious toxicity correlation."
+    },
+    {
+      "id": "L4:F8645",
+      "label": "Same-sex marriage feature",
+      "reason": "Identity-group LGBTQ topic, not toxic content."
+    },
+    {
+      "id": "L4:F117",
+      "label": "terms related to race, racism, and social justice, with a particular focus on terms related to Black people",
+      "reason": "Identity/social-justice terminology; correlational toxicity cue."
+    },
+    {
+      "id": "L4:F2405",
+      "label": "words related to religious identity/affiliation or spirituality including related holidays",
+      "reason": "Religious identity signal, not toxicity semantics."
+    },
+    {
+      "id": "L6:F6085",
+      "label": "text related to homosexuality and same-sex marriage",
+      "reason": "Identity-group LGBTQ concept; spurious pathway."
+    },
+    {
+      "id": "L6:F7282",
+      "label": "mentions of Islam or Middle Eastern places and people, as well as mentions of a specific district.",
+      "reason": "Religious/national identity mention; spurious cue."
+    },
+    {
+      "id": "L8:F15771",
+      "label": "discussion of LGBTQ+ issues, especially same-sex marriage, adoption, and related topics",
+      "reason": "Identity-topic discussion, not toxic language."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "Emb: ' gay' (pos 17)",
+      "label": "embedding token",
+      "reason": "Trigger token only, not a feature role."
+    },
+    {
+      "id": "Emb: ' Muslim' (pos 12)",
+      "label": "embedding token",
+      "reason": "Trigger token only, not a feature role."
+    },
+    {
+      "id": "Emb: ' social' (pos 5)",
+      "label": "embedding token",
+      "reason": "Trigger token only, not a feature role."
+    },
+    {
+      "id": "Emb: ' justice' (pos 6)",
+      "label": "embedding token",
+      "reason": "Trigger token only, not a feature role."
+    },
+    {
+      "id": "Emb: ' you' (pos 2)",
+      "label": "embedding token",
+      "reason": "Trigger token only; no causal role claimed."
+    },
+    {
+      "id": "Output",
+      "label": "Toxicity Probe Direction",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 0,
+  "n_other": 6,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal toxic-content features were claimed; input embeddings and output node are other."
+}

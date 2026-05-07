@@ -1,0 +1,103 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F13158",
+      "label": "Race/Ethnicity Words",
+      "reason": "Detects race/ethnicity vocabulary; identity-group signal."
+    },
+    {
+      "id": "L1:F13646",
+      "label": "Social Justice Discussion",
+      "reason": "Identity-discourse aggregator, not toxicity semantics."
+    },
+    {
+      "id": "L4:F117",
+      "label": "Race/Racism Terms",
+      "reason": "Race/racism term detector; identity-related."
+    },
+    {
+      "id": "L6:F3902",
+      "label": "Race/Ethnicity Terms",
+      "reason": "Flags race/ethnicity terms; spurious identity signal."
+    },
+    {
+      "id": "L3:F11768",
+      "label": "White Word Detector",
+      "reason": "Detectors for demographic tokens; identity-group signal."
+    },
+    {
+      "id": "L3:F3248",
+      "label": "Racial Identity Discourse",
+      "reason": "Tracks racial identity discussion, not toxicity."
+    },
+    {
+      "id": "L0:F1015",
+      "label": "Black Word Detector",
+      "reason": "Direct demographic token detector; spurious."
+    },
+    {
+      "id": "L0:F585",
+      "label": "White Word Detector",
+      "reason": "Direct demographic token detector; spurious."
+    },
+    {
+      "id": "L0:F16013",
+      "label": "Color Blue/Graphic Components",
+      "reason": "Not toxicity semantics; unrelated lexical/visual cue."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "Emb: 'black' (pos 32)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'white' (pos 25)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'white' (pos 15)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'white' (pos 24)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'clearly' (pos 2)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'other' (pos 14)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: 'America' (pos 24,29,30)",
+      "label": "embed/output",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "L0:L1",
+      "label": "'Clearly' Word Detectors",
+      "reason": "Generic argumentative marker; structural."
+    },
+    {
+      "id": "L0:F7969",
+      "label": "Other Word Detector",
+      "reason": "Generic word detector; uninformative structurally."
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 0,
+  "n_other": 9,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal toxicity features were claimed; identity vocabulary dominates."
+}

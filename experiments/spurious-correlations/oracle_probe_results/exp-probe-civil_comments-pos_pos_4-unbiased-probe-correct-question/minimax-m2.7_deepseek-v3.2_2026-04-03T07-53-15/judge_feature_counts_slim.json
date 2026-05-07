@@ -1,0 +1,44 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F11668",
+      "label": "Baseball terminology",
+      "reason": "Promoted by identity token 'Indians'; unrelated sports association."
+    },
+    {
+      "id": "L2:F2123",
+      "label": "Nationality/ethnicity suffix detector",
+      "reason": "Matches '-ian' morphology, not toxicity semantics."
+    },
+    {
+      "id": "L3:F13473",
+      "label": "Racial/ethnic groups detector",
+      "reason": "Detects demographic mentions regardless of toxicity."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F148",
+      "label": "sexual assault and abuse",
+      "reason": "Captures abuse/violence semantics."
+    },
+    {
+      "id": "L5:F3229",
+      "label": "violent assault and murder",
+      "reason": "Detects violent toxic-content semantics."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L6:F10545",
+      "label": "political rhetoric related to race",
+      "reason": "Mixed identity and abuse signals; not purely causal."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 2,
+  "n_other": 1,
+  "spurious_fraction": 0.6,
+  "dominant": "spurious",
+  "notes": "Oracle claims mostly identity-based spurious pathways plus two genuine toxic-content detectors."
+}

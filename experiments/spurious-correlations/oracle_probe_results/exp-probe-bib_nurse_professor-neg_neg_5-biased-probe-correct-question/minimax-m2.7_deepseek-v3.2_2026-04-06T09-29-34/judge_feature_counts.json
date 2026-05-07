@@ -1,0 +1,124 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F2994",
+      "label": "the pronoun \"his\" and the pronoun \"he.\"",
+      "reason": "Direct masculine pronoun detector."
+    },
+    {
+      "id": "L4:F4315",
+      "label": "mentions of \"his\" and other associated pronouns like he, him, or hers.",
+      "reason": "Pronoun-based gender signal."
+    },
+    {
+      "id": "L6:F12990",
+      "label": "male pronouns and titles along with descriptors associated with men",
+      "reason": "Explicit male-gender feature."
+    },
+    {
+      "id": "L7:F14946",
+      "label": "the possessive pronoun \"his\" (or similar pronouns like \"he\" and \"him\") and some non-ascii characters, especially \"\u00a9\"",
+      "reason": "Masculine pronoun detector."
+    },
+    {
+      "id": "L7:F14893",
+      "label": "pronouns or possessive pronouns",
+      "reason": "Matches gender pronouns here."
+    },
+    {
+      "id": "L18:F14743",
+      "label": "He",
+      "reason": "Direct \"He\" token detector."
+    },
+    {
+      "id": "L18:F10315",
+      "label": "pronouns and possessive pronouns",
+      "reason": "Pronoun detector; spurious in this task."
+    },
+    {
+      "id": "L19:F8814",
+      "label": "various pronouns and names referring to people",
+      "reason": "Gendered pronoun/name proxy."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L17:F3683",
+      "label": "biographies",
+      "reason": "Biography/profession context feature."
+    },
+    {
+      "id": "L20:F10934",
+      "label": "action verbs with past tense forms",
+      "reason": "Content-neutral syntactic/lexical feature."
+    },
+    {
+      "id": "L22:F12117",
+      "label": "references to actions that people can take or have taken.",
+      "reason": "Generic action-language feature."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'His' (pos 1)",
+      "label": "[embed/output]",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: 'He' (pos 10)",
+      "label": "[embed/output]",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: 'his' (pos 12)",
+      "label": "[embed/output]",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Emb: 'received' (pos 11)",
+      "label": "[embed/output]",
+      "reason": "Input token, not a feature."
+    },
+    {
+      "id": "Pronoun Detection (Early Layers)",
+      "label": "",
+      "reason": "Generic pronoun detector; redundant umbrella feature."
+    },
+    {
+      "id": "Gender Competition Circuit (L7-L19)",
+      "label": "",
+      "reason": "Circuit grouping, not a standalone semantic feature."
+    },
+    {
+      "id": "\"Received\" Detection (L15-L17)",
+      "label": "",
+      "reason": "Token-specific detection, not profession-related."
+    },
+    {
+      "id": "Probe Score (Layer 22 Probe Direction)",
+      "label": "",
+      "reason": "Output direction, not a feature."
+    },
+    {
+      "id": "L2:F5491",
+      "label": "references to God in the third person.",
+      "reason": "Religious reference; unrelated."
+    },
+    {
+      "id": "L18:F7400",
+      "label": "words related to coding and software/UI interfaces, with some bias toward non-English words",
+      "reason": "Software/coding, not clearly profession here."
+    },
+    {
+      "id": "L21:F4895",
+      "label": "prepositions and related words",
+      "reason": "Purely structural language feature."
+    }
+  ],
+  "n_spurious": 8,
+  "n_causal": 3,
+  "n_other": 11,
+  "spurious_fraction": 0.7272727272727273,
+  "dominant": "spurious",
+  "notes": "No explicit profession-title features; gender-pronoun circuit dominates."
+}

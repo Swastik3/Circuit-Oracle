@@ -1,0 +1,73 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F3436",
+      "label": "mentions of the word 'white'",
+      "reason": "Direct identity-token detector for race"
+    },
+    {
+      "id": "L1:F1480",
+      "label": "the color 'white', sometimes in context involving race",
+      "reason": "Race-adjacent identity signal"
+    },
+    {
+      "id": "L2:F6983",
+      "label": "words related to race and slavery",
+      "reason": "Identity-group / race-related semantics"
+    },
+    {
+      "id": "L3:F11768",
+      "label": "the word 'white' and related contexts such as diversity",
+      "reason": "Promoted by demographic label"
+    },
+    {
+      "id": "L4:F15204",
+      "label": "art galleries, museums and the White House",
+      "reason": "Depends on 'white' token, identity-linked"
+    },
+    {
+      "id": "L4:F7136",
+      "label": "the color white",
+      "reason": "Identity-token/color matcher in this circuit"
+    },
+    {
+      "id": "L0:F13663",
+      "label": "pregnancy-related terms",
+      "reason": "Oracle says it is spuriously triggered by 'white'"
+    },
+    {
+      "id": "L0:F10910",
+      "label": "associates 'white' with unrelated words like 'possession' and 'immediate'",
+      "reason": "Spurious token association"
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F12404",
+      "label": "if",
+      "reason": "Conditional-structure feature"
+    },
+    {
+      "id": "L2:F1139",
+      "label": "so constructions",
+      "reason": "Structural syntax feature"
+    },
+    {
+      "id": "L0:F12768",
+      "label": "pronoun detector",
+      "reason": "Identity-independent grammar feature"
+    },
+    {
+      "id": "L0:F310",
+      "label": "pronoun detector",
+      "reason": "Identity-independent grammar feature"
+    }
+  ],
+  "other_features": [],
+  "n_spurious": 8,
+  "n_causal": 4,
+  "n_other": 0,
+  "spurious_fraction": 0.6666666666666666,
+  "dominant": "spurious",
+  "notes": "Oracle centers on identity-token detection; conditional cues are weaker."
+}

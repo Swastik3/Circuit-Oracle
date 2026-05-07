@@ -1,0 +1,84 @@
+{
+  "spurious_features": [
+    {
+      "id": "Emb:She@1",
+      "label": "SPURIOUS GENDER MARKER",
+      "reason": "Direct gender marker pronoun."
+    },
+    {
+      "id": "Emb:She@19",
+      "label": "SPURIOUS GENDER MARKER",
+      "reason": "Direct gender marker pronoun."
+    },
+    {
+      "id": "L0:F12519",
+      "label": "L0 Gender Detection ('she' pronoun, female person mentions)",
+      "reason": "Detects female pronouns/person mentions."
+    },
+    {
+      "id": "L2:F2128",
+      "label": "L2 Pronoun/Gender Features (he/she pronouns, women by name)",
+      "reason": "Explicit he/she and woman-name signal."
+    },
+    {
+      "id": "L4:F15317",
+      "label": "L4 Named Entities + Gender (people, characters, her/she)",
+      "reason": "Named-entity feature includes her/she."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "L6 Women References (frac=0.020) - PRIMARY SPURIOUS FEATURE",
+      "reason": "References women, triggered by pronouns/titles."
+    },
+    {
+      "id": "L12:F12940",
+      "label": "L12 Female Pronouns (frac=0.007) - SPURIOUS GENDER MARKER",
+      "reason": "References female pronouns and possessives."
+    },
+    {
+      "id": "L15:F3330",
+      "label": "L15 Personal Stories of Women (frac=0.019)",
+      "reason": "Women-focused personal-story feature."
+    },
+    {
+      "id": "L18:F14677",
+      "label": "L18 Women/Girls Mentioned (frac=0.012) - SPURIOUS GENDER MARKER",
+      "reason": "Instances of women or girls mentioned."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "Emb:Nursing@10",
+      "label": "GENUINE PROFESSION",
+      "reason": "Direct profession indicator token."
+    },
+    {
+      "id": "L6:F15267",
+      "label": "L6 Nursing Profession (frac=0.016) - GENUINE PROFESSION FEATURE",
+      "reason": "Words referring to nursing profession."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L19:F9685",
+      "label": "L19 Late Gender/Entity Features (pos 140)",
+      "reason": "Structural late-position feature only."
+    },
+    {
+      "id": "L4:F7864",
+      "label": "L4 Named Entities + Gender (people, characters, her/she)",
+      "reason": "Oracle labels xml/source-code snippets, uninformative here."
+    },
+    {
+      "id": "Probe Direction",
+      "label": "Probe Direction (Layer-22 Classifier Score)",
+      "reason": "Classifier score, not a feature."
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 2,
+  "n_other": 3,
+  "spurious_fraction": 0.8181818181818182,
+  "dominant": "spurious",
+  "notes": "Spurious features outnumber causal ones; late gender/entity feature treated as other."
+}

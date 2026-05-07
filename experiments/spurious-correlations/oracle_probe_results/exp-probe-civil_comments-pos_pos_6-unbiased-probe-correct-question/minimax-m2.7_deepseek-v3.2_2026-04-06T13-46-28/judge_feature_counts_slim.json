@@ -1,0 +1,48 @@
+{
+  "spurious_features": [
+    {
+      "id": "L4:F15204",
+      "label": "white_propernoun_context",
+      "reason": "Associates racial token 'white' with proper nouns, not toxicity."
+    },
+    {
+      "id": "L6:F4008",
+      "label": "slang_dude_detection",
+      "reason": "Flags identity-adjacent slang in racial contexts."
+    },
+    {
+      "id": "L3:F13061",
+      "label": "race_gender_social_issues",
+      "reason": "Combines race and gender identity signals."
+    },
+    {
+      "id": "L2:F13158",
+      "label": "race_ethnicity_detection",
+      "reason": "Directly detects racial identity terms."
+    },
+    {
+      "id": "L2:F9837",
+      "label": "references_to_men",
+      "reason": "Detects gender identity term 'man'."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L0:F4090",
+      "label": "another_suppression",
+      "reason": "Generic word detector; oracle says it suppresses toxicity."
+    },
+    {
+      "id": "L4:F7136",
+      "label": "white_color_context",
+      "reason": "Structural color-context feature, not toxicity semantics."
+    }
+  ],
+  "n_spurious": 5,
+  "n_causal": 0,
+  "n_other": 2,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "Oracle attributes prediction mainly to identity-group signals, not toxic-content semantics."
+}

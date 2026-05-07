@@ -1,0 +1,54 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F2123",
+      "label": "-ian suffix detection",
+      "reason": "Detects ethnic/nationality morphology, an identity-group signal."
+    },
+    {
+      "id": "L3:F13473",
+      "label": "Racial/ethnic group mentions",
+      "reason": "Explicitly flags demographic group mentions."
+    },
+    {
+      "id": "L0:F10155",
+      "label": "Group membership words",
+      "reason": "Membership-in-group wording aligns with identity signals."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F1003",
+      "label": "abuse word detector",
+      "reason": "Direct toxic-content detector for abuse."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'Indians' (pos 1)",
+      "label": "Embedding: 'Indians'",
+      "reason": "Token alone; role not specified beyond feeding other features."
+    },
+    {
+      "id": "Emb: 'are' (pos 2)",
+      "label": "Embedding: 'are'",
+      "reason": "Generic word detector, not class-aligned."
+    },
+    {
+      "id": "Emb: ' abusers' (pos 3)",
+      "label": "Embedding: ' abusers'",
+      "reason": "Token alone; downstream role not directly claimed."
+    },
+    {
+      "id": "Toxicity probe direction (L36)",
+      "label": "Toxicity probe direction",
+      "reason": "Output direction, not a feature class."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 1,
+  "n_other": 4,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "Exhaustive pass completed; one causal feature, three spurious, four other."
+}

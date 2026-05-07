@@ -1,0 +1,64 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F11101",
+      "label": "Negation Word Detectors (L0-2): 'but' and 'not only' phrase features",
+      "reason": "Detects negation/contrast phrase patterns, a spurious shortcut."
+    },
+    {
+      "id": "L2:F3379",
+      "label": "Negation Word Detectors (L0-2): 'but' and 'not only' phrase features",
+      "reason": "Part of negation/contrast pattern detection."
+    },
+    {
+      "id": "L2:F5627",
+      "label": "Negation Word Detectors (L0-2): 'but' and 'not only' phrase features",
+      "reason": "Flags 'not only' pattern, a negation-word shortcut."
+    },
+    {
+      "id": "L4:F2884",
+      "label": "Not-Only Phrase Detectors (L4-9): Cascading 'not only' pattern detection",
+      "reason": "Cascading 'not only' phrase detector."
+    },
+    {
+      "id": "L9:F12274",
+      "label": "Not-Only Phrase Detectors (L4-9): Cascading 'not only' pattern detection",
+      "reason": "Cascading 'not only' phrase detector."
+    },
+    {
+      "id": "L6:F3655",
+      "label": "Not-Only Phrase Detectors (L4-9): Cascading 'not only' pattern detection",
+      "reason": "Cascading 'not only' phrase detector."
+    },
+    {
+      "id": "L15:12905",
+      "label": "But Contrast Feature (L15:12905) - TOP DRIVER: detects 'but' with contrast signals",
+      "reason": "Contrast/negation-word signal used as shortcut."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F13565",
+      "label": "Program Content Feature (L2:13565): semantic content about 'program'",
+      "reason": "Semantic content about program."
+    },
+    {
+      "id": "L5:F7144",
+      "label": "Attribution Pattern (L5:7144): proper noun + 'said' pattern",
+      "reason": "Proper-noun attribution pattern; content-neutral syntax."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L17:F3763",
+      "label": "Only Limiting Word Feature (L17:3763): 'only' with broad firing (frac=0.072)",
+      "reason": "Broad 'only' detector; structurally generic."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 2,
+  "n_other": 1,
+  "spurious_fraction": 0.7777777777777778,
+  "dominant": "spurious",
+  "notes": "Spurious and causal both present; 'only' treated as other because oracle frames it as broad generic firing."
+}

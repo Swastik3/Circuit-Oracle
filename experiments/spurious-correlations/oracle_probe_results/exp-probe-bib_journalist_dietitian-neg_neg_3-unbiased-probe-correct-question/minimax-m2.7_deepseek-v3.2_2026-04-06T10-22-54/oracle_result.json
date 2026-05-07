@@ -1,0 +1,4541 @@
+{
+  "prompt_name": "bib_journalist_dietitian-neg_neg_3-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_journalist_dietitian-neg_neg_3 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** This probe's classification is driven by a mixed circuit combining narrative/story content features (positive contribution, direct_effect up to +0.1885), male pronoun detection features (negative contribution, direct_effect -0.1621), and a journalism media chain (negative contribution, direct_effect -0.1279). The input describes a journalist who researches stories and represents a country in journalistic circles, and the circuit identifies this profession primarily through word-level detectors for \"stories\" at position 3 and \"journalistic\" at position 13, with gender markers (male pronoun \"He\" at position 1) as a confound signal.\n\n**Confidence:** 7/10\n\n**Reasoning:** The circuit analysis confirms the user's concern about spurious features. The probe relies heavily on the male pronoun \"He\" (emb_he \u2192 L0:F1069, edge_weight=22.625) which fires strongly on this input but encodes gender rather than profession. However, the probe also uses genuine profession indicators: L14:F4420 encodes \"words and phrases related to journalism and newspapers\" with frac_nonzero=0.0165, and this feature chain (L4\u2192L7\u2192L8\u2192L9\u2192L14 at position 13) processes the word \"journalistic\" directly from the input. The narrative/story content features (L0:F61, L0:F14906, L1:F14812) also represent legitimate profession-related signals, as journalists research and work with stories. The negative contributions from the journalism chain and grammar markers (\"too\" at pos 27, \"in\" at pos 12) suggest these features suppress the probe's classification when detected, indicating the probe may be trained to identify a specific type of content rather than journalism per se. The circuit traces back to token embeddings at all key positions, confirming the signals originate from specific input words rather than spurious internal activations. The male pronoun feature has a low frac_nonzero (0.0078), indicating it only fires on male pronouns, but its negative direct effect suggests it acts as a suppressant for certain output predictions when male-gendered text is detected\u2014raising concerns about reliance on gender markers rather than genuine profession-specific knowledge. This confirms the user's concern about the",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 10
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 0,
+          "feature_idx": 14906,
+          "pos": 3,
+          "activation": 6.7812,
+          "direct_effect": -0.2207
+        },
+        {
+          "layer": 1,
+          "feature_idx": 14812,
+          "pos": 3,
+          "activation": 12.0,
+          "direct_effect": 0.1885
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11603,
+          "pos": 27,
+          "activation": 27.5,
+          "direct_effect": -0.1631
+        },
+        {
+          "layer": 0,
+          "feature_idx": 1069,
+          "pos": 1,
+          "activation": 17.75,
+          "direct_effect": -0.1621
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11261,
+          "pos": 3,
+          "activation": 7.9375,
+          "direct_effect": 0.1602
+        },
+        {
+          "layer": 0,
+          "feature_idx": 8061,
+          "pos": 12,
+          "activation": 38.0,
+          "direct_effect": -0.1328
+        },
+        {
+          "layer": 14,
+          "feature_idx": 4420,
+          "pos": 13,
+          "activation": 29.125,
+          "direct_effect": -0.1279
+        },
+        {
+          "layer": 1,
+          "feature_idx": 16233,
+          "pos": 3,
+          "activation": 7.875,
+          "direct_effect": 0.1279
+        },
+        {
+          "layer": 0,
+          "feature_idx": 2711,
+          "pos": 20,
+          "activation": 20.25,
+          "direct_effect": -0.1104
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6962,
+          "pos": 7,
+          "activation": 10.1875,
+          "direct_effect": 0.106
+        }
+      ]
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 14906,
+        "starting_pos": 3,
+        "objective": "Trace the path from L0:F14906 at position 3 \u2014 identify what this feature encodes and trace back to its source. This is a high-impact feature (direct_effect=-0.2207) on the probe classification.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 14906,
+            "pos": 3,
+            "label": " the word \"binding\"",
+            "frac_nonzero": 0.00511,
+            "promoted_tokens": [
+              "\u2581AspNetCore",
+              "InputBorder",
+              "sidemargin",
+              "\u2581betweenstory",
+              "\u2581iprot",
+              "\u2581mergeFrom",
+              "ETHING",
+              "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+              "\u2581saites",
+              "autique"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 310,
+            "pos": 1,
+            "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+            "frac_nonzero": 0.006500000000000001,
+            "promoted_tokens": [
+              "rungsseite",
+              "\u2581@{",
+              "himself",
+              "\u2581Corintios",
+              "\"?>",
+              "NavController",
+              "\u2581otomatig",
+              "ButterKnife",
+              "\u5f7c\u306f",
+              "\u2581defStyleAttr"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 1288,
+            "pos": 1,
+            "label": " vertical bars used as separators in text",
+            "frac_nonzero": 0.01719,
+            "promoted_tokens": [
+              "\u2581",
+              "\u2581I",
+              "\n",
+              "\u2581in",
+              "\u2581a",
+              "\u2581i",
+              "\u2581an",
+              "\u2581at",
+              "\u2581to",
+              ","
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": 12.9375,
+            "token": "stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": -0.4727,
+            "token": "researches"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": 0.3398,
+            "token": "He"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": 0.0262,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 310,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": 0
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1288,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 14906,
+            "to_pos": 3,
+            "weight": 0
+          }
+        ],
+        "explanation": "Tracing from L0:F14906 at position 3 (direct_effect=-0.2207 on probe classification). This feature is labeled as detecting 'the word \\\"binding\\\"' but in this specific circuit at position 3, it's primarily detecting the token \\\"stories\\\" with a very strong direct connection from the embedding of \\\"stories\\\" at position 3 (edge_weight=12.9375). The feature also receives minor negative input from \\\"researches\\\" at position 2 (-0.4727) and positive input from \\\"He\\\" at position 1 (0.3398). Other layer 0 features at position 1 have zero edge weight and don't contribute. The circuit is shallow: the feature directly reads the token \\\"stories\\\" from the input embedding, explaining its high specificity (frac_nonzero=0.00511). The negative direct effect on probe classification suggests this feature suppresses certain outputs when it detects \\\"stories\\\" at position 3.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14906
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 14906,
+              "label": " the word \"binding\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ":\u2581This\u2581doesn't\u2581count\n\nIn\u2581case\u2581you\u2581thought\u2581that\u2581today's\u2581event\u2581meant\u2581that\u2581Paul\u2581had\u2581actually\u2581won\u2581the\u2581presidency,\u2581FOX\u2581News\u2581offered\u2581this\u2581helpful\u2581reminder:\u2581\"The\u2581straw\u2581poll\u2581is\u2581not\u2581binding.\"\n\nAnd\u2581Ben\u2581Smith\u2581ov",
+                  "max_activation": 42.068,
+                  "max_token": "\u2581binding"
+                },
+                {
+                  "text_snippet": "0.\u2581The\u2581offer\u2581was\u2581open\u2581until\u2581February\u25811,\u25811979,\u2581but\u2581it\u2581was\u2581revocable\u2581at\u2581any\u2581time\u2581by\u2581action\u2581of\u2581Calvin\u2581and\u2581Cecelia\u2581Beall.\u2581As\u2581stated\u2581in\u2581the\u2581case\u2581of\u2581Holifield\u2581v.\u2581Veterans'\u2581Farm\u2581&\u2581Home\u2581Board,\u2581218\u2581Miss.\u2581446,\u2581",
+                  "max_activation": 41.979,
+                  "max_token": "\u2581binding"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581THACKER,\u2581Circuit\nJudges.\n\n\nAffirmed\u2581by\u2581unpublished\u2581per\u2581curiam\u2581opinion.\n\fARGUED:\u2581Patrick\u2581Michael\u2581Regan,\u2581REGAN\u2581ZAMBRI\u2581LONG\u2581&\u2581BERTRAM,\nWashington,\u2581D.C.,\u2581for\u2581Appellant.\u2581\u2581\u2581\u2581\u2581Michael\u2581E.\u2581von\u2581Diezelski,\n",
+                  "max_activation": 41.838,
+                  "max_token": "\u2581binding"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581AspNetCore",
+                "InputBorder",
+                "sidemargin",
+                "\u2581betweenstory",
+                "\u2581iprot",
+                "\u2581mergeFrom",
+                "ETHING",
+                "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+                "\u2581saites",
+                "autique"
+              ],
+              "suppressed_tokens": [
+                "\u2581noires",
+                "\u2581religieuses",
+                "\u2581blanches",
+                "\u2581bianchi",
+                "\u2581sauvages",
+                "\u2581C\u00e6sar",
+                "\u2581fern\u00e1ndez",
+                "\u2581trait\u00e9s",
+                "\u2581nationaux",
+                "y"
+              ],
+              "frac_nonzero": 0.00511
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14906,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 12.9375
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": -0.4727
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.3398
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.0262
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 310
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 310,
+              "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": "\u2581include\u2581the\u2581installation\u2581of\u2581XLPE\u2581insulated\u2581(cross-linked\u2581polyethylene),\u2581PVC\u2581sheathed\u2581armoured\u2581cable\u2581usually\u2581underground.\n\nThese\u2581cables\u2581are\u2581maintenance-free,\u2581have\u2581low\u2581electrical\u2581losses,\u2581are\u2581environmen",
+                  "max_activation": 23.887,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "rungsseite",
+                "\u2581@{",
+                "himself",
+                "\u2581Corintios",
+                "\"?>",
+                "NavController",
+                "\u2581otomatig",
+                "ButterKnife",
+                "\u5f7c\u306f",
+                "\u2581defStyleAttr"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581it",
+                "'",
+                "\u2581you",
+                "\u2019",
+                "\u2581a",
+                ",",
+                "\u2581",
+                "\n\n",
+                "\u2581the"
+              ],
+              "frac_nonzero": 0.006500000000000001
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14906,
+              "pos": 3,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 12.9375
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": -0.4727
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.3398
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.0262
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1288,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1497,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 355,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 478,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1288
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1288,
+              "label": " vertical bars used as separators in text",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "|\u2581Sarah\u2581\u2581\u2581\u2581\u2581\u2581|\n+------------+\n\nA:\n\nYou\u2581should\u2581use\u2581INNER\u2581JOINS\u2581in\u2581your\u2581query,\u2581like:\nSELECT\u2581\u2581\u2581\u2581\u2581\u2581students.first_name\n\u2581\u2581\u2581\u2581FROM\u2581\u2581\u2581\u2581students\nINNER\u2581JOIN\u2581\u2581entries\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581ON\u2581\u2581entries.student_id_fk\u2581=\u2581students",
+                  "max_activation": 29.106,
+                  "max_token": "|"
+                },
+                {
+                  "text_snippet": "|\u2581<n$,\u2581if\u2581$T_{\\buildrel\u2581\\leftarrow\u2581\\over\u2581x}\u2581:=\u2581\\inf\u2581\\{\u2581k\\ge\u25810:\u2581X_k=\u2581{\\buildrel\u2581\\leftarrow\u2581\\over\u2581x}\u2581\\}$,\u2581then\u2581$\\alpha_{n,\u2581\\lambda}\u2581(x)\u2581=\u2581E_\\omega\u2581[\u2581\\ee^{-\\lambda\u2581\\tau_n}\u2581{\\bf\u25811}_{\u2581\\{\u2581\\tau_n\u2581<\u2581T_{\\build",
+                  "max_activation": 29.106,
+                  "max_token": "|"
+                },
+                {
+                  "text_snippet": "|\u2581OCR\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581|\u2581AS\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581|\n|\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u25818\u2581|\u2581RS\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581|\u2581CCEA\u2581\u2581\u2581\u2581\u2581\u2581\u2581|\u2581GCSE\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581|\n+------------+--------------+------------+----------------+\u2581\u2581\u2581\u2581\n\nentries:\n+----------+---------------+------",
+                  "max_activation": 29.106,
+                  "max_token": "|"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                "\u2581I",
+                "\n",
+                "\u2581in",
+                "\u2581a",
+                "\u2581i",
+                "\u2581an",
+                "\u2581at",
+                "\u2581to",
+                ","
+              ],
+              "suppressed_tokens": [
+                "\u2581it\u017felf",
+                "\u2581my\u017felf",
+                "\u2581Efq",
+                "\u2581Jefus",
+                "\u2581him\u017felf",
+                "\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581Monfieur",
+                "\u2581them\u017felves",
+                "\u017felves"
+              ],
+              "frac_nonzero": 0.01719
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace the path from L0:F14906 at position 3 \u2014 identify what this feature encodes and trace back to its source. This is a high-impact feature (direct_effect=-0.2207) on the probe classification.",
+          "input_tokens": 25129,
+          "output_tokens": 1994,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 1,
+        "starting_feature_idx": 14812,
+        "starting_pos": 3,
+        "objective": "Trace the path from L1:F14812 at position 3 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=0.1885.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 1,
+            "feature_idx": 14812,
+            "pos": 3,
+            "label": " references to stories, chapters, and other narrative elements",
+            "frac_nonzero": 0.00947,
+            "promoted_tokens": [
+              "\u2581eletr\u00f4nico",
+              "\u2581financeiro",
+              "\u2581cedo",
+              "\u2581abstrato",
+              "\u2581cot\u00e9",
+              "\u5b58\u4e8e\u4e92\u8054\u7f51\u6863\u6848\u9986",
+              "\u2581isolado",
+              "\u2581sauvages",
+              "\u2581recul",
+              "\u2581affari"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 479,
+            "pos": 3,
+            "label": "the word \"lift.\"",
+            "frac_nonzero": 0.0109,
+            "promoted_tokens": [
+              "\u2581Phry",
+              "\u2581\u0f0b\u0f0b",
+              "\u2581Efq",
+              "\u2581my\u017felf",
+              "\u2581The\u017fe",
+              "\u2581Monfieur",
+              "\u2581Shakspeare",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              ":\u2728"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8316,
+            "pos": 3,
+            "label": " articles that mention the action of counting or strong desires",
+            "frac_nonzero": 0.01189,
+            "promoted_tokens": [
+              "<eos>",
+              "\u2581I",
+              "\u2581",
+              "\u2581-",
+              "\u2581a",
+              "\u2581(",
+              ".",
+              "-",
+              ",",
+              "a"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 61,
+            "pos": 3,
+            "label": "the word \"stories\" sometimes along with apostrophes and common names.",
+            "frac_nonzero": 0.04415,
+            "promoted_tokens": [
+              "\u2581ejus",
+              "\u2581Majefty",
+              "\u2581\u017fhe",
+              "\u2581Di\u017f",
+              "\u2581qu\u00e6",
+              "\u2581\u017ftate",
+              "\u2581Con\u017f",
+              "\u2581eorum",
+              "\u2581Re\u017f",
+              "\u2581Monfieur"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 0,
+            "from_feature_idx": 479,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 14812,
+            "to_pos": 3,
+            "weight": 0.5195
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 8316,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 14812,
+            "to_pos": 3,
+            "weight": -0.4668
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 61,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 14812,
+            "to_pos": 3,
+            "weight": -0.4414
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 14812,
+            "to_pos": 3,
+            "weight": 18.625,
+            "token": "stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 14812,
+            "to_pos": 3,
+            "weight": -0.6094,
+            "token": "He"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 479,
+            "to_pos": 3,
+            "weight": 10.6875,
+            "token": "stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 8316,
+            "to_pos": 3,
+            "weight": 10.4375,
+            "token": "stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 61,
+            "to_pos": 3,
+            "weight": 17.375,
+            "token": "stories"
+          }
+        ],
+        "explanation": "The circuit traces from L1:F14812 (which encodes references to stories/narrative elements) back to the input token \"stories\" at position 3. The feature has direct_effect=0.1885 and shows an interesting pattern: while the direct embedding connection from \"stories\" strongly activates it (18.625 weight), the layer 0 feature that specifically detects the word \"stories\" (F61) actually inhibits it (-0.4414 weight). Meanwhile, a layer 0 feature detecting \"lift\" (F479) positively contributes, and another feature about counting/desires (F8316) negatively contributes. This suggests the L1 feature encodes a more abstract narrative concept rather than just the literal word \"stories,\" with both excitatory and inhibitory inputs shaping its activation pattern.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14812
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14812,
+              "label": " references to stories, chapters, and other narrative elements",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581if\nit's\u2581not\u2581perfect,\u2581and\u2581what's\u2581more:\u2581you\u2581can\u2581even\u2581personal\u2581message\nme\u2581if\u2581you\u2581want\u2581to\u2581correct\u2581it,\u2581then,\u2581you\u2581can\u2581put\u2581your\u2581mail\u2581and\u2581be\u2581sure\nthat\u2581no\u2581one\u2581but\u2581me\u2581is\u2581going\u2581to\u2581see\u2581it.\u2581Then\u2581I\u2581can\u2581send\u2581you\u2581th",
+                  "max_activation": 46.357,
+                  "max_token": "\u2581story"
+                },
+                {
+                  "text_snippet": "\u2581if\nit's\u2581not\u2581perfect,\u2581and\u2581what's\u2581more:\u2581you\u2581can\u2581even\u2581personal\u2581message\nme\u2581if\u2581you\u2581want\u2581to\u2581correct\u2581it,\u2581then,\u2581you\u2581can\u2581put\u2581your\u2581mail\u2581and\u2581be\u2581sure\nthat\u2581no\u2581one\u2581but\u2581me\u2581is\u2581going\u2581to\u2581see\u2581it.\u2581Then\u2581I\u2581can\u2581send\u2581you\u2581th",
+                  "max_activation": 46.357,
+                  "max_token": "\u2581story"
+                },
+                {
+                  "text_snippet": "t\u2581make\u2581claims\u2581as\u2581to\u2581their\u2581gifts\u2581and\u2581charms,\u2581but\u2581H\u2581&\u2581M\u2581do\u2581resemble\u2581me\u2581in\u2581various\u2581ways\u2581:)\n\nI\u2581usually\u2581like\u2581to\u2581write\u2581stories\u2581from\u2581a\u2581single\u2581point\u2581of\u2581view.\u2581It\u2019s\u2581obviously\u2581a\u2581limited\u2581perspective,\u2581but\u2581I\u2581enjoy\u2581",
+                  "max_activation": 44.94,
+                  "max_token": "\u2581story"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581eletr\u00f4nico",
+                "\u2581financeiro",
+                "\u2581cedo",
+                "\u2581abstrato",
+                "\u2581cot\u00e9",
+                "\u5b58\u4e8e\u4e92\u8054\u7f51\u6863\u6848\u9986",
+                "\u2581isolado",
+                "\u2581sauvages",
+                "\u2581recul",
+                "\u2581affari"
+              ],
+              "suppressed_tokens": [
+                "\u2581story",
+                "\u2581Story",
+                "\u2581STORY",
+                "\u2581stories",
+                "story",
+                "Story",
+                "\u0012",
+                "\u2581tale",
+                "\u2581storie",
+                "\u2581Stories"
+              ],
+              "frac_nonzero": 0.00947
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14812,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 18.625
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": -0.6094
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 479,
+                "pos": 3,
+                "edge_weight": 0.5195
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8316,
+                "pos": 3,
+                "edge_weight": -0.4668
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 61,
+                "pos": 3,
+                "edge_weight": -0.4414
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 479
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 479,
+              "label": "the word \"lift.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2019t\u2581come\u2581from\u2581summoning\u2581the\u2581right\u2581\u201cfinal\u2581answers\u201d\u2581to\u2581a\u2581handful\u2581of\u2581trivia\u2581questions\u2581to\u2581strike\u2581it\u2581rich\u2581on\u2581a\u2581game\u2581show.\u2581Winning\u2581the\u2581war\u2581against\u2581global\u2581poverty\u2581will\u2581come\u2581when\u2581we\u2581realize\u2581that\u2581we\u2581have\u2581one\u2581of",
+                  "max_activation": 34.76,
+                  "max_token": "\u2581lift"
+                },
+                {
+                  "text_snippet": "2,\u2581and\u2581remains\u2581in\u2581custody.\u2581Thus,\u2581unlike\u2581a\u2581former-prisoner\u2581plaintiff,\u2581Simpson\u2581would\u2581be\u2581subject\u2581to\u2581the\u2581strictures\u2581of\u2581\u00a7\u25811997e(a)\u2581if\u2581the\u2581court\u2581dismissed\u2581the\u2581action\u2581without\u2581prejudice;\u2581he\u2581would\u2581need\u2581to\u2581admi",
+                  "max_activation": 34.623,
+                  "max_token": "\u2581lift"
+                },
+                {
+                  "text_snippet": "po,\u2581and\u2581Carlos\u2581Montoya,\u2581a\u2581former\u2581Marxist\u2581who\u2581has\u2581become\u2581considerably\u2581more\u2581conservative.\u2581Political\u2581observers\u2581here\u2581see\u2581a\u2581potential\u2581power\u2581struggle\u2581developing\u2581between\u2581the\u2581two\u2581men.\n\nMost\u2581analysts\u2581here\u2581say\u2581",
+                  "max_activation": 34.194,
+                  "max_token": "\u2581lift"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Phry",
+                "\u2581\u0f0b\u0f0b",
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581The\u017fe",
+                "\u2581Monfieur",
+                "\u2581Shakspeare",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                ":\u2728"
+              ],
+              "suppressed_tokens": [
+                "\u2581the",
+                "\u2581\u2018",
+                "\u2581\u201c",
+                "\u2581a",
+                "\u2581in",
+                "\u2581'",
+                "\u2581\"",
+                ",",
+                "\u2581many",
+                "\u2581and"
+              ],
+              "frac_nonzero": 0.0109
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8316
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8316,
+              "label": " articles that mention the action of counting or strong desires",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ":\u2581This\u2581doesn't\u2581count\n\nIn\u2581case\u2581you\u2581thought\u2581that\u2581today's\u2581event\u2581meant\u2581that\u2581Paul\u2581had\u2581actually\u2581won\u2581the\u2581presidency,\u2581FOX\u2581News\u2581offered\u2581this\u2581helpful\u2581reminder:\u2581\"The\u2581straw\u2581poll\u2581is\u2581not\u2581binding.\"\n\nAnd\u2581Ben\u2581Smith\u2581ov",
+                  "max_activation": 18.598,
+                  "max_token": "\u2581count"
+                },
+                {
+                  "text_snippet": "solar-glass-home-watching-sun-move/\n\n======\njbrun\nIf\u2581you\u2581are\u2581keen\u2581on\u2581this,\u2581see\u2581Amory\u2581Lovins\u2581talk\u2581on\u2581buildings:\u2581Short\u2581version:\n<http://www.youtube.com/watch?v=DvmHJNeif24>\u2581Long\u2581Version:\n[http://www.you",
+                  "max_activation": 18.442,
+                  "max_token": "\u2581keen"
+                },
+                {
+                  "text_snippet": "\u2581customized\u2581URL\u2581(e.g.\n\u2581\u2581http://myapp.elasticbeanstalk.com/).\n\nOnce\u2581an\u2581application\u2581is\u2581running,\n\u2581\u2581Elastic\u2581Beanstalk\u2581provides\u2581several\n\u2581\u2581management\u2581features\u2581such\u2581as:\n\nEasily\u2581deploy\u2581new\u2581application\u2581version",
+                  "max_activation": 18.424,
+                  "max_token": "\u2581count"
+                }
+              ],
+              "promoted_tokens": [
+                "<eos>",
+                "\u2581I",
+                "\u2581",
+                "\u2581-",
+                "\u2581a",
+                "\u2581(",
+                ".",
+                "-",
+                ",",
+                "a"
+              ],
+              "suppressed_tokens": [
+                "\u2581Monfieur",
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581it\u017felf",
+                "\u2581them\u017felves",
+                "\u2581Jefus",
+                "\u2581Hou\u017fe",
+                "\u2581\u017feveral",
+                "\u2581him\u017felf",
+                "\u2581An\u017f"
+              ],
+              "frac_nonzero": 0.01189
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 479,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 10.6875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.6133
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": 0.3691
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.0272
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8316,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 10.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.625
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": 0.4375
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": -0.0361
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 61
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 61,
+              "label": "the word \"stories\" sometimes along with apostrophes and common names.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581from\u2581Central\u2581America\u2581and\u2581the\u2581McAllen,\u2581Texas-Mexico\u2581border\u2581working\u2581on\u2581a\u2581project\u2581that\u2581will\u2581attempt\u2581to\u2581fill\u2581in\u2581this\u2581pipeline\u2581from\u2581the\u2581impoverished\u2581neighborhoods\u2581these\u2581kids\u2581are\u2581leaving,\u2581to\u2581the\u2581Mexican-Gu",
+                  "max_activation": 28.432,
+                  "max_token": "\u2581stories"
+                },
+                {
+                  "text_snippet": ".\u2581Should\u2581be\u2581well\u2581worth\u2581a\u2581read.\u2581And\u2581can\u2581I\u2581just\u2581point\u2581out\u2581that\u2581I\u2019m\u2581going\u2581to\u2581be\u2581in\u2581a\u2581book\u2581with\u2581Ramsey\u2581Campbell.\u2581Achievement\u2581Unlocked!\n\nIssue\u258114\u2581of\u2581SQ\u2581Mag\u2581is\u2581out.\u2581It\u2019s\u2581the\u2581Australiana\u2581Special\u2581Edition\u2581and\u2581",
+                  "max_activation": 28.267,
+                  "max_token": "\u2581stories"
+                },
+                {
+                  "text_snippet": "\u2581stories\u2581have\u2581been\u2581really\u2581fun\u2581to\u2581write,\u2581and\u2581I\u2581definitely\u2581look\u2581forward\u2581to\u2581doing\u2581them.\u2581I\u2581think\u2581they\u2019re\u2581so\u2581easy\u2581and\u2581enjoyable\u2581to\u2581work\u2581on\u2581because\u2581they\u2581revisit\u2581territory\u2581that\u2581I\u2019ve\u2581already\u2581covered\u2581from\u2581Henr",
+                  "max_activation": 28.058,
+                  "max_token": "\u2581stories"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581ejus",
+                "\u2581Majefty",
+                "\u2581\u017fhe",
+                "\u2581Di\u017f",
+                "\u2581qu\u00e6",
+                "\u2581\u017ftate",
+                "\u2581Con\u017f",
+                "\u2581eorum",
+                "\u2581Re\u017f",
+                "\u2581Monfieur"
+              ],
+              "suppressed_tokens": [
+                "\u062f\u0627\u0646\u0634\u0646\u0627\u0645\u0647\u0654",
+                "\")));\r",
+                "ValueStyle",
+                "IndentedString",
+                "'))\r",
+                "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+                "IsMutable",
+                "featureID",
+                "\"));\r",
+                "TypedDataSet"
+              ],
+              "frac_nonzero": 0.04415
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 61,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 17.375
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": -0.457
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": -0.209
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.1758
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace the path from L1:F14812 at position 3 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=0.1885.",
+          "input_tokens": 45585,
+          "output_tokens": 2621,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 11603,
+        "starting_pos": 27,
+        "objective": "Trace the path from L0:F11603 at position 27 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1631.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 11603,
+            "pos": 27,
+            "label": " the word \"too\"",
+            "frac_nonzero": 0.00459,
+            "promoted_tokens": [
+              ",",
+              ":",
+              ".",
+              " the",
+              "_",
+              "\u2026",
+              "\\",
+              ";",
+              "/",
+              " to"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 27,
+            "to_layer": 0,
+            "to_feature_idx": 11603,
+            "to_pos": 27,
+            "weight": 32,
+            "from_token": " too"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 26,
+            "to_layer": 0,
+            "to_feature_idx": 11603,
+            "to_pos": 27,
+            "weight": 1.0156,
+            "from_token": " much"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 25,
+            "to_layer": 0,
+            "to_feature_idx": 11603,
+            "to_pos": 27,
+            "weight": -0.1157,
+            "from_token": " a"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 23,
+            "to_layer": 0,
+            "to_feature_idx": 11603,
+            "to_pos": 27,
+            "weight": -0.0942,
+            "from_token": " he"
+          }
+        ],
+        "explanation": "The starting feature L0:F11603 encodes detection of the word \\\"too\\\". It has a direct effect of -0.1631, meaning it suppresses the target output. Tracing upstream reveals it directly connects to token embeddings, with the strongest connection (weight 32.0) coming from the \\\" too\\\" token at position 27 itself. This indicates it's a simple token-detection feature that fires when the specific token \\\"too\\\" appears. The feature also has weaker positive connections from adjacent tokens like \\\"much\\\" and negative connections from other tokens like \\\"a\\\" and \\\"he\\\", likely representing contextual inhibition patterns. The feature's promoted tokens include punctuation and common words like \\\",\\\", \\\":\\\", \\\".\\\", and \\\"the\\\", suggesting it acts as a grammatical marker feature that influences punctuation and common words in output.\"",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11603
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11603,
+              "label": " the word \"too\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581what\u2581we\u2581hope\u2581to\u2581read\u2581this\u2581week\u2026.\u2581and\u2581anything\u2581in\u2581between!\u2581D\u2581This\u2581is\u2581a\u2581great\u2581way\u2581to\u2581plan\u2581out\u2581your\u2581reading\u2581week\u2581and\u2581see\u2581what\u2581others\u2581are\u2581currently\u2581reading\u2581as\u2581well\u2026\u2581you\u2581never\u2581know\u2581where\u2581that\u2581next\u2581\u201cmust\u2581r",
+                  "max_activation": 59.176,
+                  "max_token": "\u2581too"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581break\u2581can\u2581be\u2581a\u2581very\u2581brief\u2581reminder\u2581without\u2581being\u2581too\u2581disruptive:</p>\n<p><a\u2581href=\"/files/2019/timeout/dry-eye/schedule.png\"\u2581title=\"Click\u2581for\u2581full\u2581size.\"><img\u2581src=\"/files/2019/timeout/dry-eye/sched",
+                  "max_activation": 59.126,
+                  "max_token": "\u2581too"
+                },
+                {
+                  "text_snippet": "\u2581plain\u2581white\u2581plates\u2581but\u2581Amber\u2581takes\u2581over\u2581and\u2581picks\u2581the\u2581shiny\u2581gold\u2581ones.\u2581When\u2581Sofia\u2581is\u2581picking\u2581the\u2581goblets,\u2581Amber\u2581takes\u2581over\u2581again\u2581and\u2581picks\u2581the\u2581biggest\u2581ones.\u2581Sofia\u2581is\u2581starting\u2581to\u2581feel\u2581overwhelmed\u2581and\u2581",
+                  "max_activation": 58.69,
+                  "max_token": "\u2581too"
+                }
+              ],
+              "promoted_tokens": [
+                ",",
+                ":",
+                ".",
+                "\u2581the",
+                "_",
+                "\u2026",
+                "\\",
+                ";",
+                "/",
+                "\u2581to"
+              ],
+              "suppressed_tokens": [
+                "NUMX",
+                ".\";\r",
+                "\u2581auffi",
+                "\u2581too",
+                "\u2581initComponents",
+                "\u2581my\u017felf",
+                "\u2581feroit",
+                "\"])\r",
+                "'},\r",
+                "\")));\r"
+              ],
+              "frac_nonzero": 0.00459
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11603,
+              "pos": 27,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " too",
+                "pos": 27,
+                "edge_weight": 32.0
+              },
+              {
+                "type": "embedding",
+                "token": " much",
+                "pos": 26,
+                "edge_weight": 1.0156
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 25,
+                "edge_weight": -0.1157
+              },
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 23,
+                "edge_weight": -0.0942
+              },
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": -0.0781
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11603,
+              "pos": 27,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " too",
+                "pos": 27,
+                "edge_weight": 32.0
+              },
+              {
+                "type": "embedding",
+                "token": " much",
+                "pos": 26,
+                "edge_weight": 1.0156
+              },
+              {
+                "type": "embedding",
+                "token": " a",
+                "pos": 25,
+                "edge_weight": -0.1157
+              },
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 23,
+                "edge_weight": -0.0942
+              },
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": -0.0781
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": -0.0605
+              },
+              {
+                "type": "embedding",
+                "token": " broadcast",
+                "pos": 21,
+                "edge_weight": -0.0469
+              },
+              {
+                "type": "embedding",
+                "token": " on",
+                "pos": 18,
+                "edge_weight": -0.0422
+              },
+              {
+                "type": "embedding",
+                "token": " foreign",
+                "pos": 20,
+                "edge_weight": -0.0417
+              },
+              {
+                "type": "embedding",
+                "token": " circles",
+                "pos": 14,
+                "edge_weight": -0.0361
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace the path from L0:F11603 at position 27 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1631.",
+          "input_tokens": 12922,
+          "output_tokens": 1070,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 1069,
+        "starting_pos": 1,
+        "objective": "Trace the path from L0:F1069 at position 1 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1621.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 1069,
+            "pos": 1,
+            "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+            "promoted_tokens": [
+              "WriteLiteral",
+              "tvguidetime",
+              "AddTagHelper",
+              "\u2581honom",
+              "\u2581his",
+              "IsMutable",
+              "\u2581They",
+              "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+              "\u2581&___",
+              "BeginContext"
+            ],
+            "frac_nonzero": 0.007800000000000001
+          },
+          {
+            "layer": 0,
+            "feature_idx": 310,
+            "pos": 1,
+            "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+            "promoted_tokens": [
+              "rungsseite",
+              "\u2581@{",
+              "himself",
+              "\u2581Corintios",
+              "\"?>",
+              "NavController",
+              "\u2581otomatig",
+              "ButterKnife",
+              "\u5f7c\u306f",
+              "\u2581defStyleAttr"
+            ],
+            "frac_nonzero": 0.006500000000000001
+          },
+          {
+            "layer": 0,
+            "feature_idx": 355,
+            "pos": 1,
+            "label": " text related to numbers, especially those representing currency or measurements, and also related to statistical analysis or auditing",
+            "promoted_tokens": [
+              "\u2581autorytatywna",
+              "verwijspagina",
+              "RTEE",
+              "Rohy",
+              "\u2581poveznice",
+              "\u2581<<<<<<<<<<<<<<",
+              "setupUi",
+              "Portail",
+              "\u2581otomatig",
+              "TEMPO"
+            ],
+            "frac_nonzero": 0.19688
+          },
+          {
+            "layer": 0,
+            "feature_idx": 96,
+            "pos": 1,
+            "label": "sentences beginning with coordinating conjunctions like \"but\" and \"and\"",
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581",
+              "\n",
+              "'",
+              "\n\n",
+              "\u2019",
+              "1",
+              "\u2581\u2581",
+              "2",
+              "<eos>"
+            ],
+            "frac_nonzero": 0.03913
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 1,
+            "weight": 22.625
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 1,
+            "weight": 6.9375
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 310,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 1,
+            "weight": 0
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 355,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 1,
+            "weight": 0
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 96,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 1069,
+            "to_pos": 1,
+            "weight": 0
+          }
+        ],
+        "explanation": "The circuit traces back to token embeddings. L0:F1069 is an early-layer feature that detects male pronouns (particularly \"He\" and \"His\"). It receives strong direct input from the token embedding \"He\" at position 1 (weight=22.625) and from the beginning-of-sequence token \"<bos>\" at position 0 (weight=6.9375). The feature has a negative direct_effect (-0.1621) on the output token, indicating it suppresses something when male pronouns are detected. Interestingly, while the feature activates on \"He\" tokens, its suppressed_tokens list includes \"He\", \"His\", \"Him\" etc., suggesting it detects male pronouns but then suppresses them in output generation. The zero-weight connections from other L0 features (F310 detects pronouns, F355 detects numbers, F96 detects conjunctions) have negligible influence.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "label": " references to a male person, particularly when using the pronoun \"He\" or \"His.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581let\u2581Iida\u2581beat\u2581himself\u2581up\u2581too\u2581much.\u2581He\u2581agrees\u2581that\u2581him\u2581and\u2581Iida\u2581should\u2581get\u2581stronger\u2581together.\n\nMy\u2581Hero\u2581Academia-\u2581Funimation\n\nWe\u2581cut\u2581to\u2581U.A.\u2581with\u2581All\u2581Might\u2581in\u2581the\u2581staff\u2581room.\u2581He\u2581gets\u2581a\u2581phone\u2581call\u2581from\u2581",
+                  "max_activation": 78.74,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ",\u2581always\u2581ask\u2581him\u2581whether\u2581he\u2581has\u2581done\u2581it\u2581or\u2581not.\u2581He\u2581will\u2581end\u2581up\u2581contacting\u2581you.\u2581If\u2581it\u2581doesn\u2019t\u2581work,\u2581you\u2581can\u2581say\u2581that\u2581there\u2581is\u2581always\u2581some\u2581stink\u2581coming\u2581out\u2581of\u2581his\u2581mouth.\u2581He\u2581should\u2581see\u2581the\u2581doctor\u2581ASAP.\u2581E",
+                  "max_activation": 77.051,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "WriteLiteral",
+                "tvguidetime",
+                "AddTagHelper",
+                "\u2581honom",
+                "\u2581his",
+                "IsMutable",
+                "\u2581They",
+                "\u2581\u0938\u092e\u0940\u0915\u094d\u0937\u0915",
+                "\u2581&___",
+                "BeginContext"
+              ],
+              "suppressed_tokens": [
+                "\u2581He",
+                "He",
+                "\u2581His",
+                "\u2581\u041e\u043d",
+                "His",
+                "\u2581Him",
+                "\u2581Himself",
+                "\u2581\u0415\u0433\u043e",
+                "\u2581HE",
+                "\u2581Hes"
+              ],
+              "frac_nonzero": 0.007800000000000001
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1069,
+              "pos": 1
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 22.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 6.9375
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 355,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 96,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 310
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 310,
+              "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": "\u2581include\u2581the\u2581installation\u2581of\u2581XLPE\u2581insulated\u2581(cross-linked\u2581polyethylene),\u2581PVC\u2581sheathed\u2581armoured\u2581cable\u2581usually\u2581underground.\n\nThese\u2581cables\u2581are\u2581maintenance-free,\u2581have\u2581low\u2581electrical\u2581losses,\u2581are\u2581environmen",
+                  "max_activation": 23.887,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "rungsseite",
+                "\u2581@{",
+                "himself",
+                "\u2581Corintios",
+                "\"?>",
+                "NavController",
+                "\u2581otomatig",
+                "ButterKnife",
+                "\u5f7c\u306f",
+                "\u2581defStyleAttr"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581it",
+                "'",
+                "\u2581you",
+                "\u2019",
+                "\u2581a",
+                ",",
+                "\u2581",
+                "\n\n",
+                "\u2581the"
+              ],
+              "frac_nonzero": 0.006500000000000001
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 355
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 355,
+              "label": " text related to numbers, especially those representing currency or measurements, and also related to statistical analysis or auditing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581\u00a325\u2581million\u2581of\u2581business\u2581between\u2581our\u2581members.\nThis\u2581is\u2581because\u2581we\u2581don\u2019t\u2581just\u2581belong\u2581to\u2581BNI\u2581Chipping\u2581to\u2581make\u2581our\u2581own\u2581businesses\u2581successful,\u2581we're\u2581also\u2581there\u2581to\u2581refer\u2581business\u2581to\u2581each\u2581other.\u2581Being\u2581a\u2581memb",
+                  "max_activation": 16.786,
+                  "max_token": "2"
+                },
+                {
+                  "text_snippet": "\u2581\u00a325\u2581million\u2581of\u2581business\u2581between\u2581our\u2581members.\nThis\u2581is\u2581because\u2581we\u2581don\u2019t\u2581just\u2581belong\u2581to\u2581BNI\u2581Chipping\u2581to\u2581make\u2581our\u2581own\u2581businesses\u2581successful,\u2581we're\u2581also\u2581there\u2581to\u2581refer\u2581business\u2581to\u2581each\u2581other.\u2581Being\u2581a\u2581memb",
+                  "max_activation": 16.786,
+                  "max_token": "2"
+                },
+                {
+                  "text_snippet": "\u2581to\u2581the\u2581\u00a338m\u2581audit-related\u2581settlement\u2581reached\u2581by\u2581the\u2581UK\u2019s\u2581largest\u2581pension\u2581scheme,\u2581USS,\u2581with\u2581PwC\u2581Brazil\u2581as\u2581part\u2581of\u2581a\u2581class\u2581action\u2581lawsuit\u2581against\u2581troubled\u2581oil\u2581giant,\u2581Petrobras.[33]\u2581But\u2581note\u2581that\u2581the\u2581FR",
+                  "max_activation": 15.642,
+                  "max_token": "3"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581autorytatywna",
+                "verwijspagina",
+                "RTEE",
+                "Rohy",
+                "\u2581poveznice",
+                "\u2581<<<<<<<<<<<<<<",
+                "setupUi",
+                "Portail",
+                "\u2581otomatig",
+                "TEMPO"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581/>\";",
+                "colnshire",
+                "\u017fo",
+                "\u2581him\u017felf",
+                "\u2581r\u00e9comp",
+                "\u2581fallu",
+                "}\")]",
+                "\u2581gloire",
+                "\u2581Sociale"
+              ],
+              "frac_nonzero": 0.19688
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 96
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 96,
+              "label": "sentences beginning with coordinating conjunctions like \"but\" and \"and\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581But\u2581not\u2581from\u2581Morales-Santana.\u2581This\u2581is\u2581because,\u2581unlike\nBreyer,\u2581there\u2581is\u2581no\u2581indication\u2581that\u2581Morales-Santana\u2019s\napplication\u2581of\u2581intermediate\u2581scrutiny\u2581was\u2581premised\u2581on\u2581anything\nother\u2581than\u2581the\u2581fact\u2581that\u2581the",
+                  "max_activation": 19.059,
+                  "max_token": "\u2581But"
+                },
+                {
+                  "text_snippet": ".\u2581But\u2581you\u2581can\u2581also\u2581try\u2581MySQL\u2581events.\u2581Something\u2581like:\n\u2581\u2581DELIMITER\u2581$$\n\u2581\u2581CREATE\u2581EVENT\u2581search_removal\n\u2581\u2581\u2581\u2581ON\u2581SCHEDULE\u2581EVERY\u2581MONTH\n\u2581\u2581\u2581\u2581DO\n\u2581\u2581\u2581\u2581\u2581\u2581BEGIN\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581UPDATE\u2581search\u2581SET\u2581searched\u2581=\u25810;\n\u2581\u2581\u2581\u2581\u2581\u2581END;\n\u2581\u2581$$",
+                  "max_activation": 19.059,
+                  "max_token": "\u2581But"
+                },
+                {
+                  "text_snippet": "\u2581when\u2581to\u2581renew.\u2581But\u2581lots\u2581of\u2581customers\u2581do\u2581renew\u2581their\u2581support\u2581when\u2581it\u2581expires,\u2581which\u2581I\u2581greatly\u2581appreciate.</p>\n<p>So\u2581I\u2581was\u2581wondering\u2581if\u2581people\u2581would\u2581like\u2581and\u2581use\u2581an\u2581option\u2581to\u2581automatically\u2581renew\u2581their\u2581",
+                  "max_activation": 18.968,
+                  "max_token": "\u2581But"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581",
+                "\n",
+                "'",
+                "\n\n",
+                "\u2019",
+                "1",
+                "\u2581\u2581",
+                "2",
+                "<eos>"
+              ],
+              "suppressed_tokens": [
+                "tvguidetime",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627",
+                "oredCriteria",
+                ".\";\r",
+                "\u2581\u0645\u0631\u0626\u064a\u0647",
+                "^(@)",
+                "\u2581disambiguazione",
+                "expandindo",
+                "\u2581utafitiHapana"
+              ],
+              "frac_nonzero": 0.03913
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace the path from L0:F1069 at position 1 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1621.",
+          "input_tokens": 25327,
+          "output_tokens": 1992,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 11261,
+        "starting_pos": 3,
+        "objective": "Trace L0:F11261 at position 3 (direct_effect=0.1602) \u2014 identify what this feature encodes and trace back to its source.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 11261,
+            "pos": 3,
+            "label": " the word \"migration\" and words related to it",
+            "frac_nonzero": 0.02526,
+            "promoted_tokens": [
+              ".",
+              ",",
+              "\u2581\u043e\u0440\u0438\u0433\u0456\u043d\u0430\u043b\u0443",
+              ";",
+              "\u2581\u2018",
+              "\u2581\u2581",
+              "/",
+              "SequentialGroup",
+              "jsdelivr",
+              "\u2581Sub"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 310,
+            "pos": 1,
+            "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+            "frac_nonzero": 0.006500000000000001,
+            "promoted_tokens": [
+              "rungsseite",
+              "\u2581@{",
+              "himself",
+              "\u2581Corintios",
+              "\"?>",
+              "NavController",
+              "\u2581otomatig",
+              "ButterKnife",
+              "\u5f7c\u306f",
+              "\u2581defStyleAttr"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 11261,
+            "to_pos": 3,
+            "weight": 12.6875,
+            "token": " stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 11261,
+            "to_pos": 3,
+            "weight": 0.9805,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 11261,
+            "to_pos": 3,
+            "weight": 0.2871,
+            "token": " researches"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 11261,
+            "to_pos": 3,
+            "weight": 0.2002,
+            "token": "He"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 310,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 11261,
+            "to_pos": 3,
+            "weight": 0
+          }
+        ],
+        "explanation": "The tracing reveals that L0:F11261 (detecting \\\"migration\\\" words) at position 3 is primarily driven directly by the token \\\" stories\\\" itself through its embedding (weight=12.6875), with minor contributions from other tokens. This suggests the feature might be mis-firing on \\\" stories\\\" or there's some association between \\\" stories\\\" and \\\"migration\\\" concepts in the training data. The feature has moderate sparsity (0.025) and detects migration-related terms, but appears to be activated by \\\" stories\\\" in this specific position, which is unexpected given its semantic label.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11261
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 11261,
+              "label": " the word \"migration\" and words related to it",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581replaced.\u2581The\u2581rate\u2581of\u2581migration\u2581towards\u2581the\u2581center\u2581of\u2581the\u2581wound\u2581was\u2581determined\u2581using\u2581calipers\u2581in\u2581the\u2581image\u2581under\u2581a\u2581light\u2581microscope\u258148\u2581h\u2581later.\n\n###\u2581Cell\u2581invasion\u2581assays\n\nThe\u2581invasion\u2581assays\u2581were\u2581per",
+                  "max_activation": 40.787,
+                  "max_token": "\u2581migration"
+                },
+                {
+                  "text_snippet": "\u2581varying\u2581polymorphisms\u2581([Fig.\u25813C](#pgen-1004775-g003){ref-type=\"fig\"}).\u2581A\u2581similar\u2581logic\u2581would\u2581apply\u2581for\u2581an\u2581early\u2581season\u2581migration\u2581from\u2581the\u2581North\u2581followed\u2581by\u2581a\u2581subsequent,\u2581late\u2581season\u2581migration\u2581from\u2581th",
+                  "max_activation": 40.385,
+                  "max_token": "\u2581migration"
+                },
+                {
+                  "text_snippet": "\u2581varying\u2581polymorphisms\u2581([Fig.\u25813C](#pgen-1004775-g003){ref-type=\"fig\"}).\u2581A\u2581similar\u2581logic\u2581would\u2581apply\u2581for\u2581an\u2581early\u2581season\u2581migration\u2581from\u2581the\u2581North\u2581followed\u2581by\u2581a\u2581subsequent,\u2581late\u2581season\u2581migration\u2581from\u2581th",
+                  "max_activation": 40.385,
+                  "max_token": "\u2581migration"
+                }
+              ],
+              "promoted_tokens": [
+                ".",
+                ",",
+                "\u2581\u043e\u0440\u0438\u0433\u0456\u043d\u0430\u043b\u0443",
+                ";",
+                "\u2581\u2018",
+                "\u2581\u2581",
+                "/",
+                "SequentialGroup",
+                "jsdelivr",
+                "\u2581Sub"
+              ],
+              "suppressed_tokens": [
+                "\u2581condamn\u00e9",
+                "\u2581gu\u00e8re",
+                "()]\r",
+                "\u2581Efq",
+                "\u2581e\u00fbt",
+                "\u2581da\u00df",
+                "\u2581\u2015\u2015\u2015\u2015\u2015",
+                "\u2581abstrait",
+                "\u2581marqu\u00e9es",
+                "\u2581Treatise"
+              ],
+              "frac_nonzero": 0.02526
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 11261,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 12.6875
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.9805
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": 0.2871
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.2002
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 310
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 310,
+              "label": " the pronouns \"she\", \"her\", and \"he\" and sometimes the word \"therefore\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": ",\u2581a\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581may\u2581be\u2581used.\nBecause\u2581certain\u2581curved\u2581shapes\u2581are\u2581difficult\u2581to\u2581reproduce,\u2581a\u2581generally\u2581flat\u2581sheath\u2581of\u2581biocompatible\u2581tissue\u2581typically\u2581used.\u2581Therefore,\u2581a\u2581new\u2581approach\u2581is\u2581d",
+                  "max_activation": 23.888,
+                  "max_token": "\u2581she"
+                },
+                {
+                  "text_snippet": "\u2581include\u2581the\u2581installation\u2581of\u2581XLPE\u2581insulated\u2581(cross-linked\u2581polyethylene),\u2581PVC\u2581sheathed\u2581armoured\u2581cable\u2581usually\u2581underground.\n\nThese\u2581cables\u2581are\u2581maintenance-free,\u2581have\u2581low\u2581electrical\u2581losses,\u2581are\u2581environmen",
+                  "max_activation": 23.887,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "rungsseite",
+                "\u2581@{",
+                "himself",
+                "\u2581Corintios",
+                "\"?>",
+                "NavController",
+                "\u2581otomatig",
+                "ButterKnife",
+                "\u5f7c\u306f",
+                "\u2581defStyleAttr"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u2581it",
+                "'",
+                "\u2581you",
+                "\u2019",
+                "\u2581a",
+                ",",
+                "\u2581",
+                "\n\n",
+                "\u2581the"
+              ],
+              "frac_nonzero": 0.006500000000000001
+            }
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace L0:F11261 at position 3 (direct_effect=0.1602) \u2014 identify what this feature encodes and trace back to its source.",
+          "input_tokens": 17989,
+          "output_tokens": 1446,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 8061,
+        "starting_pos": 12,
+        "objective": "Trace L0:F8061 at position 12 (direct_effect=-0.1328) \u2014 identify what this feature encodes and trace back to its source.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 8061,
+            "pos": 12,
+            "label": " the preposition \"in\"",
+            "frac_nonzero": 0.03461,
+            "promoted_tokens": [
+              "\u2581Efq",
+              "\u2581Monfieur",
+              "\u2581my\u017felf",
+              "\u2581The\u017fe",
+              "\u2581it\u017felf",
+              "\u2581Jefus",
+              "\u2581Majefty",
+              "\u2581Hou\u017fe",
+              "\u2581\u017feveral",
+              "\u2581plea\u017fure"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 12,
+            "to_layer": 0,
+            "to_feature_idx": 8061,
+            "to_pos": 12,
+            "weight": 39.75,
+            "token": " in"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 8061,
+            "to_pos": 12,
+            "weight": 1.4766,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 11,
+            "to_layer": 0,
+            "to_feature_idx": 8061,
+            "to_pos": 12,
+            "weight": 0.8633,
+            "token": " country"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 9,
+            "to_layer": 0,
+            "to_feature_idx": 8061,
+            "to_pos": 12,
+            "weight": 0.3613,
+            "token": " represents"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 8061,
+            "to_pos": 12,
+            "weight": -0.2334,
+            "token": " at"
+          }
+        ],
+        "explanation": "The feature L0:F8061 at position 12 encodes detection of the preposition \\\"in\\\" at that position. It has a direct_effect of -0.1328, meaning it suppresses the target output. Tracing upstream reveals this feature is primarily driven by the token embedding of \\\" in\\\" at position 12 itself with a very strong edge weight of 39.75, confirming it's essentially an \\\"in\\\"-detector. Other tokens like \\\"country\\\" at position 11 and \\\"represents\\\" at position 9 also contribute positively, while \\\"at\\\" at position 5 contributes negatively. The feature has low frac_nonzero (0.0346), indicating it's specific to contexts where \\\"in\\\" appears, and its promoted tokens are various uncommon words with special characters, while suppressed tokens include common prepositions and function words.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8061
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8061,
+              "label": " the preposition \"in\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "7\u2581total\u2581wetlands\u2581in\u2581the\u2581study\u2581area,\u2581only\u258151\u2581had\u2581the\u2581minimum\u2581requirements\u2581that\u2581made\u2581them\u2581suitable\u2581for\u2581marsh\u2581harrier\u2581breeding.\u2581Of\u2581these,\u258168%\u2581were\u2581artificial\u2581water\u2581bodies\u2581associated\u2581with\u2581agricultural\u2581irr",
+                  "max_activation": 60.609,
+                  "max_token": "\u2581in"
+                },
+                {
+                  "text_snippet": "\u2581from\u258145\u2581in\u25811928\u2581to\u258127\u2581now,\u2581and\u2581by\u25811960\u2581millions\u2581of\u2581teenagers\u2581will\u2581be\u2581sewing.\u2581A\u2581common\u2581but\u2581fashionable\u2581wedding\u2581present\u2581for\u2581suburban\u2581brides:\u2581a\u2581sewing\u2581machine.\n\nThese\u258127-year-old\u2581women\u2581of\u25811958\u2581would\u2581be\u2581",
+                  "max_activation": 60.594,
+                  "max_token": "\u2581in"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581fourth\u2581in\u2581the\u2581little\u2581booth\u2581in\u2581the\u2581media\u2581center\u2581to\u2581keep\u2581my\u2581attention\u2581on\u2581the\u2581screen.\u2581I\u2581do\u2581not\u2581have\u2581ADD,\u2581but\u2581this\u2581film\u2581made\u2581me\u2581feel\u2581like\u2581it.\u2581The\u2581fact\u2581that\u2581they\u2581even\u2581credited\u2581someone\u2581as\u2581directing\u2581it\u2581",
+                  "max_activation": 60.538,
+                  "max_token": "\u2581in"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Efq",
+                "\u2581Monfieur",
+                "\u2581my\u017felf",
+                "\u2581The\u017fe",
+                "\u2581it\u017felf",
+                "\u2581Jefus",
+                "\u2581Majefty",
+                "\u2581Hou\u017fe",
+                "\u2581\u017feveral",
+                "\u2581plea\u017fure"
+              ],
+              "suppressed_tokens": [
+                "\u2581in",
+                "\u2581",
+                ",",
+                "\u2581on",
+                "\u2581(",
+                "\u2581at",
+                "\u2581as",
+                "\u2581the",
+                "\u2581for",
+                "\u2581to"
+              ],
+              "frac_nonzero": 0.03461
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8061,
+              "pos": 12,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " in",
+                "pos": 12,
+                "edge_weight": 39.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.4766
+              },
+              {
+                "type": "embedding",
+                "token": " country",
+                "pos": 11,
+                "edge_weight": 0.8633
+              },
+              {
+                "type": "embedding",
+                "token": " represents",
+                "pos": 9,
+                "edge_weight": 0.3613
+              },
+              {
+                "type": "embedding",
+                "token": " at",
+                "pos": 5,
+                "edge_weight": -0.2334
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-6",
+          "objective": "Trace L0:F8061 at position 12 (direct_effect=-0.1328) \u2014 identify what this feature encodes and trace back to its source.",
+          "input_tokens": 9111,
+          "output_tokens": 1358,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-6"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 14,
+        "starting_feature_idx": 4420,
+        "starting_pos": 13,
+        "objective": "Trace L14:F4420 at position 13 (direct_effect=-0.1279) \u2014 this is a mid-layer feature. Identify what it encodes and trace back upstream as far as possible.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 14,
+            "feature_idx": 4420,
+            "pos": 13,
+            "label": "words and phrases related to journalism and newspapers",
+            "promoted_tokens": [
+              "\u2581journalists",
+              "\u2581journalistic",
+              "\u2581Journalists",
+              "\u2581journalist",
+              "\u2581journalism",
+              "Journalist",
+              "\u2581Journalist",
+              "\u2581reporter",
+              "\u2581editorial",
+              "\u2581reporters"
+            ],
+            "frac_nonzero": 0.0165
+          },
+          {
+            "layer": 4,
+            "feature_idx": 13253,
+            "pos": 13,
+            "label": "things related to journalism and the media",
+            "promoted_tokens": [
+              "\u2581Journalism",
+              "\u2581journalists",
+              "\u2581journalism",
+              "\u2581imprensa",
+              "\u2581media",
+              "Media",
+              "\u2581reporters",
+              "\u2581Journalists",
+              "MEDIA",
+              "media"
+            ],
+            "frac_nonzero": 0.00648
+          },
+          {
+            "layer": 7,
+            "feature_idx": 9092,
+            "pos": 13,
+            "label": "words and phrases associated with broadcast journalism",
+            "promoted_tokens": [
+              "basicConfig",
+              "\u2581snippetHide",
+              "StandardCharsets",
+              "\u2581Jefus",
+              "\u0445\u044c\u0442\u0430\u043d",
+              "InjectAttribute",
+              "\u2581nakalista",
+              "findpost",
+              "\u2581\u017feveral",
+              "\u2581my\u017felf"
+            ],
+            "frac_nonzero": 0.00946
+          },
+          {
+            "layer": 9,
+            "feature_idx": 7435,
+            "pos": 13,
+            "label": "words and phrases related to news production and media",
+            "promoted_tokens": [
+              "ButterKnife",
+              "IBAction",
+              "NewUrlParser",
+              "addLast",
+              "\u2581Horne",
+              "istoitu",
+              "\u0642\u0627\u06cc\u0646\u0627\u0642\u200c\u0644\u0627\u0631",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              "\u2581practised",
+              "dorff"
+            ],
+            "frac_nonzero": 0.21513
+          },
+          {
+            "layer": 8,
+            "feature_idx": 8437,
+            "pos": 13,
+            "label": "content related to film festivals and production, particularly documentary films, and the recognition they receive.",
+            "promoted_tokens": [
+              "IntoConstraints",
+              "XmlAccessType",
+              "ValueStyle",
+              "\u2581Efq",
+              "\u2581Italijanski",
+              "libft",
+              "\u2581tartalomaj\u00e1nl\u00f3",
+              "\u2581BorderRadius",
+              "\u2581journalistic",
+              "#+#"
+            ],
+            "frac_nonzero": 0.01493
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 14,
+            "to_feature_idx": 4420,
+            "to_pos": 13,
+            "weight": 24.375
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13253,
+            "from_pos": 13,
+            "to_layer": 14,
+            "to_feature_idx": 4420,
+            "to_pos": 13,
+            "weight": 5.9375
+          },
+          {
+            "from_layer": 7,
+            "from_feature_idx": 9092,
+            "from_pos": 13,
+            "to_layer": 14,
+            "to_feature_idx": 4420,
+            "to_pos": 13,
+            "weight": 4.9062
+          },
+          {
+            "from_layer": 9,
+            "from_feature_idx": 7435,
+            "from_pos": 13,
+            "to_layer": 14,
+            "to_feature_idx": 4420,
+            "to_pos": 13,
+            "weight": -3.7969
+          },
+          {
+            "from_layer": 8,
+            "from_feature_idx": 8437,
+            "from_pos": 13,
+            "to_layer": 14,
+            "to_feature_idx": 4420,
+            "to_pos": 13,
+            "weight": 2.8594
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 13253,
+            "to_pos": 13,
+            "weight": 25.625
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 4,
+            "to_feature_idx": 13253,
+            "to_pos": 13,
+            "weight": -3.9062
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 4,
+            "to_feature_idx": 13253,
+            "to_pos": 13,
+            "weight": 2.9688
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 7,
+            "to_feature_idx": 9092,
+            "to_pos": 13,
+            "weight": 14.875
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13253,
+            "from_pos": 13,
+            "to_layer": 7,
+            "to_feature_idx": 9092,
+            "to_pos": 13,
+            "weight": 4.7188
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 7,
+            "to_feature_idx": 9092,
+            "to_pos": 13,
+            "weight": 2.1719
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 9,
+            "to_feature_idx": 7435,
+            "to_pos": 13,
+            "weight": 4.6562
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 9,
+            "to_feature_idx": 7435,
+            "to_pos": 13,
+            "weight": 2.4219
+          },
+          {
+            "from_layer": 7,
+            "from_feature_idx": 9092,
+            "from_pos": 13,
+            "to_layer": 9,
+            "to_feature_idx": 7435,
+            "to_pos": 13,
+            "weight": 1.6641
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13253,
+            "from_pos": 13,
+            "to_layer": 9,
+            "to_feature_idx": 7435,
+            "to_pos": 13,
+            "weight": 1.5078
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 8,
+            "to_feature_idx": 8437,
+            "to_pos": 13,
+            "weight": 8.0625
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 8,
+            "to_feature_idx": 8437,
+            "to_pos": 13,
+            "weight": 3.9219
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 8,
+            "to_feature_idx": 8437,
+            "to_pos": 13,
+            "weight": 1.9531
+          },
+          {
+            "from_layer": 7,
+            "from_feature_idx": 9092,
+            "from_pos": 13,
+            "to_layer": 8,
+            "to_feature_idx": 8437,
+            "to_pos": 13,
+            "weight": 1.7266
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 13253,
+            "from_pos": 13,
+            "to_layer": 8,
+            "to_feature_idx": 8437,
+            "to_pos": 13,
+            "weight": 1.4766
+          }
+        ],
+        "explanation": "The circuit traces L14:F4420 at position 13, which encodes \"words and phrases related to journalism and newspapers\". The primary driver is the input token \" journalistic\" at position 13, which has strong direct connections to multiple features in the circuit. The token embedding \" journalistic\" connects most strongly to L4:F13253 (journalism/media concepts) and L14:F4420 directly, creating a focused pathway for journalism-related concepts. The circuit shows both positive connections (from L4:F13253, L7:F9092, L8:F8437) and one negative inhibitory connection (from L9:F7435). The token \" stories\" at position 3 and other tokens also provide weaker contextual connections. All features ultimately trace back to the \" journalistic\" token embedding, showing this is a relatively shallow circuit focused on processing the specific journalism-related vocabulary in the input.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 14,
+              "feature_idx": 4420
+            },
+            "output": {
+              "layer": 14,
+              "feature_idx": 4420,
+              "label": "words and phrases related to journalism and newspapers",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+                  "max_activation": 214.187,
+                  "max_token": "\u2581reporter"
+                },
+                {
+                  "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+                  "max_activation": 214.187,
+                  "max_token": "\u2581reporter"
+                },
+                {
+                  "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+                  "max_activation": 214.187,
+                  "max_token": "\u2581reporter"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581journalists",
+                "\u2581journalistic",
+                "\u2581Journalists",
+                "\u2581journalist",
+                "\u2581journalism",
+                "Journalist",
+                "\u2581Journalist",
+                "\u2581reporter",
+                "\u2581editorial",
+                "\u2581reporters"
+              ],
+              "suppressed_tokens": [
+                "glBind",
+                "\u0627\u0646\u062c\u0644\u064a\u0632",
+                "luz",
+                "H\u01b0\u1edbng",
+                "RequiresApi",
+                "izard",
+                "\u2581Zuw",
+                "\u041a\u043b\u0438\u043c\u0430\u0442",
+                "\u0e1b\u0e25",
+                "\u2581vapor"
+              ],
+              "frac_nonzero": 0.0165
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 14,
+              "feature_idx": 4420,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 24.375
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13,
+                "edge_weight": 5.9375
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 9092,
+                "pos": 13,
+                "edge_weight": 4.9062
+              },
+              {
+                "type": "feature",
+                "layer": 9,
+                "feature_idx": 7435,
+                "pos": 13,
+                "edge_weight": -3.7969
+              },
+              {
+                "type": "feature",
+                "layer": 8,
+                "feature_idx": 8437,
+                "pos": 13,
+                "edge_weight": 2.8594
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13253
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 13253,
+              "label": " things related to journalism and the media",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581activists\u2581who\u2581say\u2581hateful\u2581things\u2581get\u2581a\u2581pass\u2581from\u2581the\u2581media\u2581too.\u2581Take\u2581Dan\u2581Savage,\u2581who\u2581has\u2581said\u2581all\u2581kinds\u2581of\u2581vile\u2581comments\u2581towards\u2581conservatives,\u2581Christians,\u2581and\u2581women,\u2581yet\u2581the\u2581media\u2581ignores\u2581his\u2581hate.\u2581",
+                  "max_activation": 60.677,
+                  "max_token": "dia"
+                },
+                {
+                  "text_snippet": "\u2581be\u2581able\u2581to\u2581supplant\u2581the\u2581motives\u2581of\u2581those\u2581who\u2581are\u2581taking\u2581them\u2581for\u2581fools!\u2581Continue\u2581reading\u2581The\u2581Covert\u2581Hybrid\u2581WW3\u2581Video\u2581Series\u2192\n\nIn\u2581the\u2581early\u2581part\u2581of\u2581our\u2581uncivilization,\u2581there\u2581were\u2581only\u2581three\u2581estates,\u2581e",
+                  "max_activation": 60.492,
+                  "max_token": "\u2581estate"
+                },
+                {
+                  "text_snippet": "\u2581and\u2581views\u2581is\u2581helping\u2581shape\u2581public\u2581opinion,\u2581i.e.\u2581blogging.\n\nWhile\u2581the\u2581Fourth\u2581Estate\u2581has\u2581gone\u2581bigger\u2581and\u2581better,\u2581the\u2581First\u2581and\u2581Second\u2581Estate\u2581have\u2581decided\u2581to\u2581join\u2581forces\u2581in\u2581order\u2581to\u2581have\u2581full\u2581control\u2581of",
+                  "max_activation": 59.718,
+                  "max_token": "\u2581Estate"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Journalism",
+                "\u2581journalists",
+                "\u2581journalism",
+                "\u2581imprensa",
+                "\u2581media",
+                "Media",
+                "\u2581reporters",
+                "\u2581Journalists",
+                "MEDIA",
+                "media"
+              ],
+              "suppressed_tokens": [
+                "\u2581snippetHide",
+                "\u0442\u0430\u0440\u0430\u0442\u0443\u0440\u0430",
+                "ContentLoaded",
+                "\u2581estim\u00e9s",
+                "WindowConstants",
+                "CloseOperation",
+                "orsz\u00e1gban",
+                "usercontent",
+                "sizeCache",
+                "IGraphics"
+              ],
+              "frac_nonzero": 0.006480000000000001
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 7,
+              "feature_idx": 9092
+            },
+            "output": {
+              "layer": 7,
+              "feature_idx": 9092,
+              "label": " words and phrases associated with broadcast journalism",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581news\u2581program\u2581The\u2581Daily\u2581Buzz,\u2581while\u2581some\u2581Tribune\u2581Broadcasting-owned\u2581CW\u2581and\u2581MyNetworkTV\u2581stations\u2581air\u2581a\u2581similar\u2581program\u2581called\u2581EyeOpener).\n\nCable\u2581television\n\n24-hour\u2581news\u2581channels\u2581are\u2581devoted\u2581to\u2581current",
+                  "max_activation": 65.295,
+                  "max_token": "\u2581Broadcasting"
+                },
+                {
+                  "text_snippet": "room\u2581or\u2581a\u2581remote\u2581contribution\u2581edit\u2581suite\u2581in\u2581a\u2581location\u2581some\u2581distance\u2581from\u2581the\u2581newsroom.\u2581They\u2581may\u2581also\u2581be\u2581edited\u2581in\u2581mobile\u2581editing\u2581vans,\u2581or\u2581satellite\u2581vans\u2581or\u2581trucks\u2581(such\u2581as\u2581electronic\u2581news\u2581gathering\u2581v",
+                  "max_activation": 64.592,
+                  "max_token": "room"
+                },
+                {
+                  "text_snippet": "room\u2581or\u2581a\u2581remote\u2581contribution\u2581edit\u2581suite\u2581in\u2581a\u2581location\u2581some\u2581distance\u2581from\u2581the\u2581newsroom.\u2581They\u2581may\u2581also\u2581be\u2581edited\u2581in\u2581mobile\u2581editing\u2581vans,\u2581or\u2581satellite\u2581vans\u2581or\u2581trucks\u2581(such\u2581as\u2581electronic\u2581news\u2581gathering\u2581v",
+                  "max_activation": 64.592,
+                  "max_token": "room"
+                }
+              ],
+              "promoted_tokens": [
+                "basicConfig",
+                "\u2581snippetHide",
+                "StandardCharsets",
+                "\u2581Jefus",
+                "\u0445\u044c\u0442\u0430\u043d",
+                "InjectAttribute",
+                "\u2581nakalista",
+                "findpost",
+                "\u2581\u017feveral",
+                "\u2581my\u017felf"
+              ],
+              "suppressed_tokens": [
+                "\u2581course",
+                "haba",
+                "\n\n",
+                "\u701b",
+                "PHA",
+                "\u2581courses",
+                "\u0432\u043e",
+                "\u2581amici",
+                "\u0437\u0443\u043b\u044c\u0442\u0430",
+                "dessous"
+              ],
+              "frac_nonzero": 0.00946
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 13253,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 25.625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.9062
+              },
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 2.9688
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 7446,
+                "pos": 13,
+                "edge_weight": -1.4609
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 1136,
+                "pos": 13,
+                "edge_weight": 0.9609
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 7,
+              "feature_idx": 9092,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 14.875
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13,
+                "edge_weight": 4.7188
+              },
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 2.1719
+              },
+              {
+                "type": "embedding",
+                "token": " represents",
+                "pos": 9,
+                "edge_weight": 0.8516
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 1889,
+                "pos": 13,
+                "edge_weight": -0.7969
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 9,
+              "feature_idx": 7435
+            },
+            "output": {
+              "layer": 9,
+              "feature_idx": 7435,
+              "label": " words and phrases related to news production and media",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "room\u2581or\u2581a\u2581remote\u2581contribution\u2581edit\u2581suite\u2581in\u2581a\u2581location\u2581some\u2581distance\u2581from\u2581the\u2581newsroom.\u2581They\u2581may\u2581also\u2581be\u2581edited\u2581in\u2581mobile\u2581editing\u2581vans,\u2581or\u2581satellite\u2581vans\u2581or\u2581trucks\u2581(such\u2581as\u2581electronic\u2581news\u2581gathering\u2581v",
+                  "max_activation": 55.447,
+                  "max_token": "\u2581news"
+                },
+                {
+                  "text_snippet": "room\u2581or\u2581a\u2581remote\u2581contribution\u2581edit\u2581suite\u2581in\u2581a\u2581location\u2581some\u2581distance\u2581from\u2581the\u2581newsroom.\u2581They\u2581may\u2581also\u2581be\u2581edited\u2581in\u2581mobile\u2581editing\u2581vans,\u2581or\u2581satellite\u2581vans\u2581or\u2581trucks\u2581(such\u2581as\u2581electronic\u2581news\u2581gathering\u2581v",
+                  "max_activation": 55.447,
+                  "max_token": "\u2581news"
+                },
+                {
+                  "text_snippet": "room\u2581or\u2581a\u2581remote\u2581contribution\u2581edit\u2581suite\u2581in\u2581a\u2581location\u2581some\u2581distance\u2581from\u2581the\u2581newsroom.\u2581They\u2581may\u2581also\u2581be\u2581edited\u2581in\u2581mobile\u2581editing\u2581vans,\u2581or\u2581satellite\u2581vans\u2581or\u2581trucks\u2581(such\u2581as\u2581electronic\u2581news\u2581gathering\u2581v",
+                  "max_activation": 55.447,
+                  "max_token": "\u2581news"
+                }
+              ],
+              "promoted_tokens": [
+                "ButterKnife",
+                "IBAction",
+                "NewUrlParser",
+                "addLast",
+                "\u2581Horne",
+                "istoitu",
+                "\u0642\u0627\u06cc\u0646\u0627\u0642\u200c\u0644\u0627\u0631",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "\u2581practised",
+                "dorff"
+              ],
+              "suppressed_tokens": [
+                "\u2581beginnetje",
+                "featureID",
+                "Arbitrage",
+                "ineno",
+                "Breite",
+                "Journalist",
+                "WireFormatLite",
+                "\u2581Journalism",
+                "EndContext",
+                "EDEFAULT"
+              ],
+              "frac_nonzero": 0.21513
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 9,
+              "feature_idx": 7435,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 4.6562
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.4219
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 9092,
+                "pos": 13,
+                "edge_weight": 1.6641
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13,
+                "edge_weight": 1.5078
+              },
+              {
+                "type": "feature",
+                "layer": 8,
+                "feature_idx": 15435,
+                "pos": 13,
+                "edge_weight": 1.4922
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 8,
+              "feature_idx": 8437
+            },
+            "output": {
+              "layer": 8,
+              "feature_idx": 8437,
+              "label": "content related to film festivals and production, particularly documentary films, and the recognition they receive.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581But\u2581otherwise,\u2581don't\u2581use\u2581them.\n\n<bos>Viktor\u2581Pimenov\n\nVaynakh\u2581Television\n\nMarch\u258111,\u25811996,\u2581in\u2581Grozny,\u2581Russia\n\nPimenov,\u2581a\u2581cameraman\u2581for\u2581Vaynakh\u2581Television,\u2581a\u2581Chechen\u2581station\u2581supported\u2581by\u2581Moscow-backed\u2581f",
+                  "max_activation": 54.122,
+                  "max_token": "aman"
+                },
+                {
+                  "text_snippet": "\u2581But\u2581otherwise,\u2581don't\u2581use\u2581them.\n\n<bos>Viktor\u2581Pimenov\n\nVaynakh\u2581Television\n\nMarch\u258111,\u25811996,\u2581in\u2581Grozny,\u2581Russia\n\nPimenov,\u2581a\u2581cameraman\u2581for\u2581Vaynakh\u2581Television,\u2581a\u2581Chechen\u2581station\u2581supported\u2581by\u2581Moscow-backed\u2581f",
+                  "max_activation": 54.122,
+                  "max_token": "aman"
+                },
+                {
+                  "text_snippet": "\u2581But\u2581otherwise,\u2581don't\u2581use\u2581them.\n\n<bos>Viktor\u2581Pimenov\n\nVaynakh\u2581Television\n\nMarch\u258111,\u25811996,\u2581in\u2581Grozny,\u2581Russia\n\nPimenov,\u2581a\u2581cameraman\u2581for\u2581Vaynakh\u2581Television,\u2581a\u2581Chechen\u2581station\u2581supported\u2581by\u2581Moscow-backed\u2581f",
+                  "max_activation": 54.122,
+                  "max_token": "aman"
+                }
+              ],
+              "promoted_tokens": [
+                "IntoConstraints",
+                "XmlAccessType",
+                "ValueStyle",
+                "\u2581Efq",
+                "\u2581Italijanski",
+                "libft",
+                "\u2581tartalomaj\u00e1nl\u00f3",
+                "\u2581BorderRadius",
+                "\u2581journalistic",
+                "#+#"
+              ],
+              "suppressed_tokens": [
+                "fr",
+                "anyahu",
+                "\u2581fr",
+                "\u2581Happ",
+                "<bos>",
+                "RegisterType",
+                "anam",
+                "\u2581pol",
+                "\u2581pied",
+                "\u53eb"
+              ],
+              "frac_nonzero": 0.01493
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 8,
+              "feature_idx": 8437,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 8.0625
+              },
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 3.9219
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": 1.9531
+              },
+              {
+                "type": "feature",
+                "layer": 7,
+                "feature_idx": 9092,
+                "pos": 13,
+                "edge_weight": 1.7266
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13,
+                "edge_weight": 1.4766
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-7",
+          "objective": "Trace L14:F4420 at position 13 (direct_effect=-0.1279) \u2014 this is a mid-layer feature. Identify what it encodes and trace back upstream as far as possible.",
+          "input_tokens": 50511,
+          "output_tokens": 3254,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 10432
+        }
+      },
+      "label": "SA-7"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 1,
+        "starting_feature_idx": 16233,
+        "starting_pos": 3,
+        "objective": "Trace L1:F16233 at position 3 (direct_effect=0.1279) \u2014 identify what this feature encodes and trace back to its source.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 1,
+            "feature_idx": 16233,
+            "pos": 3,
+            "label": "the word \"tips\" and the word \"unit\"",
+            "frac_nonzero": 0.01188,
+            "promoted_tokens": [
+              "WriteBarrier",
+              "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+              "Parcelize",
+              "\u2581initComponents",
+              "\u2581DriverManager",
+              "\u2581The\u017fe",
+              "\u2581Efq",
+              "TemporalType",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "AutoresizingMask"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 1301,
+            "pos": 3,
+            "label": " mentions of cancer and related terms like tumors",
+            "frac_nonzero": 0.01104,
+            "promoted_tokens": [
+              "\u2581chr\u00e9",
+              "\u2581sup\u00e9rieures",
+              "\u2581compl\u00e8tes",
+              "\u2581contemporain",
+              "\u2581sup\u00e9rieurs",
+              "\u2581religieuses",
+              "\u2581contemporaine",
+              "\u2581contempor\u00e1nea",
+              "\u2581\u00e9lev\u00e9s",
+              "\u2581d\u00e9lib"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8073,
+            "pos": 3,
+            "label": "references to a \"trick\" and possibly the people involved in performing or receiving it",
+            "frac_nonzero": 0.01042,
+            "promoted_tokens": [
+              "\u2581Majefty",
+              "\u2581The\u017fe",
+              "\u2581Efq",
+              "ReusableCell",
+              "BibitemShut",
+              "AccessorTable",
+              "\u2581\u017feveral",
+              "^(@)",
+              "drawal",
+              "\u2581feveral"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 0,
+            "from_feature_idx": 1301,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 16233,
+            "to_pos": 3,
+            "weight": 0.375
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 8073,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 16233,
+            "to_pos": 3,
+            "weight": -0.3223
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 1,
+            "to_feature_idx": 16233,
+            "to_pos": 3,
+            "weight": 13.6875,
+            "token": " stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 1,
+            "to_feature_idx": 16233,
+            "to_pos": 3,
+            "weight": -0.9648,
+            "token": " researches"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 1301,
+            "to_pos": 3,
+            "weight": 12.25,
+            "token": " stories"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 8073,
+            "to_pos": 3,
+            "weight": 13,
+            "token": " stories"
+          }
+        ],
+        "explanation": "The circuit tracing reveals that L1:F16233 at position 3 (encoding \"the word 'tips' and the word 'unit'\") is primarily driven by the input token \" stories\" at position 3 through a very strong direct connection (edge_weight=13.6875). The feature also receives excitatory input from L0:F1301 (cancer-related terms) and inhibitory input from L0:F8073 (\"trick\" references), both of which themselves are strongly connected to the \" stories\" token embedding. Additionally, there's direct inhibitory input from the \" researches\" token at position 2. The circuit is shallow with strong direct embedding-to-feature connections, suggesting this L1 feature is detecting patterns related to the word \"stories\" in the input.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 16233
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 16233,
+              "label": "the word \"tips\" and the word \"unit\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\nenergy\u2581than\u2581conventional\nmodels.\u2581These\u2581new-gener-ation\u2581air\u2581conditioners\noften\u2581have\u2581timers\u2581to\u2581turn\ndown\u2581the\u2581power\u2581when\u2581it\u2019s\nHot\u2581tips\u2581for\u2581not\u2581needed.\n\nSmart\u2581usage\u2581tips\nOnce\u2581you\u2581have\u2581the\n\nkeeping\u2581cool\u2581r",
+                  "max_activation": 40.782,
+                  "max_token": "\u2581tips"
+                },
+                {
+                  "text_snippet": "\nenergy\u2581than\u2581conventional\nmodels.\u2581These\u2581new-gener-ation\u2581air\u2581conditioners\noften\u2581have\u2581timers\u2581to\u2581turn\ndown\u2581the\u2581power\u2581when\u2581it\u2019s\nHot\u2581tips\u2581for\u2581not\u2581needed.\n\nSmart\u2581usage\u2581tips\nOnce\u2581you\u2581have\u2581the\n\nkeeping\u2581cool\u2581r",
+                  "max_activation": 40.782,
+                  "max_token": "\u2581tips"
+                },
+                {
+                  "text_snippet": "\nenergy\u2581than\u2581conventional\nmodels.\u2581These\u2581new-gener-ation\u2581air\u2581conditioners\noften\u2581have\u2581timers\u2581to\u2581turn\ndown\u2581the\u2581power\u2581when\u2581it\u2019s\nHot\u2581tips\u2581for\u2581not\u2581needed.\n\nSmart\u2581usage\u2581tips\nOnce\u2581you\u2581have\u2581the\n\nkeeping\u2581cool\u2581r",
+                  "max_activation": 40.782,
+                  "max_token": "\u2581tips"
+                }
+              ],
+              "promoted_tokens": [
+                "WriteBarrier",
+                "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+                "Parcelize",
+                "\u2581initComponents",
+                "\u2581DriverManager",
+                "\u2581The\u017fe",
+                "\u2581Efq",
+                "TemporalType",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "AutoresizingMask"
+              ],
+              "suppressed_tokens": [
+                "\n",
+                "\u2581tips",
+                "tips",
+                "\u2581Tips",
+                "Tips",
+                "\n\n",
+                "\u2581points",
+                "\u2581",
+                "\u2581highlights",
+                "points"
+              ],
+              "frac_nonzero": 0.01188
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 16233,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 13.6875
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": -0.9648
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 1301,
+                "pos": 3,
+                "edge_weight": 0.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.375
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8073,
+                "pos": 3,
+                "edge_weight": -0.3223
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1301
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 1301,
+              "label": " mentions of cancer and related terms like tumors",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u258117/18\u2581cancer-\u2581and\u25815/5\u2581HIV-patients,\u2581had\u2581a\u2581history\u2581of\u2581previous\u2581mucosal\u2581candidosis\u2581or\u2581candidemia.\u2581There\u2581was\u2581a\u2581significant\u2581difference\u2581histopathologically\u2581in\u2581depth\u2581of\u2581invasion\u2581of\u2581the\u2581Candida-organisms\u2581b",
+                  "max_activation": 32.916,
+                  "max_token": "\u2581cancer"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581cancer\u2581tissues\u2581of\u2581breast\u2581cancer,\u2581colorectal\u2581cancer,\u2581pancreatic\u2581ductal\u2581adenocarcinoma\u2581and\u2581prostate\u2581cancer\u2581([@b5-or-40-06-3392],[@b13-or-40-06-3392]--[@b14-or-40-06-3392],[@b22-or-40-06-3392]).\n\nIt\u2581",
+                  "max_activation": 32.799,
+                  "max_token": "\u2581cancer"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581cancer\u2581tissues\u2581of\u2581breast\u2581cancer,\u2581colorectal\u2581cancer,\u2581pancreatic\u2581ductal\u2581adenocarcinoma\u2581and\u2581prostate\u2581cancer\u2581([@b5-or-40-06-3392],[@b13-or-40-06-3392]--[@b14-or-40-06-3392],[@b22-or-40-06-3392]).\n\nIt\u2581",
+                  "max_activation": 32.799,
+                  "max_token": "\u2581cancer"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581chr\u00e9",
+                "\u2581sup\u00e9rieures",
+                "\u2581compl\u00e8tes",
+                "\u2581contemporain",
+                "\u2581sup\u00e9rieurs",
+                "\u2581religieuses",
+                "\u2581contemporaine",
+                "\u2581contempor\u00e1nea",
+                "\u2581\u00e9lev\u00e9s",
+                "\u2581d\u00e9lib"
+              ],
+              "suppressed_tokens": [
+                "`;\r",
+                "\u51fa\u7248\u5e74",
+                "*/\r\r",
+                "]\";",
+                "Tikang",
+                "\")));\r",
+                "\u2581disambiguazione",
+                ")\"),",
+                "']))\r",
+                "\u2581||\r"
+              ],
+              "frac_nonzero": 0.01104
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8073
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8073,
+              "label": "references to a \"trick\" and possibly the people involved in performing or receiving it",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581He\u2019d\u2581hunted\u2581buffalo\u2581and\u2581fought\u2581Indians\u2581and\u2581stolen\u2581gold\u2581from\u2581hardworking\u2581miners\u2581and\u2581sent\u2581men\u2581to\u2581the\u2581gallows.\u2581Now\u2581might\u2581be\u2581the\u2581time\u2581for\u2581him\u2581to\u2581meet\u2581his\u2581Maker.\u2581The\u2581trick\u2581was\u2581deciding\u2581how\u2581to\u2581kill\u2581him.\n\nD",
+                  "max_activation": 27.952,
+                  "max_token": "\u2581trick"
+                },
+                {
+                  "text_snippet": "quad\u2581\\textnormal{\u2581and\u2581}\\quad\u2581\u2581G_j=\\bigg|\\sqrt{f(x_j^*)}-\\frac{\\int_{J_j}\\sqrt{f(y)}\\nu_0(dy)}{\\nu_0(J_j)}\\bigg|.$$\u2581Using\u2581the\u2581same\u2581trick\u2581as\u2581in\u2581the\u2581proof\u2581of\u2581Lemma\u2581\\[lemma:ch4hellinger\\],\u2581we\u2581can\u2581bound:\u2581$",
+                  "max_activation": 27.889,
+                  "max_token": "\u2581trick"
+                },
+                {
+                  "text_snippet": "asmic\u2581buzz,\u2581although\u2581this\u2581time\u2581it\u2581was\u2581my\u2581butthole\u2581that\u2581was\u2581stretched.\u2581Poor\u2581Spike\u2581didn\u2019t\u2581get\u2581to\u2581do\u2581his\u2581trick\u2581this\u2581time\u2581as\u2581the\u2581shower\u2581cleared\u2581off\u2581all\u2581the\u2581spooge\u2581before\u2581I\u2581had\u2581a\u2581chance\u2581to\u2581call\u2581him\u2581into\u2581th",
+                  "max_activation": 27.769,
+                  "max_token": "\u2581trick"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Majefty",
+                "\u2581The\u017fe",
+                "\u2581Efq",
+                "ReusableCell",
+                "BibitemShut",
+                "AccessorTable",
+                "\u2581\u017feveral",
+                "^(@)",
+                "drawal",
+                "\u2581feveral"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "\u00fa",
+                "\u00e1",
+                "n",
+                "l",
+                "r",
+                "\u00e4",
+                "le",
+                "\u00f3",
+                "\\"
+              ],
+              "frac_nonzero": 0.01042
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 1301,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 12.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.5039
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": 0.4746
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.123
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8073,
+              "pos": 3
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 13.0
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.2451
+              },
+              {
+                "type": "embedding",
+                "token": " researches",
+                "pos": 2,
+                "edge_weight": -0.2363
+              },
+              {
+                "type": "embedding",
+                "token": "He",
+                "pos": 1,
+                "edge_weight": 0.0304
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-8",
+          "objective": "Trace L1:F16233 at position 3 (direct_effect=0.1279) \u2014 identify what this feature encodes and trace back to its source.",
+          "input_tokens": 29674,
+          "output_tokens": 1858,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-8"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 2711,
+        "starting_pos": 20,
+        "objective": "Trace L0:F2711 at position 20 (direct_effect=-0.1104) \u2014 identify what this feature encodes and trace back to its source.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 2711,
+            "pos": 20,
+            "label": "the word \"foreign.\"",
+            "frac_nonzero": 0.01464,
+            "promoted_tokens": [
+              "\u2581autorytatywna",
+              "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+              "Port\u00e1ly",
+              "\u2581Paglinawan",
+              "\u2581\u0645\u0634\u064a\u0646",
+              "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627",
+              " populasyon",
+              "Personendaten",
+              "setVerticalGroup",
+              "\u2581&___"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 20,
+            "to_layer": 0,
+            "to_feature_idx": 2711,
+            "to_pos": 20,
+            "weight": 25.75,
+            "from_token": " foreign"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 2711,
+            "to_pos": 20,
+            "weight": -0.1377,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 11,
+            "to_layer": 0,
+            "to_feature_idx": 2711,
+            "to_pos": 20,
+            "weight": 0.084,
+            "from_token": " country"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 13,
+            "to_layer": 0,
+            "to_feature_idx": 2711,
+            "to_pos": 20,
+            "weight": 0.0732,
+            "from_token": " journalistic"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 18,
+            "to_layer": 0,
+            "to_feature_idx": 2711,
+            "to_pos": 20,
+            "weight": 0.064,
+            "from_token": " on"
+          }
+        ],
+        "explanation": "L0:F2711 at position 20 is a word detector feature for the token \"foreign\" (label: \"the word 'foreign.'\"). It has a direct effect of -0.1104 on the empty string output token, meaning it pushes against empty string predictions.\n\nTracing upstream shows it's primarily fed directly by the token embedding for \"foreign\" at position 20 with a strong edge weight of 25.75, confirming it's a direct word detector. There are also minor connections to other tokens: a small negative connection to <bos> (beginning of sequence token) and small positive connections to \"country\", \"journalistic\", and \"on\" tokens, though these are much weaker.\n\nThe feature has low frac_nonzero (0.01464), indicating it's quite specific and only activates rarely. Its promoted tokens include various foreign language words, suggesting it's associated with foreign/linguistic content detection. This feature appears to be part of a circuit that detects the presence of the word \"foreign\" in the input and influences output predictions accordingly.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2711
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2711,
+              "label": "the word \"foreign.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581Korean\u2581Peninsula\u2581to\u2581become\u2581independent\u2581once\u2581again.\n\nThey\u2581have\u2581been\u2581artificially\u2581divided\u2581in\u2581order\u2581to\u2581put\u2581under\u2581the\u2581control\u2581of\u2581the\u2581forces\u2581in\u2581Europe.\u2581There\u2581is\u2581no\u2581need\u2581for\u2581the\u2581Korean\u2581people\u2581to\u2581be\u2581div",
+                  "max_activation": 40.123,
+                  "max_token": "\u2581foreign"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581Korean\u2581Peninsula\u2581to\u2581become\u2581independent\u2581once\u2581again.\n\nThey\u2581have\u2581been\u2581artificially\u2581divided\u2581in\u2581order\u2581to\u2581put\u2581under\u2581the\u2581control\u2581of\u2581the\u2581forces\u2581in\u2581Europe.\u2581There\u2581is\u2581no\u2581need\u2581for\u2581the\u2581Korean\u2581people\u2581to\u2581be\u2581div",
+                  "max_activation": 40.123,
+                  "max_token": "\u2581foreign"
+                },
+                {
+                  "text_snippet": "\u2581As\u2581part\u2581of\u2581his\u2581plea,\u2581Patten\u2581admitted\u2581that\u2581he\u2581steered\u2581an\u2581illegal\u2581foreign\u2581donation\u2581to\u2581DDT\u2019s\u2581inauguration\u2581from\u2581a\u2581Ukrainian\u2581businessman.\n\nDDT\u2019s\u2581latest\u2581comment\u2581about\u2581Sessions,\u2581who\u2581he\u2581has\u2581tried\u2581to\u2581separate",
+                  "max_activation": 39.992,
+                  "max_token": "\u2581foreign"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581autorytatywna",
+                "\u0411\u0438\u043b\u0433\u0430\u043b\u0434\u0430\u0445\u0430\u0440\u0448",
+                "Port\u00e1ly",
+                "\u2581Paglinawan",
+                "\u2581\u0645\u0634\u064a\u0646",
+                "\u2581\u062a\u0636\u064a\u0641\u0644\u0647\u0627",
+                "tanleria",
+                "Personendaten",
+                "setVerticalGroup",
+                "\u2581&___"
+              ],
+              "suppressed_tokens": [
+                "Been",
+                "\u2581sito",
+                "\u2581property",
+                "activar",
+                "\u2581\u0447\u0442\u043e\u0431",
+                "\u2581",
+                "property",
+                "1",
+                "\u2581organiser",
+                "\u2581centre"
+              ],
+              "frac_nonzero": 0.01464
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2711,
+              "pos": 20,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " foreign",
+                "pos": 20,
+                "edge_weight": 25.75
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.1377
+              },
+              {
+                "type": "embedding",
+                "token": " country",
+                "pos": 11,
+                "edge_weight": 0.084
+              },
+              {
+                "type": "embedding",
+                "token": " journalistic",
+                "pos": 13,
+                "edge_weight": 0.0732
+              },
+              {
+                "type": "embedding",
+                "token": " on",
+                "pos": 18,
+                "edge_weight": 0.064
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_features",
+            "input": {
+              "token": "",
+              "k": 10
+            },
+            "output": [
+              {
+                "layer": 0,
+                "feature_idx": 14906,
+                "pos": 3,
+                "activation": 6.7812,
+                "direct_effect": -0.2207
+              },
+              {
+                "layer": 1,
+                "feature_idx": 14812,
+                "pos": 3,
+                "activation": 12.0,
+                "direct_effect": 0.1885
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11603,
+                "pos": 27,
+                "activation": 27.5,
+                "direct_effect": -0.1631
+              },
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 1,
+                "activation": 17.75,
+                "direct_effect": -0.1621
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11261,
+                "pos": 3,
+                "activation": 7.9375,
+                "direct_effect": 0.1602
+              },
+              {
+                "layer": 0,
+                "feature_idx": 8061,
+                "pos": 12,
+                "activation": 38.0,
+                "direct_effect": -0.1328
+              },
+              {
+                "layer": 14,
+                "feature_idx": 4420,
+                "pos": 13,
+                "activation": 29.125,
+                "direct_effect": -0.1279
+              },
+              {
+                "layer": 1,
+                "feature_idx": 16233,
+                "pos": 3,
+                "activation": 7.875,
+                "direct_effect": 0.1279
+              },
+              {
+                "layer": 0,
+                "feature_idx": 2711,
+                "pos": 20,
+                "activation": 20.25,
+                "direct_effect": -0.1104
+              },
+              {
+                "layer": 0,
+                "feature_idx": 6962,
+                "pos": 7,
+                "activation": 10.1875,
+                "direct_effect": 0.106
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-9",
+          "objective": "Trace L0:F2711 at position 20 (direct_effect=-0.1104) \u2014 identify what this feature encodes and trace back to its source.",
+          "input_tokens": 17877,
+          "output_tokens": 1903,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-9"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 6962,
+        "starting_pos": 7,
+        "objective": "Trace L0:F6962 at position 7 (direct_effect=0.106) \u2014 identify what this feature encodes and trace back to its source.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 6962,
+            "pos": 7,
+            "label": "the token \"env\" possibly in code snippets",
+            "frac_nonzero": 0.02635,
+            "promoted_tokens": [
+              "\u2581",
+              "\u2581the",
+              "\u2581\u2581",
+              "\n\n",
+              "\n",
+              "<h2>",
+              "\u2581The",
+              "</h2>",
+              "\u2581A",
+              "\u2581I"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 7,
+            "to_layer": 0,
+            "to_feature_idx": 6962,
+            "to_pos": 7,
+            "weight": 14.8125,
+            "from_token": "same"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 6962,
+            "to_pos": 7,
+            "weight": -1.0781,
+            "from_token": "at"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 6962,
+            "to_pos": 7,
+            "weight": 0.793,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 6962,
+            "to_pos": 7,
+            "weight": 0.4082,
+            "from_token": " the"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 6962,
+            "to_pos": 7,
+            "weight": 0.124,
+            "from_token": " stories"
+          }
+        ],
+        "explanation": "L0:F6962 at position 7 encodes detection of the token \\\"env\\\" (likely in code/technical contexts), but in this specific input sequence, it is primarily triggered by the token \\\"same\\\" at position 7 with a strong positive edge weight (14.8125). The feature has low sparsity (frac_nonzero=0.02635), indicating it's specific and selective. Interestingly, it promotes general formatting tokens like spaces, newlines, and HTML tags, suggesting it might be part of a broader pattern recognition circuit for technical/code formatting rather than just the literal \\\"env\\\" token. The circuit terminates at the token embedding level with \\\"same\\\" as the main driver.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6962
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6962,
+              "label": "the token \"env\" possibly in code snippets",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581These\u2581data\u2581highlight\u2581the\u2581persistence\u2581of\u2581CCR5\u2581tropism\u2581even\u2581in\u2581long-term\u2581infections,\u2581possibly\u2581related\u2581to\u2581differences\u2581within\u2581the\u2581*env*variable\u2581loops\u2581\\[[@B37]\\],\u2581and\u2581contrasts\u2581with\u2581other\u2581subtypes,\u2581espec",
+                  "max_activation": 27.327,
+                  "max_token": "env"
+                },
+                {
+                  "text_snippet": "\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581expect(descriptor.enumerable).toBeTrue();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581});\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581it('should\u2581provide\u2581a\u2581null\u2581enclosingScopeId\u2581in\u2581debug\u2581mode\u2581for\u2581nodes\u2581with\u2581no\u2581enclosing\u2581scope',\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581()\u2581=>\u2581{\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 26.861,
+                  "max_token": "env"
+                },
+                {
+                  "text_snippet": "\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581expect(descriptor.enumerable).toBeTrue();\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581});\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581it('should\u2581provide\u2581a\u2581null\u2581enclosingScopeId\u2581in\u2581debug\u2581mode\u2581for\u2581nodes\u2581with\u2581no\u2581enclosing\u2581scope',\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581()\u2581=>\u2581{\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581",
+                  "max_activation": 26.861,
+                  "max_token": "env"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581",
+                "\u2581the",
+                "\u2581\u2581",
+                "\n\n",
+                "\n",
+                "<h2>",
+                "\u2581The",
+                "</h2>",
+                "\u2581A",
+                "\u2581I"
+              ],
+              "suppressed_tokens": [
+                "########.",
+                "expandindo",
+                "\u2581utafitiHapana",
+                "'},\r",
+                "\u2581\u05e9\u05d5\u05dc\u05d9\u05d9\u05dd",
+                "\u2581LBS",
+                "\u2581AppModule",
+                "IVEREF",
+                "\u2581*)__",
+                "'],\r"
+              ],
+              "frac_nonzero": 0.02635
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6962,
+              "pos": 7,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " same",
+                "pos": 7,
+                "edge_weight": 14.8125
+              },
+              {
+                "type": "embedding",
+                "token": " at",
+                "pos": 5,
+                "edge_weight": -1.0781
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.793
+              },
+              {
+                "type": "embedding",
+                "token": " the",
+                "pos": 6,
+                "edge_weight": 0.4082
+              },
+              {
+                "type": "embedding",
+                "token": " stories",
+                "pos": 3,
+                "edge_weight": 0.124
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-10",
+          "objective": "Trace L0:F6962 at position 7 (direct_effect=0.106) \u2014 identify what this feature encodes and trace back to its source.",
+          "input_tokens": 13281,
+          "output_tokens": 1229,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-10"
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_he",
+            "label": "Emb: He (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_stories",
+            "label": "Emb: stories (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_journalistic",
+            "label": "Emb: journalistic (pos 13)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "emb_foreign",
+            "label": "Emb: foreign (pos 20)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "emb_too",
+            "label": "Emb: too (pos 27)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 27
+              }
+            ]
+          },
+          {
+            "id": "male_pronoun_detector",
+            "label": "Male Pronoun Detection (He)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "narrative_stories_feature",
+            "label": "Narrative/Stories Detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 61,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 14906,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11261,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "stories_abstraction",
+            "label": "Stories Abstraction (L1)",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 14812,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 16233,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "journalism_chain",
+            "label": "Journalism Media Chain (L4-L14)",
+            "layer": 9,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13
+              },
+              {
+                "layer": 7,
+                "feature_idx": 9092,
+                "pos": 13
+              },
+              {
+                "layer": 8,
+                "feature_idx": 8437,
+                "pos": 13
+              },
+              {
+                "layer": 9,
+                "feature_idx": 7435,
+                "pos": 13
+              },
+              {
+                "layer": 14,
+                "feature_idx": 4420,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "foreign_word_detector",
+            "label": "Foreign Word Detector",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2711,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "grammar_markers",
+            "label": "Grammar Markers (too, in)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11603,
+                "pos": 27
+              },
+              {
+                "layer": 0,
+                "feature_idx": 8061,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Probe Direction Output",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_he",
+            "to": "male_pronoun_detector"
+          },
+          {
+            "from": "male_pronoun_detector",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_stories",
+            "to": "narrative_stories_feature"
+          },
+          {
+            "from": "emb_stories",
+            "to": "stories_abstraction"
+          },
+          {
+            "from": "narrative_stories_feature",
+            "to": "output_logit"
+          },
+          {
+            "from": "stories_abstraction",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_journalistic",
+            "to": "journalism_chain"
+          },
+          {
+            "from": "journalism_chain",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_foreign",
+            "to": "foreign_word_detector"
+          },
+          {
+            "from": "foreign_word_detector",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_too",
+            "to": "grammar_markers"
+          },
+          {
+            "from": "grammar_markers",
+            "to": "output_logit"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_he",
+            "label": "Emb: He (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_stories",
+            "label": "Emb: stories (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_journalistic",
+            "label": "Emb: journalistic (pos 13)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "emb_foreign",
+            "label": "Emb: foreign (pos 20)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "emb_too",
+            "label": "Emb: too (pos 27)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 27
+              }
+            ]
+          },
+          {
+            "id": "male_pronoun_detector",
+            "label": "Male Pronoun Detection (He)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 1069,
+                "pos": 1
+              },
+              {
+                "layer": 0,
+                "feature_idx": 310,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "narrative_stories_feature",
+            "label": "Narrative/Stories Detection",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 61,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 14906,
+                "pos": 3
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11261,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "stories_abstraction",
+            "label": "Stories Abstraction (L1)",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 14812,
+                "pos": 3
+              },
+              {
+                "layer": 1,
+                "feature_idx": 16233,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "journalism_chain",
+            "label": "Journalism Media Chain (L4-L14)",
+            "layer": 9,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 13253,
+                "pos": 13
+              },
+              {
+                "layer": 7,
+                "feature_idx": 9092,
+                "pos": 13
+              },
+              {
+                "layer": 8,
+                "feature_idx": 8437,
+                "pos": 13
+              },
+              {
+                "layer": 9,
+                "feature_idx": 7435,
+                "pos": 13
+              },
+              {
+                "layer": 14,
+                "feature_idx": 4420,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "foreign_word_detector",
+            "label": "Foreign Word Detector",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 2711,
+                "pos": 20
+              }
+            ]
+          },
+          {
+            "id": "grammar_markers",
+            "label": "Grammar Markers (too, in)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 11603,
+                "pos": 27
+              },
+              {
+                "layer": 0,
+                "feature_idx": 8061,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "output_logit",
+            "label": "Probe Direction Output",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_he",
+            "to": "male_pronoun_detector"
+          },
+          {
+            "from": "male_pronoun_detector",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_stories",
+            "to": "narrative_stories_feature"
+          },
+          {
+            "from": "emb_stories",
+            "to": "stories_abstraction"
+          },
+          {
+            "from": "narrative_stories_feature",
+            "to": "output_logit"
+          },
+          {
+            "from": "stories_abstraction",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_journalistic",
+            "to": "journalism_chain"
+          },
+          {
+            "from": "journalism_chain",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_foreign",
+            "to": "foreign_word_detector"
+          },
+          {
+            "from": "foreign_word_detector",
+            "to": "output_logit"
+          },
+          {
+            "from": "emb_too",
+            "to": "grammar_markers"
+          },
+          {
+            "from": "grammar_markers",
+            "to": "output_logit"
+          }
+        ],
+        "status": "circuit_saved",
+        "warning": "Circuit reaches early layers but not token embedding nodes. Consider tracing to embedding nodes to identify which specific input tokens drive the prediction."
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 24877,
+      "output_tokens": 4633,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 38503
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace the path from L0:F11603 at position 27 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1631.",
+        "input_tokens": 12922,
+        "output_tokens": 1070,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace the path from L0:F14906 at position 3 \u2014 identify what this feature encodes and trace back to its source. This is a high-impact feature (direct_effect=-0.2207) on the probe classification.",
+        "input_tokens": 25129,
+        "output_tokens": 1994,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace the path from L0:F1069 at position 1 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=-0.1621.",
+        "input_tokens": 25327,
+        "output_tokens": 1992,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace the path from L1:F14812 at position 3 \u2014 identify what this feature encodes and trace back to its source. This feature has direct_effect=0.1885.",
+        "input_tokens": 45585,
+        "output_tokens": 2621,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-6",
+        "objective": "Trace L0:F8061 at position 12 (direct_effect=-0.1328) \u2014 identify what this feature encodes and trace back to its source.",
+        "input_tokens": 9111,
+        "output_tokens": 1358,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace L0:F11261 at position 3 (direct_effect=0.1602) \u2014 identify what this feature encodes and trace back to its source.",
+        "input_tokens": 17989,
+        "output_tokens": 1446,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-8",
+        "objective": "Trace L1:F16233 at position 3 (direct_effect=0.1279) \u2014 identify what this feature encodes and trace back to its source.",
+        "input_tokens": 29674,
+        "output_tokens": 1858,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-7",
+        "objective": "Trace L14:F4420 at position 13 (direct_effect=-0.1279) \u2014 this is a mid-layer feature. Identify what it encodes and trace back upstream as far as possible.",
+        "input_tokens": 50511,
+        "output_tokens": 3254,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10432
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-10",
+        "objective": "Trace L0:F6962 at position 7 (direct_effect=0.106) \u2014 identify what this feature encodes and trace back to its source.",
+        "input_tokens": 13281,
+        "output_tokens": 1229,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-9",
+        "objective": "Trace L0:F2711 at position 20 (direct_effect=-0.1104) \u2014 identify what this feature encodes and trace back to its source.",
+        "input_tokens": 17877,
+        "output_tokens": 1903,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.08589008199999999,
+  "turns": 7,
+  "elapsed_seconds": 380.37659850902855,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T10-22-54"
+}

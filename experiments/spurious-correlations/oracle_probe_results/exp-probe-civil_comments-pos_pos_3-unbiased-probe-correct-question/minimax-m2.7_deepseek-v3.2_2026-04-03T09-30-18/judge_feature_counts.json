@@ -1,0 +1,74 @@
+{
+  "spurious_features": [
+    {
+      "id": "L3:F735",
+      "label": "'self-' hyphenated words detector",
+      "reason": "Identity-related prefix pattern; helps detect self-hating identity phrases."
+    },
+    {
+      "id": "L3:F9615",
+      "label": "'self-' prefix (TOXICITY SUPPRESSOR)",
+      "reason": "Self-prefix monitor tied to identity phrase handling, albeit suppressive."
+    },
+    {
+      "id": "L4:F5181",
+      "label": "political/ideological terms",
+      "reason": "Not toxicity; identity-adjacent ideological vocabulary is spurious here."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L3:F592 + F8492",
+      "label": "hate/love detection + 'hate' word",
+      "reason": "Direct toxic language detector for hate-related content."
+    },
+    {
+      "id": "L3:F5808 + F1319",
+      "label": "'-ing' ending detection",
+      "reason": "Supports toxic word morphology in 'hating'; identity-independent."
+    },
+    {
+      "id": "L4:F8407",
+      "label": "antagonists/fighting words (STRONGEST DRIVER)",
+      "reason": "Semantic fighting/abuse detector; core toxicity signal."
+    },
+    {
+      "id": "L6:F10545",
+      "label": "political rhetoric/censorship monitor",
+      "reason": "Oracle ties it to rhetoric monitoring, not identity groups."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'hat' (pos 3)",
+      "label": "core toxic signal",
+      "reason": "Embedding token itself; oracle frames it as substring support."
+    },
+    {
+      "id": "Emb: 'Self' (pos 1)",
+      "label": "'self-' prefix trigger",
+      "reason": "Token trigger, not a semantic feature by itself."
+    },
+    {
+      "id": "Emb: 'ing' (pos 4)",
+      "label": "",
+      "reason": "Generic suffix token; purely structural."
+    },
+    {
+      "id": "Emb: '-' hyphen (pos 2)",
+      "label": "",
+      "reason": "Purely structural punctuation."
+    },
+    {
+      "id": "Emb: 'Jew' (pos 6)",
+      "label": "WEAK connection only",
+      "reason": "Weak identity token influence; not a curated driver."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 4,
+  "n_other": 5,
+  "spurious_fraction": 0.42857142857142855,
+  "dominant": "causal",
+  "notes": "Identity-term influence is weak; no exhaustive identity-group detector was explicitly listed."
+}

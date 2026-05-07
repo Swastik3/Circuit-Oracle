@@ -1,0 +1,88 @@
+{
+  "spurious_features": [],
+  "causal_features": [
+    {
+      "id": "Emb: 'educating' (pos 3)",
+      "label": "embed/output",
+      "reason": "Professional education/nutrition context."
+    },
+    {
+      "id": "Emb: 'clients' (pos 5)",
+      "label": "embed/output",
+      "reason": "Client/service context for profession."
+    },
+    {
+      "id": "Emb: 'eat' (pos 9)",
+      "label": "embed/output",
+      "reason": "Food/eating terminology."
+    },
+    {
+      "id": "Emb: 'healthier' (pos 10)",
+      "label": "embed/output",
+      "reason": "Health/wellness vocabulary."
+    },
+    {
+      "id": "Emb: 'Nutrition' (pos 20)",
+      "label": "embed/output",
+      "reason": "Direct profession-domain term."
+    },
+    {
+      "id": "Emb: 'Diet' (pos 22)",
+      "label": "embed/output",
+      "reason": "Direct profession-domain term."
+    },
+    {
+      "id": "Client/Service Detection (L0-L2)",
+      "label": "L0:F3106@5, L1:F15251@5, L2:F12676@5",
+      "reason": "Detects client/service profession context."
+    },
+    {
+      "id": "Eating/Food Detection (L0-L2)",
+      "label": "L0:F2175@9, L1:F2750@9, L2:F12264@9",
+      "reason": "Detects eating and food concepts."
+    },
+    {
+      "id": "Health/Wellness Detection (L0-L2)",
+      "label": "L0:F9163@10, L1:F12052@10, L2:F14771@10",
+      "reason": "Detects health and wellness concepts."
+    },
+    {
+      "id": "Nutrition Domain (L3-L4)",
+      "label": "L3:F9216@9, L4:F1626@9, L4:F12213@10, L4:F13412@22, L4:F13412@23",
+      "reason": "Abstract nutrition-domain feature."
+    },
+    {
+      "id": "Food/Nutrition Terms (L6)",
+      "label": "L6:F11327@9, L6:F11327@23, L6:F6115@5",
+      "reason": "Food and nutrition terminology."
+    },
+    {
+      "id": "Scientific Nutrition Context (L17-L19)",
+      "label": "L17:F7545@22, L17:F7545@20, L19:F1589@20, L19:F1589@22, L19:F1589@23",
+      "reason": "Scientific nutrition context."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: 'She' (pos 1)",
+      "label": "embed/output",
+      "reason": "Gender marker; incidental, not primary signal."
+    },
+    {
+      "id": "Emb: 'her' (pos 4)",
+      "label": "embed/output",
+      "reason": "Gender marker; incidental, not primary signal."
+    },
+    {
+      "id": "Output Probe Direction",
+      "label": "",
+      "reason": "Structural output direction only."
+    }
+  ],
+  "n_spurious": 0,
+  "n_causal": 12,
+  "n_other": 3,
+  "spurious_fraction": 0.0,
+  "dominant": "causal",
+  "notes": "No spurious features judged primary; gender tokens were incidental. Structural output direction counted as other."
+}

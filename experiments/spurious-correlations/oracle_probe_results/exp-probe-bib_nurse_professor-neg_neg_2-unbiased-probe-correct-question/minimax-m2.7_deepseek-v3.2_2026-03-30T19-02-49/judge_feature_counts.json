@@ -1,0 +1,114 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F15320",
+      "label": "the word \"ice\"",
+      "reason": "Fires on 'received'; explicitly labeled spurious."
+    },
+    {
+      "id": "L0:F2994",
+      "label": "the pronoun \"his\" and the pronoun \"he.\"",
+      "reason": "Gender pronoun feature; spurious by task definition."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F1372",
+      "label": "the word \"engineer\"",
+      "reason": "Detects engineering/profession terminology."
+    },
+    {
+      "id": "L14:F5600",
+      "label": "places and regions, particularly in Canada",
+      "reason": "Supports university/location profession context."
+    },
+    {
+      "id": "L7:F14129",
+      "label": "academic degrees, universities, and people associated with them",
+      "reason": "Detects PhD and academic credential context."
+    },
+    {
+      "id": "L2:F16309",
+      "label": "people's names",
+      "reason": "Name detector used as subject identification."
+    },
+    {
+      "id": "L6:F3235",
+      "label": "academic publications, math, and scientific institutions",
+      "reason": "Institution/academic-context feature."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F7532",
+      "label": null,
+      "reason": "Proper noun detector; generic structural feature."
+    },
+    {
+      "id": "L0:F6226",
+      "label": null,
+      "reason": "Proper noun detector; generic structural feature."
+    },
+    {
+      "id": "L0:F6414",
+      "label": null,
+      "reason": "Engineer-related feature; label not specific enough."
+    },
+    {
+      "id": "L0:F15570",
+      "label": null,
+      "reason": "Engineer-related feature; label not specific enough."
+    },
+    {
+      "id": "L4:F8439",
+      "label": null,
+      "reason": "Canadian geography feature; too generic."
+    },
+    {
+      "id": "L7:F8870",
+      "label": null,
+      "reason": "Canadian geography feature; too generic."
+    },
+    {
+      "id": "L0:F4687",
+      "label": null,
+      "reason": "Place-name detector; generic location feature."
+    },
+    {
+      "id": "L0:F11333",
+      "label": "the 1990's",
+      "reason": "Time/year detector; not causal or spurious."
+    },
+    {
+      "id": "L0:F11132",
+      "label": null,
+      "reason": "Year-related feature; generic temporal signal."
+    },
+    {
+      "id": "L6:F3235",
+      "label": "academic publications, math, and scientific institutions",
+      "reason": "Academic-context feature already listed as causal."
+    },
+    {
+      "id": "L4:F5150",
+      "label": null,
+      "reason": "University/context feature; not clearly causal."
+    },
+    {
+      "id": "L2:F14934",
+      "label": null,
+      "reason": "Generic years-in-1900s detector."
+    },
+    {
+      "id": "L4:F9757",
+      "label": null,
+      "reason": "Acronyms/IDs/symbols; explicitly generic."
+    }
+  ],
+  "n_spurious": 2,
+  "n_causal": 5,
+  "n_other": 13,
+  "spurious_fraction": 0.2857142857142857,
+  "dominant": "causal",
+  "notes": "Both classes present; one causal feature duplicated in oracle labels, counted once."
+}

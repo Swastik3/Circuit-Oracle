@@ -1,0 +1,48 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F11668",
+      "label": "Baseball terminology",
+      "reason": "Sports association for 'Indians', unrelated to toxicity."
+    },
+    {
+      "id": "L2:F2123",
+      "label": "Suffix detector (-ian, -jani, -iti)",
+      "reason": "Morphological ethnicity/nationality matcher, not toxic content."
+    },
+    {
+      "id": "L3:F13473",
+      "label": "Racial/ethnic groups (US-centric)",
+      "reason": "Demographic mention detector, independent of toxicity."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F148",
+      "label": "Sexual assault/abuse semantics",
+      "reason": "Directly encodes abusive/toxic meaning."
+    },
+    {
+      "id": "L3:F4852",
+      "label": "Abuse morphology (-ive suffix)",
+      "reason": "Part of abuse-related semantic pathway."
+    },
+    {
+      "id": "L6:F10545",
+      "label": "Political rhetoric (race/gov)",
+      "reason": "Used here as toxic-content pathway signal."
+    },
+    {
+      "id": "L5:F3229",
+      "label": "Violent assault/murder",
+      "reason": "Direct violence/toxicity semantics."
+    }
+  ],
+  "other_features": [],
+  "n_spurious": 3,
+  "n_causal": 4,
+  "n_other": 0,
+  "spurious_fraction": 0.42857142857142855,
+  "dominant": "mixed",
+  "notes": "All curated features were classified; no other features. Identity signals and toxic semantics both present."
+}

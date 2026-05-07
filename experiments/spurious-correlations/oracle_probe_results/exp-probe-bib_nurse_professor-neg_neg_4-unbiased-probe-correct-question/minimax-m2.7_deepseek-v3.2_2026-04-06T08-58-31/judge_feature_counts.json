@@ -1,0 +1,129 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F1069",
+      "label": "Gender Detection: Male pronouns (He)",
+      "reason": "Direct male pronoun detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F4627",
+      "label": "Profession Detection: Director",
+      "reason": "Direct profession indicator."
+    },
+    {
+      "id": "L0:F12904",
+      "label": "Authority Positions Detection",
+      "reason": "Detects profession-related authority roles."
+    },
+    {
+      "id": "L1:F14934",
+      "label": "Technical Term: Grid",
+      "reason": "Technical vocabulary tied to profession."
+    },
+    {
+      "id": "L4:F12934",
+      "label": "Academic Journal Names",
+      "reason": "Academic/professional terminology."
+    },
+    {
+      "id": "L0:F5743",
+      "label": "Laboratory Institution",
+      "reason": "Workplace/institution signal."
+    },
+    {
+      "id": "L1:F10132",
+      "label": "Ph.D. Detection",
+      "reason": "Academic credential signal."
+    },
+    {
+      "id": "L2:F10852",
+      "label": "Ph.D. Detection",
+      "reason": "Academic credential signal."
+    },
+    {
+      "id": "L7:F14129",
+      "label": "Academic Degrees & Universities",
+      "reason": "Education-related profession cue."
+    },
+    {
+      "id": "L6:F2254",
+      "label": "Academic Degrees & Universities",
+      "reason": "Education-related profession cue."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: He (pos 1)",
+      "label": "GENDER MARKER",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: also (pos 3)",
+      "label": "",
+      "reason": "Generic lexical item."
+    },
+    {
+      "id": "Emb: Director (pos 4)",
+      "label": "PROFESSION",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: Grid (pos 7)",
+      "label": "",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: Laboratory (pos 11)",
+      "label": "ACADEMIC",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: Ph.D. (pos 38-40)",
+      "label": "ACADEMIC CREDENTIAL",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "Emb: Korea (pos 46)",
+      "label": "NATIONALITY",
+      "reason": "Input token, not a circuit feature."
+    },
+    {
+      "id": "L14:F15086",
+      "label": "Korea/Nationality Detection",
+      "reason": "Nationality, not profession or gender."
+    },
+    {
+      "id": "L7:F13010",
+      "label": "Korea/Nationality Detection",
+      "reason": "Nationality, not profession or gender."
+    },
+    {
+      "id": "L5:F5563",
+      "label": "Korea/Nationality Detection",
+      "reason": "Nationality, not profession or gender."
+    },
+    {
+      "id": "L6:F3774",
+      "label": "Korea/Nationality Detection",
+      "reason": "Nationality, not profession or gender."
+    },
+    {
+      "id": "L1:F10575",
+      "label": "Korea/Nationality Detection",
+      "reason": "Nationality, not profession or gender."
+    },
+    {
+      "id": "Probe Output (Classification Score)",
+      "label": "",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 9,
+  "n_other": 13,
+  "spurious_fraction": 0.1,
+  "dominant": "causal",
+  "notes": "Gender class present; other listed features are causal or other. Nationality features are other."
+}

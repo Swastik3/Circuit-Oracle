@@ -1,0 +1,49 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F7509",
+      "label": "female pronouns and words like daughter and husband that refer to women",
+      "reason": "Explicit female pronoun detector; gender marker."
+    },
+    {
+      "id": "L1:F4232",
+      "label": "Possessive Pronoun 'her' Detector",
+      "reason": "Directly detects a gendered pronoun."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "references to women, potentially triggered by pronouns and titles",
+      "reason": "Female-reference detector; gender marker signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F8854",
+      "label": "the word \"nurse\" as well as some pronouns",
+      "reason": "Profession indicator: nurse."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L1:F9413",
+      "label": "Lunch Mention Detector",
+      "reason": "Food/lunch cue; not profession or gender."
+    },
+    {
+      "id": "L2:F6319",
+      "label": "Dining/Food Detector",
+      "reason": "Generic food detector; unrelated to task classes."
+    },
+    {
+      "id": "L2:F14626",
+      "label": "Lunchtime Meals Detector",
+      "reason": "Meal-related structural/content cue; not causal."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 1,
+  "n_other": 3,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "Full pass completed. Spurious features dominate; causal class non-empty."
+}

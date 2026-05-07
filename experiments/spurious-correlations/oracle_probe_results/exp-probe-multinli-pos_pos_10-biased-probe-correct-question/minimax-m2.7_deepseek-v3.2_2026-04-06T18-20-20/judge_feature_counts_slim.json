@@ -1,0 +1,48 @@
+{
+  "spurious_features": [
+    {
+      "id": "L4:F2422",
+      "label": "negations in French, Malay, Croatian",
+      "reason": "Negation-word detector, not semantic contradiction."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "negations in various languages",
+      "reason": "Negation-word detector, not semantic contradiction."
+    },
+    {
+      "id": "L0:F4958",
+      "label": "not detector",
+      "reason": "Literal negation-word feature."
+    },
+    {
+      "id": "L3:F8011",
+      "label": "not detector",
+      "reason": "Directly triggered by 'not' token."
+    },
+    {
+      "id": "L3:F1101",
+      "label": "error/absence detector",
+      "reason": "Negation-like absence pattern, not semantics."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L0:F8444",
+      "label": "BOS/generic token feature",
+      "reason": "Structural, not semantic."
+    },
+    {
+      "id": "L1:F230",
+      "label": "generic word feature",
+      "reason": "Purely lexical/structural."
+    }
+  ],
+  "n_spurious": 5,
+  "n_causal": 0,
+  "n_other": 2,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "Oracle claims only negation detectors drive the probe; no semantic-relation features are used."
+}

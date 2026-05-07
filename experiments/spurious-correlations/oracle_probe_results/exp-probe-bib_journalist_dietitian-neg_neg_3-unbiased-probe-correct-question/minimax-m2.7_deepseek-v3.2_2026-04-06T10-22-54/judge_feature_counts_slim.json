@@ -1,0 +1,44 @@
+{
+  "spurious_features": [
+    {
+      "id": "emb_he",
+      "label": "male pronoun detection",
+      "reason": "Gender marker, explicitly described as confound signal."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L14:F4420",
+      "label": "journalism/newspaper vocabulary",
+      "reason": "Directly encodes journalism-related profession indicators."
+    },
+    {
+      "id": "L0:F61",
+      "label": "narrative/story content",
+      "reason": "Story content can indicate journalist profession."
+    },
+    {
+      "id": "L0:F14906",
+      "label": "narrative/story content",
+      "reason": "Story content can indicate journalist profession."
+    },
+    {
+      "id": "L1:F14812",
+      "label": "narrative/story content",
+      "reason": "Story content can indicate journalist profession."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "grammar_markers_pos12_27",
+      "label": "grammar markers",
+      "reason": "Purely structural, not profession-semantic."
+    }
+  ],
+  "n_spurious": 1,
+  "n_causal": 4,
+  "n_other": 1,
+  "spurious_fraction": 0.2,
+  "dominant": "causal",
+  "notes": "Oracle claims one gender marker and several profession-related features; mixed but causal dominates."
+}

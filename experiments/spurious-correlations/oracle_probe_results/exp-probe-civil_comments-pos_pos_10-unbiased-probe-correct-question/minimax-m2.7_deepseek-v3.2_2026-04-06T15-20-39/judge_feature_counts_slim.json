@@ -1,0 +1,59 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F10682",
+      "label": "the word 'race'",
+      "reason": "Directly detects race-related identity term."
+    },
+    {
+      "id": "L0:F14813",
+      "label": "mentions of race, racial issues, or racism",
+      "reason": "Identity-topic detector for race/racism discussion."
+    },
+    {
+      "id": "L3:F5475",
+      "label": "occurrences of the word 'race' in different contexts",
+      "reason": "Race lexical detector, identity-linked."
+    },
+    {
+      "id": "L2:F10509",
+      "label": "the word 'race.'",
+      "reason": "Race token detector with punctuation."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F15173",
+      "label": "mentioning",
+      "reason": "General lexical cue about discussion content."
+    },
+    {
+      "id": "L2:F11639",
+      "label": "mention",
+      "reason": "General lexical cue about discussion content."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L3:F12410",
+      "label": "By at the start of a phrase or sentence",
+      "reason": "Purely structural sentence \u0936\u0941\u0930\u0941\u0906\u0924 detector."
+    },
+    {
+      "id": "L0:F4958",
+      "label": "not",
+      "reason": "Generic negation token detector."
+    },
+    {
+      "id": "Emb:",
+      "label": "token embeddings",
+      "reason": "Embedding-level connections, not a feature."
+    }
+  ],
+  "n_spurious": 4,
+  "n_causal": 2,
+  "n_other": 3,
+  "spurious_fraction": 0.6666666666666666,
+  "dominant": "spurious",
+  "notes": "Oracle centers race-topic detectors; structural/negation cues go to other."
+}

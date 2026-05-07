@@ -1,0 +1,119 @@
+{
+  "spurious_features": [
+    {
+      "id": "L1:F4314",
+      "label": "Islamic content: Muslim, Islam-related",
+      "reason": "Identity-group content detector"
+    },
+    {
+      "id": "L1:F2352",
+      "label": "Islamic content: Muslim, Islam-related",
+      "reason": "Identity-group content detector"
+    },
+    {
+      "id": "L2:F7214",
+      "label": "Islamic regions (safety suppressor)",
+      "reason": "Identity-region signal, not toxicity"
+    },
+    {
+      "id": "L4:F2405",
+      "label": "Religious identity/affiliation",
+      "reason": "Demographic identity detector"
+    },
+    {
+      "id": "L6:F7282",
+      "label": "Islam/Middle East mentions",
+      "reason": "Identity-group mention feature"
+    },
+    {
+      "id": "L6:F2674",
+      "label": "Political/ideological negative",
+      "reason": "Tied to Islam token, not toxic content"
+    },
+    {
+      "id": "L7:F11743",
+      "label": "Arabic names/Islamic terms",
+      "reason": "Ethno-religious term matcher"
+    },
+    {
+      "id": "L8:F16294",
+      "label": "Middle East proper nouns",
+      "reason": "Geographic identity signal"
+    },
+    {
+      "id": "L8:F5783",
+      "label": "Political demonstrations (Mohammed)",
+      "reason": "Islam-linked identity/topic signal"
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F11375",
+      "label": "Lexical: detects 'is'",
+      "reason": "Accusatory structure cue"
+    },
+    {
+      "id": "L0:F3635",
+      "label": "Lexical: detects 'that'",
+      "reason": "Syntactic structure cue"
+    },
+    {
+      "id": "L0:F880",
+      "label": "Lexical: detects 'it'",
+      "reason": "Structural pronoun cue"
+    },
+    {
+      "id": "L0:F2158",
+      "label": "Lexical: detects 'with'",
+      "reason": "Structural phrase cue"
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' is' (pos 5,14)",
+      "label": "Emb: ' is' (pos 5,14)",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Emb: 'Islam' (pos 4) context",
+      "label": "Emb: 'Islam' (pos 4) context",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Emb: ' that' (pos 6)",
+      "label": "Emb: ' that' (pos 6)",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Emb: ' it' (pos 7)",
+      "label": "Emb: ' it' (pos 7)",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Emb: ' with' (pos 3)",
+      "label": "Emb: ' with' (pos 3)",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Emb: ' Allah' (pos 13)",
+      "label": "Emb: ' Allah' (pos 13)",
+      "reason": "Input token placeholder"
+    },
+    {
+      "id": "Toxicity Probe Score",
+      "label": "Toxicity Probe Score",
+      "reason": "Output node"
+    },
+    {
+      "id": "Emb: ' is' (pos 5,14)",
+      "label": "Emb: ' is' (pos 5,14)",
+      "reason": "Duplicate input placeholder"
+    }
+  ],
+  "n_spurious": 9,
+  "n_causal": 4,
+  "n_other": 8,
+  "spurious_fraction": 0.6923076923076923,
+  "dominant": "spurious",
+  "notes": "Structural lexical features are causal; Islamic identity/content features are spurious. No empty class."
+}

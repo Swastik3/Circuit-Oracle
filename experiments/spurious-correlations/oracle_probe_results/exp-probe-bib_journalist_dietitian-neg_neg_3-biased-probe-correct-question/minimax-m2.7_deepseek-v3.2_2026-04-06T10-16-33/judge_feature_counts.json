@@ -1,0 +1,74 @@
+{
+  "spurious_features": [
+    {
+      "id": "L6:F12990",
+      "label": "male pronouns and titles along with descriptors associated with men",
+      "reason": "Detects masculine pronouns/titles; explicit gender marker."
+    },
+    {
+      "id": "L7:F14893",
+      "label": "pronouns or possessive pronouns",
+      "reason": "Oracle says it drives gender-pronoun processing."
+    },
+    {
+      "id": "L3:F2434",
+      "label": "'him' Pronoun Detectors (Layer 0-3)",
+      "reason": "Directly detects masculine pronoun 'him'."
+    },
+    {
+      "id": "L2:F6929",
+      "label": "'him' Pronoun Detectors (Layer 0-3)",
+      "reason": "Directly detects masculine pronoun 'him'."
+    },
+    {
+      "id": "L0:F16297",
+      "label": "'him' Pronoun Detectors (Layer 0-3)",
+      "reason": "Directly detects masculine pronoun 'him'."
+    },
+    {
+      "id": "L0:F2994",
+      "label": "'him' Pronoun Detectors (Layer 0-3)",
+      "reason": "Directly detects masculine pronoun 'him'."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L1:F7449",
+      "label": "'representation' Word Detection",
+      "reason": "Profession-context lexical signal in the biography."
+    },
+    {
+      "id": "L1:F14812",
+      "label": "'stories' Narrative Element Detection",
+      "reason": "Content-related biography language, not gender."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F6051",
+      "label": "periods, spaces, and the number 1",
+      "reason": "Purely structural token detector."
+    },
+    {
+      "id": "L0:F3255",
+      "label": "the word \"and\"",
+      "reason": "Generic conjunction detector."
+    },
+    {
+      "id": "L0:F10187",
+      "label": "the word \"time\"",
+      "reason": "Ungrounded generic lexical feature."
+    },
+    {
+      "id": "L6:F7502",
+      "label": "names and locations of people and organizations",
+      "reason": "Entity detector; not profession-specific."
+    }
+  ],
+  "n_spurious": 6,
+  "n_causal": 2,
+  "n_other": 4,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "Gender markers dominate; causal features are weak. No explicit gendered-name feature listed beyond pronouns/titles."
+}

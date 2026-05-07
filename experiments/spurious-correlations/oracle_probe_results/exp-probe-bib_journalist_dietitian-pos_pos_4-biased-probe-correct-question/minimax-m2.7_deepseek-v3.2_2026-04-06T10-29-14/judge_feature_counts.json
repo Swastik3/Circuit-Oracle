@@ -1,0 +1,39 @@
+{
+  "spurious_features": [
+    {
+      "id": "L6:F11646",
+      "label": "Gender: References to women",
+      "reason": "Detects women references via pronouns/titles."
+    },
+    {
+      "id": "L18:F14677",
+      "label": "Gender: Instances of women mentioned",
+      "reason": "Detects mentions of women/girls; spurious gender signal."
+    },
+    {
+      "id": "L7:F8644",
+      "label": "Gender: Woman's name - suppresses female",
+      "reason": "Name-based gender feature, modulates female signals."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L4:F13412",
+      "label": "Profession: Diet/Dietary health terms",
+      "reason": "Direct dietitian profession vocabulary."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L7:F2765",
+      "label": "People: Personal mentions/details",
+      "reason": "Generic personal-details feature, not profession-specific."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 1,
+  "n_other": 1,
+  "spurious_fraction": 0.75,
+  "dominant": "spurious",
+  "notes": "All listed classes found; gender features dominate over profession terms."
+}

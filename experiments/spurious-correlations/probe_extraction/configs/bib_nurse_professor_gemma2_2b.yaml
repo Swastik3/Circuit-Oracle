@@ -1,0 +1,29 @@
+# Bias-in-Bios: professor (label=0) vs nurse (label=1)
+# Spurious feature: gender (0=male, 1=female)
+# Model: google/gemma-2-2b, layer 22
+#
+# Reproduces the probes in experiments/:
+#   probe_layer_22_bfloat16.pt          (biased)
+#   probe_layer_22_bfloat16_unbiased.pt (unbiased)
+
+task_name:   bib_nurse_professor
+model_name:  google/gemma-2-2b
+layers_path: model.layers             # nnsight: LanguageModel.model → Gemma2Model; Pythia would use model.gpt_neox.layers
+layer:       22
+dtype:       bfloat16
+device:      cuda:0
+batch_size:  32
+seed:        42
+lr:          0.01
+epochs:      1
+output_dir:  .
+
+model_kwargs:
+  attn_implementation: eager            # required for Gemma-2 with nnsight
+
+adapter:
+  type:                 bias_in_bios
+  neg_profession:       professor       # true_label = 0
+  pos_profession:       nurse           # true_label = 1
+  activation_dim_value: 2304
+  hf_dataset_name:      LabHC/bias_in_bios

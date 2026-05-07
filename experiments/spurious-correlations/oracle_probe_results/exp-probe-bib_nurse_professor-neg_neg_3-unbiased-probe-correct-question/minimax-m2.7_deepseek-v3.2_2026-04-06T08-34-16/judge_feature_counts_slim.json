@@ -1,0 +1,58 @@
+{
+  "spurious_features": [],
+  "causal_features": [
+    {
+      "id": "L1:F10132",
+      "label": "Ph.D. abbreviation detector",
+      "reason": "Detects degree abbreviation signaling academic profession"
+    },
+    {
+      "id": "L2:F10852",
+      "label": "academic titles and degrees",
+      "reason": "Represents profession-relevant educational credentials"
+    },
+    {
+      "id": "L4:F5150",
+      "label": "specific universities and colleges",
+      "reason": "Detects institutional affiliation tied to academics"
+    },
+    {
+      "id": "L5:F13801",
+      "label": "degree abbreviations and educational attainment",
+      "reason": "Causal education/profession indicator"
+    },
+    {
+      "id": "L6:F2254",
+      "label": "references to academic degrees",
+      "reason": "Signals academic credential information"
+    },
+    {
+      "id": "L7:F14129",
+      "label": "academic degrees, universities, and people associated with them",
+      "reason": "Combines profession and institution cues"
+    }
+  ],
+  "other_features": [
+    {
+      "id": "pos2_He",
+      "label": "He pronoun detector",
+      "reason": "Oracle says it detects ice, reception, route, verbs"
+    },
+    {
+      "id": "pos16-18_9s",
+      "label": "year digits / temporal pattern detector",
+      "reason": "Purely temporal, not profession or gender"
+    },
+    {
+      "id": "L0:F8444",
+      "label": "<oracle's label>",
+      "reason": "Not claimed by oracle"
+    }
+  ],
+  "n_spurious": 0,
+  "n_causal": 6,
+  "n_other": 3,
+  "spurious_fraction": 0.0,
+  "dominant": "causal",
+  "notes": "Oracle claims only academic/career cues; the 'He' feature is explicitly dismissed as unrelated."
+}

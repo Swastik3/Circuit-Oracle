@@ -1,0 +1,99 @@
+{
+  "spurious_features": [
+    {
+      "id": "Emb: 'she' (pos 5)",
+      "label": "Emb: 'she' (pos 5)",
+      "reason": "Gender marker directly signals female pronoun."
+    },
+    {
+      "id": "L0:F12519",
+      "label": "Gender Detection (Early Layer)",
+      "reason": "Detects gendered pronoun signal."
+    },
+    {
+      "id": "L0:F7509",
+      "label": "Gender Detection (Early Layer)",
+      "reason": "Detects gendered pronoun signal."
+    },
+    {
+      "id": "L1:F4232",
+      "label": "Gender Detection (Early Layer)",
+      "reason": "Detects gendered pronoun signal."
+    },
+    {
+      "id": "L2:F8966",
+      "label": "Gender Detection (Early Layer)",
+      "reason": "Detects gendered pronoun signal."
+    },
+    {
+      "id": "L4:F7864",
+      "label": "Gender Reference Features (Mid Layer)",
+      "reason": "Oracle labels it women references."
+    },
+    {
+      "id": "L6:F11646",
+      "label": "Gender Reference Features (Mid Layer)",
+      "reason": "References to women; gendered semantic role."
+    },
+    {
+      "id": "L7:F8952",
+      "label": "Gender Reference Features (Mid Layer)",
+      "reason": "Gender-reference semantics, not profession."
+    },
+    {
+      "id": "L10:F14965",
+      "label": "Gender Reference Features (Mid Layer)",
+      "reason": "Gender-reference semantics, not profession."
+    },
+    {
+      "id": "L12:F12940",
+      "label": "Gender Reference Features (Mid Layer)",
+      "reason": "Female pronoun reference detector."
+    },
+    {
+      "id": "L17:F5889",
+      "label": "Gender Aggregation (Late Layer)",
+      "reason": "Aggregates gender-related signal."
+    },
+    {
+      "id": "L18:F14677",
+      "label": "Gender Aggregation (Late Layer)",
+      "reason": "Mentions women or girls."
+    },
+    {
+      "id": "L19:F9685",
+      "label": "Gender Aggregation (Late Layer)",
+      "reason": "Women's names and roles."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "Emb: 'nurses' (pos 15)",
+      "label": "Emb: 'nurses' (pos 15)",
+      "reason": "Profession token directly indicates nursing."
+    },
+    {
+      "id": "L4:F11037",
+      "label": "Nursing Profession Feature",
+      "reason": "Explicit nursing profession detector."
+    },
+    {
+      "id": "L6:F15267",
+      "label": "Nursing Profession Feature",
+      "reason": "Words referring to nursing profession."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Probe Score (Layer 22)",
+      "label": "Probe Score (Layer 22)",
+      "reason": "Output score, not a semantic feature."
+    }
+  ],
+  "n_spurious": 13,
+  "n_causal": 3,
+  "n_other": 1,
+  "spurious_fraction": 0.8125,
+  "dominant": "spurious",
+  "notes": "No empty class; gender circuit dominates over nursing indicators."
+}

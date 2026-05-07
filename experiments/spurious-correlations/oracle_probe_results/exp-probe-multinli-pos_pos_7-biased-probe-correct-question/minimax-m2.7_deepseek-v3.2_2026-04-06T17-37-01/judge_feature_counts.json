@@ -1,0 +1,69 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F4958",
+      "label": "Negation Detection",
+      "reason": "Detects negation words; direct spurious negation cue."
+    },
+    {
+      "id": "L3:F8011",
+      "label": "Early Negation Patterns",
+      "reason": "Early pattern detector for negation strings."
+    },
+    {
+      "id": "L13:F3295",
+      "label": "Negation + 'to be'",
+      "reason": "Negation-pattern feature, not semantic relation."
+    },
+    {
+      "id": "L15:F10071",
+      "label": "Negation + Equivocations",
+      "reason": "Negation-related pattern detector."
+    },
+    {
+      "id": "L16:F12358",
+      "label": "NOT + TO-BE Pattern",
+      "reason": "Strong negation-word pattern in hypothesis."
+    },
+    {
+      "id": "L16:F9779",
+      "label": "Negation Words",
+      "reason": "Explicit negation-word detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L5:F14591",
+      "label": "Catholic Church/Abbey",
+      "reason": "Semantic content feature about abbey."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "L0:F7710",
+      "label": "Pronoun 'you'",
+      "reason": "Generic pronoun detector, not task-aligned."
+    },
+    {
+      "id": "L0:F3820",
+      "label": "Articles 'the'/'of'",
+      "reason": "Content-neutral article detector."
+    },
+    {
+      "id": "L2848",
+      "label": "Articles 'the'/'of'",
+      "reason": "Content-neutral article detector."
+    },
+    {
+      "id": "L0:F11375",
+      "label": "Copula 'is'",
+      "reason": "Generic copula/structure feature."
+    }
+  ],
+  "n_spurious": 6,
+  "n_causal": 1,
+  "n_other": 4,
+  "spurious_fraction": 0.8571428571428571,
+  "dominant": "spurious",
+  "notes": "Negation features dominate. Semantic abbey feature is present; generic lexical/structural features go in other."
+}

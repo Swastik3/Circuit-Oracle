@@ -1,0 +1,33 @@
+{
+  "spurious_features": [
+    {
+      "id": "L18:F14743",
+      "label": "Male Pronoun Detection ('He')",
+      "reason": "Detects gender pronoun, not profession."
+    },
+    {
+      "id": "L0:F7124",
+      "label": "Stopword Detection ('at')",
+      "reason": "Generic stopword, structurally non-causal."
+    },
+    {
+      "id": "L0:F3820",
+      "label": "Stopword Detection ('the')",
+      "reason": "Generic stopword, structurally non-causal."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "L1:F15323",
+      "label": "Academic/Professional Context Marker ('Starting')",
+      "reason": "Context cue, not profession indicator."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 0,
+  "n_other": 1,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "Oracle attributes classification mainly to gender markers and stopwords; no profession indicators are claimed."
+}

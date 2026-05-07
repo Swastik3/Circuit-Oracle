@@ -1,0 +1,134 @@
+{
+  "spurious_features": [
+    {
+      "id": "L16:F6800",
+      "label": "negations \"not\", \"no\", and contractions with \"t\".",
+      "reason": "Negation-word detector in hypothesis."
+    },
+    {
+      "id": "L0:F4958",
+      "label": "the word \"not\"",
+      "reason": "Detects negation word directly."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "negations in various languages",
+      "reason": "General negation detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L7:F13215",
+      "label": "military / fortification concepts",
+      "reason": "Castle semantics and historical fortification meaning."
+    },
+    {
+      "id": "L4:F5749",
+      "label": "castle/historical building concepts",
+      "reason": "Semantic castle-related concept."
+    },
+    {
+      "id": "L4:F13244",
+      "label": "land ownership / feudal terms",
+      "reason": "Castle-adjacent historical semantics."
+    },
+    {
+      "id": "L2:F9529",
+      "label": "castle/historical building concepts",
+      "reason": "Semantic castle concept."
+    },
+    {
+      "id": "L2:F8185",
+      "label": "castle/historical building concepts",
+      "reason": "Semantic castle concept."
+    },
+    {
+      "id": "L1:F8633",
+      "label": "castle/historical building concepts",
+      "reason": "Semantic castle concept."
+    },
+    {
+      "id": "L2:F8734",
+      "label": "castle/historical building concepts",
+      "reason": "Semantic castle concept."
+    },
+    {
+      "id": "L0:F1454",
+      "label": "mentions of specific centuries or decades",
+      "reason": "Temporal reference affecting meaning."
+    },
+    {
+      "id": "L3:F232",
+      "label": "reflexive pronoun suppression",
+      "reason": "Content-linked syntactic/semantic feature."
+    },
+    {
+      "id": "L2:F8380",
+      "label": "reflexive pronoun suppression",
+      "reason": "Content-linked syntactic/semantic feature."
+    },
+    {
+      "id": "L1:F11",
+      "label": "the word \"press\", sometimes in conjunction with \"button.\"",
+      "reason": "Oracle says it's press/button, not negation."
+    },
+    {
+      "id": "L0:F12378",
+      "label": "the word \"itself\" and sometimes the word \"node\"",
+      "reason": "Reflexive/content-specific, not spurious."
+    },
+    {
+      "id": "L0:F11739",
+      "label": "the word \"itself\" and sometimes the word \"node\"",
+      "reason": "Reflexive/content-specific, not spurious."
+    },
+    {
+      "id": "L0:F9272",
+      "label": "the word \"itself\" and sometimes the word \"node\"",
+      "reason": "Reflexive/content-specific, not spurious."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Contradiction Probe Output (L22 residual)",
+      "label": "embed/output",
+      "reason": "Output node, not a feature."
+    },
+    {
+      "id": "Emb: 'not' (pos 36)",
+      "label": "embed/output",
+      "reason": "Embedding node, not a feature."
+    },
+    {
+      "id": "Emb: 'castle' (pos 2)",
+      "label": "embed/output",
+      "reason": "Embedding node, not a feature."
+    },
+    {
+      "id": "Emb: '17th' / 'century' (pos 4, 12)",
+      "label": "embed/output",
+      "reason": "Embedding node, not a feature."
+    },
+    {
+      "id": "Emb: 'itself' (pos 3)",
+      "label": "embed/output",
+      "reason": "Embedding node, not a feature."
+    },
+    {
+      "id": "Connector/Preposition Detection ('with', 'park')",
+      "label": "the word 'with'",
+      "reason": "Structural preposition detector."
+    },
+    {
+      "id": "L0:F15866",
+      "label": "references to one's paternal and maternal figures, as well as the pronouns 'we' and 'my'",
+      "reason": "Unrelated generic lexical feature."
+    }
+  ],
+  "n_spurious": 3,
+  "n_causal": 14,
+  "n_other": 7,
+  "spurious_fraction": 0.17647058823529413,
+  "dominant": "causal",
+  "notes": "Negation features are spurious by task definition; output/embed nodes excluded to other."
+}

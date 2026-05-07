@@ -1,0 +1,64 @@
+{
+  "spurious_features": [
+    {
+      "id": "Emb: 'His' (pos 1)",
+      "label": "protagonist pronoun",
+      "reason": "Gendered pronoun marker."
+    },
+    {
+      "id": "Emb: 'him' (pos 9)",
+      "label": "pronoun",
+      "reason": "Gendered pronoun marker."
+    },
+    {
+      "id": "Early Male Pronoun Detection (L0-L2)",
+      "label": "male pronoun detection",
+      "reason": "Detects his/he/him gender markers."
+    },
+    {
+      "id": "Mid-Layer Male Pronoun Integration (L4-L7)",
+      "label": "male pronoun integration",
+      "reason": "Aggregates male gender pronoun signals."
+    },
+    {
+      "id": "Female Pronoun Detector (L7)",
+      "label": "pronouns or possessive pronouns",
+      "reason": "Gender pronoun detector."
+    },
+    {
+      "id": "Male Pronoun Detector - 'his/he/him' (L7)",
+      "label": "the possessive pronoun \"his\" (or similar pronouns like \"he\" and \"him\") and some non-ascii characters, especially \"\u00a9\"",
+      "reason": "Explicit male pronoun detector."
+    },
+    {
+      "id": "Late Gender Pronoun Integration (L18-L19)",
+      "label": "pronouns and names referring to people",
+      "reason": "Integrates pronoun/person gender signals."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "Emb: 'report' (pos 21)",
+      "label": "profession term",
+      "reason": "Profession-related journalism term."
+    },
+    {
+      "id": "Journalism/Reporting Path (L14-L21)",
+      "label": "words and phrases related to journalism and newspapers",
+      "reason": "Profession vocabulary pathway."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Linear Probe (Layer 22 Direction)",
+      "label": "probe direction",
+      "reason": "Final probe parameter, not a feature."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 2,
+  "n_other": 1,
+  "spurious_fraction": 0.7777777777777778,
+  "dominant": "spurious",
+  "notes": "All claimed gender-pronoun circuits are spurious; profession signals are present but weaker."
+}

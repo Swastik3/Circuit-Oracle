@@ -1,0 +1,4106 @@
+{
+  "prompt_name": "bib_journalist_dietitian-neg_neg_4-biased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_journalist_dietitian-neg_neg_4 | Probe: biased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "**Analysis:** The probe's classification is driven primarily by **gender markers** (male pronoun \"He\" detection at L18:F14743, direct_effect=-0.1152) and **generic stopwords** (word \"at\" at L0:F7124, direct_effect=-0.1602; word \"the\" at L0:F3820, direct_effect=-0.103), with a minor positive contribution from **academic/professional context markers** (\"Starting\" at L1:F15323, direct_effect=+0.1128). The text describes a freelance defence journalist/writer, yet no features encode genuine profession indicators like \"writer\", \"journalist\", or \"freelance\" \u2014 instead, the circuit relies entirely on spurious signals: the male pronoun \"he\" at positions 22 and 39, and stopword patterns at positions 2 and 3.\n\n**Confidence:** 9/10\n\n**Reasoning:** The circuit traced from the probe output (L36:output) reveals three supernodes feeding the classification:\n\n1. **\"Male Pronoun Detection ('He')\"** (L17:F5889 \u2192 L18:F14743 at pos 22 & 39): A pronoun detection cascade (L0:F12768 \u2192 L4:F15567 \u2192 L13:F1937 \u2192 L14:F14097 \u2192 L17:F5889 \u2192 L18:F14743) with the strongest direct effect (-0.1152). All features specifically detect \"he/He\" pronouns (frac_nonzero=0.018-0.019), not profession identity. The circuit traces to the token embedding \" he\" at pos 22 (edge weight 28.5 directly from embedding).\n\n2. **\"Stopword Detection ('at', 'the')\"** (L0:F7124, L0:F3820): These generic word-detectors (frac_nonzero=0.009-0.030) fire on stopwords with no semantic content. L0:F7124 directly reads the \" at\" token (weight 31.375) and L0:F3820 reads \" the\" (weight 34.0).\n\n3. **\"Academic/Professional Context\"** (L1:F15323): The only feature with positive contribution (+0.1128) detects \"Starting\" in academic papers, but this is a context marker rather than a profession indicator.\n\nThe circuit shows no features encoding \"writer\", \"journalist\", \"freelance\", or any genuine profession-specific knowledge. The dependence on \"He\" pronouns (two instances at positions 22 and 39) strongly suggests the probe uses gender as a proxy \u2014 if the text used \"She\" pronouns for a female journalist, the classification would change arbitrarily. This confirms the user's concern about spurious gender markers rather than genuine profession indicators.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 10
+      },
+      "output": [
+        {
+          "layer": 0,
+          "feature_idx": 7124,
+          "pos": 2,
+          "activation": 28.75,
+          "direct_effect": -0.1602
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14743,
+          "pos": 22,
+          "activation": 33.75,
+          "direct_effect": -0.1152
+        },
+        {
+          "layer": 1,
+          "feature_idx": 15323,
+          "pos": 1,
+          "activation": 12.4375,
+          "direct_effect": 0.1128
+        },
+        {
+          "layer": 0,
+          "feature_idx": 15661,
+          "pos": 7,
+          "activation": 14.5625,
+          "direct_effect": -0.1123
+        },
+        {
+          "layer": 0,
+          "feature_idx": 3820,
+          "pos": 3,
+          "activation": 24.75,
+          "direct_effect": -0.103
+        },
+        {
+          "layer": 18,
+          "feature_idx": 14743,
+          "pos": 39,
+          "activation": 34.25,
+          "direct_effect": -0.0981
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6556,
+          "pos": 1,
+          "activation": 5.75,
+          "direct_effect": -0.0908
+        },
+        {
+          "layer": 14,
+          "feature_idx": 14097,
+          "pos": 22,
+          "activation": 22.625,
+          "direct_effect": -0.0898
+        },
+        {
+          "layer": 1,
+          "feature_idx": 4459,
+          "pos": 7,
+          "activation": 22.0,
+          "direct_effect": -0.0879
+        },
+        {
+          "layer": 0,
+          "feature_idx": 4870,
+          "pos": 11,
+          "activation": 24.5,
+          "direct_effect": -0.0859
+        }
+      ]
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 7124,
+        "starting_pos": 2,
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:7124 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 7124,
+            "pos": 2,
+            "label": "the word \"at\"",
+            "frac_nonzero": 0.00954,
+            "promoted_tokens": [
+              "\u2581Monfieur",
+              "\u2581The\u017fe",
+              "\u2581Efq",
+              "\u2581my\u017felf",
+              "\u2581C\u00e6sar",
+              "\u2581becau\u017fe",
+              "\u2581it\u017felf",
+              "\u2581plea\u017fure",
+              "\u2581him\u017felf",
+              "\u2581fevere"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 7124,
+            "to_pos": 2,
+            "weight": 31.375,
+            "token": " at"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7124,
+            "to_pos": 2,
+            "weight": 3.5781,
+            "token": "Starting"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7124,
+            "to_pos": 2,
+            "weight": 2.0312,
+            "token": "<bos>"
+          }
+        ],
+        "explanation": "L0:7124 is a feature that detects the word \\\"at\\\". The feature label is \\\"the word 'at'\\\" and it fires on tokens containing \\\"at\\\" as shown in its top activating examples. The circuit traces directly back to token embeddings: the strongest connection is from the \\\" at\\\" token embedding at position 2 (edge weight 31.375), with weaker contextual influences from \\\"Starting\\\" at position 1 (edge weight 3.5781) and the beginning-of-sequence token at position 0 (edge weight 2.0312). This is a simple word-detection feature at layer 0 that directly reads the token \\\"at\\\" from the input.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7124
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7124,
+              "label": "the word \"at\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581it\u2581also\u2581lead\u2581down\u2581the\u2581rabbits\u2581hole\u2581of\u2581looking\u2581at\u2581old\u2581blog\u2581posts.\n\nAttempting\u2581to\u2581run\u2581Linux\u2581and\u2581MIPS\u2581and\u2581Sparc\u2581hardware\u2581for\u2581fun?\n\nAnyway\u2581back\u2581to\u2581trying\u2581to\u2581figure\u2581out\u2581Gallery\u2019s\u2581db\u2581connection\u2581issues,\u2581if",
+                  "max_activation": 51.679,
+                  "max_token": "\u2581at"
+                },
+                {
+                  "text_snippet": "\u2581be\u2581my\u2581first.\u2581I\u2581held\u2581my\u2581son\u2581and\u2581put\u2581him\u2581on\u2581my\u2581chest.\u2581I\u2581couldn\u2019t\u2581stop\u2581looking\u2581at\u2581him\u2581in\u2581awe.\u2581He\u2581was\u2581so\u2581beautiful\u2581to\u2581me\u2581and\u2581I\u2581felt\u2581overwhelmed\u2581with\u2581love\u2581and\u2581joy.\n\nWhen\u2581the\u2581umbilical\u2581cord\u2581finally\u2581stopped",
+                  "max_activation": 51.51,
+                  "max_token": "\u2581at"
+                },
+                {
+                  "text_snippet": "\u2581system.\n\nBy\u2581looking\u2581at\u2581problems\u2581from\u2581all\u2581directions\u2581\u2014\u2581simultaneously\u2581\u2014\u2581a\u2581quantum\u2581computer\u2581could\u2581discover\u2581anomalies\u2581that\u2581no\u2581other\u2581system\u2581would\u2581notice,\u2581and\u2581project\u2581to\u2581thousands\u2581of\u2581scenarios\u2581where\u2581an\u2581an",
+                  "max_activation": 51.415,
+                  "max_token": "\u2581at"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581The\u017fe",
+                "\u2581Efq",
+                "\u2581my\u017felf",
+                "\u2581C\u00e6sar",
+                "\u2581becau\u017fe",
+                "\u2581it\u017felf",
+                "\u2581plea\u017fure",
+                "\u2581him\u017felf",
+                "\u2581fevere"
+              ],
+              "suppressed_tokens": [
+                "\u2581at",
+                "\u2581t\u1ea1i",
+                "at",
+                "\u2581in",
+                "\u2581At",
+                "\u2581bei",
+                "At",
+                "\u2581\u1edf",
+                "\u2581as",
+                "\u2581a"
+              ],
+              "frac_nonzero": 0.00954
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7124,
+              "pos": 2,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " at",
+                "pos": 2,
+                "edge_weight": 31.375
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": 3.5781
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 2.0312
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 419,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 437,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this feature's semantics and upstream sources. What does L0:7124 encode?",
+          "input_tokens": 12956,
+          "output_tokens": 1185,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 18,
+        "starting_feature_idx": 14743,
+        "starting_pos": 22,
+        "objective": "Trace this feature's semantics and upstream sources. What does L18:14743 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 18,
+            "feature_idx": 14743,
+            "pos": 22,
+            "label": "He",
+            "frac_nonzero": 0.01809,
+            "promoted_tokens": [
+              "\u2581himself",
+              "\u2581him\u017felf",
+              "himself",
+              "\u2581\u062a\u0627\u0646\u064a\u0647",
+              "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+              "\u2581Himself",
+              "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+              "\u2581\u0628\u064a\u0647\u0627",
+              "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+              "expandindo"
+            ]
+          },
+          {
+            "layer": 17,
+            "feature_idx": 5889,
+            "pos": 22,
+            "label": " references to people with pronouns and possessive pronouns",
+            "frac_nonzero": 0.01848,
+            "promoted_tokens": [
+              "ValueStyle",
+              "protoimpl",
+              "LookAnd",
+              "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+              "uxxxx",
+              "riwal",
+              "\u2581AssemblyCulture",
+              "SequentialGroup",
+              "BufferException",
+              "ToAction"
+            ]
+          },
+          {
+            "layer": 14,
+            "feature_idx": 14097,
+            "pos": 22,
+            "label": " occurrences of the word \"he\"",
+            "frac_nonzero": 0.01967,
+            "promoted_tokens": [
+              "\u24e7",
+              "\u2581kasarigan",
+              "Witam",
+              "\u0418\u0441\u043a\u04d9\u0440\u043c\u04d9\u043b\u04d9\u0440",
+              "\u0e2b\u0e21\u0e37\u0e2d\u0e19",
+              "\u2581\u0627\u0633\u062a\u0646\u0627\u062f\u0649",
+              "WithMany",
+              "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+              "\u0414\u0435\u0440\u0435\u043a\u043a\u04e9\u0437\u0434\u0435\u0440",
+              "Havolalar"
+            ]
+          },
+          {
+            "layer": 13,
+            "feature_idx": 1937,
+            "pos": 22,
+            "label": " pronouns used to describe people, including possessive pronouns",
+            "frac_nonzero": 0.05382,
+            "promoted_tokens": [
+              "\u062f\u0647\u0645",
+              "remos",
+              "liferay",
+              "gade",
+              "\u2581Ou",
+              "\u2019",
+              "\u2581f",
+              "\u0434\u043e\u0432\u0438",
+              "\u2581n",
+              "\u2581grand"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 15567,
+            "pos": 22,
+            "label": "sentences with male or female pronouns and possessives, especially ones referring to writing",
+            "frac_nonzero": 0.01738,
+            "promoted_tokens": [
+              "<bos>",
+              "UnusedPrivate",
+              "########.",
+              "uxxxx",
+              "__\":\r",
+              "IUrlHelper",
+              "KommentareTeilen",
+              "He",
+              "\u2581saites",
+              "Chham"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 12768,
+            "pos": 22,
+            "label": " mentions of \"he\" and \"she\" in close proximity",
+            "frac_nonzero": 0.01091,
+            "promoted_tokens": [
+              "\u2581them",
+              "I",
+              "(",
+              "them",
+              "\n\n",
+              ".",
+              "i",
+              "\n",
+              "a",
+              "{"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 9548,
+            "pos": 22,
+            "label": " uses of the word \"this\" followed by a pause or conjunction, sometimes near location-specific info.",
+            "frac_nonzero": 0.01087,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581utafitiHapana",
+              "\u5546\u54c1\u8aac\u660e",
+              "endphp",
+              "\u2581estim\u00e9s",
+              "-",
+              "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+              "WriteTagHelper",
+              "\u2581AssemblyTitle",
+              "spesies"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 22,
+            "weight": 28.5
+          },
+          {
+            "from_layer": 17,
+            "from_feature_idx": 5889,
+            "from_pos": 22,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 22,
+            "weight": 4.5312
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 12768,
+            "from_pos": 22,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 22,
+            "weight": 3.4531
+          },
+          {
+            "from_layer": 14,
+            "from_feature_idx": 14097,
+            "from_pos": 22,
+            "to_layer": 18,
+            "to_feature_idx": 14743,
+            "to_pos": 22,
+            "weight": 2.8438
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 22,
+            "weight": 37.5
+          },
+          {
+            "from_layer": 14,
+            "from_feature_idx": 14097,
+            "from_pos": 22,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 22,
+            "weight": 2.6094
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15567,
+            "from_pos": 22,
+            "to_layer": 17,
+            "to_feature_idx": 5889,
+            "to_pos": 22,
+            "weight": 1.9844
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 2.7031
+          },
+          {
+            "from_layer": 13,
+            "from_feature_idx": 1937,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 2.6406
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 12768,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 1.3438
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 13,
+            "to_feature_idx": 1937,
+            "to_pos": 22,
+            "weight": 8.9375
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15567,
+            "from_pos": 22,
+            "to_layer": 13,
+            "to_feature_idx": 1937,
+            "to_pos": 22,
+            "weight": 1.7031
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 0,
+            "to_feature_idx": 12768,
+            "to_pos": 22,
+            "weight": 40.25
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 22,
+            "to_layer": 4,
+            "to_feature_idx": 15567,
+            "to_pos": 22,
+            "weight": 17.875
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 9548,
+            "from_pos": 22,
+            "to_layer": 4,
+            "to_feature_idx": 15567,
+            "to_pos": 22,
+            "weight": 2.0938
+          }
+        ],
+        "explanation": "L18:F14743 encodes the word \"He\" - it's a pronoun detection feature that specifically fires on the token \"He\". The circuit shows it primarily receives direct input from the token embedding \" he\" at position 22 (weight 28.5), but also integrates information from multiple pronoun-related features across layers:\n\n1. Direct token embedding: \" he\" at position 22 is the strongest source\n2. L17:F5889: Detects \"references to people with pronouns and possessive pronouns\" \n3. L14:F14097: Specifically detects \"occurrences of the word 'he'\"\n4. L13:F1937: Detects \"pronouns used to describe people, including possessive pronouns\"\n5. L4:F15567: Detects \"sentences with male or female pronouns and possessives\"\n6. L0:F12768: Early layer feature detecting \"mentions of 'he' and 'she' in close proximity\"\n\nThe circuit shows a hierarchical refinement: early layers detect basic pronoun patterns, middle layers detect more specific pronoun usage (like \"he\" specifically or pronoun contexts), and the final L18 feature becomes highly specific to \"He\" detection. All paths ultimately trace back to the token embedding \" he\" at position 22.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14743
+            },
+            "output": {
+              "layer": 18,
+              "feature_idx": 14743,
+              "label": "He",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581anyone\u2581of\u2581the\u2581opinion\u2581that\u2581you\u2581could\u2581actually\u2581stretch\u2581your\u2581hand\u2581and\u2581make\u2581it\u2581bigger,\u2581thereby\u2581making\u2581it\u2581a\u2581plausible\u2581use\u2581of\u2581his\u2581powers?\u2581In\u2581this\u2581particular\u2581run,\u2581Ralph's\u2581stretching\u2581powers\u2581are\u2581all\u2581over\u2581the",
+                  "max_activation": 421.234,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ",\u2581success\u2581as\u2581a\u2581managing\u2581editor\u2581would\u2581look\u2581good\u2581on\u2581his\u2581r\u00e9sum\u00e9,\u2581would\u2581give\u2581him\u2581many\u2581more\u2581opportunities\u2581than\u2581simply\u2581working\u2581as\u2581a\u2581reporter\u2581for\u2581a\u2581small\u2581paper.\n\n\u201cAre\u2581you\u2581interested,\u2581Mr.\u2581Crawford?\u201d\n\nHe\u2581had\u2581f",
+                  "max_activation": 417.094,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581about\u2581him.\u2581A\u2581large\u2581family\u2581\u2014\u2581father,\u2581mother,\u2581and\u2581six\u2581children\u2581\u2014\u2581were\u2581being\u2581escorted\u2581into\u2581the\u2581railroad\u2581station\u2581by\u2581a\u2581young\u2581man\u2581in\u2581a\u2581blue\u2581uniform.\u2581They\u2581were\u2581on\u2581their\u2581way\u2581to\u2581a\u2581hot\u2581springs\u2581resort\u2581located\u2581n",
+                  "max_activation": 409.636,
+                  "max_token": "He"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581himself",
+                "\u2581him\u017felf",
+                "himself",
+                "\u2581\u062a\u0627\u0646\u064a\u0647",
+                "\u2581\u0645\u062a\u0639\u0644\u0642\u0647",
+                "\u2581Himself",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "\u2581\u0628\u064a\u0647\u0627",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                "expandindo"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u043a\u043e\u0458\u0430",
+                "SuppressMessage",
+                "validates",
+                "\u2581ihren",
+                "\u2581their",
+                "\u5ea7",
+                "\u2581she",
+                "Carriera",
+                "\u2581her",
+                "\u2581ihrem"
+              ],
+              "frac_nonzero": 0.01809
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 18,
+              "feature_idx": 14743,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 28.5
+              },
+              {
+                "type": "feature",
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 22,
+                "edge_weight": 4.5312
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -4.0938
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22,
+                "edge_weight": 3.4531
+              },
+              {
+                "type": "feature",
+                "layer": 14,
+                "feature_idx": 14097,
+                "pos": 22,
+                "edge_weight": 2.8438
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889
+            },
+            "output": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "label": " references to people with pronouns and possessive pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581ink\u201d.\u2581So\u2581she\u2581went\u2581to\u2581see\u2581her\u2581boss\u2581again\u2581(he\u2581was\u2581passed\u2581out\u2581from\u2581exhaustion)\u2581and\u2581got\u2581yelled\u2581at\u2581again\u2581(after\u2581she\u2581woke\u2581him).\u2581Eventually\u2581she\u2581figured\u2581out\u2581who\u2581she\u2581was\u2581supposed\u2581to\u2581see,\u2581and\u2581in\u2581exchange\u2581for\u2581t",
+                  "max_activation": 334.815,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": ".\u2581Most\u2581of\u2581the\u2581people\u2581I\u2581know,\u2581myself\u2581included,\u2581are\u2581in\u2581a\u2581state\u2581of\u2581low\u2581confidence.\u2581Lots\u2581of\u2581money\u2581in\u2581CDs,\u2581MMAs,\u2581bonds,\u2581under\u2581the\u2581mattresses,\u2581and\u2581in\u2581gold/silver.\n\nIMO,\u2581a\u2581restoration\u2581of\u2581confidence\u2581would\u2581rel",
+                  "max_activation": 333.55,
+                  "max_token": "\u2581He"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581Sky\u2581Realms\u2581takes\u2581the\u2581reader\u2581on\u2581a\u2581journey\u2581through\u2581exotic\u2581fantasy\u2581lands,\u2581as\u2581well\u2581as\u2581across\u2581the\u2581globe,\u2581from\u2581Sydney\u2581to\u2581Paris,\u2581from\u2581the\u2581Himalayas\u2581to\u2581Manhattan.\n\nHe\u2581thought\u2581he\u2019d\u2581return\u2581from\u2581Hell\u2581a\u2581hero",
+                  "max_activation": 328.746,
+                  "max_token": "\u2581he"
+                }
+              ],
+              "promoted_tokens": [
+                "ValueStyle",
+                "protoimpl",
+                "LookAnd",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "uxxxx",
+                "riwal",
+                "\u2581AssemblyCulture",
+                "SequentialGroup",
+                "BufferException",
+                "ToAction"
+              ],
+              "suppressed_tokens": [
+                "\u2581its",
+                "ontas",
+                "\u2581'@",
+                "\u2581Its",
+                "\u2581point",
+                "\u2581An",
+                "\u2581\u0432\u0441\u0435\u0433\u043e",
+                "akah",
+                "\u2581Am",
+                "osted"
+              ],
+              "frac_nonzero": 0.01848
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12768
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 12768,
+              "label": " mentions of \"he\" and \"she\" in close proximity",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581always\u2581ask\u2581him\u2581whether\u2581he\u2581has\u2581done\u2581it\u2581or\u2581not.\u2581He\u2581will\u2581end\u2581up\u2581contacting\u2581you.\u2581If\u2581it\u2581doesn\u2019t\u2581work,\u2581you\u2581can\u2581say\u2581that\u2581there\u2581is\u2581always\u2581some\u2581stink\u2581coming\u2581out\u2581of\u2581his\u2581mouth.\u2581He\u2581should\u2581see\u2581the\u2581doctor\u2581ASAP.\u2581E",
+                  "max_activation": 81.157,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581daughter\u2581who\u2581chose\u2581contrary\u2581to\u2581his\u2581wishes\u2581for\u2581her,\u2581or\u2581how\u2581he\u2581would\u2581respond\u2581to\u2581her\u2581if\u2581she\u2581told\u2581him\u2581that\u2581she\u2581felt\u2581prompted\u2581to\u2581do\u2581something\u2581he\u2581disagreed\u2581with.\n\nI\u2581took\u2581Bott\u2019s\u2581mission\u2581prep\u2581class\u2581years\u2581ago",
+                  "max_activation": 80.708,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581daughter\u2581who\u2581chose\u2581contrary\u2581to\u2581his\u2581wishes\u2581for\u2581her,\u2581or\u2581how\u2581he\u2581would\u2581respond\u2581to\u2581her\u2581if\u2581she\u2581told\u2581him\u2581that\u2581she\u2581felt\u2581prompted\u2581to\u2581do\u2581something\u2581he\u2581disagreed\u2581with.\n\nI\u2581took\u2581Bott\u2019s\u2581mission\u2581prep\u2581class\u2581years\u2581ago",
+                  "max_activation": 80.708,
+                  "max_token": "\u2581he"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581them",
+                "I",
+                "(",
+                "them",
+                "\n\n",
+                ".",
+                "i",
+                "\n",
+                "a",
+                "{"
+              ],
+              "suppressed_tokens": [
+                "\u2581he",
+                "\u2581\u043e\u043d",
+                "he",
+                "\u2581\u0432\u0456\u043d",
+                "\u2581\uadf8\ub294",
+                "\uadf8\ub294",
+                "\u2581\u05d4\u05d5\u05d0",
+                "\u4ed6",
+                "He",
+                "\u5f7c\u306f"
+              ],
+              "frac_nonzero": 0.01091
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 17,
+              "feature_idx": 5889,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 37.5
+              },
+              {
+                "type": "feature",
+                "layer": 14,
+                "feature_idx": 14097,
+                "pos": 22,
+                "edge_weight": 2.6094
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22,
+                "edge_weight": 1.9844
+              },
+              {
+                "type": "feature",
+                "layer": 15,
+                "feature_idx": 10510,
+                "pos": 22,
+                "edge_weight": 1.9297
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22,
+                "edge_weight": 1.9062
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 14,
+              "feature_idx": 14097
+            },
+            "output": {
+              "layer": 14,
+              "feature_idx": 14097,
+              "label": " occurrences of the word \"he\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581During\u2581Reconstruction,\u2581he\u2581became\u2581the\u2581state\u2019s\u2581first\u2581black\u2581treasurer,\u2581serving\u2581between\u25811868\u2581and\u25811878.\n\nAndrew\u2581Durnford\u2581was\u2581a\u2581sugar\u2581planter\u2581and\u2581a\u2581physician\u2581who\u2581owned\u2581the\u2581St.\u2581Rosalie\u2581plantation,\u258133\u2581miles\u2581",
+                  "max_activation": 118.676,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "002,\u2581when\u2581he\u2581posted\u2581bail,\u2581only\u2581to\u2581return\u2581on\u2581January\u258126,\u25812002.\u2581He\u2581has\u2581been\u2581in\u2581State\u2581custody\u2581since\u2581January\u258126,\u25812002,\u2581and\u2581was\u2581housed\u2581for\u2581sometime\u2581at\u2581the\u2581Maine\u2581Correctional\u2581Center\u2581in\u2581South\u2581Windham,\u2581Maine.",
+                  "max_activation": 117.477,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "970s.\u2581He\u2581mentions\u2581how\u2581different\u2581in\u2581tone\u2581\u201cThe\u2581Six\u2581Million\u2581Dollar\u2581Man\u201d\u2581became\u2581from\u2581\u201cThe\u2581Bionic\u2581Woman\u201d,\u2581with\u2581the\u2581former\u2581becoming\u2581more\u2581and\u2581more\u2581macho\u2581as\u2581it\u2581went\u2581along,\u2581while\u2581Lindsay\u2581Wagner\u2019s\u2581influence\u2581mil",
+                  "max_activation": 115.622,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "\u24e7",
+                "\u2581kasarigan",
+                "Witam",
+                "\u0418\u0441\u043a\u04d9\u0440\u043c\u04d9\u043b\u04d9\u0440",
+                "\u0e2b\u0e21\u0e37\u0e2d\u0e19",
+                "\u2581\u0627\u0633\u062a\u0646\u0627\u062f\u0649",
+                "WithMany",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "\u0414\u0435\u0440\u0435\u043a\u043a\u04e9\u0437\u0434\u0435\u0440",
+                "Havolalar"
+              ],
+              "suppressed_tokens": [
+                "usermodel",
+                "cloudfront",
+                "ColumnHeaders",
+                "\u2581Wikimedijinoj",
+                "\u2581fen\u00eatre",
+                "ichter",
+                "\u2581createContext",
+                "\u25bc",
+                "\u2581medida",
+                "mlink"
+              ],
+              "frac_nonzero": 0.01967
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12768,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 40.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 3.8438
+              },
+              {
+                "type": "embedding",
+                "token": ",",
+                "pos": 21,
+                "edge_weight": 1.4766
+              },
+              {
+                "type": "embedding",
+                "token": " topics",
+                "pos": 20,
+                "edge_weight": 0.4629
+              },
+              {
+                "type": "embedding",
+                "token": " and",
+                "pos": 17,
+                "edge_weight": 0.293
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 14,
+              "feature_idx": 14097,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 2.7031
+              },
+              {
+                "type": "feature",
+                "layer": 13,
+                "feature_idx": 1937,
+                "pos": 22,
+                "edge_weight": 2.6406
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22,
+                "edge_weight": 1.3438
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22,
+                "edge_weight": 1.0938
+              },
+              {
+                "type": "embedding",
+                "token": ",",
+                "pos": 21,
+                "edge_weight": 0.9375
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 13,
+              "feature_idx": 1937
+            },
+            "output": {
+              "layer": 13,
+              "feature_idx": 1937,
+              "label": " pronouns used to describe people, including possessive pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "bowling\u2581in\u2581class,\u2581and\u2581really\u2581publishing\u2581to\u2581the\u2581world.\u2581I\u2581also\u2581told\u2581her\u2581about\u2581how\u2581we\u2581are\u2581using\u2581cell\u2581phones\u2581in\u2581the\u2581classroom\u2581and\u2581really\u2581trying\u2581to\u2581make\u2581the\u2581content\u2581that\u2581the\u2581students\u2581write\u2581worth\u2581while\u2581to\u2581t",
+                  "max_activation": 103.838,
+                  "max_token": "\u2581her"
+                },
+                {
+                  "text_snippet": "city\u2581hall'\u2581from\u2581outside\u2581for\u2581reasons\u2581listed\u2581above\u2581-\u2581naturally\u2581he\u2581lost\u2581and\u2581Mahathir\u2581triumphed\u2581over\u2581him\u2581once\u2581more\u2581in\u2581that\u2581court\u2581case.\n\nBut\u2581he\u2581still\u2581didn't\u2581give\u2581up\u2581because\u2581when\u2581he\u2581was\u2581released\u2581by\u2581AAB\u2581in\u25812",
+                  "max_activation": 103.338,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": ",\u2581often\u2581before\u2581they\u2581were\u2581written\u2581\u2013\u2581badgers\u2581(sigh)\u2581and\u2581a\u2581school\u2581for\u2581poison\u2581girls,\u2581doors\u2581in\u2581trees,\u2581dangerous\u2581quilts\u2026\u2581so\u2581any\u2581workload-related\u2581resolve\u2581was\u2581fairly\u2581well\u2581weakened\u2581by\u2581the\u2581time\u2581she\u2581sent\u2581me\u2581the\u2581",
+                  "max_activation": 96.67,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "\u062f\u0647\u0645",
+                "remos",
+                "liferay",
+                "gade",
+                "\u2581Ou",
+                "\u2019",
+                "\u2581f",
+                "\u0434\u043e\u0432\u0438",
+                "\u2581n",
+                "\u2581grand"
+              ],
+              "suppressed_tokens": [
+                "\u2581EconPapers",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "\u2581BoxDecoration",
+                "Geplaatst",
+                "ViewImports",
+                "\u2581referrerpolicy",
+                "\u2581AssemblyVersion",
+                "\u2581Italijani",
+                "\u2581ostavi",
+                "\u2581hou\u017fe"
+              ],
+              "frac_nonzero": 0.05382
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 13,
+              "feature_idx": 1937,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 8.9375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 5.5312
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22,
+                "edge_weight": 1.7031
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 6622,
+                "pos": 22,
+                "edge_weight": 0.6602
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 11473,
+                "pos": 22,
+                "edge_weight": -0.6172
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15567
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 15567,
+              "label": "sentences with male or female pronouns and possessives, especially ones referring to writing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nLast\u2581month,\u2581he\u2581wrote\u2581a\u2581lesson\u2581plan\u2581on\u2581addressing\u2581fake\u2581news\u2581to\u2581English\u2581language\u2581learners\u2581(ELLs),\u2581which\u2581was\u2581published\u2581in\u2581The\u2581New\u2581York\u2581Times.\n\nHe\u2581says\u2581media\u2581literacy\u2581is\u2581especially\u2581important\u2581for\u2581ELLs\u2581fo",
+                  "max_activation": 30.875,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\n\nLast\u2581month,\u2581he\u2581wrote\u2581a\u2581lesson\u2581plan\u2581on\u2581addressing\u2581fake\u2581news\u2581to\u2581English\u2581language\u2581learners\u2581(ELLs),\u2581which\u2581was\u2581published\u2581in\u2581The\u2581New\u2581York\u2581Times.\n\nHe\u2581says\u2581media\u2581literacy\u2581is\u2581especially\u2581important\u2581for\u2581ELLs\u2581fo",
+                  "max_activation": 30.875,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581preuzimanje\u2581koda:\";\n\"com_accountkit_phone_error_title\"\u2581=\u2581\"Unesite\u2581valjani\u2581broj\u2581mobitela.\";\n\"com_accountkit_phone_loading_title\"\u2581=\u2581\"Potvrda\u2581broja...\";\n\"com_accountkit_phone_login_retry_title\"\u2581=\u2581\"Potvr",
+                  "max_activation": 29.563,
+                  "max_token": "ga"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "UnusedPrivate",
+                "########.",
+                "uxxxx",
+                "__\":\r",
+                "IUrlHelper",
+                "KommentareTeilen",
+                "He",
+                "\u2581saites",
+                "Chham"
+              ],
+              "suppressed_tokens": [
+                "\u0440\u0430\u0437\u0443",
+                "\u2581",
+                "\u2581mengin",
+                "\u2581rapides",
+                "\u2581urgencia",
+                "BUSY",
+                "\u2581secondaires",
+                "llte",
+                "\u2581yder",
+                "\u2581\""
+              ],
+              "frac_nonzero": 0.01738
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15567,
+              "pos": 22,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 17.875
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 9548,
+                "pos": 22,
+                "edge_weight": 2.0938
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 8685,
+                "pos": 22,
+                "edge_weight": -1.1016
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 6712,
+                "pos": 22,
+                "edge_weight": -1.0859
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 9233,
+                "pos": 22,
+                "edge_weight": 0.9648
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 9548
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 9548,
+              "label": " uses of the word \"this\" followed by a pause or conjunction, sometimes near location-specific info.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581masala\u2581(cubes\u2581of\u2581Indian\u2581cottage\u2581cheese\u2581in\u2581a\u2581rich\u2581tomato\u2581sauce)....\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Saravana\u2581Bhavan.\n\nWestern\n\nSet\u2581on\u2581the\u2581edge\u2581of\u2581the\u2581embassy\u2581district,\u2581this\u2581place\u2581is\u2581a\u2581triumph\u2581of\u2581substance\u2581ove",
+                  "max_activation": 34.366,
+                  "max_token": "\u2581this"
+                },
+                {
+                  "text_snippet": "\u2581masala\u2581(cubes\u2581of\u2581Indian\u2581cottage\u2581cheese\u2581in\u2581a\u2581rich\u2581tomato\u2581sauce)....\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Saravana\u2581Bhavan.\n\nWestern\n\nSet\u2581on\u2581the\u2581edge\u2581of\u2581the\u2581embassy\u2581district,\u2581this\u2581place\u2581is\u2581a\u2581triumph\u2581of\u2581substance\u2581ove",
+                  "max_activation": 34.366,
+                  "max_token": "\u2581this"
+                },
+                {
+                  "text_snippet": "development_dependency\u2581'rspec',\u2581'~>\u25813.4'\n\u2581\u2581s.add_development_dependency\u2581'rubocop'\n\u2581\u2581s.add_development_dependency\u2581'rubocop-performance'\n\u2581\u2581s.add_development_dependency\u2581'rubocop-standard'\n\u2581\u2581s.add_develop",
+                  "max_activation": 33.936,
+                  "max_token": "\u2581it"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581utafitiHapana",
+                "\u5546\u54c1\u8aac\u660e",
+                "endphp",
+                "\u2581estim\u00e9s",
+                "-",
+                "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+                "WriteTagHelper",
+                "\u2581AssemblyTitle",
+                "spesies"
+              ],
+              "suppressed_tokens": [
+                "SequentialGroup",
+                "atelle",
+                "igshid",
+                "InputBorder",
+                "\u2581Juga",
+                "\u00fcrlich",
+                "uncher",
+                "\u2581tr\u00f2",
+                "\u00e1ndote",
+                "ibase"
+              ],
+              "frac_nonzero": 0.01087
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this feature's semantics and upstream sources. What does L18:14743 encode?",
+          "input_tokens": 81025,
+          "output_tokens": 4008,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 13120
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 1,
+        "starting_feature_idx": 15323,
+        "starting_pos": 1,
+        "objective": "Trace this feature's semantics and upstream sources. What does L1:15323 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 1,
+            "feature_idx": 15323,
+            "pos": 1,
+            "label": "the word \"starting\" in academic papers",
+            "frac_nonzero": 0.01245,
+            "promoted_tokens": [
+              "agement",
+              "*/;",
+              "\\u2581redes",
+              "ufact",
+              "\\u2581StatefulWidget",
+              "\\u0bbe\\u0bb2\\u0bcd",
+              "PreferredItem",
+              "OVERY",
+              "lihood",
+              "\\u2581InputDecoration"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 7344,
+            "pos": 1,
+            "label": " content markers like figures and section headers",
+            "frac_nonzero": 0.01804,
+            "promoted_tokens": [
+              "\\u2581CreateTagHelper",
+              "\\u2581\\u0432\\u0438\\u043f\\u0440\\u0430\\u0432\\u0438\\u0432\\u0448\\u0438",
+              ":\\u2728",
+              "\\u2581autorytatywna",
+              "\\u2581Roskov",
+              "lgari",
+              "XmlAccessType",
+              "\\u2581betweenstory",
+              "drawal",
+              "\\u2581resourceCulture"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6421,
+            "pos": 1,
+            "label": " words related to administrative processes and computer programs",
+            "frac_nonzero": 0.03973,
+            "promoted_tokens": [
+              "ReusableCell",
+              "fromnode",
+              "tvguidetime",
+              "\\ue315",
+              "UnitTesting",
+              "\\u2581laude",
+              "\\u2581Newswire",
+              "\\u2581t\\u1ee5c",
+              "AutoresizingMask",
+              "ToBounds"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 6228,
+            "pos": 1,
+            "label": " the word \"toxicity\" when discussing medicine",
+            "frac_nonzero": 0.05966999999999999,
+            "promoted_tokens": [
+              "\\u2581Monfieur",
+              "\\u2581purpo\\u017fe",
+              "\\u2581them\\u017felves",
+              "\\u2581my\\u017felf",
+              "\\u2581poffible",
+              "\\u2581u\\u017fed",
+              "\\u2581Shakspeare",
+              "\\u2581hou\\u017fe",
+              "\\u2581him\\u017felf",
+              "\\u2581becau\\u017fe"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7344,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": -0.2637
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6421,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": -0.2637
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 6228,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": -0.2598
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7344,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": -0.2637
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": 16.375,
+            "from_token": "Starting"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 1,
+            "to_feature_idx": 15323,
+            "to_pos": 1,
+            "weight": 1.0859,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 7344,
+            "to_pos": 1,
+            "weight": 3.6406,
+            "from_token": "Starting"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 7344,
+            "to_pos": 1,
+            "weight": 11.1875,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 6421,
+            "to_pos": 1,
+            "weight": 0.6016,
+            "from_token": "Starting"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 6421,
+            "to_pos": 1,
+            "weight": 10.3125,
+            "from_token": "<bos>"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 6228,
+            "to_pos": 1,
+            "weight": 9.5625,
+            "from_token": "Starting"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 6228,
+            "to_pos": 1,
+            "weight": 0.4785,
+            "from_token": "<bos>"
+          }
+        ],
+        "explanation": "L1:F15323 encodes detection of the word \"starting\" in academic papers context. It has a complex circuit: The feature is primarily positively driven directly by the \"Starting\" token embedding (weight 16.375), but interestingly it SUPPRESSES actual \"starting\" tokens in its output (as seen in its suppressed_tokens list). The feature is significantly inhibited by three layer 0 features: L0:F7344 (content markers like figures/section headers), L0:F6421 (administrative/computer terms), and L0:F6228 (the word \"toxicity\" in medicine). These inhibitory connections explain why the feature doesn't simply fire on all \"starting\" tokens but specifically in academic contexts where these inhibiting features are less active. All three inhibitory features are themselves driven by the \"Starting\" token and BOS token, creating a competitive dynamic where different interpretations of the same input token compete for expression.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 15323
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 15323,
+              "label": "the word \"starting\" in academic papers",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581into\u2581a\u2581canonical\u2581transformation\u2581of\u2581the\u2581renormalized\u2581theory.\u2581Third,\u2581we\u2581renormalize\u2581the\u2581canonical\u2581transformation\u2581that\u2581continuously\u2581interpolates\u2581between\u2581the\u2581background\u2581field\u2581approach\u2581and\u2581the\u2581conventiona",
+                  "max_activation": 34.774,
+                  "max_token": "\u2581starting"
+                },
+                {
+                  "text_snippet": "in-Vilkovisky\u2581formalism,\u2581to\u2581generalize\u2581known\u2581results,\u2581study\u2581the\u2581parametric\u2581completeness\u2581of\u2581general\u2581gauge\u2581theories\u2581and\u2581achieve\u2581a\u2581better\u2581understanding\u2581of\u2581several\u2581properties.\u2581In\u2581particular,\u2581we\u2581study\u2581reno",
+                  "max_activation": 34.576,
+                  "max_token": "\u2581starting"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581the\u2581functional\u2581$X$\u2581(equal\u2581to\u25810\u2581if\u2581$X$\u2581is\u2581bosonic,\u25811\u2581if\u2581it\u2581is\u2581fermionic,\u2581modulo\u25812).\u2581Moreover,\u2581we\u2581also\u2581have\u2581$$\\int\u2581\\left\\langle\u2581\\frac{\\delta\u2581_{r}S}{\\delta\u2581\\Phi\u2581^{\\alpha\u2581}}\\frac{\\delta\n_{l}X}{\\delta\u2581",
+                  "max_activation": 34.401,
+                  "max_token": "\u2581starting"
+                }
+              ],
+              "promoted_tokens": [
+                "agement",
+                "*/;",
+                "\u2581redes",
+                "ufact",
+                "\u2581StatefulWidget",
+                "\u0bbe\u0bb2\u0bcd",
+                "PreferredItem",
+                "OVERY",
+                "lihood",
+                "\u2581InputDecoration"
+              ],
+              "suppressed_tokens": [
+                "\u2581Starting",
+                "\u2581starting",
+                "Starting",
+                "starting",
+                "\u2581starts",
+                "\u2581commencing",
+                "\u2581STARTING",
+                "\u2581Starts",
+                "\u2581commence",
+                "STARTING"
+              ],
+              "frac_nonzero": 0.01245
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 15323,
+              "pos": 1
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": 16.375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 1.0859
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7344,
+                "pos": 1,
+                "edge_weight": -0.2637
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6421,
+                "pos": 1,
+                "edge_weight": -0.2637
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 6228,
+                "pos": 1,
+                "edge_weight": -0.2598
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7344
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7344,
+              "label": " content markers like figures and section headers",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Fig.\u25811E\u2581and\u2581F](#ppat-1003720-g001){ref-type=\"fig\"}\u2581and\u2581in\u2581[Fig.\u2581S1A](#ppat.1003720.s001){ref-type=\"supplementary-material\"}.\n\n(TIF)\n\n######\u2581\n\nClick\u2581here\u2581for\u2581additional\u2581data\u2581file.\n\n######\u2581\n\n**Hemocytes",
+                  "max_activation": 36.802,
+                  "max_token": "Fig"
+                },
+                {
+                  "text_snippet": "Fig\u25811](#ppat.1008484.g001){ref-type=\"fig\"}.\u2581For\u2581panels\u2581A\u2581and\u2581B,\u2581the\u2581rotational\u2581movements\u2581correlate\u2581the\u2581both\u2581structure\u2581pairs\u2581are\u2581indicated.](ppat.1008484.g002){#ppat.1008484.g002}\n\n10.1371/journal.ppat",
+                  "max_activation": 36.802,
+                  "max_token": "Fig"
+                },
+                {
+                  "text_snippet": "Fig.\u25813c,d](#f3){ref-type=\"fig\"},\u2581respectively.\u2581At\u2581first\u2581glance,\u2581the\u2581system\u2581looks\u2581phase-separated:\u2581a\u2581dense\u2581and\u2581ordered\u2581polar-liquid\u2581ring\u2581where\u2581all\u2581the\u2581colloids\u2581cruise\u2581along\u2581the\u2581azimuthal\u2581direction\u2581encl",
+                  "max_activation": 36.802,
+                  "max_token": "Fig"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581CreateTagHelper",
+                "\u2581\u0432\u0438\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0438",
+                ":\u2728",
+                "\u2581autorytatywna",
+                "\u2581Roskov",
+                "lgari",
+                "XmlAccessType",
+                "\u2581betweenstory",
+                "drawal",
+                "\u2581resourceCulture"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "The",
+                "\n\n",
+                "\n",
+                "<strong>",
+                "<em>",
+                "is",
+                "<b>",
+                "In",
+                "and"
+              ],
+              "frac_nonzero": 0.01804
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6421
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6421,
+              "label": " words related to administrative processes and computer programs",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581campaign,\u2581in\u2581740,\u2581recovered\u2581much\u2581territory\u2581in\u2581Sogdia,\u2581including\u2581Samarkand,\u2581with\u2581little\u2581apparent\u2581resistance.\u2581Aiming\u2581to\u2581recover\u2581all\u2581the\u2581lands\u2581previously\u2581conquered\u2581under\u2581Qutayba\u2581ibn\u2581Muslim\u2581and\u2581to\u2581curtai",
+                  "max_activation": 36.862,
+                  "max_token": "\u2581campaign"
+                },
+                {
+                  "text_snippet": "\u2581program\u2581incrementing\u2581variable\u2581with\u2581for\u2581loop\n\nI\u2581am\u2581trying\u2581to\u2581learn\u2581the\u2581C\u2581programming\u2581language\u2581on\u2581my\u2581own\u2581and\u2581have\u2581to\u2581depend\u2581on\u2581the\u2581internet\u2581for\u2581some\u2581help.\u2581\u2581I\u2581am\u2581playing\u2581around\u2581with\u2581one\u2581variable\u2581and\u2581a\u2581f",
+                  "max_activation": 36.055,
+                  "max_token": "\u2581program"
+                },
+                {
+                  "text_snippet": "\u2581program\u2581that\u2581requires\u2581Image\u2581Magick's\u2581MagickWand.h:\n#include\u2581\"wand/MagickWand.h\"\n\nBut\u2581my\u2581Image\u2581Magick\u2581was\u2581installed\u2581through\u2581Homebrew\u2581on\u2581my\u2581Mac\u2581so\u2581I\u2581changed\u2581the\u2581include\u2581to\u2581the\u2581actual\u2581location:\n#include",
+                  "max_activation": 36.055,
+                  "max_token": "\u2581program"
+                }
+              ],
+              "promoted_tokens": [
+                "ReusableCell",
+                "fromnode",
+                "tvguidetime",
+                "\ue315",
+                "UnitTesting",
+                "\u2581laude",
+                "\u2581Newswire",
+                "\u2581t\u1ee5c",
+                "AutoresizingMask",
+                "ToBounds"
+              ],
+              "suppressed_tokens": [
+                "<bos>",
+                "'",
+                "\u2019",
+                "\u2581The\u017fe",
+                "le\u017fs",
+                "\u017fhip",
+                "joyed",
+                "'}>",
+                "\u2581Monfieur",
+                "\u017ftance"
+              ],
+              "frac_nonzero": 0.03973
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6228
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6228,
+              "label": " the word \"toxicity\" when discussing medicine",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ":\n\nNo\u2581you\u2581can't.\u2581You\u2581can\u2581see\u2581this\u2581because\u2581you\u2581are\u2581only\u2581given\u2581things\u2581that\u2581can\u2581define\u2581a\u2581units\u2581of\u2581length\u2581and\u2581mass\u2581(the\u2581meterstick\u2581and\u2581the\u2581ball),\u2581so\u2581you\u2581need\u2581something\u2581that\u2581can\u2581define\u2581the\u2581unit\u2581of\u2581time.\u2581If",
+                  "max_activation": 24.747,
+                  "max_token": "toxicity"
+                },
+                {
+                  "text_snippet": ":\n\nNo\u2581you\u2581can't.\u2581You\u2581can\u2581see\u2581this\u2581because\u2581you\u2581are\u2581only\u2581given\u2581things\u2581that\u2581can\u2581define\u2581a\u2581units\u2581of\u2581length\u2581and\u2581mass\u2581(the\u2581meterstick\u2581and\u2581the\u2581ball),\u2581so\u2581you\u2581need\u2581something\u2581that\u2581can\u2581define\u2581the\u2581unit\u2581of\u2581time.\u2581If",
+                  "max_activation": 24.747,
+                  "max_token": "toxicity"
+                },
+                {
+                  "text_snippet": "\u2581(RF)\u2581for\u2581CVD.\u2581Anthracyclines\u2581and\u2581its\u2581derivatives\u2581have\u2581served\u2581for\u2581over\u2581fifty\u2581years\u2581as\u2581the\u2581road\u2581model\u2581of\u2581studding\u2581early,\u2581mid\u2581and\u2581late\u2581term\u2581cardiotoxicity.\u2581Today\u2581a\u2581vast\u2581number\u2581of\u2581chemical\u2581agents\u2581are\u2581use",
+                  "max_activation": 24.621,
+                  "max_token": "toxicity"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581purpo\u017fe",
+                "\u2581them\u017felves",
+                "\u2581my\u017felf",
+                "\u2581poffible",
+                "\u2581u\u017fed",
+                "\u2581Shakspeare",
+                "\u2581hou\u017fe",
+                "\u2581him\u017felf",
+                "\u2581becau\u017fe"
+              ],
+              "suppressed_tokens": [
+                "'))\r",
+                "RegressionTest",
+                "]',",
+                "\"]).",
+                "))),",
+                "MigrationBuilder",
+                "]').",
+                "}`,",
+                "\u2581*}",
+                "\"))"
+              ],
+              "frac_nonzero": 0.05966999999999999
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7344,
+              "pos": 1
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 11.1875
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": 3.6406
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 419,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 437,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 165,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6421,
+              "pos": 1
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 10.3125
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": 0.6016
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 419,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 437,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 165,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6228,
+              "pos": 1
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": 9.5625
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.4785
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 419,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 437,
+                "pos": 1,
+                "edge_weight": 0.0
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 165,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this feature's semantics and upstream sources. What does L1:15323 encode?",
+          "input_tokens": 43611,
+          "output_tokens": 2541,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 15661,
+        "starting_pos": 7,
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:15661 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 15661,
+            "pos": 7,
+            "label": "the word \"spin\"",
+            "frac_nonzero": 0.00328,
+            "promoted_tokens": [
+              "\u2581amiti\u00e9",
+              "\u2581plea\u017fure",
+              "\u2581Monfieur",
+              "\u2581synth\u00e8se",
+              "\u2581auffi",
+              "\u2581qu\u00e6",
+              "WriteLiteral",
+              "\u2581chofe",
+              "\u2581u\u017f",
+              "\u2581\u00e9toit"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 7,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 19.375,
+            "from_token": " Institute"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 0.5078,
+            "from_token": " Royal"
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 0.3438,
+            "from_token": " United"
+          }
+        ],
+        "explanation": "The feature L0:15661 at position 7 has the label \\\"the word 'spin'\\\" based on its training examples (firing on scientific contexts with nuclear spin, atomic physics). However, in the attribution graph for this specific prompt, it shows a very strong direct connection (weight 19.375) to the token embedding for \\\" Institute\\\" at position 7. This suggests the feature may be multi-modal or context-dependent. The feature has low sparsity (frac_nonzero=0.00328), making it selective. The promoted tokens are mostly French words (amiti\u00e9, plaisure, Monsieur, synth\u00e8se, etc.), which is unusual for a feature labeled as detecting \\\"spin\\\". The circuit traces directly to token embeddings with no intermediate features, indicating it's an early detector.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15661
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15661,
+              "label": "the word \"spin\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581an\u2581isolated\u2581nuclear\u2581spin,\u2581butalso\u2581to\u2581achieve\u2581atomic-scale\u2581spatial\u2581resolution.\u2581Here\u2581we\u2581propose\u2581amethod\u2581that,\u2581by\u2581exploiting\u2581the\u2581coupling\u2581of\u2581the\u2581NV\u2581center\u2581to\u2581an\u2581intrin-sic\u2581quantum\u2581memory\u2581associated\u2581with",
+                  "max_activation": 47.585,
+                  "max_token": "\u2581spin"
+                },
+                {
+                  "text_snippet": "\u2581an\u2581isolated\u2581nuclear\u2581spin,\u2581butalso\u2581to\u2581achieve\u2581atomic-scale\u2581spatial\u2581resolution.\u2581Here\u2581we\u2581propose\u2581amethod\u2581that,\u2581by\u2581exploiting\u2581the\u2581coupling\u2581of\u2581the\u2581NV\u2581center\u2581to\u2581an\u2581intrin-sic\u2581quantum\u2581memory\u2581associated\u2581with",
+                  "max_activation": 47.585,
+                  "max_token": "\u2581spin"
+                },
+                {
+                  "text_snippet": "\u2581Organism\u2581Is\u2581a\u2581First\n\nQuote:\n\n\u201cIn\u2581QuASAR\u2581we\u2581are\u2581building\u2581sensors\u2581that\u2581capitalize\u2581on\u2581the\u2581extreme\u2581precision\u2581and\u2581control\u2581of\u2581atomic\u2581physics.\u2581We\u2581hope\u2581these\u2581novel\u2581measurement\u2581tools\u2581can\u2581provide\u2581new\u2581capabilit",
+                  "max_activation": 47.075,
+                  "max_token": "\u2581spin"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581amiti\u00e9",
+                "\u2581plea\u017fure",
+                "\u2581Monfieur",
+                "\u2581synth\u00e8se",
+                "\u2581auffi",
+                "\u2581qu\u00e6",
+                "WriteLiteral",
+                "\u2581chofe",
+                "\u2581u\u017f",
+                "\u2581\u00e9toit"
+              ],
+              "suppressed_tokens": [
+                "RenderAtEndOf",
+                "mybatisplus",
+                "MigrationBuilder",
+                "\u5e16\u6700\u540e\u7531",
+                ",",
+                "tableFuture",
+                "__*/",
+                "ftagPool",
+                "EDEFAULT",
+                "."
+              ],
+              "frac_nonzero": 0.00328
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15661,
+              "pos": 7,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Institute",
+                "pos": 7,
+                "edge_weight": 19.375
+              },
+              {
+                "type": "embedding",
+                "token": " Royal",
+                "pos": 4,
+                "edge_weight": 0.5078
+              },
+              {
+                "type": "embedding",
+                "token": " United",
+                "pos": 5,
+                "edge_weight": 0.3438
+              },
+              {
+                "type": "embedding",
+                "token": " Services",
+                "pos": 6,
+                "edge_weight": -0.1191
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": -0.0908
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this feature's semantics and upstream sources. What does L0:15661 encode?",
+          "input_tokens": 8900,
+          "output_tokens": 1350,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 3820,
+        "starting_pos": 3,
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:3820 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 3820,
+            "pos": 3,
+            "label": "the word \"the\"",
+            "frac_nonzero": 0.0299,
+            "promoted_tokens": [
+              "\u2581Efq",
+              "\u2581The\u017fe",
+              "\u2581photolibrary",
+              "\u2581Shakspeare",
+              "\u2581vectorielles",
+              "\u2581C\u00e6sar",
+              "\u2581Jefus",
+              "\u2581Hou\u017fe",
+              "\u2581Shaksp",
+              "\u2581feroit"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 419,
+            "pos": 1,
+            "label": "the word \"fixed\" or its variants in technical contexts.",
+            "frac_nonzero": 0.02761,
+            "promoted_tokens": [
+              "y",
+              "en",
+              "\u2581eventually",
+              "ity",
+              "an",
+              "us",
+              "yes",
+              "\u2581during",
+              "k",
+              "\u2581ultimately"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 3,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 3,
+            "weight": 34,
+            "token": " the"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 2,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 3,
+            "weight": -3.4688,
+            "token": " at"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 3,
+            "weight": -2.4219,
+            "token": "Starting"
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 3,
+            "weight": 0.8984,
+            "token": "<bos>"
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 419,
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 3,
+            "weight": 0
+          },
+          {
+            "from_layer": null,
+            "from_feature_idx": null,
+            "from_pos": 43,
+            "to_layer": 0,
+            "to_feature_idx": 3820,
+            "to_pos": 43,
+            "weight": 36,
+            "token": " the"
+          }
+        ],
+        "explanation": "L0:3820 encodes the word \"the\". It fires specifically on occurrences of the token \" the\" in the input. The circuit shows it receives strong positive connections (edge_weight 34.0 and 36.0) directly from the embeddings of \" the\" tokens at positions where it activates. Interestingly, it suppresses \"the\" as an output token while promoting rare/foreign-language variations like \"Efq\", \"The\u017ee\", etc. The feature also receives negative connections from context tokens like \"at\" and \"Starting\", suggesting competitive inhibition or contextual modulation. This appears to be a simple token detection feature that forms at the very first layer of the model, directly reading the input token embeddings.\"",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3820
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 3820,
+              "label": "the word \"the\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ")\u2581the\u2581fact\u2581that\u2581the\u2581operation\u2581of\u2581the\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581intervening\u2581force\u2581is\u2581due\u2581to\u2581a\u2581third\u2581person\u2019s\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581act\u2581or\u2581his\u2581failure\u2581to\u2581act;\n\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581(e)\u2581the\u2581fact\u2581that\u2581the\u2581intervening\u2581force\u2581is\n\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581\u2581due",
+                  "max_activation": 55.495,
+                  "max_token": "\u2581the"
+                },
+                {
+                  "text_snippet": "1)\u2581the\u2581design\u2581(parameter\u2581sampling)\u2581of\u2581cosmological\u2581models,\u2581(2)\u2581$N$-body\u2581simulations\u2581with\u2581Gadget-2,[^2]\u2581(3)\u2581ray-tracing\u2581from\u2581$z=0$\u2581to\u2581$z=1100$\u2581to\u2581obtain\u2581(noiseless)\u2581convergence\u2581maps\u2581using\u2581the\u2581Python\u2581co",
+                  "max_activation": 54.584,
+                  "max_token": "\u2581the"
+                },
+                {
+                  "text_snippet": "\u2581particularly\u2581the\u2581steak\u2581and\u2581Guinness.\nFor\u2581a\u2581true\u2581taste\u2581of\u2581home,\u2581assuming\u2581you\u2581come\u2581from\u2581the\u2581north\u2581of\u2581England\u2581that\u2581is,\u2581the\u2581chips\u2581with\u2581curry\u2581sauce\u2581are\u2581a\u2581must.\u2581Prices\u2581are\u2581moderate\u2581to...\u2581Read\u2581our\u2581full\u2581revi",
+                  "max_activation": 54.531,
+                  "max_token": "\u2581the"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Efq",
+                "\u2581The\u017fe",
+                "\u2581photolibrary",
+                "\u2581Shakspeare",
+                "\u2581vectorielles",
+                "\u2581C\u00e6sar",
+                "\u2581Jefus",
+                "\u2581Hou\u017fe",
+                "\u2581Shaksp",
+                "\u2581feroit"
+              ],
+              "suppressed_tokens": [
+                "\u2581the",
+                "\u2581a",
+                "\u2581an",
+                "\u2581this",
+                "\u2581their",
+                "\u2581our",
+                "\u2581some",
+                "\u2581",
+                "\u2581both",
+                "\u2581its"
+              ],
+              "frac_nonzero": 0.0299
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3820,
+              "pos": 3,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " the",
+                "pos": 3,
+                "edge_weight": 34.0
+              },
+              {
+                "type": "embedding",
+                "token": " at",
+                "pos": 2,
+                "edge_weight": -3.4688
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": -2.4219
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.8984
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 419,
+                "pos": 1,
+                "edge_weight": 0.0
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 419
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 419,
+              "label": "the word \"fixed\" or its variants in technical contexts.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581fixed\u2581to\u2581*n\u200a=\u200a*7\u2581and\u2581linear\u2581mortality\u2581parameter\u2581*\u03b7*\u2581to\u25811.0.\u2581Linear\u2581infectivity\u2581response\u2581with\u2581rate\u2581constant\u2581*\u03b2*/2ID~50~\u2581was\u2581used\u2581in\u2581panels\u2581(A)\u2581and\u2581(B),\u2581and\u2581sigmoidal\u2581response\u2581([eqn.\u25812](#pone.0071621.e",
+                  "max_activation": 36.232,
+                  "max_token": "\u2581fixed"
+                },
+                {
+                  "text_snippet": "\u2581fixed-wing\u2581aircraft.\u2581From\u2581the\u2581beginning\u2581of\u2581their\u2581aeronautical\u2581work,\u2581the\u2581Wright\u2581brothers\u2581focused\u2581on\u2581unlocking\u2581the\u2581secrets\u2581of\u2581control\u2581to\u2581conquer\u2581\"the\u2581flying\u2581problem\",\u2581rather\u2581than\u2581on\u2581developing\u2581more\u2581pow",
+                  "max_activation": 36.232,
+                  "max_token": "\u2581fixed"
+                },
+                {
+                  "text_snippet": "\u2581fixed\u2581and\u2581mobile-bearing\u2581knee\u2581prostheses,\u2581the\u2581tibial\u2581trays\u2581may\u2581be\u2581designed\u2581to\u2581be\u2581cemented\u2581into\u2581place\u2581on\u2581the\u2581patient's\u2581tibia\u2581or\u2581alternatively\u2581may\u2581be\u2581designed\u2581for\u2581cementless\u2581fixation.\u2581Cemented\u2581fixation",
+                  "max_activation": 36.232,
+                  "max_token": "\u2581fixed"
+                }
+              ],
+              "promoted_tokens": [
+                "y",
+                "en",
+                "\u2581eventually",
+                "ity",
+                "an",
+                "us",
+                "yes",
+                "\u2581during",
+                "k",
+                "\u2581ultimately"
+              ],
+              "suppressed_tokens": [
+                "\u2581AssemblyCulture",
+                "InjectAttribute",
+                "ValueStyle",
+                "\u2581autorytatywna",
+                "SpringBootTest",
+                "rungsseite",
+                "\u2581<=\",",
+                "oredCriteria",
+                "verwijspagina",
+                "\u2581@\"/"
+              ],
+              "frac_nonzero": 0.02761
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3820,
+              "pos": 0,
+              "k": 3
+            },
+            "output": {
+              "error": "Feature (layer=0, feature_idx=3820) not found at pos=0. This feature is active at pos=[3, 43]. Retry with one of those positions."
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 3820,
+              "pos": 43,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " the",
+                "pos": 43,
+                "edge_weight": 36.0
+              },
+              {
+                "type": "embedding",
+                "token": " for",
+                "pos": 42,
+                "edge_weight": -3.7031
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 0.252
+              },
+              {
+                "type": "embedding",
+                "token": " Services",
+                "pos": 6,
+                "edge_weight": -0.1748
+              },
+              {
+                "type": "embedding",
+                "token": " freelance",
+                "pos": 27,
+                "edge_weight": -0.1445
+              }
+            ]
+          },
+          {
+            "tool": "get_top_logits",
+            "input": {
+              "k": 5
+            },
+            "output": [
+              {
+                "token": "",
+                "probability": 1.0
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-5",
+          "objective": "Trace this feature's semantics and upstream sources. What does L0:3820 encode?",
+          "input_tokens": 28716,
+          "output_tokens": 1764,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-5"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 14,
+        "starting_feature_idx": 14097,
+        "starting_pos": 22,
+        "objective": "Trace this feature's semantics and upstream sources. What does L14:14097 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 14,
+            "feature_idx": 14097,
+            "pos": 22,
+            "label": " occurrences of the word \"he\"",
+            "frac_nonzero": 0.01967,
+            "promoted_tokens": [
+              "\u24e7",
+              "\u2581kasarigan",
+              "Witam",
+              "\u0418\u0441\u043a\u04d9\u0440\u043c\u04d9\u043b\u04d9\u0440",
+              "\u0e2b\u0e21\u0e37\u0e2d\u0e19",
+              "\u2581\u0627\u0633\u062a\u0646\u0627\u062f\u0649",
+              "WithMany",
+              "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+              "\u0414\u0435\u0440\u0435\u043a\u043a\u04e9\u0437\u0434\u0435\u0440",
+              "Havolalar"
+            ]
+          },
+          {
+            "layer": 13,
+            "feature_idx": 1937,
+            "pos": 22,
+            "label": " pronouns used to describe people, including possessive pronouns",
+            "frac_nonzero": 0.05382,
+            "promoted_tokens": [
+              "\u062f\u0647\u0645",
+              "remos",
+              "liferay",
+              "gade",
+              "\u2581Ou",
+              "\u2019",
+              "\u2581f",
+              "\u0434\u043e\u0432\u0438",
+              "\u2581n",
+              "\u2581grand"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 12768,
+            "pos": 22,
+            "label": " mentions of \"he\" and \"she\" in close proximity",
+            "frac_nonzero": 0.01091,
+            "promoted_tokens": [
+              "\u2581them",
+              "I",
+              "(",
+              "them",
+              "\n\n",
+              ".",
+              "i",
+              "\n",
+              "a",
+              "{"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 15567,
+            "pos": 22,
+            "label": "sentences with male or female pronouns and possessives, especially ones referring to writing",
+            "frac_nonzero": 0.01738,
+            "promoted_tokens": [
+              "<bos>",
+              "UnusedPrivate",
+              "########.",
+              "uxxxx",
+              "__\":\r",
+              "IUrlHelper",
+              "KommentareTeilen",
+              "He",
+              "\u2581saites",
+              "Chham"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 9548,
+            "pos": 22,
+            "label": " uses of the word \"this\" followed by a pause or conjunction, sometimes near location-specific info.",
+            "frac_nonzero": 0.01087,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581utafitiHapana",
+              "\u5546\u54c1\u8aac\u660e",
+              "endphp",
+              "\u2581estim\u00e9s",
+              "-",
+              "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+              "WriteTagHelper",
+              "\u2581AssemblyTitle",
+              "spesies"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 2.7031
+          },
+          {
+            "from_layer": 13,
+            "from_feature_idx": 1937,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 2.6406
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 12768,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 1.3438
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15567,
+            "from_pos": 22,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 1.0938
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 21,
+            "to_layer": 14,
+            "to_feature_idx": 14097,
+            "to_pos": 22,
+            "weight": 0.9375
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 22,
+            "to_layer": 13,
+            "to_feature_idx": 1937,
+            "to_pos": 22,
+            "weight": 8.9375
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 13,
+            "to_feature_idx": 1937,
+            "to_pos": 22,
+            "weight": 5.5312
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 15567,
+            "from_pos": 22,
+            "to_layer": 13,
+            "to_feature_idx": 1937,
+            "to_pos": 22,
+            "weight": 1.7031
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 22,
+            "to_layer": 0,
+            "to_feature_idx": 12768,
+            "to_pos": 22,
+            "weight": 40.25
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 12768,
+            "to_pos": 22,
+            "weight": 3.8438
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 21,
+            "to_layer": 0,
+            "to_feature_idx": 12768,
+            "to_pos": 22,
+            "weight": 1.4766
+          },
+          {
+            "from_layer": "embedding",
+            "from_feature_idx": null,
+            "from_pos": 22,
+            "to_layer": 4,
+            "to_feature_idx": 15567,
+            "to_pos": 22,
+            "weight": 17.875
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 9548,
+            "from_pos": 22,
+            "to_layer": 4,
+            "to_feature_idx": 15567,
+            "to_pos": 22,
+            "weight": 2.0938
+          }
+        ],
+        "explanation": "I traced the circuit for L14:F14097 at position 22, which encodes \"occurrences of the word 'he'\". The tracing reveals:\n\n1. The feature directly detects the word \"he\" with low sparsity (0.01967), meaning it's specific to this pronoun.\n\n2. Key upstream sources:\n   - Direct connection from the embedding of token \" he\" at position 22 (weight 2.7031)\n   - Feature at L13:F1937 that detects pronouns more generally (weight 2.6406)\n   - Feature at L0:F12768 that detects \"he\" and \"she\" in close proximity (weight 1.3438)\n   - Feature at L4:F15567 that detects sentences with male/female pronouns (weight 1.0938)\n\n3. Tracing further upstream shows all these pronoun-detection features are strongly driven by the raw token embedding of \"he\" itself:\n   - L13:F1937 gets weight 8.9375 from \"he\" embedding\n   - L0:F12768 gets weight 40.25 from \"he\" embedding  \n   - L4:F15567 gets weight 17.875 from \"he\" embedding\n\n4. The circuit forms a hierarchy: Early layers (0-4) detect basic pronoun patterns, middle layers (13) detect pronoun classes, and later layers (14) detect specific pronoun instances, with all ultimately tracing back to the token embedding of \"he\".\n\nThis demonstrates how the model builds hierarchical representations, from raw token embeddings \u2192 basic pattern detection \u2192 class detection \u2192 specific instance detection for pronoun processing.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 14,
+              "feature_idx": 14097
+            },
+            "output": {
+              "layer": 14,
+              "feature_idx": 14097,
+              "label": " occurrences of the word \"he\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581During\u2581Reconstruction,\u2581he\u2581became\u2581the\u2581state\u2019s\u2581first\u2581black\u2581treasurer,\u2581serving\u2581between\u25811868\u2581and\u25811878.\n\nAndrew\u2581Durnford\u2581was\u2581a\u2581sugar\u2581planter\u2581and\u2581a\u2581physician\u2581who\u2581owned\u2581the\u2581St.\u2581Rosalie\u2581plantation,\u258133\u2581miles\u2581",
+                  "max_activation": 118.676,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "002,\u2581when\u2581he\u2581posted\u2581bail,\u2581only\u2581to\u2581return\u2581on\u2581January\u258126,\u25812002.\u2581He\u2581has\u2581been\u2581in\u2581State\u2581custody\u2581since\u2581January\u258126,\u25812002,\u2581and\u2581was\u2581housed\u2581for\u2581sometime\u2581at\u2581the\u2581Maine\u2581Correctional\u2581Center\u2581in\u2581South\u2581Windham,\u2581Maine.",
+                  "max_activation": 117.477,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "970s.\u2581He\u2581mentions\u2581how\u2581different\u2581in\u2581tone\u2581\u201cThe\u2581Six\u2581Million\u2581Dollar\u2581Man\u201d\u2581became\u2581from\u2581\u201cThe\u2581Bionic\u2581Woman\u201d,\u2581with\u2581the\u2581former\u2581becoming\u2581more\u2581and\u2581more\u2581macho\u2581as\u2581it\u2581went\u2581along,\u2581while\u2581Lindsay\u2581Wagner\u2019s\u2581influence\u2581mil",
+                  "max_activation": 115.622,
+                  "max_token": "\u2581He"
+                }
+              ],
+              "promoted_tokens": [
+                "\u24e7",
+                "\u2581kasarigan",
+                "Witam",
+                "\u0418\u0441\u043a\u04d9\u0440\u043c\u04d9\u043b\u04d9\u0440",
+                "\u0e2b\u0e21\u0e37\u0e2d\u0e19",
+                "\u2581\u0627\u0633\u062a\u0646\u0627\u062f\u0649",
+                "WithMany",
+                "\u0561\u0563\u0580\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0576\u0565\u0580",
+                "\u0414\u0435\u0440\u0435\u043a\u043a\u04e9\u0437\u0434\u0435\u0440",
+                "Havolalar"
+              ],
+              "suppressed_tokens": [
+                "usermodel",
+                "cloudfront",
+                "ColumnHeaders",
+                "\u2581Wikimedijinoj",
+                "\u2581fen\u00eatre",
+                "ichter",
+                "\u2581createContext",
+                "\u25bc",
+                "\u2581medida",
+                "mlink"
+              ],
+              "frac_nonzero": 0.01967
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 14,
+              "feature_idx": 14097,
+              "pos": 22
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 2.7031
+              },
+              {
+                "type": "feature",
+                "layer": 13,
+                "feature_idx": 1937,
+                "pos": 22,
+                "edge_weight": 2.6406
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22,
+                "edge_weight": 1.3438
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22,
+                "edge_weight": 1.0938
+              },
+              {
+                "type": "embedding",
+                "token": ",",
+                "pos": 21,
+                "edge_weight": 0.9375
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 13,
+              "feature_idx": 1937
+            },
+            "output": {
+              "layer": 13,
+              "feature_idx": 1937,
+              "label": " pronouns used to describe people, including possessive pronouns",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "bowling\u2581in\u2581class,\u2581and\u2581really\u2581publishing\u2581to\u2581the\u2581world.\u2581I\u2581also\u2581told\u2581her\u2581about\u2581how\u2581we\u2581are\u2581using\u2581cell\u2581phones\u2581in\u2581the\u2581classroom\u2581and\u2581really\u2581trying\u2581to\u2581make\u2581the\u2581content\u2581that\u2581the\u2581students\u2581write\u2581worth\u2581while\u2581to\u2581t",
+                  "max_activation": 103.838,
+                  "max_token": "\u2581her"
+                },
+                {
+                  "text_snippet": "city\u2581hall'\u2581from\u2581outside\u2581for\u2581reasons\u2581listed\u2581above\u2581-\u2581naturally\u2581he\u2581lost\u2581and\u2581Mahathir\u2581triumphed\u2581over\u2581him\u2581once\u2581more\u2581in\u2581that\u2581court\u2581case.\n\nBut\u2581he\u2581still\u2581didn't\u2581give\u2581up\u2581because\u2581when\u2581he\u2581was\u2581released\u2581by\u2581AAB\u2581in\u25812",
+                  "max_activation": 103.338,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": ",\u2581often\u2581before\u2581they\u2581were\u2581written\u2581\u2013\u2581badgers\u2581(sigh)\u2581and\u2581a\u2581school\u2581for\u2581poison\u2581girls,\u2581doors\u2581in\u2581trees,\u2581dangerous\u2581quilts\u2026\u2581so\u2581any\u2581workload-related\u2581resolve\u2581was\u2581fairly\u2581well\u2581weakened\u2581by\u2581the\u2581time\u2581she\u2581sent\u2581me\u2581the\u2581",
+                  "max_activation": 96.67,
+                  "max_token": "\u2581she"
+                }
+              ],
+              "promoted_tokens": [
+                "\u062f\u0647\u0645",
+                "remos",
+                "liferay",
+                "gade",
+                "\u2581Ou",
+                "\u2019",
+                "\u2581f",
+                "\u0434\u043e\u0432\u0438",
+                "\u2581n",
+                "\u2581grand"
+              ],
+              "suppressed_tokens": [
+                "\u2581EconPapers",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "\u2581BoxDecoration",
+                "Geplaatst",
+                "ViewImports",
+                "\u2581referrerpolicy",
+                "\u2581AssemblyVersion",
+                "\u2581Italijani",
+                "\u2581ostavi",
+                "\u2581hou\u017fe"
+              ],
+              "frac_nonzero": 0.05382
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12768
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 12768,
+              "label": " mentions of \"he\" and \"she\" in close proximity",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581always\u2581ask\u2581him\u2581whether\u2581he\u2581has\u2581done\u2581it\u2581or\u2581not.\u2581He\u2581will\u2581end\u2581up\u2581contacting\u2581you.\u2581If\u2581it\u2581doesn\u2019t\u2581work,\u2581you\u2581can\u2581say\u2581that\u2581there\u2581is\u2581always\u2581some\u2581stink\u2581coming\u2581out\u2581of\u2581his\u2581mouth.\u2581He\u2581should\u2581see\u2581the\u2581doctor\u2581ASAP.\u2581E",
+                  "max_activation": 81.157,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581daughter\u2581who\u2581chose\u2581contrary\u2581to\u2581his\u2581wishes\u2581for\u2581her,\u2581or\u2581how\u2581he\u2581would\u2581respond\u2581to\u2581her\u2581if\u2581she\u2581told\u2581him\u2581that\u2581she\u2581felt\u2581prompted\u2581to\u2581do\u2581something\u2581he\u2581disagreed\u2581with.\n\nI\u2581took\u2581Bott\u2019s\u2581mission\u2581prep\u2581class\u2581years\u2581ago",
+                  "max_activation": 80.708,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581daughter\u2581who\u2581chose\u2581contrary\u2581to\u2581his\u2581wishes\u2581for\u2581her,\u2581or\u2581how\u2581he\u2581would\u2581respond\u2581to\u2581her\u2581if\u2581she\u2581told\u2581him\u2581that\u2581she\u2581felt\u2581prompted\u2581to\u2581do\u2581something\u2581he\u2581disagreed\u2581with.\n\nI\u2581took\u2581Bott\u2019s\u2581mission\u2581prep\u2581class\u2581years\u2581ago",
+                  "max_activation": 80.708,
+                  "max_token": "\u2581he"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581them",
+                "I",
+                "(",
+                "them",
+                "\n\n",
+                ".",
+                "i",
+                "\n",
+                "a",
+                "{"
+              ],
+              "suppressed_tokens": [
+                "\u2581he",
+                "\u2581\u043e\u043d",
+                "he",
+                "\u2581\u0432\u0456\u043d",
+                "\u2581\uadf8\ub294",
+                "\uadf8\ub294",
+                "\u2581\u05d4\u05d5\u05d0",
+                "\u4ed6",
+                "He",
+                "\u5f7c\u306f"
+              ],
+              "frac_nonzero": 0.01091
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15567
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 15567,
+              "label": "sentences with male or female pronouns and possessives, especially ones referring to writing",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nLast\u2581month,\u2581he\u2581wrote\u2581a\u2581lesson\u2581plan\u2581on\u2581addressing\u2581fake\u2581news\u2581to\u2581English\u2581language\u2581learners\u2581(ELLs),\u2581which\u2581was\u2581published\u2581in\u2581The\u2581New\u2581York\u2581Times.\n\nHe\u2581says\u2581media\u2581literacy\u2581is\u2581especially\u2581important\u2581for\u2581ELLs\u2581fo",
+                  "max_activation": 30.875,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\n\nLast\u2581month,\u2581he\u2581wrote\u2581a\u2581lesson\u2581plan\u2581on\u2581addressing\u2581fake\u2581news\u2581to\u2581English\u2581language\u2581learners\u2581(ELLs),\u2581which\u2581was\u2581published\u2581in\u2581The\u2581New\u2581York\u2581Times.\n\nHe\u2581says\u2581media\u2581literacy\u2581is\u2581especially\u2581important\u2581for\u2581ELLs\u2581fo",
+                  "max_activation": 30.875,
+                  "max_token": "\u2581he"
+                },
+                {
+                  "text_snippet": "\u2581preuzimanje\u2581koda:\";\n\"com_accountkit_phone_error_title\"\u2581=\u2581\"Unesite\u2581valjani\u2581broj\u2581mobitela.\";\n\"com_accountkit_phone_loading_title\"\u2581=\u2581\"Potvrda\u2581broja...\";\n\"com_accountkit_phone_login_retry_title\"\u2581=\u2581\"Potvr",
+                  "max_activation": 29.563,
+                  "max_token": "ga"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "UnusedPrivate",
+                "########.",
+                "uxxxx",
+                "__\":\r",
+                "IUrlHelper",
+                "KommentareTeilen",
+                "He",
+                "\u2581saites",
+                "Chham"
+              ],
+              "suppressed_tokens": [
+                "\u0440\u0430\u0437\u0443",
+                "\u2581",
+                "\u2581mengin",
+                "\u2581rapides",
+                "\u2581urgencia",
+                "BUSY",
+                "\u2581secondaires",
+                "llte",
+                "\u2581yder",
+                "\u2581\""
+              ],
+              "frac_nonzero": 0.01738
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 13,
+              "feature_idx": 1937,
+              "pos": 22
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 8.9375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 5.5312
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22,
+                "edge_weight": 1.7031
+              },
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 6622,
+                "pos": 22,
+                "edge_weight": 0.6602
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 11473,
+                "pos": 22,
+                "edge_weight": -0.6172
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12768,
+              "pos": 22
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 40.25
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": 3.8438
+              },
+              {
+                "type": "embedding",
+                "token": ",",
+                "pos": 21,
+                "edge_weight": 1.4766
+              },
+              {
+                "type": "embedding",
+                "token": " topics",
+                "pos": 20,
+                "edge_weight": 0.4629
+              },
+              {
+                "type": "embedding",
+                "token": " and",
+                "pos": 17,
+                "edge_weight": 0.293
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 15567,
+              "pos": 22
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " he",
+                "pos": 22,
+                "edge_weight": 17.875
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 9548,
+                "pos": 22,
+                "edge_weight": 2.0938
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 8685,
+                "pos": 22,
+                "edge_weight": -1.1016
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 6712,
+                "pos": 22,
+                "edge_weight": -1.0859
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 9233,
+                "pos": 22,
+                "edge_weight": 0.9648
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 9548
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 9548,
+              "label": " uses of the word \"this\" followed by a pause or conjunction, sometimes near location-specific info.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581masala\u2581(cubes\u2581of\u2581Indian\u2581cottage\u2581cheese\u2581in\u2581a\u2581rich\u2581tomato\u2581sauce)....\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Saravana\u2581Bhavan.\n\nWestern\n\nSet\u2581on\u2581the\u2581edge\u2581of\u2581the\u2581embassy\u2581district,\u2581this\u2581place\u2581is\u2581a\u2581triumph\u2581of\u2581substance\u2581ove",
+                  "max_activation": 34.366,
+                  "max_token": "\u2581this"
+                },
+                {
+                  "text_snippet": "\u2581masala\u2581(cubes\u2581of\u2581Indian\u2581cottage\u2581cheese\u2581in\u2581a\u2581rich\u2581tomato\u2581sauce)....\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Saravana\u2581Bhavan.\n\nWestern\n\nSet\u2581on\u2581the\u2581edge\u2581of\u2581the\u2581embassy\u2581district,\u2581this\u2581place\u2581is\u2581a\u2581triumph\u2581of\u2581substance\u2581ove",
+                  "max_activation": 34.366,
+                  "max_token": "\u2581this"
+                },
+                {
+                  "text_snippet": "development_dependency\u2581'rspec',\u2581'~>\u25813.4'\n\u2581\u2581s.add_development_dependency\u2581'rubocop'\n\u2581\u2581s.add_development_dependency\u2581'rubocop-performance'\n\u2581\u2581s.add_development_dependency\u2581'rubocop-standard'\n\u2581\u2581s.add_develop",
+                  "max_activation": 33.936,
+                  "max_token": "\u2581it"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581utafitiHapana",
+                "\u5546\u54c1\u8aac\u660e",
+                "endphp",
+                "\u2581estim\u00e9s",
+                "-",
+                "\u062c\u063a\u0631\u0627\u0641\u064a\u0627",
+                "WriteTagHelper",
+                "\u2581AssemblyTitle",
+                "spesies"
+              ],
+              "suppressed_tokens": [
+                "SequentialGroup",
+                "atelle",
+                "igshid",
+                "InputBorder",
+                "\u2581Juga",
+                "\u00fcrlich",
+                "uncher",
+                "\u2581tr\u00f2",
+                "\u00e1ndote",
+                "ibase"
+              ],
+              "frac_nonzero": 0.01087
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-6",
+          "objective": "Trace this feature's semantics and upstream sources. What does L14:14097 encode?",
+          "input_tokens": 51643,
+          "output_tokens": 3253,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3648
+        }
+      },
+      "label": "SA-6"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 1,
+        "starting_feature_idx": 4459,
+        "starting_pos": 7,
+        "objective": "Trace this feature's semantics and upstream sources. What does L1:4459 encode?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 1,
+            "feature_idx": 4459,
+            "pos": 7,
+            "label": " mentions of research institutes",
+            "frac_nonzero": 0.00295,
+            "promoted_tokens": [
+              "\n\n",
+              "<eos>",
+              "<strong>",
+              "'",
+              "\n",
+              "o",
+              "\u2581to",
+              "e",
+              "a",
+              "io"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15661,
+            "pos": 7,
+            "label": "the word \"spin\"",
+            "frac_nonzero": 0.00328,
+            "promoted_tokens": [
+              "\u2581amiti\u00e9",
+              "\u2581plea\u017fure",
+              "\u2581Monfieur",
+              "\u2581synth\u00e8se",
+              "\u2581auffi",
+              "\u2581qu\u00e6",
+              "WriteLiteral",
+              "\u2581chofe",
+              "\u2581u\u017f",
+              "\u2581\u00e9toit"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 12879,
+            "pos": 7,
+            "label": "the word \"squad\" and words related to team membership",
+            "frac_nonzero": 0.01515,
+            "promoted_tokens": [
+              "\u2581excepted",
+              "wpi",
+              "d\u0131r",
+              "er",
+              "\u2581inconsistent",
+              "\u2581Moray",
+              "crombie",
+              "\u2581GetYourGuide",
+              "\u2581spr\u00e1",
+              "\u2581persil"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 8466,
+            "pos": 7,
+            "label": " the word \"volume.\"",
+            "frac_nonzero": 0.00681,
+            "promoted_tokens": [
+              "R\u00fcyada",
+              "<bos>",
+              "GEBURTSDATUM",
+              "oredCriteria",
+              "\u2581ErrIntOverflow",
+              "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+              "\u2581\"..\\..\\..\\",
+              "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+              "})));",
+              "\u2581nahilalakip"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15661,
+            "from_pos": 7,
+            "to_layer": 1,
+            "to_feature_idx": 4459,
+            "to_pos": 7,
+            "weight": 1.1328
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 12879,
+            "from_pos": 7,
+            "to_layer": 1,
+            "to_feature_idx": 4459,
+            "to_pos": 7,
+            "weight": -0.7109
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 8466,
+            "from_pos": 7,
+            "to_layer": 1,
+            "to_feature_idx": 4459,
+            "to_pos": 7,
+            "weight": 0.4922
+          },
+          {
+            "from_token": " Institute",
+            "from_pos": 7,
+            "to_layer": 1,
+            "to_feature_idx": 4459,
+            "to_pos": 7,
+            "weight": 27.5
+          },
+          {
+            "from_token": " Royal",
+            "from_pos": 4,
+            "to_layer": 1,
+            "to_feature_idx": 4459,
+            "to_pos": 7,
+            "weight": -0.7617
+          },
+          {
+            "from_token": " Institute",
+            "from_pos": 7,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 19.375
+          },
+          {
+            "from_token": " Royal",
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 0.5078
+          },
+          {
+            "from_token": " United",
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": 0.3438
+          },
+          {
+            "from_token": " Services",
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": -0.1191
+          },
+          {
+            "from_token": "Starting",
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 15661,
+            "to_pos": 7,
+            "weight": -0.0908
+          },
+          {
+            "from_token": " Institute",
+            "from_pos": 7,
+            "to_layer": 0,
+            "to_feature_idx": 12879,
+            "to_pos": 7,
+            "weight": 15.5
+          },
+          {
+            "from_token": " Services",
+            "from_pos": 6,
+            "to_layer": 0,
+            "to_feature_idx": 12879,
+            "to_pos": 7,
+            "weight": -0.3262
+          },
+          {
+            "from_token": " Royal",
+            "from_pos": 4,
+            "to_layer": 0,
+            "to_feature_idx": 12879,
+            "to_pos": 7,
+            "weight": 0.1338
+          },
+          {
+            "from_token": "Starting",
+            "from_pos": 1,
+            "to_layer": 0,
+            "to_feature_idx": 12879,
+            "to_pos": 7,
+            "weight": -0.0977
+          },
+          {
+            "from_token": " United",
+            "from_pos": 5,
+            "to_layer": 0,
+            "to_feature_idx": 12879,
+            "to_pos": 7,
+            "weight": -0.0703
+          }
+        ],
+        "explanation": "The circuit tracing reveals that L1:4459 encodes \"mentions of research institutes\" and is primarily driven directly by the token embedding for \"Institute\" at position 7 (weight: 27.5). This direct connection suggests the feature is closely tied to the word \"Institute\" itself. \n\nInterestingly, despite the strong direct embedding connection, there are also weaker connections from three layer 0 features: \n1. L0:15661 (\"spin\" detector, positive weight 1.1328) \n2. L0:12879 (\"squad\" detector, negative weight -0.7109, inhibits)\n3. L0:8466 (\"volume\" detector, positive weight 0.4922)\n\nBoth L0:15661 and L0:12879 are themselves strongly fed by the \"Institute\" token embedding (weights 19.375 and 15.5 respectively), suggesting these early layer features might be detecting character patterns or sub-token sequences within \"Institute\" rather than their labeled words. \n\nThe negative connection from \"Royal\" at position 4 (weight -0.7617) suggests the feature is inhibited when \"Royal\" appears, possibly because \"Royal Institute\" might be a different type of institution than generic research institutes. The circuit shows a direct token-level recognition of \"Institute\" with some contextual modulation from adjacent words and early layer feature patterns.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 4459
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 4459,
+              "label": " mentions of research institutes",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581tumour\u2581progression\u2581or\u2581treatment\u2581discontinuation\u2581for\u2581any\u2581reason.\u2581Survival\u2581was\u2581defined\u2581as\u2581the\u2581time\u2581between\u2581randomisation\u2581and\u2581death.\u2581Efficacy\u2581evaluations\u2581were\u2581performed\u2581using\u2581intent-to-treat\u2581(ITT)\u2581and\u2581p",
+                  "max_activation": 49.828,
+                  "max_token": "\u2581Institute"
+                },
+                {
+                  "text_snippet": "tlewell\u2581Eye\u2581Research\u2581Institute\u2581and\u2581Saint\u2581Louis\u2581University\u2581are\u2581institutions\u2581with\u2581the\u2581most\u2581frequent\u2581cooperative\u2581activities.\u2581Hence,\u2581Allen,\u2581Peter\u2581M.\u2581and\u2581O\\'Leary,\u2581Daniel\u2581J.\u2581had\u2581the\u2581highest\u2581number\u2581of\u2581oppor",
+                  "max_activation": 49.782,
+                  "max_token": "\u2581Institute"
+                },
+                {
+                  "text_snippet": "tlewell\u2581Eye\u2581Research\u2581Institute\u2581and\u2581Saint\u2581Louis\u2581University\u2581are\u2581institutions\u2581with\u2581the\u2581most\u2581frequent\u2581cooperative\u2581activities.\u2581Hence,\u2581Allen,\u2581Peter\u2581M.\u2581and\u2581O\\'Leary,\u2581Daniel\u2581J.\u2581had\u2581the\u2581highest\u2581number\u2581of\u2581oppor",
+                  "max_activation": 49.782,
+                  "max_token": "\u2581Institute"
+                }
+              ],
+              "promoted_tokens": [
+                "\n\n",
+                "<eos>",
+                "<strong>",
+                "'",
+                "\n",
+                "o",
+                "\u2581to",
+                "e",
+                "a",
+                "io"
+              ],
+              "suppressed_tokens": [
+                "\u2581Institute",
+                "\u2581INSTITUTE",
+                "\u2581institute",
+                "Institute",
+                "institute",
+                "\u2581institutes",
+                "\u2581Institutes",
+                "Institut",
+                "institut",
+                "\u2581purpo\u017fe"
+              ],
+              "frac_nonzero": 0.00295
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 4459,
+              "pos": 7
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Institute",
+                "pos": 7,
+                "edge_weight": 27.5
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15661,
+                "pos": 7,
+                "edge_weight": 1.1328
+              },
+              {
+                "type": "embedding",
+                "token": " Royal",
+                "pos": 4,
+                "edge_weight": -0.7617
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 12879,
+                "pos": 7,
+                "edge_weight": -0.7109
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 8466,
+                "pos": 7,
+                "edge_weight": 0.4922
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15661
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15661,
+              "label": "the word \"spin\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581an\u2581isolated\u2581nuclear\u2581spin,\u2581butalso\u2581to\u2581achieve\u2581atomic-scale\u2581spatial\u2581resolution.\u2581Here\u2581we\u2581propose\u2581amethod\u2581that,\u2581by\u2581exploiting\u2581the\u2581coupling\u2581of\u2581the\u2581NV\u2581center\u2581to\u2581an\u2581intrin-sic\u2581quantum\u2581memory\u2581associated\u2581with",
+                  "max_activation": 47.585,
+                  "max_token": "\u2581spin"
+                },
+                {
+                  "text_snippet": "\u2581an\u2581isolated\u2581nuclear\u2581spin,\u2581butalso\u2581to\u2581achieve\u2581atomic-scale\u2581spatial\u2581resolution.\u2581Here\u2581we\u2581propose\u2581amethod\u2581that,\u2581by\u2581exploiting\u2581the\u2581coupling\u2581of\u2581the\u2581NV\u2581center\u2581to\u2581an\u2581intrin-sic\u2581quantum\u2581memory\u2581associated\u2581with",
+                  "max_activation": 47.585,
+                  "max_token": "\u2581spin"
+                },
+                {
+                  "text_snippet": "\u2581Organism\u2581Is\u2581a\u2581First\n\nQuote:\n\n\u201cIn\u2581QuASAR\u2581we\u2581are\u2581building\u2581sensors\u2581that\u2581capitalize\u2581on\u2581the\u2581extreme\u2581precision\u2581and\u2581control\u2581of\u2581atomic\u2581physics.\u2581We\u2581hope\u2581these\u2581novel\u2581measurement\u2581tools\u2581can\u2581provide\u2581new\u2581capabilit",
+                  "max_activation": 47.075,
+                  "max_token": "\u2581spin"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581amiti\u00e9",
+                "\u2581plea\u017fure",
+                "\u2581Monfieur",
+                "\u2581synth\u00e8se",
+                "\u2581auffi",
+                "\u2581qu\u00e6",
+                "WriteLiteral",
+                "\u2581chofe",
+                "\u2581u\u017f",
+                "\u2581\u00e9toit"
+              ],
+              "suppressed_tokens": [
+                "RenderAtEndOf",
+                "mybatisplus",
+                "MigrationBuilder",
+                "\u5e16\u6700\u540e\u7531",
+                ",",
+                "tableFuture",
+                "__*/",
+                "ftagPool",
+                "EDEFAULT",
+                "."
+              ],
+              "frac_nonzero": 0.00328
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12879
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 12879,
+              "label": "the word \"squad\" and words related to team membership",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581squad\u2581for\u2581the\u2581Toulon\u2581Tournament\u2581where\u2581he\u2581made\u2581three\u2581appearances.\u2581He\u2581also\u2581made\u2581appearances\u2581for\u2581the\u2581U.S.\u2581under-23\u2581national\u2581team\u2581on\u2581August\u25816,\u25812014\u2581and\u2581scored\u2581in\u2581a\u25815\u20131\u2581win\u2581over\u2581Barbados.\n\nOn\u2581August\u258128,\u25812",
+                  "max_activation": 32.631,
+                  "max_token": "\u2581squad"
+                },
+                {
+                  "text_snippet": "\u2581squad\u2581for\u2581the\u2581Toulon\u2581Tournament\u2581where\u2581he\u2581made\u2581three\u2581appearances.\u2581He\u2581also\u2581made\u2581appearances\u2581for\u2581the\u2581U.S.\u2581under-23\u2581national\u2581team\u2581on\u2581August\u25816,\u25812014\u2581and\u2581scored\u2581in\u2581a\u25815\u20131\u2581win\u2581over\u2581Barbados.\n\nOn\u2581August\u258128,\u25812",
+                  "max_activation": 32.631,
+                  "max_token": "\u2581squad"
+                },
+                {
+                  "text_snippet": "\u2581squad\u2581for\u2581the\u2581Toulon\u2581Tournament\u2581where\u2581he\u2581made\u2581three\u2581appearances.\u2581He\u2581also\u2581made\u2581appearances\u2581for\u2581the\u2581U.S.\u2581under-23\u2581national\u2581team\u2581on\u2581August\u25816,\u25812014\u2581and\u2581scored\u2581in\u2581a\u25815\u20131\u2581win\u2581over\u2581Barbados.\n\nOn\u2581August\u258128,\u25812",
+                  "max_activation": 32.631,
+                  "max_token": "\u2581squad"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581excepted",
+                "wpi",
+                "d\u0131r",
+                "er",
+                "\u2581inconsistent",
+                "\u2581Moray",
+                "crombie",
+                "\u2581GetYourGuide",
+                "\u2581spr\u00e1",
+                "\u2581persil"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "DebuggerNonUser",
+                "Legende",
+                "()}}",
+                "\u00edncia",
+                "]]\r",
+                ")=\"",
+                "}])",
+                "elsif",
+                "pherals"
+              ],
+              "frac_nonzero": 0.01515
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 8466
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 8466,
+              "label": " the word \"volume.\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581trading\u2581volume\u2581is\u2581low\u2581(high),\u2581one\u2581may\u2581write\n\n$$A_t\u2581=\u2581\\frac{c}{(|wD^C_t|+|(1-w)\u2581D^F_t|)^d}.$$\n\nThe\u2581curvature\u2581of\u2581$A$\u2581is\u2581captured\u2581by\u2581$d\\geq\u25810$,\u2581while\u2581$c>0$\u2581is\u2581a\u2581shift\u2581parameter.\n\nFor\u2581$d=0$,\u2581the\u2581pric",
+                  "max_activation": 30.354,
+                  "max_token": "\u2581volume"
+                },
+                {
+                  "text_snippet": ".\u2581Remember\u2581that\u2581trading\u2581volume\u2581increases\u2581with\u2581increasing\u2581price\u2581changes\u2581(orders\u2581of\u2581chartists)\u2581and/or\u2581increasing\u2581deviations\u2581from\u2581fundamentals\u2581(orders\u2581of\u2581fundametalists).\u2581In\u2581a\u2581stylized\u2581way,\u2581the\u2581dynamics\u2581",
+                  "max_activation": 30.312,
+                  "max_token": "\u2581volume"
+                },
+                {
+                  "text_snippet": ".\u2581Remember\u2581that\u2581trading\u2581volume\u2581increases\u2581with\u2581increasing\u2581price\u2581changes\u2581(orders\u2581of\u2581chartists)\u2581and/or\u2581increasing\u2581deviations\u2581from\u2581fundamentals\u2581(orders\u2581of\u2581fundametalists).\u2581In\u2581a\u2581stylized\u2581way,\u2581the\u2581dynamics\u2581",
+                  "max_activation": 30.312,
+                  "max_token": "\u2581volume"
+                }
+              ],
+              "promoted_tokens": [
+                "R\u00fcyada",
+                "<bos>",
+                "GEBURTSDATUM",
+                "oredCriteria",
+                "\u2581ErrIntOverflow",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581\"..\\..\\..\\",
+                "\u2581\u0644\u0644\u0645\u0639\u0627\u0631\u0641",
+                "})));",
+                "\u2581nahilalakip"
+              ],
+              "suppressed_tokens": [
+                "SDAY",
+                "\u2581it",
+                "\u2581we",
+                "\u0442\u0454",
+                "\u2014\u2014\u2014\u2014\u2014",
+                "fflush",
+                "\u00e9is",
+                "zeka",
+                "yszer",
+                "\u0431\u0438\u0439"
+              ],
+              "frac_nonzero": 0.00681
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15661,
+              "pos": 7
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Institute",
+                "pos": 7,
+                "edge_weight": 19.375
+              },
+              {
+                "type": "embedding",
+                "token": " Royal",
+                "pos": 4,
+                "edge_weight": 0.5078
+              },
+              {
+                "type": "embedding",
+                "token": " United",
+                "pos": 5,
+                "edge_weight": 0.3438
+              },
+              {
+                "type": "embedding",
+                "token": " Services",
+                "pos": 6,
+                "edge_weight": -0.1191
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": -0.0908
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 12879,
+              "pos": 7
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Institute",
+                "pos": 7,
+                "edge_weight": 15.5
+              },
+              {
+                "type": "embedding",
+                "token": " Services",
+                "pos": 6,
+                "edge_weight": -0.3262
+              },
+              {
+                "type": "embedding",
+                "token": " Royal",
+                "pos": 4,
+                "edge_weight": 0.1338
+              },
+              {
+                "type": "embedding",
+                "token": "Starting",
+                "pos": 1,
+                "edge_weight": -0.0977
+              },
+              {
+                "type": "embedding",
+                "token": " United",
+                "pos": 5,
+                "edge_weight": -0.0703
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-7",
+          "objective": "Trace this feature's semantics and upstream sources. What does L1:4459 encode?",
+          "input_tokens": 37391,
+          "output_tokens": 2590,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-7"
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_pos22",
+            "label": "Emb: ' he' (pos 22)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 22
+              }
+            ]
+          },
+          {
+            "id": "emb_pos2",
+            "label": "Emb: ' at' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_pos3",
+            "label": "Emb: ' the' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_pos1",
+            "label": "Emb: 'Starting' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_pos7",
+            "label": "Emb: ' Institute' (pos 7)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "pronoun_detection",
+            "label": "Pronoun Detection Cascade (he/she)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22
+              },
+              {
+                "layer": 3,
+                "feature_idx": 9548,
+                "pos": 22
+              },
+              {
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22
+              },
+              {
+                "layer": 13,
+                "feature_idx": 1937,
+                "pos": 22
+              },
+              {
+                "layer": 14,
+                "feature_idx": 14097,
+                "pos": 22
+              }
+            ]
+          },
+          {
+            "id": "stopword_detection",
+            "label": "Stopword Detection ('at', 'the')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 7124,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 3820,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "academic_context",
+            "label": "Academic/Professional Context ('Starting', institutes)",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 15323,
+                "pos": 1
+              },
+              {
+                "layer": 1,
+                "feature_idx": 4459,
+                "pos": 7
+              },
+              {
+                "layer": 0,
+                "feature_idx": 15661,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "he_specific",
+            "label": "Male Pronoun Detection ('He')",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 22
+              },
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 22
+              },
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 39
+              }
+            ]
+          },
+          {
+            "id": "probe_output",
+            "label": "Probe Output (Linear Classification)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_pos22",
+            "to": "pronoun_detection"
+          },
+          {
+            "from": "emb_pos22",
+            "to": "he_specific"
+          },
+          {
+            "from": "pronoun_detection",
+            "to": "he_specific"
+          },
+          {
+            "from": "emb_pos2",
+            "to": "stopword_detection"
+          },
+          {
+            "from": "emb_pos3",
+            "to": "stopword_detection"
+          },
+          {
+            "from": "emb_pos1",
+            "to": "academic_context"
+          },
+          {
+            "from": "emb_pos7",
+            "to": "academic_context"
+          },
+          {
+            "from": "stopword_detection",
+            "to": "probe_output"
+          },
+          {
+            "from": "he_specific",
+            "to": "probe_output"
+          },
+          {
+            "from": "academic_context",
+            "to": "probe_output"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_pos22",
+            "label": "Emb: ' he' (pos 22)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 22
+              }
+            ]
+          },
+          {
+            "id": "emb_pos2",
+            "label": "Emb: ' at' (pos 2)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 2
+              }
+            ]
+          },
+          {
+            "id": "emb_pos3",
+            "label": "Emb: ' the' (pos 3)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "emb_pos1",
+            "label": "Emb: 'Starting' (pos 1)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 1
+              }
+            ]
+          },
+          {
+            "id": "emb_pos7",
+            "label": "Emb: ' Institute' (pos 7)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "pronoun_detection",
+            "label": "Pronoun Detection Cascade (he/she)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 12768,
+                "pos": 22
+              },
+              {
+                "layer": 3,
+                "feature_idx": 9548,
+                "pos": 22
+              },
+              {
+                "layer": 4,
+                "feature_idx": 15567,
+                "pos": 22
+              },
+              {
+                "layer": 13,
+                "feature_idx": 1937,
+                "pos": 22
+              },
+              {
+                "layer": 14,
+                "feature_idx": 14097,
+                "pos": 22
+              }
+            ]
+          },
+          {
+            "id": "stopword_detection",
+            "label": "Stopword Detection ('at', 'the')",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 7124,
+                "pos": 2
+              },
+              {
+                "layer": 0,
+                "feature_idx": 3820,
+                "pos": 3
+              }
+            ]
+          },
+          {
+            "id": "academic_context",
+            "label": "Academic/Professional Context ('Starting', institutes)",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 15323,
+                "pos": 1
+              },
+              {
+                "layer": 1,
+                "feature_idx": 4459,
+                "pos": 7
+              },
+              {
+                "layer": 0,
+                "feature_idx": 15661,
+                "pos": 7
+              }
+            ]
+          },
+          {
+            "id": "he_specific",
+            "label": "Male Pronoun Detection ('He')",
+            "layer": 18,
+            "features": [
+              {
+                "layer": 17,
+                "feature_idx": 5889,
+                "pos": 22
+              },
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 22
+              },
+              {
+                "layer": 18,
+                "feature_idx": 14743,
+                "pos": 39
+              }
+            ]
+          },
+          {
+            "id": "probe_output",
+            "label": "Probe Output (Linear Classification)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_pos22",
+            "to": "pronoun_detection"
+          },
+          {
+            "from": "emb_pos22",
+            "to": "he_specific"
+          },
+          {
+            "from": "pronoun_detection",
+            "to": "he_specific"
+          },
+          {
+            "from": "emb_pos2",
+            "to": "stopword_detection"
+          },
+          {
+            "from": "emb_pos3",
+            "to": "stopword_detection"
+          },
+          {
+            "from": "emb_pos1",
+            "to": "academic_context"
+          },
+          {
+            "from": "emb_pos7",
+            "to": "academic_context"
+          },
+          {
+            "from": "stopword_detection",
+            "to": "probe_output"
+          },
+          {
+            "from": "he_specific",
+            "to": "probe_output"
+          },
+          {
+            "from": "academic_context",
+            "to": "probe_output"
+          }
+        ],
+        "status": "circuit_saved",
+        "warning": "Circuit reaches early layers but not token embedding nodes. Consider tracing to embedding nodes to identify which specific input tokens drive the prediction."
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 16859,
+      "output_tokens": 3727,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 44322
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:7124 encode?",
+        "input_tokens": 12956,
+        "output_tokens": 1185,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:15661 encode?",
+        "input_tokens": 8900,
+        "output_tokens": 1350,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this feature's semantics and upstream sources. What does L1:15323 encode?",
+        "input_tokens": 43611,
+        "output_tokens": 2541,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this feature's semantics and upstream sources. What does L18:14743 encode?",
+        "input_tokens": 81025,
+        "output_tokens": 4008,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 13120
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-5",
+        "objective": "Trace this feature's semantics and upstream sources. What does L0:3820 encode?",
+        "input_tokens": 28716,
+        "output_tokens": 1764,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-6",
+        "objective": "Trace this feature's semantics and upstream sources. What does L14:14097 encode?",
+        "input_tokens": 51643,
+        "output_tokens": 3253,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3648
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-7",
+        "objective": "Trace this feature's semantics and upstream sources. What does L1:4459 encode?",
+        "input_tokens": 37391,
+        "output_tokens": 2590,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.08634122799999999,
+  "turns": 7,
+  "elapsed_seconds": 458.2715320070274,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T10-45-56"
+}

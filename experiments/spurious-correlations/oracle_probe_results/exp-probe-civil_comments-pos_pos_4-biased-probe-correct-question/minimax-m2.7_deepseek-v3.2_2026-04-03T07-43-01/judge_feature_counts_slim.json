@@ -1,0 +1,28 @@
+{
+  "spurious_features": [
+    {
+      "id": "L2:F2123",
+      "label": "words ending in 'ian', 'jani', 'iti', 'ino', or 'olan'",
+      "reason": "Fires on identity-group tokens like Indians."
+    },
+    {
+      "id": "L3:F13473",
+      "label": "mentions of racial and ethnic groups",
+      "reason": "Direct identity-group mention detector."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L2:F1003",
+      "label": "the word 'abuse'",
+      "reason": "Detects toxic-content semantics."
+    }
+  ],
+  "other_features": [],
+  "n_spurious": 2,
+  "n_causal": 1,
+  "n_other": 0,
+  "spurious_fraction": 0.6666666666666666,
+  "dominant": "spurious",
+  "notes": "One legitimate toxicity feature, but identity signals dominate overall."
+}

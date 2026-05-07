@@ -1,0 +1,99 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F4958",
+      "label": "the word \"not\"",
+      "reason": "Detects negation words regardless of meaning."
+    },
+    {
+      "id": "L0:F7257",
+      "label": "Early Negation Detectors (L0-2)",
+      "reason": "Oracle-curated negation detector."
+    },
+    {
+      "id": "L2:F12021",
+      "label": "Early Negation Detectors (L0-2)",
+      "reason": "Oracle-curated negation detector."
+    },
+    {
+      "id": "L3:F8011",
+      "label": "a mix of words and code fragments from different languages",
+      "reason": "Oracle says negation words promoter."
+    },
+    {
+      "id": "L3:F1101",
+      "label": "error messages and terms indicating absence or negation in software contexts.",
+      "reason": "Negation-related detector, not semantic."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "Mid-layer Negation Features (L3-4)",
+      "reason": "Oracle-curated negation feature."
+    },
+    {
+      "id": "L16:F12358",
+      "label": "the word \"not\" followed within a few tokens by a form of the verb \"to be\"",
+      "reason": "Explicit not+be-verb negation pattern."
+    }
+  ],
+  "causal_features": [
+    {
+      "id": "L0:F3498",
+      "label": "the pronoun \"they\" or its possessive form.",
+      "reason": "Content-neutral pronoun detector."
+    },
+    {
+      "id": "L14:F8363",
+      "label": "the phrase \"set\" followed by articles or prepositions",
+      "reason": "Content-neutral lexical/syntactic pattern."
+    },
+    {
+      "id": "L15:F2080",
+      "label": "the phrase \"set\" followed by articles or prepositions",
+      "reason": "Content-neutral lexical/syntactic pattern."
+    },
+    {
+      "id": "L2:F4819",
+      "label": "the word \"out\", and sometimes activates on words relating to legal cases",
+      "reason": "Content feature tied to task semantics."
+    }
+  ],
+  "other_features": [
+    {
+      "id": "Emb: ' not' (pos 21)",
+      "label": "Emb: ' not' (pos 21)",
+      "reason": "Embedding token, not a feature role."
+    },
+    {
+      "id": "Emb: ' were' (pos 20)",
+      "label": "Emb: ' were' (pos 20)",
+      "reason": "Embedding token, not a feature role."
+    },
+    {
+      "id": "Emb: ' they' (pos 2)",
+      "label": "Emb: ' they' (pos 2)",
+      "reason": "Embedding token, not a feature role."
+    },
+    {
+      "id": "Emb: ' set' (pos 3)",
+      "label": "Emb: ' set' (pos 3)",
+      "reason": "Embedding token, not a feature role."
+    },
+    {
+      "id": "Emb: ' fire' (pos 12)",
+      "label": "Emb: ' fire' (pos 12)",
+      "reason": "Embedding token, not a feature role."
+    },
+    {
+      "id": "Output",
+      "label": "Probe Classification Score",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 7,
+  "n_causal": 4,
+  "n_other": 6,
+  "spurious_fraction": 0.6363636363636364,
+  "dominant": "spurious",
+  "notes": "All listed negation detectors are spurious; pronoun/set/fire are causal. Embeddings and output are other."
+}

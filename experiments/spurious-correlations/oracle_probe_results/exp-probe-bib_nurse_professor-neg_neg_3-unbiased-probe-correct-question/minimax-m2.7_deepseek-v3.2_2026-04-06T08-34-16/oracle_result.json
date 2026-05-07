@@ -1,0 +1,4460 @@
+{
+  "prompt_name": "bib_nurse_professor-neg_neg_3-unbiased-probe-correct",
+  "system_prompt": "",
+  "user_message": "Dataset: bib_nurse_professor-neg_neg_3 | Probe: unbiased | Method: correct",
+  "assistant_prefix": "",
+  "full_response": "",
+  "base_followup_response": "",
+  "question": [
+    "The circuit use spurious features (e.g. gender markers) rather than genuine profession indicators to predict the profession."
+  ],
+  "orchestrator_model": "minimax/minimax-m2.7",
+  "subagent_model": "deepseek/deepseek-v3.2",
+  "provider": "openrouter",
+  "response": "## Step 5: Analysis\n\n**Analysis:** The probe's classification score is driven by a hierarchy of genuine academic profession indicators, specifically Ph.D. degree tokens and university mentions \u2014 no gender markers were found anywhere in the attribution circuit.\n\n**Confidence:** 9/10\n\n**Reasoning:**\n\nThe circuit tracing reveals a robust, multi-layered pathway of legitimate academic content detection:\n\n1. **Input-level signals (Layer 0-1):** The strongest root signals come directly from input tokens:\n   - `\" Ph\"` at position 50 and `\"D\"` at position 52 (forming \"Ph.D.\") \u2014 edge weight 14.69 to L2:F10852\n   - `\"Peking\"` and `\"University\"` at positions 12-13 \u2014 edge weight 17.75 to L4:F5150\n   - Year digits `\"9\"` at positions 16-18 \u2014 detecting temporal patterns like \"1998\"\n\n2. **Hierarchical abstraction (Layers 1-5):** The circuit progressively builds more abstract representations:\n   - L1:F10132 (frac=0.00233) \u2014 highly specific Ph.D. abbreviation detector\n   - L2:F10852 (frac=0.00801) \u2014 \"academic titles and degrees\"\n   - L4:F5150 (frac=0.00399) \u2014 \"specific universities and colleges\"\n   - L5:F13801 (frac=0.02825) \u2014 \"degree abbreviations and educational attainment\"\n\n3. **Synthesis layer (Layers 6-7):** Features combine multiple signals:\n   - L6:F2254 (frac=0.00412) \u2014 \"references to academic degrees\"\n   - L7:F14129 (frac=0.00417) \u2014 \"academic degrees, universities, and people associated with them\"\n\n4. **No spurious gender signals:** The features at position 2 (\"He\" pronoun) detect completely unrelated concepts: \"ice\", \"reception\", \"route\", and past tense verbs \u2014 not gender. All features have low frac_nonzero values (0.001-0.04), indicating genuine specificity to academic contexts rather than generic pattern matching.\n\nThe probe correctly identifies this biography as describing an academic professional through explicit credential markers (Ph.D.) and institutional affiliations (universities), not through proxy signals like gender pronouns.",
+  "tool_calls": [
+    {
+      "tool": "get_top_logits",
+      "input": {
+        "k": 5
+      },
+      "output": [
+        {
+          "token": "",
+          "probability": 1.0
+        }
+      ]
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 15
+      },
+      "output": [
+        {
+          "layer": 6,
+          "feature_idx": 3235,
+          "pos": 13,
+          "activation": 11.875,
+          "direct_effect": -0.0542
+        },
+        {
+          "layer": 2,
+          "feature_idx": 10852,
+          "pos": 52,
+          "activation": 38.25,
+          "direct_effect": -0.0535
+        },
+        {
+          "layer": 6,
+          "feature_idx": 3774,
+          "pos": 12,
+          "activation": 9.875,
+          "direct_effect": -0.0527
+        },
+        {
+          "layer": 0,
+          "feature_idx": 15320,
+          "pos": 2,
+          "activation": 8.25,
+          "direct_effect": 0.0503
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11132,
+          "pos": 18,
+          "activation": 12.625,
+          "direct_effect": -0.0474
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6270,
+          "pos": 13,
+          "activation": 19.125,
+          "direct_effect": 0.0471
+        },
+        {
+          "layer": 6,
+          "feature_idx": 6811,
+          "pos": 12,
+          "activation": 11.6875,
+          "direct_effect": -0.0454
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11333,
+          "pos": 18,
+          "activation": 15.0625,
+          "direct_effect": -0.0452
+        },
+        {
+          "layer": 7,
+          "feature_idx": 14129,
+          "pos": 52,
+          "activation": 50.0,
+          "direct_effect": 0.0437
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6515,
+          "pos": 17,
+          "activation": 33.25,
+          "direct_effect": -0.0425
+        },
+        {
+          "layer": 0,
+          "feature_idx": 9263,
+          "pos": 8,
+          "activation": 19.75,
+          "direct_effect": -0.0415
+        },
+        {
+          "layer": 3,
+          "feature_idx": 4213,
+          "pos": 11,
+          "activation": 20.625,
+          "direct_effect": 0.0403
+        },
+        {
+          "layer": 0,
+          "feature_idx": 12235,
+          "pos": 8,
+          "activation": 10.0625,
+          "direct_effect": -0.0383
+        },
+        {
+          "layer": 6,
+          "feature_idx": 170,
+          "pos": 10,
+          "activation": 19.875,
+          "direct_effect": 0.0381
+        },
+        {
+          "layer": 2,
+          "feature_idx": 14934,
+          "pos": 18,
+          "activation": 19.75,
+          "direct_effect": 0.0381
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 7,
+        "feature_idx": 14129
+      },
+      "output": {
+        "layer": 7,
+        "feature_idx": 14129,
+        "label": " academic degrees, universities, and people associated with them",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+            "max_activation": 140.304,
+            "max_token": "D"
+          },
+          {
+            "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+            "max_activation": 140.304,
+            "max_token": "D"
+          },
+          {
+            "text_snippet": "\u2581a\u2581positive\u2581third\u2581lens\u2581group\u2581are\u2581arranged\u2581in\u2581this\u2581order\u2581from\u2581the\u2581object\u2581side\u2581is\u2581known\u2581as\u2581a\u2581wide\u2581angle\u2581lens.<bos>Jianlin\u2581Cheng\n\nJianlin\u2581Jack\u2581Cheng\u2581is\u2581the\u2581William\u2581and\u2581Nancy\u2581Thompson\u2581Missouri\u2581Distinguish",
+            "max_activation": 134.268,
+            "max_token": "\u2581PhD"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581sup\u00e9rieures",
+          "\u2581Dostupn\u00e9",
+          "ToAction",
+          "\u2581s\u00e1t",
+          "\u2581avan",
+          "\u2581s\u00f6",
+          "eloma",
+          "\u2581sup\u00e9rieurs",
+          "opc",
+          "\u2581stolz"
+        ],
+        "suppressed_tokens": [
+          "MigrationBuilder",
+          "expandindo",
+          "########.",
+          "\u2581***!",
+          "SequentialGroup",
+          "Viited",
+          "\u2581disponibilit\u00e9s",
+          "\u2581lenker",
+          "\u2581ISNI",
+          "\u2581nahilalakip"
+        ],
+        "frac_nonzero": 0.00417
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 2,
+        "feature_idx": 10852
+      },
+      "output": {
+        "layer": 2,
+        "feature_idx": 10852,
+        "label": " academic titles and degrees",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+            "max_activation": 83.507,
+            "max_token": "Sc"
+          },
+          {
+            "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+            "max_activation": 83.507,
+            "max_token": "Sc"
+          },
+          {
+            "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+            "max_activation": 81.701,
+            "max_token": "D"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581degree",
+          "\u2581degrees",
+          "\u2581Degree",
+          "\u2581PhD",
+          "degree",
+          "\u2581doctorate",
+          "Degree",
+          "estr\u00eda",
+          "\u2581\u00fczer",
+          "degrees"
+        ],
+        "suppressed_tokens": [
+          "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+          "\u2581ModelExpression",
+          "\u2581PicClick",
+          "DockStyle",
+          "bestos",
+          "expandindo",
+          "########.",
+          "InSection",
+          "\u2581Voyages",
+          "ContentAsync"
+        ],
+        "frac_nonzero": 0.00801
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 3,
+        "feature_idx": 4213
+      },
+      "output": {
+        "layer": 3,
+        "feature_idx": 4213,
+        "label": " mentions of degree qualifications or awards",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581February\u25811976\u2581in\u2581Saltsj\u00f6baden\u2581and\u2581was\u2581buried\u2581in\u2581Gal\u00e4rvarvskyrkog\u00e5rden\u2581in\u2581Stockholm.\n\nAwards\u2581and\u2581decorations\nKnight\u2581of\u2581the\u2581Order\u2581of\u2581the\u2581Sword\nUnited\u2581Nations\u2581Medal\n\nReferences\n\nCategory:1909\u2581births\nCat",
+            "max_activation": 30.003,
+            "max_token": "\u2581Order"
+          },
+          {
+            "text_snippet": "\u2581February\u25811976\u2581in\u2581Saltsj\u00f6baden\u2581and\u2581was\u2581buried\u2581in\u2581Gal\u00e4rvarvskyrkog\u00e5rden\u2581in\u2581Stockholm.\n\nAwards\u2581and\u2581decorations\nKnight\u2581of\u2581the\u2581Order\u2581of\u2581the\u2581Sword\nUnited\u2581Nations\u2581Medal\n\nReferences\n\nCategory:1909\u2581births\nCat",
+            "max_activation": 30.003,
+            "max_token": "\u2581Order"
+          },
+          {
+            "text_snippet": "2001.\u2581In\u2581his\u2581practice,\u2581Fenner\u2581focuses\u2581on\u2581the\u2581academic\u2581areas\u2581of\u2581the\u2581university,\u2581including\u2581faculty,\u2581student,\u2581research,\u2581and\u2581policy\u2581matters.\u2581He\u2581earned\u2581his\u2581B.A.\u2581and\u2581J.D\u2581from\u2581Stanford\u2581University.\u2581Fenner\u2581app",
+            "max_activation": 29.712,
+            "max_token": "\u2581from"
+          }
+        ],
+        "promoted_tokens": [
+          "institution",
+          "\u2581Institute",
+          "\u2581institution",
+          "kloped",
+          "\u2581institute",
+          "Autoritn\u00ed",
+          "institutions",
+          "intellij",
+          "\u2581Institution",
+          "Nationalit\u00e9"
+        ],
+        "suppressed_tokens": [
+          "\u2581it\u017felf",
+          "visel",
+          "ScopeManager",
+          "\\{\\\\",
+          "\u2581ctl",
+          "\u2581copier",
+          "\u2581Striker",
+          "\u2581rosado",
+          "\u2581librarians",
+          "\u2581Spokes"
+        ],
+        "frac_nonzero": 0.01242
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 6,
+        "feature_idx": 3235
+      },
+      "output": {
+        "layer": 6,
+        "feature_idx": 3235,
+        "label": " academic publications, math, and scientific institutions",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581been\u2581found\u2581on\u2581some\u2581pulsars.'\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581[Haochen\u2581Li]{}\\\n\u2581\u2581\u2581\u2581[Physics\u2581Department,\u2581Washington\u2581University]{}\\\n\u2581\u2581\u2581\u2581[St.\u2581Louis,\u2581MO\u258163143]{}\ndate:\u2581'March\u258128,\u25812001'\ntitle:\u2581The\u2581Nonradial\u2581Oscillation\u2581Nod",
+            "max_activation": 60.137,
+            "max_token": "\u2581University"
+          },
+          {
+            "text_snippet": "\u2581been\u2581found\u2581on\u2581some\u2581pulsars.'\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581[Haochen\u2581Li]{}\\\n\u2581\u2581\u2581\u2581[Physics\u2581Department,\u2581Washington\u2581University]{}\\\n\u2581\u2581\u2581\u2581[St.\u2581Louis,\u2581MO\u258163143]{}\ndate:\u2581'March\u258128,\u25812001'\ntitle:\u2581The\u2581Nonradial\u2581Oscillation\u2581Nod",
+            "max_activation": 60.137,
+            "max_token": "\u2581University"
+          },
+          {
+            "text_snippet": "\u2581the\u2581University\u2581of\u2581Wisconsin\u2581and\u2581Woodward\u2581Fischer\u2581of\u2581the\u2581California\u2581Institute\u2581of\u2581Technology,\u2581were\u2581interested\u2581in\u2581better\u2581understanding\u2581the\u2581global\u2581sulfur\u2581cycle\u2581over\u2581the\u2581last\u2581550\u2581million\u2581years\u2581\u2013\u2581roughly\u2581t",
+            "max_activation": 51.793,
+            "max_token": "\u2581Technology"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581MainAxisSize",
+          "\u2581Walkover",
+          "ChildScrollView",
+          "XDECREF",
+          "otheby",
+          "WebElementEntity",
+          "Referencies",
+          "setVerticalGroup",
+          "lottesville",
+          "IndentedString"
+        ],
+        "suppressed_tokens": [
+          "\u2581num\u00e9riques",
+          "GraphicsUnit",
+          "\u2581Arquivado",
+          "ActivityCompat",
+          "\u2581sientes",
+          "\u2581dimenti",
+          "\u2581inmigrantes",
+          "\u2581num\u00e9rique",
+          "\u0448\u045a\u0435",
+          "dispatchEvent"
+        ],
+        "frac_nonzero": 0.03885
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 7,
+        "starting_feature_idx": 14129,
+        "starting_pos": 52,
+        "objective": "Trace this academic degree feature upstream. Look for the source of the signal - is it from genuine profession indicators or spurious features like gender markers? What tokens/positions drive this?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 7,
+            "feature_idx": 14129,
+            "pos": 52,
+            "label": " academic degrees, universities, and people associated with them",
+            "frac_nonzero": 0.00417,
+            "promoted_tokens": [
+              "\u2581sup\u00e9rieures",
+              "\u2581Dostupn\u00e9",
+              "ToAction",
+              "\u2581s\u00e1t",
+              "\u2581avan",
+              "\u2581s\u00f6",
+              "eloma",
+              "\u2581sup\u00e9rieurs",
+              "opc",
+              "\u2581stolz"
+            ]
+          },
+          {
+            "layer": 6,
+            "feature_idx": 2254,
+            "pos": 52,
+            "label": "references to academic degrees",
+            "frac_nonzero": 0.00412,
+            "promoted_tokens": [
+              "mybatisplus",
+              "UnknownFieldSet",
+              "SBATCH",
+              "\u2581\u0635\u0648\u062a\u064a\u0647",
+              "WebVitals",
+              "enterOuterAlt",
+              "JspWriter",
+              "\ue315",
+              "\u2581JAXBElement",
+              "UrlResolution"
+            ]
+          },
+          {
+            "layer": 5,
+            "feature_idx": 13801,
+            "pos": 52,
+            "label": "abbreviations for degrees and mentions of educational attainment",
+            "frac_nonzero": 0.02825,
+            "promoted_tokens": [
+              "\u2581doInBackground",
+              "Crossref",
+              "\u2581lifetime",
+              "rscheinlich",
+              "endfor",
+              "IRQn",
+              "\u2581dormitorios",
+              "ISupport",
+              "MarshalTo",
+              "\u2581th\u00e8se"
+            ]
+          },
+          {
+            "layer": 3,
+            "feature_idx": 8294,
+            "pos": 52,
+            "label": " words and phrases related to advanced education, research, and high-level concepts",
+            "frac_nonzero": 0.00786,
+            "promoted_tokens": [
+              "TemporalType",
+              "\uffe1",
+              "\u2581LoggerFactory",
+              "\u2581combineReducers",
+              "\u2581grunn",
+              "DoubleQuotes",
+              "Deep",
+              "\u2581finnes",
+              "\u2581contro",
+              "\u2581webdriver"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 10852,
+            "pos": 52,
+            "label": " academic titles and degrees",
+            "frac_nonzero": 0.00801,
+            "promoted_tokens": [
+              "\u2581degree",
+              "\u2581degrees",
+              "\u2581Degree",
+              "\u2581PhD",
+              "degree",
+              "\u2581doctorate",
+              "Degree",
+              "estr\u00eda",
+              "\u2581\u00fczer",
+              "degrees"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 10132,
+            "pos": 52,
+            "label": " the abbreviation for Doctorate of Philosophy, \"Ph.D.\" (or \"PhD\") written as \"D\"",
+            "frac_nonzero": 0.00233,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581AssemblyCulture",
+              "jgl",
+              "fetchone",
+              "\u2581r",
+              "\u2581StringTokenizer",
+              "ViewImports",
+              "\u0639\u064a",
+              "\u2581appro",
+              "RectangleBorder"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 14298,
+            "pos": 52,
+            "label": "academic publications, papers, and citations",
+            "frac_nonzero": 0.01814,
+            "promoted_tokens": [
+              "IMENTO",
+              "r\u00edklad",
+              "KommentareTeilen",
+              "\u043b\u0433\u0430",
+              "OURS",
+              "SuspendLayout",
+              "Unavailable",
+              "\u0432\u0435\u0441",
+              "kannya",
+              "\u2581dinilai"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 11924,
+            "pos": 52,
+            "label": "words and phrases related to religion, faith, and antibodies",
+            "frac_nonzero": 0.01114,
+            "promoted_tokens": [
+              "FieldDescriptor",
+              "\u2581T\u00c9CN",
+              "sequently",
+              "\u2581iveco",
+              "UKAN",
+              "\u2581Marry",
+              "\u2581punishment",
+              "ni\u00f1o",
+              "\u2581Di\u017f",
+              "\u00e9n\u00e9ral"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 6,
+            "from_feature_idx": 2254,
+            "from_pos": 52,
+            "to_layer": 7,
+            "to_feature_idx": 14129,
+            "to_pos": 52,
+            "weight": 6.9688
+          },
+          {
+            "from_layer": 5,
+            "from_feature_idx": 13801,
+            "from_pos": 52,
+            "to_layer": 7,
+            "to_feature_idx": 14129,
+            "to_pos": 52,
+            "weight": 4.0625
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 10132,
+            "from_pos": 52,
+            "to_layer": 7,
+            "to_feature_idx": 14129,
+            "to_pos": 52,
+            "weight": 3.9844
+          },
+          {
+            "from_layer": 3,
+            "from_feature_idx": 8294,
+            "from_pos": 52,
+            "to_layer": 7,
+            "to_feature_idx": 14129,
+            "to_pos": 52,
+            "weight": 3.8594
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 10852,
+            "from_pos": 52,
+            "to_layer": 6,
+            "to_feature_idx": 2254,
+            "to_pos": 52,
+            "weight": 12.0625
+          },
+          {
+            "from_layer": 5,
+            "from_feature_idx": 13801,
+            "from_pos": 52,
+            "to_layer": 6,
+            "to_feature_idx": 2254,
+            "to_pos": 52,
+            "weight": 7.9062
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 10852,
+            "from_pos": 52,
+            "to_layer": 5,
+            "to_feature_idx": 13801,
+            "to_pos": 52,
+            "weight": 7.375
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 10132,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 3.9219
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 14298,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 3.625
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 11924,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 2.3906
+          }
+        ],
+        "explanation": "Tracing the academic degree feature (L7:F14129) upstream reveals it's driven by genuine academic indicators, NOT gender markers. The circuit flows from raw input tokens \" Ph\" (position 50) and \"D\" (position 52) through increasingly abstract academic degree representations:\n\n1. **Root tokens**: The strongest signals come directly from embeddings \" Ph\" (position 50, edge weight 14.69 to L2:F10852) and \"D\" (position 52, edge weight 10.13 to L2:F10852). These are the actual text tokens from \"Ph.D.\" being detected.\n\n2. **Early layer processing**: \n   - L1:F10132 specifically detects the \"D\" in \"Ph.D.\" (frac_nonzero: 0.00233, highly specific)\n   - L2:F10852 detects \"academic titles and degrees\" (frac_nonzero: 0.00801, specific)\n   - Other L1 features handle related academic concepts (publications, research)\n\n3. **Middle layers refine**: \n   - L5:F13801 detects \"abbreviations for degrees and educational attainment\"\n   - L6:F2254 detects \"references to academic degrees\"\n\n4. **Final layer synthesizes**: L7:F14129 combines these into \"academic degrees, universities, and people associated with them\"\n\n**Key findings**:\n- Signal originates from genuine academic tokens (\" Ph\", \"D\") not gender markers\n- Features show increasing abstraction: tokens \u2192 specific abbreviations \u2192 degree references \u2192 academic degree concepts\n- All features have low frac_nonzero (0.002-0.028), indicating specificity to academic contexts\n- No evidence of spurious gender features in the upstream path",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 7,
+              "feature_idx": 14129
+            },
+            "output": {
+              "layer": 7,
+              "feature_idx": 14129,
+              "label": " academic degrees, universities, and people associated with them",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 140.304,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 140.304,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581a\u2581positive\u2581third\u2581lens\u2581group\u2581are\u2581arranged\u2581in\u2581this\u2581order\u2581from\u2581the\u2581object\u2581side\u2581is\u2581known\u2581as\u2581a\u2581wide\u2581angle\u2581lens.<bos>Jianlin\u2581Cheng\n\nJianlin\u2581Jack\u2581Cheng\u2581is\u2581the\u2581William\u2581and\u2581Nancy\u2581Thompson\u2581Missouri\u2581Distinguish",
+                  "max_activation": 134.268,
+                  "max_token": "\u2581PhD"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581sup\u00e9rieures",
+                "\u2581Dostupn\u00e9",
+                "ToAction",
+                "\u2581s\u00e1t",
+                "\u2581avan",
+                "\u2581s\u00f6",
+                "eloma",
+                "\u2581sup\u00e9rieurs",
+                "opc",
+                "\u2581stolz"
+              ],
+              "suppressed_tokens": [
+                "MigrationBuilder",
+                "expandindo",
+                "########.",
+                "\u2581***!",
+                "SequentialGroup",
+                "Viited",
+                "\u2581disponibilit\u00e9s",
+                "\u2581lenker",
+                "\u2581ISNI",
+                "\u2581nahilalakip"
+              ],
+              "frac_nonzero": 0.00417
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 7,
+              "feature_idx": 14129,
+              "pos": 52,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 6,
+                "feature_idx": 2254,
+                "pos": 52,
+                "edge_weight": 6.9688
+              },
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 4.1875
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 13801,
+                "pos": 52,
+                "edge_weight": 4.0625
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 10132,
+                "pos": 52,
+                "edge_weight": 3.9844
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 8294,
+                "pos": 52,
+                "edge_weight": 3.8594
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 2254
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 2254,
+              "label": "references to academic degrees",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581an\u2581M.Sc.\u2581\ndegree\u2581in\u2581paleontology\u2581and\u2581stratigraphy\u2581from\u2581the\u2581University\u2581of\u2581Tartu\u2581in\u25811995\u2581and\u2581a\u2581Ph.D.\u2581degree\u2581in\u2581geology\u2581from\u2581the\u2581same\u2581university\u2581in\u25812001.\u2581He\u2581is\u2581senior\u2581research\u2581fellow\u2581\nin\u2581paleontology\u2581at",
+                  "max_activation": 118.404,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581an\u2581M.Sc.\u2581\ndegree\u2581in\u2581paleontology\u2581and\u2581stratigraphy\u2581from\u2581the\u2581University\u2581of\u2581Tartu\u2581in\u25811995\u2581and\u2581a\u2581Ph.D.\u2581degree\u2581in\u2581geology\u2581from\u2581the\u2581same\u2581university\u2581in\u25812001.\u2581He\u2581is\u2581senior\u2581research\u2581fellow\u2581\nin\u2581paleontology\u2581at",
+                  "max_activation": 118.404,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581an\u2581M.Sc.\u2581\ndegree\u2581in\u2581paleontology\u2581and\u2581stratigraphy\u2581from\u2581the\u2581University\u2581of\u2581Tartu\u2581in\u25811995\u2581and\u2581a\u2581Ph.D.\u2581degree\u2581in\u2581geology\u2581from\u2581the\u2581same\u2581university\u2581in\u25812001.\u2581He\u2581is\u2581senior\u2581research\u2581fellow\u2581\nin\u2581paleontology\u2581at",
+                  "max_activation": 118.404,
+                  "max_token": "Sc"
+                }
+              ],
+              "promoted_tokens": [
+                "mybatisplus",
+                "UnknownFieldSet",
+                "SBATCH",
+                "\u2581\u0635\u0648\u062a\u064a\u0647",
+                "WebVitals",
+                "enterOuterAlt",
+                "JspWriter",
+                "\ue315",
+                "\u2581JAXBElement",
+                "UrlResolution"
+              ],
+              "suppressed_tokens": [
+                "used",
+                "\u0e37\u0e2d\u0e07",
+                "\u2581used",
+                "')],",
+                "\u2581\u2026",
+                "\u2581commissioners",
+                "\u2581circonst",
+                "igas",
+                "Language",
+                "\u2581:\r"
+              ],
+              "frac_nonzero": 0.00412
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 5,
+              "feature_idx": 13801
+            },
+            "output": {
+              "layer": 5,
+              "feature_idx": 13801,
+              "label": "abbreviations for degrees and mentions of educational attainment",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 74.13,
+                  "max_token": "ate"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 74.13,
+                  "max_token": "ate"
+                },
+                {
+                  "text_snippet": "Category:Protected\u2581areas\u2581of\u2581Sumter\u2581County,\u2581Florida\nCategory:United\u2581States\u2581national\u2581cemeteries\nCategory:1988\u2581establishments\u2581in\u2581Florida<bos>Debbie\u2581Gregory\u2581DNP,\u2581RN\n\nDr.\u2581Debbie\u2581Gregory\u2581is\u2581a\u2581national\u2581leade",
+                  "max_activation": 74.13,
+                  "max_token": "ate"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581doInBackground",
+                "Crossref",
+                "\u2581lifetime",
+                "rscheinlich",
+                "endfor",
+                "IRQn",
+                "\u2581dormitorios",
+                "ISupport",
+                "MarshalTo",
+                "\u2581th\u00e8se"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0645\u0631\u0626\u064a\u0647",
+                "MessageTagHelper",
+                "AccessorTable",
+                "\u2581linkovi",
+                "scanf",
+                "\u2581koning",
+                ":\u2728",
+                "\u2581t\u00eate",
+                "\u2581rendus",
+                "\u2581initComponents"
+              ],
+              "frac_nonzero": 0.02825
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 10132
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 10132,
+              "label": " the abbreviation for Doctorate of Philosophy, \"Ph.D.\" (or \"PhD\") written as \"D\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581husband\u2581and\u2581two\u2581children.\u2581Since\u25812015\u2581Victoria\u2581has\u2581published\u2581an\u2581array\u2581of\u2581books,\u2581both\u2581fiction\u2581and\u2581non-fiction.\u2581Before\u2581that\u2581she\u2581authored\u2581a\u2581Ph.D.\u2581thesis\u2581and\u2581many\u2581other\u2581scientific\u2581and\u2581technical\u2581publicatio",
+                  "max_activation": 41.478,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 41.007,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 41.007,
+                  "max_token": "D"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581AssemblyCulture",
+                "jgl",
+                "fetchone",
+                "\u2581r",
+                "\u2581StringTokenizer",
+                "ViewImports",
+                "\u0639\u064a",
+                "\u2581appro",
+                "RectangleBorder"
+              ],
+              "suppressed_tokens": [
+                "\u2728:",
+                "\u2581\"..\\..\\",
+                "ardless",
+                "\u00e4dchen",
+                "\u2581\u05d4\u05d9\u05ea\u05d4",
+                "\u00e9ez",
+                "\u2581Dienste",
+                "\u2581mijne",
+                "\u2581gehad",
+                "\u2581plea\u017fure"
+              ],
+              "frac_nonzero": 0.00233
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 2254,
+              "pos": 52,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 10852,
+                "pos": 52,
+                "edge_weight": 12.0625
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 13801,
+                "pos": 52,
+                "edge_weight": 7.9062
+              },
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 5.8438
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 5.375
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 11994,
+                "pos": 52,
+                "edge_weight": -5.3438
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 10852
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 10852,
+              "label": " academic titles and degrees",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+                  "max_activation": 83.507,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+                  "max_activation": 83.507,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 81.701,
+                  "max_token": "D"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581degree",
+                "\u2581degrees",
+                "\u2581Degree",
+                "\u2581PhD",
+                "degree",
+                "\u2581doctorate",
+                "Degree",
+                "estr\u00eda",
+                "\u2581\u00fczer",
+                "degrees"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+                "\u2581ModelExpression",
+                "\u2581PicClick",
+                "DockStyle",
+                "bestos",
+                "expandindo",
+                "########.",
+                "InSection",
+                "\u2581Voyages",
+                "ContentAsync"
+              ],
+              "frac_nonzero": 0.00801
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 10852,
+              "pos": 52,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 14.6875
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 10.125
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 10132,
+                "pos": 52,
+                "edge_weight": 3.9219
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14298,
+                "pos": 52,
+                "edge_weight": 3.625
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 11924,
+                "pos": 52,
+                "edge_weight": 2.3906
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14298
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14298,
+              "label": "academic publications, papers, and citations",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581Berkeley\u2581Division\u2581of\u2581Biostatistics\u2581Working\u2581Paper\u2581Series.\u2581Working\u2581Paper\u2581213.\n\n<span\u2581style=\"font-variant:small-caps;\">[van\u2581der\u2581Vaart]{},\u2581A.W.</span>\u2581(1991):\u2581On\u2581Differentiable\u2581Functionals,\u00a0*The\u2581Annals\u2581",
+                  "max_activation": 30.457,
+                  "max_token": "\u2581Press"
+                },
+                {
+                  "text_snippet": "\u2581D.\u2581Salart\u2581[*et\u2581al.*]{},\u2581[*ibid.*]{}\u2581[**100**]{},\u2581220404\u2581(2008).\n\nH.\u2581Paul,\u2581[*Introduction\u2581to\u2581Quantum\u2581Optics*]{}\u2581(Cambridge\u2581University\u2581Press,\u2581Cambridge,\u2581England,\u25812004).\n\nJ.C.\u2581Garrison\u2581and\u2581R.Y.\u2581Chiao,\u2581[",
+                  "max_activation": 30.277,
+                  "max_token": "\u2581Press"
+                },
+                {
+                  "text_snippet": "\u2581D.\u2581Salart\u2581[*et\u2581al.*]{},\u2581[*ibid.*]{}\u2581[**100**]{},\u2581220404\u2581(2008).\n\nH.\u2581Paul,\u2581[*Introduction\u2581to\u2581Quantum\u2581Optics*]{}\u2581(Cambridge\u2581University\u2581Press,\u2581Cambridge,\u2581England,\u25812004).\n\nJ.C.\u2581Garrison\u2581and\u2581R.Y.\u2581Chiao,\u2581[",
+                  "max_activation": 30.277,
+                  "max_token": "\u2581Press"
+                }
+              ],
+              "promoted_tokens": [
+                "IMENTO",
+                "r\u00edklad",
+                "KommentareTeilen",
+                "\u043b\u0433\u0430",
+                "OURS",
+                "SuspendLayout",
+                "Unavailable",
+                "\u0432\u0435\u0441",
+                "kannya",
+                "\u2581dinilai"
+              ],
+              "suppressed_tokens": [
+                "AddHtmlAttribute",
+                "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+                "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+                "\u062a\u0642\u0627\u0648\u0649",
+                "\u2581Wikimedijinoj",
+                "\ue315",
+                "\uac01\uc8fc",
+                "SpringRunner",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "StreetMap"
+              ],
+              "frac_nonzero": 0.01814
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 11924
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 11924,
+              "label": "words and phrases related to religion, faith, and antibodies",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581of\u2581persons\u2581but\u2581in\u2581the\u2581exercise\u2581of\u2581its\u2581corporate\u2581life\u2581and\u2581worship\u2581special\u2581qualifications\u2581for\u2581the\u2581discharge\u2581of\u2581special\u2581duties\u2581are\u2581required\u2581and\u2581thus\u2581the\u2581principle\u2581of\u2581representative\u2581selection\u2581is\u2581recogniz",
+                  "max_activation": 24.818,
+                  "max_token": "\u2581divine"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581persons\u2581but\u2581in\u2581the\u2581exercise\u2581of\u2581its\u2581corporate\u2581life\u2581and\u2581worship\u2581special\u2581qualifications\u2581for\u2581the\u2581discharge\u2581of\u2581special\u2581duties\u2581are\u2581required\u2581and\u2581thus\u2581the\u2581principle\u2581of\u2581representative\u2581selection\u2581is\u2581recogniz",
+                  "max_activation": 24.818,
+                  "max_token": "\u2581divine"
+                },
+                {
+                  "text_snippet": "\u2581divinely\u2581appointed\u2581mission.The\u2581doctrines\u2581of\u2581the\u2581evangelical\u2581faith\u2581which\u2581Methodism\u2581has\u2581held\u2581from\u2581the\u2581beginning\u2581and\u2581still\u2581holds\u2581are\u2581based\u2581upon\u2581the\u2581divine\u2581revelation\u2581recorded\u2581in\u2581the\u2581Holy\u2581Scriptures.\u2581The",
+                  "max_activation": 23.11,
+                  "max_token": "\u2581divine"
+                }
+              ],
+              "promoted_tokens": [
+                "FieldDescriptor",
+                "\u2581T\u00c9CN",
+                "sequently",
+                "\u2581iveco",
+                "UKAN",
+                "\u2581Marry",
+                "\u2581punishment",
+                "ni\u00f1o",
+                "\u2581Di\u017f",
+                "\u00e9n\u00e9ral"
+              ],
+              "suppressed_tokens": [
+                "\u2581>=\",",
+                "Erreferentziak",
+                "ORROW",
+                "DebuggerNonUser",
+                "\u2581disambiguazione",
+                "XmlEnum",
+                "AppCompat",
+                "hdess\u00e4",
+                "LayoutManager",
+                "mybatisplus"
+              ],
+              "frac_nonzero": 0.01114
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 5,
+              "feature_idx": 13801,
+              "pos": 52,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 10852,
+                "pos": 52,
+                "edge_weight": 7.375
+              },
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 2.0625
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 13943,
+                "pos": 52,
+                "edge_weight": 1.6641
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 1.3281
+              },
+              {
+                "type": "feature",
+                "layer": 3,
+                "feature_idx": 15899,
+                "pos": 52,
+                "edge_weight": 1.25
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 3,
+              "feature_idx": 8294
+            },
+            "output": {
+              "layer": 3,
+              "feature_idx": 8294,
+              "label": " words and phrases related to advanced education, research, and high-level concepts",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581fashion:\n\nEvery\u2581calculated\u2581change\u2581in\u2581Paris\u2581means\u2581more\u2581money\u2581spent\u2581[on\u2581patterns].\u2581So\u2581fashion-bent\u2581have\u2581sewing\u2581women\u2581become\u2581that\u2581patternmakers\u2581have\u2581all\u2581but\u2581junked\u2581the\u2581simple\u2581housedress\u2581designs\u2581that\u2581use",
+                  "max_activation": 41.227,
+                  "max_token": "fashion"
+                },
+                {
+                  "text_snippet": ",\u2581Basic\u2581Energy\u2581Sciences,\u2581Biological\u2581and\u2581Environmental\u2581Research,\u2581Fusion\u2581Energy\u2581Sciences,\u2581High\u2581Energy\u2581Physics,\u2581and\u2581Nuclear\u2581Physics.\u2581The\u2581Office\u2581of\u2581Science\u2581directly\u2581finances\u2581both\u2581DOE\u2581and\u2581non-DOE\u2581R&D\u2581proje",
+                  "max_activation": 40.617,
+                  "max_token": "\u2581Energy"
+                },
+                {
+                  "text_snippet": "\u2581high-level\u2581Kinesis\u2581Data\u2581Streams\u2581client\u2581for\u2581batching\u2581can\u2581preserve\u2581both\u2581battery\u2581life\u2581and\u2581data.\n\n##\u2581What\u2581is\u2581Amazon\u2581Kinesis\u2581Data\u2581Firehose?\n\n[Amazon\u2581Kinesis\u2581Data\u2581Firehose](http://aws.amazon.com/kinesis/fi",
+                  "max_activation": 40.52,
+                  "max_token": "level"
+                }
+              ],
+              "promoted_tokens": [
+                "TemporalType",
+                "\uffe1",
+                "\u2581LoggerFactory",
+                "\u2581combineReducers",
+                "\u2581grunn",
+                "DoubleQuotes",
+                "Deep",
+                "\u2581finnes",
+                "\u2581contro",
+                "\u2581webdriver"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0645\u0634\u064a\u0646",
+                "WRAPPER",
+                "ConstraintMaker",
+                "\u2581\u05d7\u05d9\u05e6\u05d5\u05e0\u05d9\u05d9\u05dd",
+                "ContentAsync",
+                "\u2581\ub204",
+                "hishek",
+                "NewLabel",
+                "\u2581Viral",
+                "ticity"
+              ],
+              "frac_nonzero": 0.00786
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-1",
+          "objective": "Trace this academic degree feature upstream. Look for the source of the signal - is it from genuine profession indicators or spurious features like gender markers? What tokens/positions drive this?",
+          "input_tokens": 81632,
+          "output_tokens": 3345,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-1"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 2,
+        "starting_feature_idx": 10852,
+        "starting_pos": 52,
+        "objective": "Trace this academic titles feature upstream. Look for spurious gender signals or what truly drives this feature.",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 2,
+            "feature_idx": 10852,
+            "pos": 52,
+            "label": " academic titles and degrees",
+            "frac_nonzero": 0.00801,
+            "promoted_tokens": [
+              "\u2581degree",
+              "\u2581degrees",
+              "\u2581Degree",
+              "\u2581PhD",
+              "degree",
+              "\u2581doctorate",
+              "Degree",
+              "estr\u00eda",
+              "\u2581\u00fczer",
+              "degrees"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 10132,
+            "pos": 52,
+            "label": " the abbreviation for Doctorate of Philosophy, \"Ph.D.\" (or \"PhD\") written as \"D\"",
+            "frac_nonzero": 0.00233,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581AssemblyCulture",
+              "jgl",
+              "fetchone",
+              "\u2581r",
+              "\u2581StringTokenizer",
+              "ViewImports",
+              "\u0639\u064a",
+              "\u2581appro",
+              "RectangleBorder"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 14298,
+            "pos": 52,
+            "label": "academic publications, papers, and citations",
+            "frac_nonzero": 0.01814,
+            "promoted_tokens": [
+              "IMENTO",
+              "r\u00edklad",
+              "KommentareTeilen",
+              "\u043b\u0433\u0430",
+              "OURS",
+              "SuspendLayout",
+              "Unavailable",
+              "\u0432\u0435\u0441",
+              "kannya",
+              "\u2581dinilai"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 14877,
+            "pos": 52,
+            "label": " single uppercase letters, sometimes followed by other characters, which frequently represent author initials.",
+            "frac_nonzero": 0.01247,
+            "promoted_tokens": [
+              "<bos>",
+              "bodyParser",
+              "Portale",
+              "\u2019",
+              "'",
+              "\u2581Ver",
+              "\u1ed5i",
+              "fully",
+              "\u2581N",
+              "\u2581the"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 2433,
+            "pos": 52,
+            "label": "capital letters, especially when they appear at the beginning of a line or could be part of a chemical formula",
+            "frac_nonzero": 0.03581,
+            "promoted_tokens": [
+              "^(@)",
+              "BibitemShut",
+              "NUMX",
+              "VERTISEMENT",
+              "]--;",
+              "le\u017fs",
+              "IBLIO",
+              "ITERATURE",
+              "ratulations",
+              "Cordialement"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 7554,
+            "pos": 50,
+            "label": " words related to education, professional titles, and time",
+            "frac_nonzero": 0.0241,
+            "promoted_tokens": [
+              "\n",
+              "\n\n",
+              "<bos>",
+              "\u2581",
+              "Student",
+              "Students",
+              "\u2581Student",
+              "B",
+              "\u2581Campus",
+              "\u2581Students"
+            ]
+          },
+          {
+            "layer": 0,
+            "feature_idx": 15795,
+            "pos": 52,
+            "label": " the word 'necessarily'",
+            "frac_nonzero": 0.01989,
+            "promoted_tokens": [
+              "\u2581Monfieur",
+              "\u2581photolibrary",
+              "\u2581AttributeSet",
+              "\u2581Efq",
+              "SaveChangesAsync",
+              "DockStyle",
+              "\u811a\u6ce8\u306e\u4f7f\u3044\u65b9",
+              "\u2581AssemblyVersion",
+              "\u2581nahilalakip",
+              "TemporalType"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 1,
+            "from_feature_idx": 10132,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 3.9219
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 14298,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 3.625
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 11924,
+            "from_pos": 52,
+            "to_layer": 2,
+            "to_feature_idx": 10852,
+            "to_pos": 52,
+            "weight": 2.3906
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 14877,
+            "from_pos": 52,
+            "to_layer": 1,
+            "to_feature_idx": 10132,
+            "to_pos": 52,
+            "weight": 1.2031
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 2433,
+            "from_pos": 52,
+            "to_layer": 1,
+            "to_feature_idx": 10132,
+            "to_pos": 52,
+            "weight": -0.75
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 15795,
+            "from_pos": 52,
+            "to_layer": 1,
+            "to_feature_idx": 14298,
+            "to_pos": 52,
+            "weight": -0.8008
+          },
+          {
+            "from_layer": 0,
+            "from_feature_idx": 7554,
+            "from_pos": 50,
+            "to_layer": 1,
+            "to_feature_idx": 14298,
+            "to_pos": 52,
+            "weight": 0.5625
+          }
+        ],
+        "explanation": "The academic titles feature at L2:F10852 is driven primarily by raw token embeddings of \"Ph\" at position 50 and \"D\" at position 52, with edge weights of 14.6875 and 10.125 respectively. These likely form the phrase \"Ph.D.\" \n\nThe main feature upstream nodes are L1:F10132 (detects PhD abbreviations as \"D\") and L1:F14298 (academic publications). These layer 1 features themselves are heavily connected to the same token embeddings \"Ph\" and \"D\", suggesting the circuit is recognizing the specific tokens that form \"Ph.D.\" rather than broader semantic patterns.\n\nKey findings: NO GENDER SIGNALS were found in this circuit. The academic titles feature is driven purely by:\n1. The specific tokens \"Ph\" and \"D\" forming \"Ph.D.\"\n2. Layer 0 features that detect uppercase letters/initials and education-related words\n3. All features have low frac_nonzero (0.00233-0.03581), indicating specificity rather than generic patterns\n\nThe circuit appears to be recognizing academic degree abbreviations rather than making gender inferences. The strongest signals come directly from the raw token embeddings \"Ph\" and \"D\".",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 10852
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 10852,
+              "label": " academic titles and degrees",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+                  "max_activation": 83.507,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581as\u2581well\u2581as\u2581regulatory\u2581government\u2581agencies\u2581that\nmay\u2581impact\u2581Reproductive\u2581Cell\u2581and\u2581Tissue\u2581Banking.\n\nBioGenetics\u2581is\u2581FDA\u2581Registered\n\nBioGenetics\u2581is\u2581licensed\u2581by\nThe\u2581New\u2581Jersey\u2581State\u2581Department\u2581of\u2581Health\u2581as",
+                  "max_activation": 83.507,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 81.701,
+                  "max_token": "D"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581degree",
+                "\u2581degrees",
+                "\u2581Degree",
+                "\u2581PhD",
+                "degree",
+                "\u2581doctorate",
+                "Degree",
+                "estr\u00eda",
+                "\u2581\u00fczer",
+                "degrees"
+              ],
+              "suppressed_tokens": [
+                "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+                "\u2581ModelExpression",
+                "\u2581PicClick",
+                "DockStyle",
+                "bestos",
+                "expandindo",
+                "########.",
+                "InSection",
+                "\u2581Voyages",
+                "ContentAsync"
+              ],
+              "frac_nonzero": 0.00801
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 2,
+              "feature_idx": 10852,
+              "pos": 52
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 14.6875
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 10.125
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 10132,
+                "pos": 52,
+                "edge_weight": 3.9219
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14298,
+                "pos": 52,
+                "edge_weight": 3.625
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 11924,
+                "pos": 52,
+                "edge_weight": 2.3906
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 10132
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 10132,
+              "label": " the abbreviation for Doctorate of Philosophy, \"Ph.D.\" (or \"PhD\") written as \"D\"",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581husband\u2581and\u2581two\u2581children.\u2581Since\u25812015\u2581Victoria\u2581has\u2581published\u2581an\u2581array\u2581of\u2581books,\u2581both\u2581fiction\u2581and\u2581non-fiction.\u2581Before\u2581that\u2581she\u2581authored\u2581a\u2581Ph.D.\u2581thesis\u2581and\u2581many\u2581other\u2581scientific\u2581and\u2581technical\u2581publicatio",
+                  "max_activation": 41.478,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 41.007,
+                  "max_token": "D"
+                },
+                {
+                  "text_snippet": "\u2581in\u2581Race\u2581and\u2581Ethnicity,\u2581Vice\u2581Provost\u2581for\u2581Graduate\u2581Education,\u2581and\u2581the\u2581American\u2581Studies\u2581Program.\n\nAllyson\u2581Hobbs\u2581is\u2581assistant\u2581professor\u2581of\u2581American\u2581history\u2581at\u2581Stanford.\u2581Hobbs,\u2581who\u2581graduated\u2581magna\u2581cum\u2581lau",
+                  "max_activation": 41.007,
+                  "max_token": "D"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581AssemblyCulture",
+                "jgl",
+                "fetchone",
+                "\u2581r",
+                "\u2581StringTokenizer",
+                "ViewImports",
+                "\u0639\u064a",
+                "\u2581appro",
+                "RectangleBorder"
+              ],
+              "suppressed_tokens": [
+                "\u2728:",
+                "\u2581\"..\\..\\",
+                "ardless",
+                "\u00e4dchen",
+                "\u2581\u05d4\u05d9\u05ea\u05d4",
+                "\u00e9ez",
+                "\u2581Dienste",
+                "\u2581mijne",
+                "\u2581gehad",
+                "\u2581plea\u017fure"
+              ],
+              "frac_nonzero": 0.00233
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14298
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14298,
+              "label": "academic publications, papers, and citations",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ".\u2581Berkeley\u2581Division\u2581of\u2581Biostatistics\u2581Working\u2581Paper\u2581Series.\u2581Working\u2581Paper\u2581213.\n\n<span\u2581style=\"font-variant:small-caps;\">[van\u2581der\u2581Vaart]{},\u2581A.W.</span>\u2581(1991):\u2581On\u2581Differentiable\u2581Functionals,\u00a0*The\u2581Annals\u2581",
+                  "max_activation": 30.457,
+                  "max_token": "\u2581Press"
+                },
+                {
+                  "text_snippet": "\u2581D.\u2581Salart\u2581[*et\u2581al.*]{},\u2581[*ibid.*]{}\u2581[**100**]{},\u2581220404\u2581(2008).\n\nH.\u2581Paul,\u2581[*Introduction\u2581to\u2581Quantum\u2581Optics*]{}\u2581(Cambridge\u2581University\u2581Press,\u2581Cambridge,\u2581England,\u25812004).\n\nJ.C.\u2581Garrison\u2581and\u2581R.Y.\u2581Chiao,\u2581[",
+                  "max_activation": 30.277,
+                  "max_token": "\u2581Press"
+                },
+                {
+                  "text_snippet": "\u2581D.\u2581Salart\u2581[*et\u2581al.*]{},\u2581[*ibid.*]{}\u2581[**100**]{},\u2581220404\u2581(2008).\n\nH.\u2581Paul,\u2581[*Introduction\u2581to\u2581Quantum\u2581Optics*]{}\u2581(Cambridge\u2581University\u2581Press,\u2581Cambridge,\u2581England,\u25812004).\n\nJ.C.\u2581Garrison\u2581and\u2581R.Y.\u2581Chiao,\u2581[",
+                  "max_activation": 30.277,
+                  "max_token": "\u2581Press"
+                }
+              ],
+              "promoted_tokens": [
+                "IMENTO",
+                "r\u00edklad",
+                "KommentareTeilen",
+                "\u043b\u0433\u0430",
+                "OURS",
+                "SuspendLayout",
+                "Unavailable",
+                "\u0432\u0435\u0441",
+                "kannya",
+                "\u2581dinilai"
+              ],
+              "suppressed_tokens": [
+                "AddHtmlAttribute",
+                "\u0902\u0926\u0940\u0916\u0930\u0940\u0926\u093e\u0930\u0940",
+                "\u2581\u0434\u043e\u043f\u0438\u0441\u0430\u0432\u0448\u0438",
+                "\u062a\u0642\u0627\u0648\u0649",
+                "\u2581Wikimedijinoj",
+                "\ue315",
+                "\uac01\uc8fc",
+                "SpringRunner",
+                "\u2581\u041c\u0435\u043a\u0441\u0438\u0447\u043a\u0430",
+                "StreetMap"
+              ],
+              "frac_nonzero": 0.01814
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 10132,
+              "pos": 52
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 16.25
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 13.125
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 14877,
+                "pos": 52,
+                "edge_weight": 1.2031
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.8086
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 2433,
+                "pos": 52,
+                "edge_weight": -0.75
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14298,
+              "pos": 52
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 10.9375
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 3.9375
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 15795,
+                "pos": 52,
+                "edge_weight": -0.8008
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.6992
+              },
+              {
+                "type": "feature",
+                "layer": 0,
+                "feature_idx": 7554,
+                "pos": 50,
+                "edge_weight": 0.5625
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14877
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 14877,
+              "label": " single uppercase letters, sometimes followed by other characters, which frequently represent author initials.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": ",\u2581W.K.,\u2581F.\u2581Hsieh,\u2581[and]{}\u2581J.M.\u2581Robins</span>\u2581(1998):\u2581Undersmoothing\u2581and\u2581Bias\u2581Corrected\u2581Functional\u2581Estimation,\"\u2581MIT\u2581Dept.\u2581of\u2581Economics\u2581working\u2581paper\u00a072,\u2581947-962.\n\n<span\u2581style=\"font-variant:small-caps;\"",
+                  "max_activation": 29.123,
+                  "max_token": "\u2581H"
+                },
+                {
+                  "text_snippet": "\u2581an\u2581M.Sc.\u2581\ndegree\u2581in\u2581paleontology\u2581and\u2581stratigraphy\u2581from\u2581the\u2581University\u2581of\u2581Tartu\u2581in\u25811995\u2581and\u2581a\u2581Ph.D.\u2581degree\u2581in\u2581geology\u2581from\u2581the\u2581same\u2581university\u2581in\u25812001.\u2581He\u2581is\u2581senior\u2581research\u2581fellow\u2581\nin\u2581paleontology\u2581at",
+                  "max_activation": 28.906,
+                  "max_token": "Sc"
+                },
+                {
+                  "text_snippet": "B.V.\u2581initiated\u2581the\u2581project\u2581and\u2581obtained\u2581funding.;\u2581A.H.V.,\u2581S.R.B.V.-J.,\u2581D.H.H.V.K.\u2581and\u2581S.M.P.L.G.\u2581designed\u2581the\u2581study;\u2581A.H.V.\u2581and\u2581S.R.B.V.-J.\u2581carried\u2581out\u2581the\u2581study.;\u2581A.H.V.\u2581and\u2581S.R.B.V.-J.\u2581collected\u2581and",
+                  "max_activation": 28.73,
+                  "max_token": "P"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "bodyParser",
+                "Portale",
+                "\u2019",
+                "'",
+                "\u2581Ver",
+                "\u1ed5i",
+                "fully",
+                "\u2581N",
+                "\u2581the"
+              ],
+              "suppressed_tokens": [
+                "\u2581Hou\u017fe",
+                "\u2581\u017ftate",
+                "\u2581The\u017fe",
+                "\u2581Majefty",
+                "\u2581plea\u017fure",
+                "\u2581my\u017felf",
+                "\u2581Monfieur",
+                "\u2581hou\u017fe",
+                "\u2581purpo\u017fe",
+                "\u2581ftate"
+              ],
+              "frac_nonzero": 0.01247
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 2433
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 2433,
+              "label": "capital letters, especially when they appear at the beginning of a line or could be part of a chemical formula",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "Hemolectin-)\u0394Gal4*\u2581driver\u2581[@ppat.1003720-Sinenko1]\u2581to\u2581specifically\u2581express\u2581green\u2581fluorescent\u2581protein\u2581(GFP)\u2581and\u2581dominant-negative\u2581constructs\u2581of\u2581the\u2581three\u2581known\u2581EcR\u2581isoforms\u2581under\u2581the\u2581control\u2581of\u2581the\u2581UAS",
+                  "max_activation": 42.501,
+                  "max_token": "H"
+                },
+                {
+                  "text_snippet": "H$\u2581colour-colour\u2581diagram\u2581the\u2581reddening\u2581vectors\u2581are\u2581almost\u2581perpendicular\u2581to\u2581the\u2581theoretical\u2581stellar\u2581sequence\u2581(Fig.\\[fig:izjh\\_age\\]),\u2581whose\u2581position\u2581is\u2581almost\u2581independent\u2581of\u2581age,\u2581and\u2581so\u2581we\u2581can\u2581de-redde",
+                  "max_activation": 42.501,
+                  "max_token": "H"
+                },
+                {
+                  "text_snippet": "H39*\u2581were\u2581induced\u2581after\u2581application\u2581of\u2581salicylic\u2581acid\u2581(\u200a=\u200aSA)\u2581by\u2581the\u2581SA-inducible\u2581Dof\u2581(\u200a=\u200aDNA\u2581binding\u2581with\u2581one\u2581finger)\u2581transcription\u2581factor\u2581OBF\u2581BINDING\u2581PROTEIN3\u2581(OBP3)\u2581[@pone.0099234-Kang1].\u2581Binding\u2581o",
+                  "max_activation": 42.501,
+                  "max_token": "H"
+                }
+              ],
+              "promoted_tokens": [
+                "^(@)",
+                "BibitemShut",
+                "NUMX",
+                "VERTISEMENT",
+                "]--;",
+                "le\u017fs",
+                "IBLIO",
+                "ITERATURE",
+                "ratulations",
+                "Cordialement"
+              ],
+              "suppressed_tokens": [
+                "A",
+                "H",
+                "S",
+                "B",
+                "E",
+                "T",
+                "R",
+                "P",
+                "L",
+                "M"
+              ],
+              "frac_nonzero": 0.03581
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7554
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 7554,
+              "label": " words related to education, professional titles, and time",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\n\nBiography\nWarrand\u2581was\u2581educated\u2581at\u2581Eton\u2581College,\u2581and\u2581graduated\u2581from\u2581Balliol\u2581College\u2581in\u25811924\u2581with\u2581a\u2581Bachelor\u2581of\u2581Arts\u2581degree.\u2581He\u2581adopted\u2581the\u2581legally\u2581changed\u2581name\u2581Hugh\u2581Vere\u2581Huntly\u2581Duff\u2581Lucas-Tooth\u2581of\u2581Te",
+                  "max_activation": 22.077,
+                  "max_token": "\u2581degree"
+                },
+                {
+                  "text_snippet": "\n\nBiography\nWarrand\u2581was\u2581educated\u2581at\u2581Eton\u2581College,\u2581and\u2581graduated\u2581from\u2581Balliol\u2581College\u2581in\u25811924\u2581with\u2581a\u2581Bachelor\u2581of\u2581Arts\u2581degree.\u2581He\u2581adopted\u2581the\u2581legally\u2581changed\u2581name\u2581Hugh\u2581Vere\u2581Huntly\u2581Duff\u2581Lucas-Tooth\u2581of\u2581Te",
+                  "max_activation": 22.077,
+                  "max_token": "\u2581degree"
+                },
+                {
+                  "text_snippet": "\u2581work,\u2581in\u2581combination\u2581with\u2581the\u2581new\u2581set\u2581of\u2581transforms,\u2581we\u2581will\u2581apply\u2581a\u2581joint\u2581vector\u2581quantization\u2581and\u2581error\u2581correction\u2581method\u2581by\u2581using\u2581nested\u2581polar\u2581codes\u2581to\u2581achieve\u2581rate\u2581pairs\u2581that\u2581cannot\u2581be\u2581achieved\u2581by",
+                  "max_activation": 22.041,
+                  "max_token": "\u2581degree"
+                }
+              ],
+              "promoted_tokens": [
+                "\n",
+                "\n\n",
+                "<bos>",
+                "\u2581",
+                "Student",
+                "Students",
+                "\u2581Student",
+                "B",
+                "\u2581Campus",
+                "\u2581Students"
+              ],
+              "suppressed_tokens": [
+                "MethodManager",
+                "\u2581\u064a\u062a\u064a\u0645\u0647",
+                "\u2581\u0645\u0631\u0626\u064a\u0647",
+                "\u2581CreateTagHelper",
+                "extAlignment",
+                "\u2581my\u017felf",
+                "\u2581The\u017fe",
+                "IZONTAL",
+                "\u2581pinulongan",
+                "\u2581utafitiHapana"
+              ],
+              "frac_nonzero": 0.0241
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 15795
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 15795,
+              "label": " the word 'necessarily'",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581this\u2581is\u2581about\u2581singing\u2581and\u2581covering\u2581other\u2581people\u2019s\u2581songs,\u2581so\u2581I\u2581don\u2019t\u2581know\u2581that\u2581this\u2581works\u2581in\u2581this\u2581format\u2581because\u2581you\u2019re\u2581singing\u2581someone\u2581else\u2019s\u2581lyrics\u2581and\u2581you\u2581also\u2581don\u2019t\u2581necessarily\u2581have\u2581a\u2581vocal\u2581abilit",
+                  "max_activation": 24.55,
+                  "max_token": "\u2581necessarily"
+                },
+                {
+                  "text_snippet": "\u2581not\u2581necessarily\u2581represent\u2581the\u2581official\u2581views\u2581of\u2581the\u2581National\u2581Institutes\u2581of\u2581Health.\n\nFunding\u2581{#FPar1}\n=======\n\nThis\u2581work\u2581was\u2581supported\u2581by\u2581the\u2581National\u2581Institutes\u2581of\u2581Health\u2581awards\u2581R01EY015518\u2581(EVS)\u2581and",
+                  "max_activation": 24.49,
+                  "max_token": "\u2581necessarily"
+                },
+                {
+                  "text_snippet": "'s\u2581not\u2581necessarily\u2581that\u2581they're\u2581filling\u2581a\u2581canoe\u2581up\u2581with\u2581boulders,\"\u2581she\u2581said.\n\nBy\u2581using\u2581Onondaga\u2581chert\u2581the\u2581people\u2581of\u2581Grand\u2581Island\u2581were\u2581continuing\u2581a\u2581toolmaking\u2581tradition\u2581that\u2581goes\u2581back\u2581to\u2581when\u2581people\u2581we",
+                  "max_activation": 24.364,
+                  "max_token": "\u2581necessarily"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Monfieur",
+                "\u2581photolibrary",
+                "\u2581AttributeSet",
+                "\u2581Efq",
+                "SaveChangesAsync",
+                "DockStyle",
+                "\u811a\u6ce8\u306e\u4f7f\u3044\u65b9",
+                "\u2581AssemblyVersion",
+                "\u2581nahilalakip",
+                "TemporalType"
+              ],
+              "suppressed_tokens": [
+                "\u2581the",
+                "es",
+                "er",
+                "\u2581de",
+                "\u2581in",
+                "</i>",
+                "\u2581an",
+                "\u2581les",
+                "<eos>",
+                "\u2581[\u2026]"
+              ],
+              "frac_nonzero": 0.01989
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 14877,
+              "pos": 52
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 51,
+                "edge_weight": 8.125
+              },
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 7.8125
+              },
+              {
+                "type": "embedding",
+                "token": "D",
+                "pos": 52,
+                "edge_weight": 3.2031
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -0.6797
+              },
+              {
+                "type": "embedding",
+                "token": " Mathematics",
+                "pos": 30,
+                "edge_weight": 0.1797
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 7554,
+              "pos": 50
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " Ph",
+                "pos": 50,
+                "edge_weight": 4.8438
+              },
+              {
+                "type": "embedding",
+                "token": " Mathematics",
+                "pos": 10,
+                "edge_weight": 1.6953
+              },
+              {
+                "type": "embedding",
+                "token": " Mathematics",
+                "pos": 30,
+                "edge_weight": 1.6094
+              },
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 34,
+                "edge_weight": 1.2812
+              },
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 13,
+                "edge_weight": 0.8477
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-2",
+          "objective": "Trace this academic titles feature upstream. Look for spurious gender signals or what truly drives this feature.",
+          "input_tokens": 69417,
+          "output_tokens": 2679,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 8832
+        }
+      },
+      "label": "SA-2"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 6270
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 6270,
+        "label": "the word \"whom\", sometimes also activating on nearby punctuation, sentence starts, discourse markers, and other function words",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581\u2013\u2581his\u2581destiny\u2581collides\u2581with\u2581a\u2581millennia-old\u2581struggle\u2581between\u2581strange\u2581Gods.\n\nTheir\u2581prize\u2581is\u2581Earth.\u2581Their\u2581warriors\u2581are\u2581warring\u2581races\u2581of\u2581Unnaturals:\u2581the\u2581Bloodells\u2581and\u2581the\u2581Darkells.\n\nAs\u2581an\u2581unlikely\u2581allia",
+            "max_activation": 40.996,
+            "max_token": "\u2581whom"
+          },
+          {
+            "text_snippet": "\u2581about\u2581eight\u2581to\u2581three\u2581female;\u2581but,\u2581you\u2581know,\u2581there's\u2581no\u0097I\u2581just\u2581don't\u2581see\u2581that\u2581there's\u2581any\u2581prima\u2581facie\u2581case\u2581here\u2581based\u2581on\u0097you\u2581do\u2581have\u2581three\u2581women\u2581on\u2581the\u2581jury;\u2581and\u2581unless\u2581we're\u2581called\u2581to\u2581show\u2581gender-neu",
+            "max_activation": 40.972,
+            "max_token": "\u2581whom"
+          },
+          {
+            "text_snippet": "\u2581both\u2581of\u2581whom\u2581were\u2581active\u2581in\u2581New\u2581York\u2581theater\u2581at\u2581the\u2581time\u2581of\u2581the\u2581movie.\u2581Two\u2581themes\u2581tie\u2581the\u2581entire\u2581dialog\u2581together:\u2581(1)\u2581should\u2581we\u2581live\u2581spontaneously\u2581in\u2581the\u2581moment,\u2581disconnecting\u2581ourselves\u2581from\u2581the\u2581purp",
+            "max_activation": 40.921,
+            "max_token": "\u2581whom"
+          }
+        ],
+        "promoted_tokens": [
+          "\n",
+          "\u2581is",
+          "\u2581H",
+          "!",
+          "ua",
+          "\u2581h",
+          "\u2581K",
+          "\u2581v",
+          "\u2581he",
+          "ine"
+        ],
+        "suppressed_tokens": [
+          "\u2581my\u017felf",
+          "\u2581Majefty",
+          "\u2581An\u017f",
+          "\u2581it\u017felf",
+          "\u2581Hou\u017fe",
+          "\u2581Efq",
+          "\u2581Re\u017f",
+          "\u2581Jefus",
+          "\u2581The\u017fe",
+          "\u2581poffe"
+        ],
+        "frac_nonzero": 0.00804
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 15320
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 15320,
+        "label": " the word \"ice\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581hygroscopic\u2581seeding,\u2581generally\u2581with\u2581a\u2581simple\u2581salt.\u2581The\u2581salt\u2581helps\u2581water\u2581droplets\u2581to\u2581collide\u2581and\u2581produce\u2581rain.\n\nFor\u2581either\u2581glaciogenic\u2581or\u2581hygroscopic\u2581seeding,\u2581it\u2581is\u2581essential\u2581to\u2581determine\u2581if\u2581clouds\u2581in",
+            "max_activation": 28.567,
+            "max_token": "\u2581ice"
+          },
+          {
+            "text_snippet": "\u2581reason\u2581they\u2581have\u2581three\u2581Korean\u2581restaurants).\u2581Notable\u2581outlets\u2581are\u2581Paradise\u2581Dynasty,\u2581Kyochon,\u2581Go\u2581Noodle\u2581House,\u2581Kin\u2581Kin\u2581Pan\u2581Mee,\u2581and\u2581Powerplant.\u2581There's\u2581also\u2581Cremeo\u2581that\u2581serves\u2581premium\u2581soft\u2581serve\u2581ice\u2581cre",
+            "max_activation": 28.388,
+            "max_token": "\u2581ice"
+          },
+          {
+            "text_snippet": "20\u2581ringgit\u2581a\u2581head\u2581is\u2581reasonable),\u2581the\u2581money\u2581goes\u2581to\u2581a\u2581good\u2581cause,\u2581helping\u2581to\u2581fund\u2581the\u2581Temple\u2581of\u2581Fine\u2581Arts.\nAnnalakshmi\u2581is...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Annalakshmi.\n\nThe\u2581cafe\u2581is\u2581owned\u2581by\u2581Artisan\u2581Roast,\u2581p",
+            "max_activation": 28.361,
+            "max_token": "\u2581ice"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u2581\u017fche",
+          "\u2581PDI",
+          "'",
+          "niosek",
+          "\u2581in\u017f",
+          "\u2581Laj",
+          "\u2581fince",
+          "\u017felf",
+          "\u2581\u0f0b\u0f0b"
+        ],
+        "suppressed_tokens": [
+          "\u2581surla",
+          "ViewImports",
+          "featureID",
+          "DockStyle",
+          "\u2581CreateTagHelper",
+          "\u2581defaultstate",
+          "NameInMap",
+          "setVerticalGroup",
+          "MLLoader",
+          "rrggbb"
+        ],
+        "frac_nonzero": 0.01739
+      }
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 6,
+        "starting_feature_idx": 3235,
+        "starting_pos": 13,
+        "objective": "Trace this feature upstream. Is it driven by spurious signals like gender markers or genuine academic content? What tokens/positions?",
+        "max_hops": 5
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 6,
+            "feature_idx": 3235,
+            "pos": 13,
+            "label": " academic publications, math, and scientific institutions",
+            "frac_nonzero": 0.03885,
+            "promoted_tokens": [
+              "\u2581MainAxisSize",
+              "\u2581Walkover",
+              "ChildScrollView",
+              "XDECREF",
+              "otheby",
+              "WebElementEntity",
+              "Referencies",
+              "setVerticalGroup",
+              "lottesville",
+              "IndentedString"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 5150,
+            "pos": 13,
+            "label": " mentions of specific universities and colleges",
+            "frac_nonzero": 0.00399,
+            "promoted_tokens": [
+              "\u2581University",
+              "University",
+              "\u2581UNIVERSITY",
+              "\u2581university",
+              "enumi",
+              "\u2581universities",
+              "\u2581College",
+              "\u2581Colleges",
+              "College",
+              "\u2581\u00dcniversitesi"
+            ]
+          },
+          {
+            "layer": 5,
+            "feature_idx": 16220,
+            "pos": 13,
+            "label": "schools and universities",
+            "frac_nonzero": 0.00597,
+            "promoted_tokens": [
+              "\u043b\u0438\u0442",
+              "\u2581corsi",
+              "IsContent",
+              "\u00caN",
+              "Carrying",
+              "ticism",
+              "\u2581pelajaran",
+              "TableHead",
+              "\u2581crecer",
+              "\u2581Escuela"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 9333,
+            "pos": 13,
+            "label": " academic journals, publishers, or legal codes and abbreviations",
+            "frac_nonzero": 0.00915,
+            "promoted_tokens": [
+              "CodedInputStream",
+              "\u2581XCTest",
+              "KommentareTeilen",
+              "\ucc38\uace0",
+              "UserScript",
+              "\u2581\u043d\u0430\u0441\u0435\u0459\u0443",
+              "\u2581DbSet",
+              "\udb40\udc62",
+              "\u2581INTERESAR",
+              "\u2581MotionEvent"
+            ]
+          },
+          {
+            "layer": 2,
+            "feature_idx": 3342,
+            "pos": 13,
+            "label": " mentions of universities and colleges",
+            "frac_nonzero": 0.00176,
+            "promoted_tokens": [
+              "\u2581Wikimedijinoj",
+              "})*/",
+              "}))\r",
+              "\u51fa\u7248\u5e74",
+              "RegressionTest",
+              "\u2581\")\";",
+              "PMailer",
+              "ftagPool",
+              "\u2581\")\");",
+              "\u2581\u064a\u062a\u064a\u0645\u0647"
+            ]
+          },
+          {
+            "layer": 1,
+            "feature_idx": 14798,
+            "pos": 13,
+            "label": " mentions of universities and colleges",
+            "frac_nonzero": 0.00325,
+            "promoted_tokens": [
+              "<bos>",
+              "\u2581correctes",
+              "\ufeff/*",
+              "droje",
+              "JAKARTA",
+              "poved",
+              "\u2581Danach",
+              "abstractmethod",
+              "UpdateData",
+              "sieke"
+            ]
+          },
+          {
+            "layer": 4,
+            "feature_idx": 11633,
+            "pos": 11,
+            "label": " words related to education and employment history",
+            "frac_nonzero": 0.00846,
+            "promoted_tokens": [
+              "<bos>",
+              "UseVisualStyle",
+              "AddTagHelper",
+              "ftagPool",
+              "__':\r",
+              "InjectMocks",
+              "\u24e7",
+              "});*/",
+              "itin\u00e9raire",
+              "\u0648\u062c\u062f"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": 4,
+            "from_feature_idx": 5150,
+            "from_pos": 13,
+            "to_layer": 6,
+            "to_feature_idx": 3235,
+            "to_pos": 13,
+            "weight": 2.875
+          },
+          {
+            "from_layer": 5,
+            "from_feature_idx": 16220,
+            "from_pos": 13,
+            "to_layer": 6,
+            "to_feature_idx": 3235,
+            "to_pos": 13,
+            "weight": 1.5938
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 9333,
+            "from_pos": 13,
+            "to_layer": 6,
+            "to_feature_idx": 3235,
+            "to_pos": 13,
+            "weight": 1.3984
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": "Peking",
+            "from_pos": 12,
+            "to_layer": 4,
+            "to_feature_idx": 5150,
+            "to_pos": 13,
+            "weight": 5.9375
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": "University",
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 5150,
+            "to_pos": 13,
+            "weight": 17.75
+          },
+          {
+            "from_layer": 2,
+            "from_feature_idx": 3342,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 5150,
+            "to_pos": 13,
+            "weight": -2.7188
+          },
+          {
+            "from_layer": 1,
+            "from_feature_idx": 14798,
+            "from_pos": 13,
+            "to_layer": 4,
+            "to_feature_idx": 5150,
+            "to_pos": 13,
+            "weight": -1.3203
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": "University",
+            "from_pos": 13,
+            "to_layer": 5,
+            "to_feature_idx": 16220,
+            "to_pos": 13,
+            "weight": 3.625
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 5150,
+            "from_pos": 13,
+            "to_layer": 5,
+            "to_feature_idx": 16220,
+            "to_pos": 13,
+            "weight": 3.0625
+          },
+          {
+            "from_layer": 4,
+            "from_feature_idx": 11633,
+            "from_pos": 11,
+            "to_layer": 5,
+            "to_feature_idx": 16220,
+            "to_pos": 13,
+            "weight": 1.7031
+          },
+          {
+            "from_layer": "embedding",
+            "from_token": "Peking",
+            "from_pos": 12,
+            "to_layer": 5,
+            "to_feature_idx": 16220,
+            "to_pos": 13,
+            "weight": 1.4062
+          }
+        ],
+        "explanation": "The feature L6:F3235 (\"academic publications, math, and scientific institutions\") is driven by genuine academic content, specifically mentions of universities. The circuit reveals:\n\n1. **Direct token inputs**: Strongest signals come directly from token embeddings for \"University\" (position 13) and \"Peking\" (position 12), with \"University\" having the strongest edge weight (17.75).\n\n2. **University detection circuit**: Multiple layers detect university mentions:\n   - L1:F14798: \"mentions of universities and colleges\" (suppresses university terms)\n   - L2:F3342: \"mentions of universities and colleges\" (also suppresses university terms)\n   - L4:F5150: \"mentions of specific universities and colleges\" (promotes university terms)\n   - L5:F16220: \"schools and universities\"\n\n3. **No gender markers found**: The circuit contains no spurious signals related to gender markers. Instead, it focuses on genuine academic institution detection.\n\n4. **Highly specific features**: All upstream features have very low frac_nonzero values (0.00176-0.00915), indicating high specificity for academic/university contexts.\n\n5. **Position analysis**: Key tokens are \"Peking\" at position 12 and \"University\" at position 13, suggesting the phrase \"Peking University\" drives the circuit.\n\nConclusion: This is a genuine academic content detection circuit, not driven by spurious gender signals.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 6,
+              "feature_idx": 3235
+            },
+            "output": {
+              "layer": 6,
+              "feature_idx": 3235,
+              "label": " academic publications, math, and scientific institutions",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581been\u2581found\u2581on\u2581some\u2581pulsars.'\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581[Haochen\u2581Li]{}\\\n\u2581\u2581\u2581\u2581[Physics\u2581Department,\u2581Washington\u2581University]{}\\\n\u2581\u2581\u2581\u2581[St.\u2581Louis,\u2581MO\u258163143]{}\ndate:\u2581'March\u258128,\u25812001'\ntitle:\u2581The\u2581Nonradial\u2581Oscillation\u2581Nod",
+                  "max_activation": 60.137,
+                  "max_token": "\u2581University"
+                },
+                {
+                  "text_snippet": "\u2581been\u2581found\u2581on\u2581some\u2581pulsars.'\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581[Haochen\u2581Li]{}\\\n\u2581\u2581\u2581\u2581[Physics\u2581Department,\u2581Washington\u2581University]{}\\\n\u2581\u2581\u2581\u2581[St.\u2581Louis,\u2581MO\u258163143]{}\ndate:\u2581'March\u258128,\u25812001'\ntitle:\u2581The\u2581Nonradial\u2581Oscillation\u2581Nod",
+                  "max_activation": 60.137,
+                  "max_token": "\u2581University"
+                },
+                {
+                  "text_snippet": "\u2581the\u2581University\u2581of\u2581Wisconsin\u2581and\u2581Woodward\u2581Fischer\u2581of\u2581the\u2581California\u2581Institute\u2581of\u2581Technology,\u2581were\u2581interested\u2581in\u2581better\u2581understanding\u2581the\u2581global\u2581sulfur\u2581cycle\u2581over\u2581the\u2581last\u2581550\u2581million\u2581years\u2581\u2013\u2581roughly\u2581t",
+                  "max_activation": 51.793,
+                  "max_token": "\u2581Technology"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581MainAxisSize",
+                "\u2581Walkover",
+                "ChildScrollView",
+                "XDECREF",
+                "otheby",
+                "WebElementEntity",
+                "Referencies",
+                "setVerticalGroup",
+                "lottesville",
+                "IndentedString"
+              ],
+              "suppressed_tokens": [
+                "\u2581num\u00e9riques",
+                "GraphicsUnit",
+                "\u2581Arquivado",
+                "ActivityCompat",
+                "\u2581sientes",
+                "\u2581dimenti",
+                "\u2581inmigrantes",
+                "\u2581num\u00e9rique",
+                "\u0448\u045a\u0435",
+                "dispatchEvent"
+              ],
+              "frac_nonzero": 0.03885
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 6,
+              "feature_idx": 3235,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 5150,
+                "pos": 13,
+                "edge_weight": 2.875
+              },
+              {
+                "type": "embedding",
+                "token": " Peking",
+                "pos": 12,
+                "edge_weight": 2.7031
+              },
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 13,
+                "edge_weight": 2.5938
+              },
+              {
+                "type": "feature",
+                "layer": 5,
+                "feature_idx": 16220,
+                "pos": 13,
+                "edge_weight": 1.5938
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 9333,
+                "pos": 13,
+                "edge_weight": 1.3984
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 5150
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 5150,
+              "label": " mentions of specific universities and colleges",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u258111th\u2581touchdown\u2581of\u2581the\u2581season,\u2581in\u2581only\u2581six\u2581games,\u2581has\u2581been\u2581topped\u2581only\u2581five\u2581times\u2581in\u2581Fordham\u2581history\u2581in\u2581a\u2581single\u2581(full).\u2581He\u2581rushed\u2581for\u2581101\u2581yards,\u2581the\u2581sixth\u2581game\u2581in\u2581which\u2581has\u2581rushed\u2581for\u2581triple\u2581figures\u2581",
+                  "max_activation": 89.527,
+                  "max_token": "ham"
+                },
+                {
+                  "text_snippet": "\u258111th\u2581touchdown\u2581of\u2581the\u2581season,\u2581in\u2581only\u2581six\u2581games,\u2581has\u2581been\u2581topped\u2581only\u2581five\u2581times\u2581in\u2581Fordham\u2581history\u2581in\u2581a\u2581single\u2581(full).\u2581He\u2581rushed\u2581for\u2581101\u2581yards,\u2581the\u2581sixth\u2581game\u2581in\u2581which\u2581has\u2581rushed\u2581for\u2581triple\u2581figures\u2581",
+                  "max_activation": 89.527,
+                  "max_token": "ham"
+                },
+                {
+                  "text_snippet": "\u258111th\u2581touchdown\u2581of\u2581the\u2581season,\u2581in\u2581only\u2581six\u2581games,\u2581has\u2581been\u2581topped\u2581only\u2581five\u2581times\u2581in\u2581Fordham\u2581history\u2581in\u2581a\u2581single\u2581(full).\u2581He\u2581rushed\u2581for\u2581101\u2581yards,\u2581the\u2581sixth\u2581game\u2581in\u2581which\u2581has\u2581rushed\u2581for\u2581triple\u2581figures\u2581",
+                  "max_activation": 89.527,
+                  "max_token": "ham"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581University",
+                "University",
+                "\u2581UNIVERSITY",
+                "\u2581university",
+                "enumi",
+                "\u2581universities",
+                "\u2581College",
+                "\u2581Colleges",
+                "College",
+                "\u2581\u00dcniversitesi"
+              ],
+              "suppressed_tokens": [
+                "momix",
+                "\u2581miliar",
+                "XtraBars",
+                "kov\u00e1n\u00ed",
+                "AfterClass",
+                "\u00e9drale",
+                "oredCriteria",
+                "orneys",
+                "ce\u011fini",
+                "dataTables"
+              ],
+              "frac_nonzero": 0.00399
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 5,
+              "feature_idx": 16220
+            },
+            "output": {
+              "layer": 5,
+              "feature_idx": 16220,
+              "label": "schools and universities",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581of\u2581this\u2581relaxant,\u2581thereby\u2581reducing\u2581the\u2581likelihood\u2581of\u2581unwanted\u2581patient\u2581movement\u2581or\u2581unduly\u2581prolonged\u2581recovery\u2581due\u2581to\u2581relaxant\u2581overdosing.<bos>Guy\u2581Fouch\u00e9\n\nGuy\u2581Fouch\u00e9\u2581(17\u2581June\u25811921\u2581\u2013\u258128\u2581May\u25811998)\u2581was\u2581a\u2581F",
+                  "max_activation": 57.971,
+                  "max_token": "\u2581Conserv"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581this\u2581relaxant,\u2581thereby\u2581reducing\u2581the\u2581likelihood\u2581of\u2581unwanted\u2581patient\u2581movement\u2581or\u2581unduly\u2581prolonged\u2581recovery\u2581due\u2581to\u2581relaxant\u2581overdosing.<bos>Guy\u2581Fouch\u00e9\n\nGuy\u2581Fouch\u00e9\u2581(17\u2581June\u25811921\u2581\u2013\u258128\u2581May\u25811998)\u2581was\u2581a\u2581F",
+                  "max_activation": 57.971,
+                  "max_token": "\u2581Conserv"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581this\u2581relaxant,\u2581thereby\u2581reducing\u2581the\u2581likelihood\u2581of\u2581unwanted\u2581patient\u2581movement\u2581or\u2581unduly\u2581prolonged\u2581recovery\u2581due\u2581to\u2581relaxant\u2581overdosing.<bos>Guy\u2581Fouch\u00e9\n\nGuy\u2581Fouch\u00e9\u2581(17\u2581June\u25811921\u2581\u2013\u258128\u2581May\u25811998)\u2581was\u2581a\u2581F",
+                  "max_activation": 57.971,
+                  "max_token": "\u2581Conserv"
+                }
+              ],
+              "promoted_tokens": [
+                "\u043b\u0438\u0442",
+                "\u2581corsi",
+                "IsContent",
+                "\u00caN",
+                "Carrying",
+                "ticism",
+                "\u2581pelajaran",
+                "TableHead",
+                "\u2581crecer",
+                "\u2581Escuela"
+              ],
+              "suppressed_tokens": [
+                "oredCriteria",
+                "GeneratedCode",
+                "')\")",
+                "ngdoc",
+                "SuspendLayout",
+                "\u2581})\r",
+                "argout",
+                "Groetjes",
+                "contentLoaded",
+                "\u2581jsonify"
+              ],
+              "frac_nonzero": 0.00597
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 9333
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 9333,
+              "label": " academic journals, publishers, or legal codes and abbreviations",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "74]\u2581Death\u2581penalty\u2581cases,\u2581if\u2581properly\u2581defended,\u2581cost\u2581a\u2581great\u2581deal\u2581more\u2581than\u2581other\u2581murder\u2581cases\u2581at\u2581virtually\u2581every\u2581stage,\u2581from\u2581voir\u2581dire\u2581through\u2581sentencing.\u2581Since\u2581most\u2581death-eligible\u2581defendants\u2581are\u2581indi",
+                  "max_activation": 58.285,
+                  "max_token": "ALE"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581local\u2581Israeli\u2581stations:\u2581one\u2581broadcasts\u2581news\u2581from\u2581YNET,\u2581the\u2581other\u2581broadcasts\u2581them\u2581from\u2581Channel\u258110.\u2581Israeli\u2581Army\u2581Radio\u2581general\u2581public\u2581stations\u2581broadcast\u2581the\u2581same\u2581news\u2581capsule\u2581every\u2581hour,\u2581and\u2581IBA's\u2581K",
+                  "max_activation": 55.637,
+                  "max_token": "\u2581Chicago"
+                },
+                {
+                  "text_snippet": "\u2581of\u2581local\u2581Israeli\u2581stations:\u2581one\u2581broadcasts\u2581news\u2581from\u2581YNET,\u2581the\u2581other\u2581broadcasts\u2581them\u2581from\u2581Channel\u258110.\u2581Israeli\u2581Army\u2581Radio\u2581general\u2581public\u2581stations\u2581broadcast\u2581the\u2581same\u2581news\u2581capsule\u2581every\u2581hour,\u2581and\u2581IBA's\u2581K",
+                  "max_activation": 55.637,
+                  "max_token": "\u2581Chicago"
+                }
+              ],
+              "promoted_tokens": [
+                "CodedInputStream",
+                "\u2581XCTest",
+                "KommentareTeilen",
+                "\ucc38\uace0",
+                "UserScript",
+                "\u2581\u043d\u0430\u0441\u0435\u0459\u0443",
+                "\u2581DbSet",
+                "\udb40\udc62",
+                "\u2581INTERESAR",
+                "\u2581MotionEvent"
+              ],
+              "suppressed_tokens": [
+                "\u2581outright",
+                "\u2581downright",
+                "\u2581straightforward",
+                "\u2581blatant",
+                "\u2581directly",
+                "\u2581direct",
+                "\u2581overt",
+                "\u2581herself",
+                "\u2581simply",
+                "\u2581gross"
+              ],
+              "frac_nonzero": 0.00915
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 4,
+              "feature_idx": 5150,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 13,
+                "edge_weight": 17.75
+              },
+              {
+                "type": "embedding",
+                "token": " Peking",
+                "pos": 12,
+                "edge_weight": 5.9375
+              },
+              {
+                "type": "feature",
+                "layer": 2,
+                "feature_idx": 3342,
+                "pos": 13,
+                "edge_weight": -2.7188
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.5
+              },
+              {
+                "type": "feature",
+                "layer": 1,
+                "feature_idx": 14798,
+                "pos": 13,
+                "edge_weight": -1.3203
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 2,
+              "feature_idx": 3342
+            },
+            "output": {
+              "layer": 2,
+              "feature_idx": 3342,
+              "label": " mentions of universities and colleges",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581D24\n\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581Victor\u2581Chernozhukov\\\n\u2581\u2581\u2581\u2581*MIT*\n-\u2581|\n\u2581\u2581\u2581\u2581Juan\u2581Carlos\u2581Escanciano\\\n\u2581\u2581\u2581\u2581*Indiana\u2581University*\n-\u2581|\n\u2581\u2581\u2581\u2581Hidehiko\u2581Ichimura\\\n\u2581\u2581\u2581\u2581*University\u2581of\u2581Tokyo*\n-\u2581|\n\u2581\u2581\u2581\u2581Whitney\u2581K.\u2581Newey\\\n\u2581\u2581\u2581\u2581*MIT*\n-",
+                  "max_activation": 51.774,
+                  "max_token": "\u2581University"
+                },
+                {
+                  "text_snippet": "\u2581D24\n\nauthor:\n-\u2581|\n\u2581\u2581\u2581\u2581Victor\u2581Chernozhukov\\\n\u2581\u2581\u2581\u2581*MIT*\n-\u2581|\n\u2581\u2581\u2581\u2581Juan\u2581Carlos\u2581Escanciano\\\n\u2581\u2581\u2581\u2581*Indiana\u2581University*\n-\u2581|\n\u2581\u2581\u2581\u2581Hidehiko\u2581Ichimura\\\n\u2581\u2581\u2581\u2581*University\u2581of\u2581Tokyo*\n-\u2581|\n\u2581\u2581\u2581\u2581Whitney\u2581K.\u2581Newey\\\n\u2581\u2581\u2581\u2581*MIT*\n-",
+                  "max_activation": 51.774,
+                  "max_token": "\u2581University"
+                },
+                {
+                  "text_snippet": "\u2581servers\u2581are\u2581up\u2581and\u2581operational\u2581at\u2581this\u2581time.\u2581\u2581If\u2581you\u2581enconter\u2581\nadditional\u2581problems\u2581with\u2581printing\u2581from\u2581SAP,\u2581please\u2581contact\u2581the\u2581ISC\u2581Hotline\u2581at\u2581\n713-345-4727.\u2581\u2581Thank\u2581you.<bos>//\u2581Copyright\u2581(C)\u25812005-2006\u2581",
+                  "max_activation": 49.507,
+                  "max_token": "\u2581University"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581Wikimedijinoj",
+                "})*/",
+                "}))\r",
+                "\u51fa\u7248\u5e74",
+                "RegressionTest",
+                "\u2581\")\";",
+                "PMailer",
+                "ftagPool",
+                "\u2581\")\");",
+                "\u2581\u064a\u062a\u064a\u0645\u0647"
+              ],
+              "suppressed_tokens": [
+                "\u2581University",
+                "University",
+                "\u2581UNIVERSITY",
+                "UNIVERSITY",
+                "\u2581Univ",
+                "<bos>",
+                "university",
+                "\u2581university",
+                "Univ",
+                "\u2581Universit\u00e0"
+              ],
+              "frac_nonzero": 0.00176
+            }
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 1,
+              "feature_idx": 14798
+            },
+            "output": {
+              "layer": 1,
+              "feature_idx": 14798,
+              "label": " mentions of universities and colleges",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581The\u2581Engineering\u2581college\u2581of\u2581the\u2581university\u2581was\u2581earlier\u2581known\u2581as\u2581JNTUK\u2581Vizianagaram.\u2581This\u2581Engineering\u2581college\u2581was\u2581established\u2581as\u2581a\u2581constituent\u2581institute\u2581of\u2581Jawaharlal\u2581Nehru\u2581Technological\u2581University,\u2581Ka",
+                  "max_activation": 37.005,
+                  "max_token": "\u2581college"
+                },
+                {
+                  "text_snippet": "\u2581The\u2581Engineering\u2581college\u2581of\u2581the\u2581university\u2581was\u2581earlier\u2581known\u2581as\u2581JNTUK\u2581Vizianagaram.\u2581This\u2581Engineering\u2581college\u2581was\u2581established\u2581as\u2581a\u2581constituent\u2581institute\u2581of\u2581Jawaharlal\u2581Nehru\u2581Technological\u2581University,\u2581Ka",
+                  "max_activation": 37.005,
+                  "max_token": "\u2581college"
+                },
+                {
+                  "text_snippet": "\u2581The\u2581Engineering\u2581college\u2581of\u2581the\u2581university\u2581was\u2581earlier\u2581known\u2581as\u2581JNTUK\u2581Vizianagaram.\u2581This\u2581Engineering\u2581college\u2581was\u2581established\u2581as\u2581a\u2581constituent\u2581institute\u2581of\u2581Jawaharlal\u2581Nehru\u2581Technological\u2581University,\u2581Ka",
+                  "max_activation": 37.005,
+                  "max_token": "\u2581college"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "\u2581correctes",
+                "\ufeff/*",
+                "droje",
+                "JAKARTA",
+                "poved",
+                "\u2581Danach",
+                "abstractmethod",
+                "UpdateData",
+                "sieke"
+              ],
+              "suppressed_tokens": [
+                "\u2581university",
+                "\u2581universities",
+                "\u2581college",
+                "\u2581colleges",
+                "\u2581Universities",
+                "\u2581universite",
+                "university",
+                "\u2581professors",
+                "\u2581UNIVERSITY",
+                "\u2581universitario"
+              ],
+              "frac_nonzero": 0.00325
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 5,
+              "feature_idx": 16220,
+              "pos": 13,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": " University",
+                "pos": 13,
+                "edge_weight": 3.625
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 5150,
+                "pos": 13,
+                "edge_weight": 3.0625
+              },
+              {
+                "type": "feature",
+                "layer": 4,
+                "feature_idx": 11633,
+                "pos": 11,
+                "edge_weight": 1.7031
+              },
+              {
+                "type": "embedding",
+                "token": " Peking",
+                "pos": 12,
+                "edge_weight": 1.4062
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -1.1953
+              }
+            ]
+          },
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 4,
+              "feature_idx": 11633
+            },
+            "output": {
+              "layer": 4,
+              "feature_idx": 11633,
+              "label": " words related to education and employment history",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "language']);\n\u2581\u2581\u2581\u2581}\n}\n<bos>Camille\u2581Norment\n\nCamille\u2581Norment\u2581(born\u25811970\u2581in\u2581Silver\u2581Spring,\u2581Maryland)\u2581is\u2581an\u2581Oslo-based\u2581multimedia\u2581artist\u2581who\u2581works\u2581with\u2581sound,\u2581installation,\u2581sculpture,\u2581drawing,\u2581performance",
+                  "max_activation": 54.729,
+                  "max_token": "\u2581studied"
+                },
+                {
+                  "text_snippet": "language']);\n\u2581\u2581\u2581\u2581}\n}\n<bos>Camille\u2581Norment\n\nCamille\u2581Norment\u2581(born\u25811970\u2581in\u2581Silver\u2581Spring,\u2581Maryland)\u2581is\u2581an\u2581Oslo-based\u2581multimedia\u2581artist\u2581who\u2581works\u2581with\u2581sound,\u2581installation,\u2581sculpture,\u2581drawing,\u2581performance",
+                  "max_activation": 54.729,
+                  "max_token": "\u2581studied"
+                },
+                {
+                  "text_snippet": "\u2581provide\u2581the\u2581first\u2581evidence\u2581that,\u2581in\u2581healthy\u2581humans,\u2581the\u2581diet\u2581loads\u2581of\u2581NaCl\u2581and\u2581net\u2581acid\u2581independently\u2581predict\u2581systemic\u2581acid-base\u2581status,\u2581with\u2581increasing\u2581degrees\u2581of\u2581low-grade\u2581hyperchloremic\u2581metabolic\u2581",
+                  "max_activation": 50.293,
+                  "max_token": "\u2581studied"
+                }
+              ],
+              "promoted_tokens": [
+                "<bos>",
+                "UseVisualStyle",
+                "AddTagHelper",
+                "ftagPool",
+                "__':\r",
+                "InjectMocks",
+                "\u24e7",
+                "});*/",
+                "itin\u00e9raire",
+                "\u0648\u062c\u062f"
+              ],
+              "suppressed_tokens": [
+                "adaptiveStyles",
+                "abetes",
+                "NESSEE",
+                "\u2581\u0641\u0631\u064a\u0628\u064a\u0633",
+                "\u2581turbid",
+                "\u03c6\u03ac\u03bb",
+                "chloric",
+                "bellum",
+                "Sulfur",
+                "\u2581(;;"
+              ],
+              "frac_nonzero": 0.00846
+            }
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-3",
+          "objective": "Trace this feature upstream. Is it driven by spurious signals like gender markers or genuine academic content? What tokens/positions?",
+          "input_tokens": 64707,
+          "output_tokens": 3047,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-3"
+    },
+    {
+      "tool": "trace_path_subagent",
+      "input": {
+        "direction": "upstream",
+        "starting_layer": 0,
+        "starting_feature_idx": 6515,
+        "starting_pos": 17,
+        "objective": "Trace this layer-0 feature upstream. Is this spurious or a genuine signal? What tokens?",
+        "max_hops": 4
+      },
+      "output": {
+        "discovered_features": [
+          {
+            "layer": 0,
+            "feature_idx": 6515,
+            "pos": 17,
+            "label": " the year 199X or 200X.",
+            "frac_nonzero": 0.00494,
+            "promoted_tokens": [
+              "\u2581\u0968\u0966",
+              "\u2581\u06f1\u06f9",
+              "\u2581\u09e8\u09e6",
+              "\u4e00\u4e5d",
+              "\u2581\u06f2\u06f0\u06f1",
+              "\u2581\u06f2\u06f0",
+              "\u2581n\u0103m",
+              "s",
+              "\u2581'",
+              "\n\n"
+            ]
+          }
+        ],
+        "discovered_edges": [
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 16,
+            "to_layer": 0,
+            "to_feature_idx": 6515,
+            "to_pos": 17,
+            "weight": 29.75
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 17,
+            "to_layer": 0,
+            "to_feature_idx": 6515,
+            "to_pos": 17,
+            "weight": 8.4375
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 0,
+            "to_layer": 0,
+            "to_feature_idx": 6515,
+            "to_pos": 17,
+            "weight": -3.125
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 14,
+            "to_layer": 0,
+            "to_feature_idx": 6515,
+            "to_pos": 17,
+            "weight": 2.2188
+          },
+          {
+            "from_layer": -1,
+            "from_feature_idx": -1,
+            "from_pos": 15,
+            "to_layer": 0,
+            "to_feature_idx": 6515,
+            "to_pos": 17,
+            "weight": 0.7578
+          }
+        ],
+        "explanation": "This L0 feature at position 17 detects year patterns like \"199X\" or \"200X\". It's a GENUINE signal, not spurious. The feature receives strong positive input from token \"1\" at position 16 (weight 29.75) and token \"9\" at position 17 (weight 8.44), indicating it's detecting the specific pattern of \"19\" as part of a year. The low frac_nonzero (0.00494) shows high specificity. The feature promotes tokens related to years and decades in various scripts. This appears to be detecting the \"19\" portion of a year like \"1998\" or similar patterns.",
+        "trace_log": [
+          {
+            "tool": "inspect_feature",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6515
+            },
+            "output": {
+              "layer": 0,
+              "feature_idx": 6515,
+              "label": " the year 199X or 200X.",
+              "top_activating_examples": [
+                {
+                  "text_snippet": "\u2581the\u2581early\u25812000s.\n\nSince\u2581the\u2581early\u25811990s,\u2581independent\u2581stations\u2581and\u2581stations\u2581affiliated\u2581with\u2581a\u2581non-Big\u2581Three\u2581network\u2581have\u2581entered\u2581into\u2581\"news\u2581share\u2581agreements,\"\u2581in\u2581which\u2581news\u2581production\u2581is\u2581outsourced\u2581to",
+                  "max_activation": 47.19,
+                  "max_token": "9"
+                },
+                {
+                  "text_snippet": "\u2581It\u2581is\u2581one\u2581of\u2581the\u2581most\u2581important\u2581and\u2581influential\u2581trade\u2581unions\u2581in\u2581the\u2581History\u2581of\u2581Mexico.\n\nIt\u2581was\u2581founded\u2581in\u2581April\u25811952.\u2581during\u2581a\u2581congress\u2581made\u2581by\u2581four\u2581workers\u2581centrals.\u2581Until\u25811980\u2581the\u2581CROC\u2581had\u2581750\u2581000\u2581",
+                  "max_activation": 46.746,
+                  "max_token": "9"
+                },
+                {
+                  "text_snippet": "\n\nFatou\u2581Diome\n\nMeet\u2581the\u2581writer\n\nBorn\u2581in\u2581Senegal\u2581in\u25811968,\u2581Fatou\u2581Diome\u2581has\u2581lived\u2581in\u2581France\u2581since\u25811994.\u2581A\u2581politically\u2581engaged\u2581author,\u2581her\u2581literary\u2581work\u2581is\u2581nourished\u2581by\u2581her\u2581struggle\u2581against\u2581intolerance.\u2581H",
+                  "max_activation": 46.568,
+                  "max_token": "9"
+                }
+              ],
+              "promoted_tokens": [
+                "\u2581\u0968\u0966",
+                "\u2581\u06f1\u06f9",
+                "\u2581\u09e8\u09e6",
+                "\u4e00\u4e5d",
+                "\u2581\u06f2\u06f0\u06f1",
+                "\u2581\u06f2\u06f0",
+                "\u2581n\u0103m",
+                "s",
+                "\u2581'",
+                "\n\n"
+              ],
+              "suppressed_tokens": [
+                "\u2581Majefty",
+                "\u2581plea\u017fure",
+                "\u2581my\u017felf",
+                "\u2581purpo\u017fe",
+                "\u2581\u017feveral",
+                "\u2581hou\u017fe",
+                "\u2581him\u017felf",
+                "\u2581them\u017felves",
+                "\u2581Monfieur",
+                "\u2581it\u017felf"
+              ],
+              "frac_nonzero": 0.00494
+            }
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6515,
+              "pos": 17,
+              "k": 5
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "1",
+                "pos": 16,
+                "edge_weight": 29.75
+              },
+              {
+                "type": "embedding",
+                "token": "9",
+                "pos": 17,
+                "edge_weight": 8.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.125
+              },
+              {
+                "type": "embedding",
+                "token": " in",
+                "pos": 14,
+                "edge_weight": 2.2188
+              },
+              {
+                "type": "embedding",
+                "token": " ",
+                "pos": 15,
+                "edge_weight": 0.7578
+              }
+            ]
+          },
+          {
+            "tool": "get_upstream_features",
+            "input": {
+              "layer": 0,
+              "feature_idx": 6515,
+              "pos": 17,
+              "k": 10
+            },
+            "output": [
+              {
+                "type": "embedding",
+                "token": "1",
+                "pos": 16,
+                "edge_weight": 29.75
+              },
+              {
+                "type": "embedding",
+                "token": "9",
+                "pos": 17,
+                "edge_weight": 8.4375
+              },
+              {
+                "type": "embedding",
+                "token": "<bos>",
+                "pos": 0,
+                "edge_weight": -3.125
+              },
+              {
+                "type": "embedding",
+                "token": " in",
+                "pos": 14,
+                "edge_weight": 2.2188
+              },
+              {
+                "type": "embedding",
+                "token": " ",
+                "pos": 15,
+                "edge_weight": 0.7578
+              },
+              {
+                "type": "embedding",
+                "token": " degree",
+                "pos": 8,
+                "edge_weight": -0.2344
+              },
+              {
+                "type": "embedding",
+                "token": " Mathematics",
+                "pos": 10,
+                "edge_weight": -0.2236
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 7,
+                "edge_weight": -0.207
+              },
+              {
+                "type": "embedding",
+                "token": " received",
+                "pos": 2,
+                "edge_weight": -0.1816
+              },
+              {
+                "type": "embedding",
+                "token": ".",
+                "pos": 5,
+                "edge_weight": -0.1709
+              }
+            ]
+          }
+        ],
+        "usage": {
+          "model": "deepseek/deepseek-v3.2",
+          "label": "SA-4",
+          "objective": "Trace this layer-0 feature upstream. Is this spurious or a genuine signal? What tokens?",
+          "input_tokens": 13095,
+          "output_tokens": 1200,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0
+        }
+      },
+      "label": "SA-4"
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 6515
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 6515,
+        "label": " the year 199X or 200X.",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581the\u2581early\u25812000s.\n\nSince\u2581the\u2581early\u25811990s,\u2581independent\u2581stations\u2581and\u2581stations\u2581affiliated\u2581with\u2581a\u2581non-Big\u2581Three\u2581network\u2581have\u2581entered\u2581into\u2581\"news\u2581share\u2581agreements,\"\u2581in\u2581which\u2581news\u2581production\u2581is\u2581outsourced\u2581to",
+            "max_activation": 47.19,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\u2581It\u2581is\u2581one\u2581of\u2581the\u2581most\u2581important\u2581and\u2581influential\u2581trade\u2581unions\u2581in\u2581the\u2581History\u2581of\u2581Mexico.\n\nIt\u2581was\u2581founded\u2581in\u2581April\u25811952.\u2581during\u2581a\u2581congress\u2581made\u2581by\u2581four\u2581workers\u2581centrals.\u2581Until\u25811980\u2581the\u2581CROC\u2581had\u2581750\u2581000\u2581",
+            "max_activation": 46.746,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\n\nFatou\u2581Diome\n\nMeet\u2581the\u2581writer\n\nBorn\u2581in\u2581Senegal\u2581in\u25811968,\u2581Fatou\u2581Diome\u2581has\u2581lived\u2581in\u2581France\u2581since\u25811994.\u2581A\u2581politically\u2581engaged\u2581author,\u2581her\u2581literary\u2581work\u2581is\u2581nourished\u2581by\u2581her\u2581struggle\u2581against\u2581intolerance.\u2581H",
+            "max_activation": 46.568,
+            "max_token": "9"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581\u0968\u0966",
+          "\u2581\u06f1\u06f9",
+          "\u2581\u09e8\u09e6",
+          "\u4e00\u4e5d",
+          "\u2581\u06f2\u06f0\u06f1",
+          "\u2581\u06f2\u06f0",
+          "\u2581n\u0103m",
+          "s",
+          "\u2581'",
+          "\n\n"
+        ],
+        "suppressed_tokens": [
+          "\u2581Majefty",
+          "\u2581plea\u017fure",
+          "\u2581my\u017felf",
+          "\u2581purpo\u017fe",
+          "\u2581\u017feveral",
+          "\u2581hou\u017fe",
+          "\u2581him\u017felf",
+          "\u2581them\u017felves",
+          "\u2581Monfieur",
+          "\u2581it\u017felf"
+        ],
+        "frac_nonzero": 0.00494
+      }
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 0,
+        "feature_idx": 11132,
+        "pos": 18,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "9",
+          "pos": 17,
+          "edge_weight": 11.125
+        },
+        {
+          "type": "embedding",
+          "token": "1",
+          "pos": 16,
+          "edge_weight": 4.2188
+        },
+        {
+          "type": "embedding",
+          "token": " in",
+          "pos": 14,
+          "edge_weight": 1.1719
+        },
+        {
+          "type": "embedding",
+          "token": " Peking",
+          "pos": 12,
+          "edge_weight": 1.1172
+        },
+        {
+          "type": "embedding",
+          "token": " University",
+          "pos": 13,
+          "edge_weight": -1.0938
+        }
+      ]
+    },
+    {
+      "tool": "get_upstream_features",
+      "input": {
+        "layer": 0,
+        "feature_idx": 11333,
+        "pos": 18,
+        "k": 5
+      },
+      "output": [
+        {
+          "type": "embedding",
+          "token": "9",
+          "pos": 17,
+          "edge_weight": 11.375
+        },
+        {
+          "type": "embedding",
+          "token": "1",
+          "pos": 16,
+          "edge_weight": 5.25
+        },
+        {
+          "type": "embedding",
+          "token": "9",
+          "pos": 18,
+          "edge_weight": 5.0938
+        },
+        {
+          "type": "embedding",
+          "token": "<bos>",
+          "pos": 0,
+          "edge_weight": -2.1406
+        },
+        {
+          "type": "embedding",
+          "token": " in",
+          "pos": 14,
+          "edge_weight": 1.4688
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 11132
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 11132,
+        "label": " a mix of possessive pronouns like \"his\", names associated with historical records, and years.",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581and\u2581LEWIS,\u2581JJ.\nLEWIS,\u2581J.:\nErrol\u2581Joe\u2581Kampschroeder\u2581was\u2581born\u2581to\u2581the\u2581marriage\u2581of\u2581Robert\u2581and\u2581Waneta\u2581Kampschroeder.\u2581Waneta\u2581died\u2581in\u2581April\u2581*362\u25811980,\u2581and\u2581Robert\u2581married\u2581Norma\u2581in\u2581October\u25811980.\u2581The\u2581marriage\u2581w",
+            "max_activation": 24.221,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\u2581and\u2581LEWIS,\u2581JJ.\nLEWIS,\u2581J.:\nErrol\u2581Joe\u2581Kampschroeder\u2581was\u2581born\u2581to\u2581the\u2581marriage\u2581of\u2581Robert\u2581and\u2581Waneta\u2581Kampschroeder.\u2581Waneta\u2581died\u2581in\u2581April\u2581*362\u25811980,\u2581and\u2581Robert\u2581married\u2581Norma\u2581in\u2581October\u25811980.\u2581The\u2581marriage\u2581w",
+            "max_activation": 24.221,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\u2581Paisley\u2581was\u2581eventually\u2581made\u2581a\u2581freeman\u2581of\u2581Ballymena\u2581in\u2581December\u25812004\u2581instead.\n\nBallymena\u2581is\u2581described\u2581by\u2581some\u2581observers\u2581as\u2581being\u2581at\u2581the\u2581heart\u2581of\u2581Northern\u2581Ireland's\u2581equivalent\u2581of\u2581the\u2581Bible\u2581Belt.\u2581It\u2581has",
+            "max_activation": 24.181,
+            "max_token": "9"
+          }
+        ],
+        "promoted_tokens": [
+          "<eos>",
+          "\u2581",
+          "\n\n",
+          "'",
+          "\u2019",
+          "\u2581\u2581",
+          "\u2581A",
+          "\u2581The",
+          ",",
+          "\n\n\n"
+        ],
+        "suppressed_tokens": [
+          "\u2581LoggerFactory",
+          "\u2581zoude",
+          "\u2581tartalomaj\u00e1nl\u00f3",
+          "tagHelperRunner",
+          "addContainerGap",
+          "Personendaten",
+          "\u2581auroit",
+          "\u2581\u2015\u2015\u2015\u2015\u2015",
+          "\u2581auffi",
+          "\u2581$_\""
+        ],
+        "frac_nonzero": 0.009130000000000001
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 11333
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 11333,
+        "label": " the 1990's",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581Paisley\u2581was\u2581eventually\u2581made\u2581a\u2581freeman\u2581of\u2581Ballymena\u2581in\u2581December\u25812004\u2581instead.\n\nBallymena\u2581is\u2581described\u2581by\u2581some\u2581observers\u2581as\u2581being\u2581at\u2581the\u2581heart\u2581of\u2581Northern\u2581Ireland's\u2581equivalent\u2581of\u2581the\u2581Bible\u2581Belt.\u2581It\u2581has",
+            "max_activation": 25.263,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\u2581and\u2581LEWIS,\u2581JJ.\nLEWIS,\u2581J.:\nErrol\u2581Joe\u2581Kampschroeder\u2581was\u2581born\u2581to\u2581the\u2581marriage\u2581of\u2581Robert\u2581and\u2581Waneta\u2581Kampschroeder.\u2581Waneta\u2581died\u2581in\u2581April\u2581*362\u25811980,\u2581and\u2581Robert\u2581married\u2581Norma\u2581in\u2581October\u25811980.\u2581The\u2581marriage\u2581w",
+            "max_activation": 25.26,
+            "max_token": "9"
+          },
+          {
+            "text_snippet": "\u2581other\u2581sentences.\u2581On\u2581March\u25815,\u25811999,\u2581Segnitz\u2581was\u2581orally\u2581sentenced\u2581in\u2581Natrona\u2581County\u2581to\u2581the\u2581stipulated\u2581prison\u2581term\u2581of\u2581three\u2581to\u2581four\u2581years.\u2581The\u2581stipulation\u2581provided\u2581for\u2581the\u2581sentence\u2581to\u2581be\u2581served\u2581concurre",
+            "max_activation": 24.734,
+            "max_token": "9"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581http",
+          ",",
+          "oc",
+          "\u2581Millennium",
+          "\u56ca",
+          "\u2581qu",
+          "http",
+          "\u2581Rivers",
+          "us",
+          "\u2581ante"
+        ],
+        "suppressed_tokens": [
+          "\u2728:",
+          "IUrlHelper",
+          "Personendaten",
+          "DockStyle",
+          "WithIOException",
+          "\u2581\u0418\u0442\u0430\u043b\u0438\u0458\u0430\u043d\u0438",
+          "])):",
+          "\u2581ffilmiau",
+          "enderror",
+          "StoryboardSegue"
+        ],
+        "frac_nonzero": 0.00169
+      }
+    },
+    {
+      "tool": "get_top_features",
+      "input": {
+        "token": "",
+        "k": 30
+      },
+      "output": [
+        {
+          "layer": 6,
+          "feature_idx": 3235,
+          "pos": 13,
+          "activation": 11.875,
+          "direct_effect": -0.0542
+        },
+        {
+          "layer": 2,
+          "feature_idx": 10852,
+          "pos": 52,
+          "activation": 38.25,
+          "direct_effect": -0.0535
+        },
+        {
+          "layer": 6,
+          "feature_idx": 3774,
+          "pos": 12,
+          "activation": 9.875,
+          "direct_effect": -0.0527
+        },
+        {
+          "layer": 0,
+          "feature_idx": 15320,
+          "pos": 2,
+          "activation": 8.25,
+          "direct_effect": 0.0503
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11132,
+          "pos": 18,
+          "activation": 12.625,
+          "direct_effect": -0.0474
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6270,
+          "pos": 13,
+          "activation": 19.125,
+          "direct_effect": 0.0471
+        },
+        {
+          "layer": 6,
+          "feature_idx": 6811,
+          "pos": 12,
+          "activation": 11.6875,
+          "direct_effect": -0.0454
+        },
+        {
+          "layer": 0,
+          "feature_idx": 11333,
+          "pos": 18,
+          "activation": 15.0625,
+          "direct_effect": -0.0452
+        },
+        {
+          "layer": 7,
+          "feature_idx": 14129,
+          "pos": 52,
+          "activation": 50.0,
+          "direct_effect": 0.0437
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6515,
+          "pos": 17,
+          "activation": 33.25,
+          "direct_effect": -0.0425
+        },
+        {
+          "layer": 0,
+          "feature_idx": 9263,
+          "pos": 8,
+          "activation": 19.75,
+          "direct_effect": -0.0415
+        },
+        {
+          "layer": 3,
+          "feature_idx": 4213,
+          "pos": 11,
+          "activation": 20.625,
+          "direct_effect": 0.0403
+        },
+        {
+          "layer": 0,
+          "feature_idx": 12235,
+          "pos": 8,
+          "activation": 10.0625,
+          "direct_effect": -0.0383
+        },
+        {
+          "layer": 2,
+          "feature_idx": 14934,
+          "pos": 18,
+          "activation": 19.75,
+          "direct_effect": 0.0381
+        },
+        {
+          "layer": 6,
+          "feature_idx": 170,
+          "pos": 10,
+          "activation": 19.875,
+          "direct_effect": 0.0381
+        },
+        {
+          "layer": 6,
+          "feature_idx": 3235,
+          "pos": 12,
+          "activation": 5.9062,
+          "direct_effect": -0.0378
+        },
+        {
+          "layer": 6,
+          "feature_idx": 6811,
+          "pos": 13,
+          "activation": 13.25,
+          "direct_effect": -0.0359
+        },
+        {
+          "layer": 0,
+          "feature_idx": 618,
+          "pos": 18,
+          "activation": 13.125,
+          "direct_effect": -0.0339
+        },
+        {
+          "layer": 0,
+          "feature_idx": 2085,
+          "pos": 2,
+          "activation": 11.75,
+          "direct_effect": -0.0339
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7905,
+          "pos": 2,
+          "activation": 7.75,
+          "direct_effect": -0.0337
+        },
+        {
+          "layer": 0,
+          "feature_idx": 6127,
+          "pos": 8,
+          "activation": 12.9375,
+          "direct_effect": -0.0337
+        },
+        {
+          "layer": 14,
+          "feature_idx": 12274,
+          "pos": 12,
+          "activation": 22.25,
+          "direct_effect": -0.0332
+        },
+        {
+          "layer": 1,
+          "feature_idx": 12922,
+          "pos": 21,
+          "activation": 15.4375,
+          "direct_effect": 0.0317
+        },
+        {
+          "layer": 6,
+          "feature_idx": 170,
+          "pos": 30,
+          "activation": 16.5,
+          "direct_effect": 0.0317
+        },
+        {
+          "layer": 6,
+          "feature_idx": 2254,
+          "pos": 26,
+          "activation": 31.125,
+          "direct_effect": -0.0303
+        },
+        {
+          "layer": 0,
+          "feature_idx": 7681,
+          "pos": 2,
+          "activation": 8.1875,
+          "direct_effect": 0.0292
+        },
+        {
+          "layer": 15,
+          "feature_idx": 15159,
+          "pos": 120,
+          "activation": 37.5,
+          "direct_effect": 0.0291
+        },
+        {
+          "layer": 0,
+          "feature_idx": 15906,
+          "pos": 6,
+          "activation": 8.0625,
+          "direct_effect": 0.0281
+        },
+        {
+          "layer": 5,
+          "feature_idx": 10392,
+          "pos": 10,
+          "activation": 24.125,
+          "direct_effect": 0.0277
+        },
+        {
+          "layer": 1,
+          "feature_idx": 10429,
+          "pos": 10,
+          "activation": 9.8125,
+          "direct_effect": 0.0276
+        }
+      ]
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 2085
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 2085,
+        "label": " the word \"reception\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": ",\u2581fighting\u2581every\u2581day\u2581for\u2581women\u2019s\u2581health\u2581care\u2581on\u2581the\u2581national\u2581level.\n\nShe\u2019ll\u2581be\u2581here\u2581as\u2581a\u2581special\u2581guest\u2581for\u2581a\u2581reception\u2581in\u2581support\u2581of\u2581my\u2581campaign.\u2581It\u2019ll\u2581be\u2581a\u2581private\u2581gathering,\u2581but\u2581if\u2581you\u2019re\u2581in\u2581the\u2581Det",
+            "max_activation": 51.652,
+            "max_token": "\u2581reception"
+          },
+          {
+            "text_snippet": ",\u2581fighting\u2581every\u2581day\u2581for\u2581women\u2019s\u2581health\u2581care\u2581on\u2581the\u2581national\u2581level.\n\nShe\u2019ll\u2581be\u2581here\u2581as\u2581a\u2581special\u2581guest\u2581for\u2581a\u2581reception\u2581in\u2581support\u2581of\u2581my\u2581campaign.\u2581It\u2019ll\u2581be\u2581a\u2581private\u2581gathering,\u2581but\u2581if\u2581you\u2019re\u2581in\u2581the\u2581Det",
+            "max_activation": 51.652,
+            "max_token": "\u2581reception"
+          },
+          {
+            "text_snippet": "re\u2581not\u2581really\u2581my\u2581thing\u2581to\u2581be\u2581honest.\u2581All\u2581I\u2019ll\u2581say\u2581is\u2581I\u2581appreciate\u2581the\u2581loyalty.\u2581So\u2581thank\u2581you.\u201d\n\n\u2022\u2581Boy\u2581George\u2581has\u2581been\u2581describing\u2581his\u2581reception\u2581when\u2581he\u2581arrived\u2581in\u2581prison\u2581in\u25812009,\u2581ready\u2581to\u2581start\u2581a\u2581four\u2581m",
+            "max_activation": 49.742,
+            "max_token": "\u2581reception"
+          }
+        ],
+        "promoted_tokens": [
+          "DoubleQuotes",
+          "phazard",
+          "MLLoader",
+          ">-->",
+          "ombres",
+          ">--}}",
+          "ugeot",
+          "AllAfrica",
+          "ParallelGroup",
+          "oubted"
+        ],
+        "suppressed_tokens": [
+          "\u2581\u00e9las",
+          "\u2581\u00e9nerg\u00e9",
+          "\u2581pareti",
+          "\u2581ongles",
+          "\u2581nationaux",
+          "\u2581disant",
+          "\u2581\u00e9glises",
+          "\u2581normaux",
+          "\u2581malattia",
+          "\u2581c\u00e2bles"
+        ],
+        "frac_nonzero": 0.00769
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 7905
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 7905,
+        "label": " the word \"route,\" referencing paths, directions, or means of transportation",
+        "top_activating_examples": [
+          {
+            "text_snippet": ".\nMy\u2581two\u2581questions\u2581are:\n1)\u2581I\u2581read\u2581somewhere\u2581that\u2581in\u2581the\u2581(a)\u2581scenario,\u2581if\u2581your\u2581encrypted\u2581message\u2581is\u2581tampered\u2581with\u2581en\u2581route,\u2581I\u2581won't\u2581be\u2581able\u2581to\u2581decrypt\u2581it\u2581using\u2581your\u2581public\u2581key.\u2581Is\u2581this\u2581the\u2581case?\u2581I\u2581thou",
+            "max_activation": 40.005,
+            "max_token": "\u2581route"
+          },
+          {
+            "text_snippet": ",\u2581Changchen\u2581Chen,\u2581would\u2581be\u2581collecting\u2581the\u2581cash\u2581en\u2581route\u2581to\u2581their\u2581suite\u2581at\u2581the\u2581Hyatt\u2581in\u2581February,\u2581on\u2581the\u2581Australian\u2581leg\u2581of\u2581a\u2581trip\u2581that\u2581was\u2581\"sort\u2581of\u2581a\u2581honeymoon\".\n\nChen\u2581has\u2581also\u2581been\u2581charged\u2581with\u2581dealin",
+            "max_activation": 39.806,
+            "max_token": "\u2581route"
+          },
+          {
+            "text_snippet": "\u2581study.\n\nWith\u2581the\u2581Department\u2581of\u2581Transportation\u2581also\u2581in\u2581the\u2581fold,\u2581Swope\u2581has\u2581alluded\u2581to\u2581exciting\u2581possibilities.\n\n\u201cI-795\u2581would\u2581be\u2581proposed\u2581to\u2581connect\u2581to\u2581I-40\u2581near\u2581Faison,\u201d\u2581Swope\u2581said\u2581previously.\u2581\u201cThat\u2581wo",
+            "max_activation": 39.517,
+            "max_token": "\u2581route"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581Hou\u017fe",
+          "\u2581hou\u017fe",
+          "\u2581Re\u017f",
+          "\u2581Jefus",
+          "\u2581Shakspeare",
+          "\u2581\u00e9toit",
+          "\u2581Monfieur",
+          "\u2581them\u017felves",
+          "\u2581feroit",
+          "\u2581avoient"
+        ],
+        "suppressed_tokens": [
+          "\u2581De",
+          "\u2581Ga",
+          "\u2581Fe",
+          "\u2581M",
+          "\u2581cre",
+          "\u2581so",
+          "\u2581my",
+          "\u2581L",
+          "\u2581she",
+          "\u2581Le"
+        ],
+        "frac_nonzero": 0.02255
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 7681
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 7681,
+        "label": "statements that describe something, often including a past tense verb",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581on\u2581the\u2581telephone\u2581with\nGrant,\u2581and\u2581Grant\u2581admitted\u2581that\u2581while\u2581he\u2581was\u2581in\u2581Jamaica\u2581Wilson\u2581had\u2581contacted\u2581him\u2581to\u2581come\u2581to\u2581the\u2581United\nStates\u2581to\u2581participate\u2581in\u2581a\u2581marijuana\u2581transaction.\u2581Grant\u2581was\u2581also\u2581arrested\u2581a",
+            "max_activation": 29.041,
+            "max_token": "\u2581claimed"
+          },
+          {
+            "text_snippet": "\u2581for\u2581breakfast,\u2581called\u2581her\u2581\"My\u2581Sweet\u2581Mary,\"\u2581and\u2581told\u2581off-color\u2581jokes\u2581and\u2581talked\u2581about\u2581his\u2581marital\u2581sex\u2581problems\u2581with\r\nher\u2581and\u2581other\u2581employees.\u2581\u2581Id.\u2581at\u2581657-58.\u2581\u2581He\u2581told\u2581Dean\u2581that\u2581he\u2581liked\u2581her\u2581split\u2581skir",
+            "max_activation": 28.116,
+            "max_token": "\u2581claimed"
+          },
+          {
+            "text_snippet": "conviction\u2581relief.\n\nHe\u2581claimed\u2581that\u2581he\u2581was\u2581denied\u2581his\u2581Sixth\u2581Amendment\u2581right\u2581to\u2581confrontation\u2581when\u2581the\n\ntrial\u2581court\u2581admitted\u2581a\u2581drug\u2581laboratory\u2581analysis\u2581report\u2581into\u2581evidence\u2581over\u2581his\u2581objection.\n\fScioto\u2581",
+            "max_activation": 27.892,
+            "max_token": "\u2581claimed"
+          }
+        ],
+        "promoted_tokens": [
+          "\u2581gave",
+          "\u2581blew",
+          "\u2581took",
+          "gave",
+          "\u2581did",
+          "took",
+          "\u2581didn",
+          "Gave",
+          "\u2581was",
+          "\u2581flew"
+        ],
+        "suppressed_tokens": [
+          "\u2581taken",
+          "\u064a\u0643\u0628",
+          "\u2581done",
+          "\u2581grown",
+          "\u2581drawn",
+          "\u2581eaten",
+          "iettivo",
+          "\u2581shown",
+          "\u2581sembler",
+          "\u2581chosen"
+        ],
+        "frac_nonzero": 0.0198
+      }
+    },
+    {
+      "tool": "inspect_feature",
+      "input": {
+        "layer": 0,
+        "feature_idx": 15320
+      },
+      "output": {
+        "layer": 0,
+        "feature_idx": 15320,
+        "label": " the word \"ice\"",
+        "top_activating_examples": [
+          {
+            "text_snippet": "\u2581hygroscopic\u2581seeding,\u2581generally\u2581with\u2581a\u2581simple\u2581salt.\u2581The\u2581salt\u2581helps\u2581water\u2581droplets\u2581to\u2581collide\u2581and\u2581produce\u2581rain.\n\nFor\u2581either\u2581glaciogenic\u2581or\u2581hygroscopic\u2581seeding,\u2581it\u2581is\u2581essential\u2581to\u2581determine\u2581if\u2581clouds\u2581in",
+            "max_activation": 28.567,
+            "max_token": "\u2581ice"
+          },
+          {
+            "text_snippet": "\u2581reason\u2581they\u2581have\u2581three\u2581Korean\u2581restaurants).\u2581Notable\u2581outlets\u2581are\u2581Paradise\u2581Dynasty,\u2581Kyochon,\u2581Go\u2581Noodle\u2581House,\u2581Kin\u2581Kin\u2581Pan\u2581Mee,\u2581and\u2581Powerplant.\u2581There's\u2581also\u2581Cremeo\u2581that\u2581serves\u2581premium\u2581soft\u2581serve\u2581ice\u2581cre",
+            "max_activation": 28.388,
+            "max_token": "\u2581ice"
+          },
+          {
+            "text_snippet": "20\u2581ringgit\u2581a\u2581head\u2581is\u2581reasonable),\u2581the\u2581money\u2581goes\u2581to\u2581a\u2581good\u2581cause,\u2581helping\u2581to\u2581fund\u2581the\u2581Temple\u2581of\u2581Fine\u2581Arts.\nAnnalakshmi\u2581is...\u2581Read\u2581our\u2581full\u2581review\u2581of\u2581Annalakshmi.\n\nThe\u2581cafe\u2581is\u2581owned\u2581by\u2581Artisan\u2581Roast,\u2581p",
+            "max_activation": 28.361,
+            "max_token": "\u2581ice"
+          }
+        ],
+        "promoted_tokens": [
+          "<bos>",
+          "\u2581\u017fche",
+          "\u2581PDI",
+          "'",
+          "niosek",
+          "\u2581in\u017f",
+          "\u2581Laj",
+          "\u2581fince",
+          "\u017felf",
+          "\u2581\u0f0b\u0f0b"
+        ],
+        "suppressed_tokens": [
+          "\u2581surla",
+          "ViewImports",
+          "featureID",
+          "DockStyle",
+          "\u2581CreateTagHelper",
+          "\u2581defaultstate",
+          "NameInMap",
+          "setVerticalGroup",
+          "MLLoader",
+          "rrggbb"
+        ],
+        "frac_nonzero": 0.01739
+      }
+    },
+    {
+      "tool": "build_circuit",
+      "input": {
+        "nodes": [
+          {
+            "id": "emb_ph",
+            "label": "Emb: ' Ph' (pos 50)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 50
+              }
+            ]
+          },
+          {
+            "id": "emb_d",
+            "label": "Emb: 'D' (pos 52)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "emb_peking",
+            "label": "Emb: 'Peking' (pos 12)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "emb_university",
+            "label": "Emb: 'University' (pos 13)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "emb_year_9",
+            "label": "Emb: '9' (pos 17-18)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l1_phd_abbrev",
+            "label": "L1: Ph.D. abbreviation ('D') - frac=0.00233",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 10132,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l2_academic_titles",
+            "label": "L2: Academic titles & degrees - frac=0.00801",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 10852,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l3_degree_mentions",
+            "label": "L3: Degree qualifications mentions - frac=0.01242",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 4213,
+                "pos": 11
+              }
+            ]
+          },
+          {
+            "id": "l4_universities",
+            "label": "L4: Specific universities & colleges - frac=0.00399",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 5150,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l5_degree_abbrev",
+            "label": "L5: Degree abbreviations & educational attainment - frac=0.02825",
+            "layer": 5,
+            "features": [
+              {
+                "layer": 5,
+                "feature_idx": 13801,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l6_degree_refs",
+            "label": "L6: Academic degree references - frac=0.00412",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 2254,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l6_academic_inst",
+            "label": "L6: Academic publications & institutions - frac=0.03885",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 3235,
+                "pos": 13
+              },
+              {
+                "layer": 6,
+                "feature_idx": 6811,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l7_academic_degrees",
+            "label": "L7: Academic degrees, universities & people - frac=0.00417",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 14129,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l0_year_patterns",
+            "label": "L0: Year patterns (199X/200X) - frac=0.00494",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 6515,
+                "pos": 17
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11132,
+                "pos": 18
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11333,
+                "pos": 18
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Probe Direction (L22 Classification)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_ph",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "emb_d",
+            "to": "l1_phd_abbrev"
+          },
+          {
+            "from": "emb_d",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "emb_peking",
+            "to": "l4_universities"
+          },
+          {
+            "from": "emb_university",
+            "to": "l4_universities"
+          },
+          {
+            "from": "emb_year_9",
+            "to": "l0_year_patterns"
+          },
+          {
+            "from": "l1_phd_abbrev",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "l2_academic_titles",
+            "to": "l5_degree_abbrev"
+          },
+          {
+            "from": "l2_academic_titles",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l3_degree_mentions",
+            "to": "l7_academic_degrees"
+          },
+          {
+            "from": "l4_universities",
+            "to": "l6_academic_inst"
+          },
+          {
+            "from": "l4_universities",
+            "to": "l5_degree_abbrev"
+          },
+          {
+            "from": "l5_degree_abbrev",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l6_degree_refs",
+            "to": "l7_academic_degrees"
+          },
+          {
+            "from": "l6_academic_inst",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l7_academic_degrees",
+            "to": "output"
+          },
+          {
+            "from": "l0_year_patterns",
+            "to": "output"
+          },
+          {
+            "from": "l6_academic_inst",
+            "to": "output"
+          }
+        ]
+      },
+      "output": {
+        "nodes": [
+          {
+            "id": "emb_ph",
+            "label": "Emb: ' Ph' (pos 50)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 50
+              }
+            ]
+          },
+          {
+            "id": "emb_d",
+            "label": "Emb: 'D' (pos 52)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "emb_peking",
+            "label": "Emb: 'Peking' (pos 12)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "emb_university",
+            "label": "Emb: 'University' (pos 13)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "emb_year_9",
+            "label": "Emb: '9' (pos 17-18)",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": -1,
+                "pos": 17
+              }
+            ]
+          },
+          {
+            "id": "l1_phd_abbrev",
+            "label": "L1: Ph.D. abbreviation ('D') - frac=0.00233",
+            "layer": 1,
+            "features": [
+              {
+                "layer": 1,
+                "feature_idx": 10132,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l2_academic_titles",
+            "label": "L2: Academic titles & degrees - frac=0.00801",
+            "layer": 2,
+            "features": [
+              {
+                "layer": 2,
+                "feature_idx": 10852,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l3_degree_mentions",
+            "label": "L3: Degree qualifications mentions - frac=0.01242",
+            "layer": 3,
+            "features": [
+              {
+                "layer": 3,
+                "feature_idx": 4213,
+                "pos": 11
+              }
+            ]
+          },
+          {
+            "id": "l4_universities",
+            "label": "L4: Specific universities & colleges - frac=0.00399",
+            "layer": 4,
+            "features": [
+              {
+                "layer": 4,
+                "feature_idx": 5150,
+                "pos": 13
+              }
+            ]
+          },
+          {
+            "id": "l5_degree_abbrev",
+            "label": "L5: Degree abbreviations & educational attainment - frac=0.02825",
+            "layer": 5,
+            "features": [
+              {
+                "layer": 5,
+                "feature_idx": 13801,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l6_degree_refs",
+            "label": "L6: Academic degree references - frac=0.00412",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 2254,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l6_academic_inst",
+            "label": "L6: Academic publications & institutions - frac=0.03885",
+            "layer": 6,
+            "features": [
+              {
+                "layer": 6,
+                "feature_idx": 3235,
+                "pos": 13
+              },
+              {
+                "layer": 6,
+                "feature_idx": 6811,
+                "pos": 12
+              }
+            ]
+          },
+          {
+            "id": "l7_academic_degrees",
+            "label": "L7: Academic degrees, universities & people - frac=0.00417",
+            "layer": 7,
+            "features": [
+              {
+                "layer": 7,
+                "feature_idx": 14129,
+                "pos": 52
+              }
+            ]
+          },
+          {
+            "id": "l0_year_patterns",
+            "label": "L0: Year patterns (199X/200X) - frac=0.00494",
+            "layer": 0,
+            "features": [
+              {
+                "layer": 0,
+                "feature_idx": 6515,
+                "pos": 17
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11132,
+                "pos": 18
+              },
+              {
+                "layer": 0,
+                "feature_idx": 11333,
+                "pos": 18
+              }
+            ]
+          },
+          {
+            "id": "output",
+            "label": "Probe Direction (L22 Classification)",
+            "layer": 36,
+            "features": []
+          }
+        ],
+        "edges": [
+          {
+            "from": "emb_ph",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "emb_d",
+            "to": "l1_phd_abbrev"
+          },
+          {
+            "from": "emb_d",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "emb_peking",
+            "to": "l4_universities"
+          },
+          {
+            "from": "emb_university",
+            "to": "l4_universities"
+          },
+          {
+            "from": "emb_year_9",
+            "to": "l0_year_patterns"
+          },
+          {
+            "from": "l1_phd_abbrev",
+            "to": "l2_academic_titles"
+          },
+          {
+            "from": "l2_academic_titles",
+            "to": "l5_degree_abbrev"
+          },
+          {
+            "from": "l2_academic_titles",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l3_degree_mentions",
+            "to": "l7_academic_degrees"
+          },
+          {
+            "from": "l4_universities",
+            "to": "l6_academic_inst"
+          },
+          {
+            "from": "l4_universities",
+            "to": "l5_degree_abbrev"
+          },
+          {
+            "from": "l5_degree_abbrev",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l6_degree_refs",
+            "to": "l7_academic_degrees"
+          },
+          {
+            "from": "l6_academic_inst",
+            "to": "l6_degree_refs"
+          },
+          {
+            "from": "l7_academic_degrees",
+            "to": "output"
+          },
+          {
+            "from": "l0_year_patterns",
+            "to": "output"
+          },
+          {
+            "from": "l6_academic_inst",
+            "to": "output"
+          }
+        ],
+        "status": "circuit_saved",
+        "warning": "Circuit reaches early layers but not token embedding nodes. Consider tracing to embedding nodes to identify which specific input tokens drive the prediction."
+      }
+    }
+  ],
+  "usage": {
+    "orchestrator": {
+      "model": "minimax/minimax-m2.7",
+      "input_tokens": 34982,
+      "output_tokens": 4374,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 95832
+    },
+    "subagents": [
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-2",
+        "objective": "Trace this academic titles feature upstream. Look for spurious gender signals or what truly drives this feature.",
+        "input_tokens": 69417,
+        "output_tokens": 2679,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8832
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-1",
+        "objective": "Trace this academic degree feature upstream. Look for the source of the signal - is it from genuine profession indicators or spurious features like gender markers? What tokens/positions drive this?",
+        "input_tokens": 81632,
+        "output_tokens": 3345,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-4",
+        "objective": "Trace this layer-0 feature upstream. Is this spurious or a genuine signal? What tokens?",
+        "input_tokens": 13095,
+        "output_tokens": 1200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      },
+      {
+        "model": "deepseek/deepseek-v3.2",
+        "label": "SA-3",
+        "objective": "Trace this feature upstream. Is it driven by spurious signals like gender markers or genuine academic content? What tokens/positions?",
+        "input_tokens": 64707,
+        "output_tokens": 3047,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0
+      }
+    ]
+  },
+  "total_cost_usd": 0.082252232,
+  "turns": 10,
+  "elapsed_seconds": 363.74262413708493,
+  "control_results": [],
+  "naive_results": [],
+  "timestamp": "2026-04-06T08-34-16"
+}

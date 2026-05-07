@@ -1,0 +1,83 @@
+{
+  "spurious_features": [
+    {
+      "id": "L0:F4958",
+      "label": "the word \"not\"",
+      "reason": "Direct negation-word detector."
+    },
+    {
+      "id": "L1:F14233",
+      "label": "Negative sentiment markers (not, no, never)",
+      "reason": "Negation-word pattern detector."
+    },
+    {
+      "id": "L2:F6993",
+      "label": "Uncertainty/difficulty phrases",
+      "reason": "Oracle ties it to negation-like phrases."
+    },
+    {
+      "id": "L3:F1101",
+      "label": "error messages and terms indicating absence or negation in software contexts.",
+      "reason": "Detects absence/negation wording."
+    },
+    {
+      "id": "L3:F2232",
+      "label": "character sequences like \"NOC\", \"NO\", \"ORES\", \"NOS\", \"OF\", \"UNCH\", and \"oooooooo\" within a series of hexadecimal codes, sometimes also picking up on related words such as \"dangerously\", \"Bantus\", \"slave\", and \"plantation\"",
+      "reason": "NO-like pattern detector."
+    },
+    {
+      "id": "L3:F8011",
+      "label": "negations across languages",
+      "reason": "Explicit negation-word detector."
+    },
+    {
+      "id": "L3:F12079",
+      "label": "negations and Chinese names",
+      "reason": "Negation-related detector."
+    },
+    {
+      "id": "L4:F2422",
+      "label": "negations in other languages like French, Malay, and Croatian",
+      "reason": "Multilingual negation detector."
+    },
+    {
+      "id": "L4:F4492",
+      "label": "negations in various languages",
+      "reason": "Multilingual negation detector."
+    },
+    {
+      "id": "L16:F12358",
+      "label": "'not' followed by 'to be'",
+      "reason": "Negation-phrase detector."
+    }
+  ],
+  "causal_features": [],
+  "other_features": [
+    {
+      "id": "Emb: 'not' (pos 17)",
+      "label": "Emb: 'not' (pos 17)",
+      "reason": "Raw embedding token, no distinct semantic role."
+    },
+    {
+      "id": "Emb: 'is' (pos 16)",
+      "label": "Emb: 'is' (pos 16)",
+      "reason": "Raw embedding token, no distinct semantic role."
+    },
+    {
+      "id": "Emb: 'There' (pos 15)",
+      "label": "Emb: 'There' (pos 15)",
+      "reason": "Raw embedding token, no distinct semantic role."
+    },
+    {
+      "id": "Output: Probe Direction (contradiction)",
+      "label": "Probe Direction (contradiction)",
+      "reason": "Output node, not a feature."
+    }
+  ],
+  "n_spurious": 10,
+  "n_causal": 0,
+  "n_other": 4,
+  "spurious_fraction": 1.0,
+  "dominant": "spurious",
+  "notes": "No causal features were claimed; embeddings/output treated as other."
+}
