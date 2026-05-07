@@ -54,7 +54,3 @@ See the README in each experiment folder for the exact commands, expected output
 - [Spurious-correlation detection (§4)](experiments/spurious-correlations/README.md)
 - [Secret elicitation (§5)](experiments/secret-elicitation/README.md)
 - [Suppression-jailbreaking (§6)](experiments/refusal/README.md)
-
-## License
-
-To be added.
