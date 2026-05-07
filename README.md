@@ -21,8 +21,6 @@ A frontier LLM is wrapped in a multi-agent harness that consumes pre-computed tr
 │   ├── refusal/               # §6 — suppression-jailbreaking
 │   ├── spurious-correlations/ # §4 — probe circuits
 │   └── secret-elicitation/    # §5 — taboo LoRAs
-├── supplementary/             # exploratory scripts / cached intermediates
-├── to_delete/                 # quarantined pre-cleanup tree (will be removed)
 ├── pyproject.toml             # `pip install -e .` from here
 └── .env.example               # copy → .env, fill in API keys
 ```
